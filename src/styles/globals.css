@@ -28,6 +28,10 @@ main {
     @apply flex-grow;
 }
 
+.container {
+    @apply px-12 sm:px-28 md:px-36 lg:px-48 xl:px-64 min-w-full;
+}
+
 @tailwind utilities;
 
 ::-webkit-scrollbar {
