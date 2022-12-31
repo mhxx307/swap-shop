@@ -5,22 +5,27 @@ import classNames from 'classnames';
 export interface NavMenuProps {
     navList: { path: string; label: string }[];
     className?: string;
+    itemClassName?: string;
 }
 
-export default function NavMenu({ navList, className }: NavMenuProps) {
+export default function NavMenu({
+    navList,
+    className,
+    itemClassName,
+}: NavMenuProps) {
     const router = useRouter();
-    const defaultStyles =
+    const defaultItemStyles =
         'ml-[20px] capitalize text-[1.6rem] font-medium hover:text-primary-500';
 
     return (
-        <nav className="hidden md:block">
+        <nav className={classNames(className)}>
             {navList.map(({ path, label }) => (
                 <Link
                     href={path}
                     key={label}
                     className={classNames(
-                        className,
-                        `${defaultStyles} ${
+                        itemClassName,
+                        `${defaultItemStyles} ${
                             router.pathname === path && 'text-primary-500'
                         } `,
                     )}

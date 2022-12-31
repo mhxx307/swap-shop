@@ -23,7 +23,10 @@ const Header = () => {
                         className="w-[100px] h-[60px] rounded-[20px]"
                     />
                 </Link>
-                <NavMenu navList={HEADER_NAV_LIST} />
+                <NavMenu
+                    navList={HEADER_NAV_LIST}
+                    className="hidden md:block"
+                />
             </div>
             <div className="flex items-center">
                 <input
