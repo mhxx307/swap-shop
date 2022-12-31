@@ -20,12 +20,10 @@ body {
 }
 
 main {
-    /* sticky footer for base layout */
     @apply overflow-x-hidden flex flex-col min-h-screen bg-white dark:bg-black dark:text-white;
 }
 
 .app {
-    /* sticky footer for base layout */
     @apply flex-grow;
 }
 
