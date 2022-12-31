@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { logoPNG } from '@/images';
-import { Button, NavMenu } from '@/components/shared';
+import { Button, NavList } from '@/components/shared';
 import { HEADER_NAV_LIST } from '@/constants/vi';
 
 const Header = () => {
@@ -14,7 +14,6 @@ const Header = () => {
             [&>*:first-child]:ml-0"
         >
             <div className="block md:hidden">menu mobile</div>
-
             <div className="flex items-center">
                 <Link href="/">
                     <Image
@@ -23,11 +22,9 @@ const Header = () => {
                         className="w-[100px] h-[60px] rounded-[20px]"
                     />
                 </Link>
-                <NavMenu
-                    navList={HEADER_NAV_LIST}
-                    className="hidden md:block"
-                />
+                <NavList navList={HEADER_NAV_LIST} className="hidden md:flex" />
             </div>
+
             <div className="flex items-center">
                 <input
                     type="text"
@@ -40,10 +37,10 @@ const Header = () => {
                 <Button
                     primary
                     shortcutKey="enter"
+                    className="ml-[20px] px-[25px]"
                     onClick={() => router.push('/login')}
-                    className="ml-[20px]"
                 >
-                    <p>Đăng nhập</p>
+                    <span>Đăng nhập</span>
                 </Button>
             </div>
         </header>

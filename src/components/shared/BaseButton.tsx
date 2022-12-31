@@ -53,13 +53,14 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
         let buttonClassName: string;
         if (primary) {
             if (outline) {
-                buttonClassName = 'border-2 border-primary-500';
+                buttonClassName =
+                    'text-primary-500 border-[1px] border-primary-500';
             } else {
                 buttonClassName = 'bg-primary-500';
             }
         } else {
             if (outline) {
-                buttonClassName = 'border-solid border-2 border-white';
+                buttonClassName = 'border-solid border-[1px] border-black';
             } else {
                 buttonClassName = 'bg-white';
             }
