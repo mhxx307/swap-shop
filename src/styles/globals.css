@@ -31,11 +31,11 @@ main {
 @tailwind utilities;
 
 ::-webkit-scrollbar {
-    @apply w-2 bg-white/10;
+    @apply w-3 bg-white/10;
 }
 
 ::-webkit-scrollbar-thumb {
-    @apply bg-zinc-500;
+    @apply rounded-full bg-zinc-500;
 }
 
 .no-scrollbar::-webkit-scrollbar {
