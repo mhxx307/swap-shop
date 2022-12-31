@@ -74,7 +74,7 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
             <button
                 type="button"
                 className={classNames(
-                    'flex transition duration-300',
+                    'flex transition duration-300 outline-none',
                     (isLoading || disable) &&
                         'text-gray-300 cursor-not-allowed',
                     buttonClassName,
@@ -83,6 +83,10 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
                 )}
                 {...rest}
                 ref={ref}
+                onClick={(e) => {
+                    if (disable) return;
+                    onClick?.(e);
+                }}
             >
                 {isLoading ? (
                     <AiOutlineLoading3Quarters
