@@ -6,4 +6,7 @@ const Login = () => {
     );
 };
 
+// eslint-disable-next-line react/display-name
+Login.Layout = (page: any) => <>{page}</>;
+
 export default Login;

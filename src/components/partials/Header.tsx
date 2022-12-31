@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { logoPNG } from '@/images';
-import { Button, NavList } from '@/components/shared';
+import { Button, NavList, Input } from '@/components/shared';
 import { HEADER_NAV_LIST } from '@/constants/vi';
 
 const Header = () => {
@@ -26,13 +26,10 @@ const Header = () => {
             </div>
 
             <div className="flex items-center">
-                <input
-                    type="text"
+                <Input
                     placeholder="Tìm kiếm"
-                    spellCheck="false"
-                    className="hidden md:block w-[288px] h-[40px] pl-[20px]
-                    rounded-[6px] outline-none bg-[#F2F3F6] border-[1px]
-                    border-[#d9d9d9] text-[1.6rem] caret-primary-500 focus:border-[#999]"
+                    className="pl-[10px] py-[5px] caret-primary-500 text-black"
+                    containerInputClassName="bg-[#F2F3F6]"
                 />
                 <Button
                     primary
