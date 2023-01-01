@@ -2,11 +2,13 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useEffect, forwardRef } from 'react';
 import isHotKey from 'is-hotkey';
 import classNames from 'classnames';
+import { IconType } from 'react-icons/lib';
 
 export interface BaseButtonProps
     extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
-    LeftIcon?: React.ComponentType<{ className: String }>;
-    RightIcon?: React.ComponentType<{ className: String }>;
+    // React.ComponentType<{ className: String }> for all icon, IconType is a type of react-icons
+    LeftIcon?: IconType;
+    RightIcon?: IconType;
     iconClassName?: string;
     shortcutKey?: string;
     primary?: boolean;

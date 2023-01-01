@@ -4,20 +4,18 @@ import { Image } from '@/components/shared';
 
 const Logo: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
     className,
-    ...props
 }) => {
     return (
-        <div
-            className={classNames('relative flex mx-auto h-24 w-24', className)}
-            {...props}
-        >
-            <Image
-                src="/logo.png"
-                alt="logo"
-                className="object-contain"
-                layout="fill"
-            />
-        </div>
+        <Image
+            src="/logo.png"
+            alt="logo"
+            className={classNames(
+                'flex w-24 h-24 mx-auto object-contain',
+                className,
+            )}
+            width={1}
+            height={1}
+        />
     );
 };
 

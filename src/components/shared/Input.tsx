@@ -9,8 +9,11 @@ export interface InputProps extends React.HTMLProps<HTMLInputElement> {
     containerClassName?: string;
     containerInputClassName?: string;
     labelClassName?: string;
+    iconClassName?: string;
     LeftIcon?: React.ComponentType<Icon>;
     RightIcon?: React.ComponentType<Icon>;
+    leftIconOnClick?: () => void;
+    rightIconOnClick?: () => void;
     label?: string;
 }
 
@@ -21,8 +24,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         containerClassName,
         containerInputClassName,
         labelClassName,
+        iconClassName,
         LeftIcon,
         RightIcon,
+        leftIconOnClick,
+        rightIconOnClick,
         className,
         ...inputProps
     } = props;
@@ -42,7 +48,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
                     containerInputClassName,
                 )}
             >
-                {LeftIcon && <LeftIcon className="w-6 h-6" />}
+                {LeftIcon && (
+                    <span onClick={leftIconOnClick}>
+                        <LeftIcon
+                            className={classNames(iconClassName, 'w-6 h-6')}
+                        />
+                    </span>
+                )}
 
                 <input
                     ref={ref}
@@ -53,7 +65,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
                     {...inputProps}
                 />
 
-                {RightIcon && <RightIcon className="w-6 h-6" />}
+                {RightIcon && (
+                    <span onClick={rightIconOnClick}>
+                        <RightIcon
+                            className={classNames(iconClassName, 'w-6 h-6')}
+                        />
+                    </span>
+                )}
             </div>
         </div>
     );
