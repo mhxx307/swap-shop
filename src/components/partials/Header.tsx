@@ -1,11 +1,10 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { logoPNG } from '@/images';
 import { AiOutlineMore, AiOutlineSearch } from 'react-icons/ai';
 import { GoThreeBars } from 'react-icons/go';
-import { Button, NavList, Input } from '@/components/shared';
+import { Button, NavList, Input, Image } from '@/components/shared';
 import { HEADER_NAV_LIST } from '@/constants/vi';
 
 const Header = () => {
