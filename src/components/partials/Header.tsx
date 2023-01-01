@@ -1,10 +1,9 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { logoPNG } from '@/images';
 import { AiOutlineMore, AiOutlineSearch } from 'react-icons/ai';
 import { GoThreeBars } from 'react-icons/go';
-import { Button, NavList, Input, Image } from '@/components/shared';
+import { Button, NavList, Input, Logo } from '@/components/shared';
 import { HEADER_NAV_LIST } from '@/constants/vi';
 
 const Header = () => {
@@ -20,11 +19,7 @@ const Header = () => {
             <div className="flex items-center">
                 <GoThreeBars className={`mr-[10px] ${mobileShow}`} />
                 <Link href="/">
-                    <Image
-                        src={logoPNG}
-                        alt="logo"
-                        className="w-[60px] h-[30px] sm:w-[80px] sm:h-[40px] md:w-[100px] md:h-[50px] rounded-md"
-                    />
+                    <Logo />
                 </Link>
                 <NavList
                     navList={HEADER_NAV_LIST}
