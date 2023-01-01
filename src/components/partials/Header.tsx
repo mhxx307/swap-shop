@@ -43,14 +43,19 @@ const Header = () => {
             <div className="flex items-center">
                 <Input
                     LeftIcon={AiOutlineSearch}
-                    iconClassName="w-[20px] h-[20px] text-gray-500 cursor-pointer hover:text-primary-500"
                     leftIconOnClick={() => console.log('search')}
                     placeholder="Tìm kiếm"
-                    className={`pl-[5px] py-[5px] caret-primary-500 text-black ${mobileHidden}`}
+                    iconClassName="w-[20px] h-[20px] text-gray-500 cursor-pointer hover:text-primary-500"
+                    containerClassName={mobileHidden}
+                    className="pl-[5px] py-[5px] caret-primary-500 text-black"
                     containerInputClassName="bg-[#F2F3F6]"
                 />
 
-                <AiOutlineSearch className={`mr-[10px] ${mobileShow}`} />
+                <Link href="/search">
+                    <AiOutlineSearch
+                        className={`mr-[10px] w-[2rem] h-[2rem] ${mobileShow}`}
+                    />
+                </Link>
 
                 {!currentUser && (
                     <Button
