@@ -16,26 +16,26 @@ export const HEADER_NAV_LIST = [
 export const MENU_ITEMS = [
     {
         icon: AiOutlineGlobal,
-        title: 'English',
+        title: 'Tiếng Việt',
         children: {
             title: 'Language',
             data: [
+                { code: 'vi', title: 'Tiếng Việt' },
                 { code: 'en', title: 'English' },
-                { code: 'vi', title: 'Vietnamese' },
             ],
         },
     },
     {
         icon: AiOutlineQuestionCircle,
-        title: 'Feedback and Help',
+        title: 'Phản hồi và giúp đỡ',
         to: '/feedback',
     },
-    { icon: CgShortcut, title: 'Keyboard shortcuts' },
+    { icon: CgShortcut, title: 'Phím tắt' },
 ];
 
 export const USER_MENU = [
-    { icon: AiOutlineUser, title: 'View profile', to: '/@hoa' },
-    { icon: BsGear, title: 'Settings', to: '/settings' },
+    { icon: AiOutlineUser, title: 'Thông tin tài khoản', to: '/@hoa' },
+    { icon: BsGear, title: 'Cài đặt', to: '/settings' },
     ...MENU_ITEMS,
-    { icon: VscSignOut, title: 'Log out', to: '/logout', separate: true },
+    { icon: VscSignOut, title: 'Đăng xuất', to: '/logout', separate: true },
 ];
