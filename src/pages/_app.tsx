@@ -3,6 +3,7 @@ import { SWRConfig } from 'swr';
 import { AppPropsWithLayout } from '@/types/layoutTypes';
 import BaseLayout from '@/components/layouts/BaseLayout';
 import httpRequest from '@/utils/httpRequest';
+import { TranslationProvider } from '@/contexts/TranslationContext';
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
     const Layout =
@@ -14,7 +15,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
                 shouldRetryOnError: false,
             }}
         >
-            {Layout(<Component {...pageProps} />)}
+            <TranslationProvider>
+                {Layout(<Component {...pageProps} />)}
+            </TranslationProvider>
         </SWRConfig>
     );
 }

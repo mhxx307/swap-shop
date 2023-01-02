@@ -15,17 +15,20 @@ html {
 
 body {
     font-family: 'Lora', serif;
+    font-size: 1.6rem;
     @apply w-full;
 }
 
 main {
-    /* sticky footer for base layout */
     @apply overflow-x-hidden flex flex-col min-h-screen bg-white dark:bg-black dark:text-white;
 }
 
 .app {
-    /* sticky footer for base layout */
     @apply flex-grow;
+}
+
+.container {
+    @apply px-12 sm:px-28 md:px-36 lg:px-48 xl:px-64 min-w-full;
 }
 
 @tailwind utilities;
