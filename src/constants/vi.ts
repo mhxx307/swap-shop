@@ -13,6 +13,24 @@ export const HEADER_NAV_LIST = [
     { path: '/about', label: 'Về chúng tôi' },
 ];
 
+export const CUSTOMER_FOOTER_NAV_LIST = [
+    { path: '/asd', label: 'Chăm sóc khách hàng' },
+    { path: '/products', label: 'Trung tâm trợ giúp' },
+    { path: '/about', label: 'Chính sách bảo hành' },
+];
+
+export const ABOUT_FOOTER_NAV_LIST = [
+    { path: '/asd', label: 'Về chúng tôi' },
+    { path: '/products', label: 'Điều khoản Swap Shop' },
+    { path: '/about', label: 'Liên hệ với chúng tôi' },
+];
+
+export const SOCIAL_FOOTER_NAV_LIST = [
+    { path: '/asd', label: 'Theo dõi chúng tôi trên' },
+    { path: '/products', label: 'Facebook' },
+    { path: '/about', label: 'Instagram' },
+];
+
 export const MENU_ITEMS = [
     {
         icon: AiOutlineGlobal,
