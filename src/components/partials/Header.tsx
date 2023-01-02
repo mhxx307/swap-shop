@@ -18,9 +18,10 @@ const Header = () => {
     const mobileShow = 'block md:hidden';
     const mobileHidden = 'hidden md:flex';
 
-    const { value, setLanguageCode } = useContext(TranslationContext);
+    const { value, setLanguageCode, languageCode } =
+        useContext(TranslationContext);
 
-    const currentUser = true;
+    const currentUser = false;
 
     const handleMenuChange = (item: any) => {
         console.log(item);
@@ -47,7 +48,7 @@ const Header = () => {
                 <Input
                     LeftIcon={AiOutlineSearch}
                     leftIconOnClick={() => console.log('search')}
-                    placeholder="Tìm kiếm"
+                    placeholder={languageCode === 'vi' ? 'Tìm kiếm' : 'Search'}
                     iconClassName="w-[20px] h-[20px] text-gray-500 cursor-pointer hover:text-primary-500"
                     containerClassName={mobileHidden}
                     className="pl-[5px] py-[5px] caret-primary-500 text-black"
@@ -67,7 +68,9 @@ const Header = () => {
                         className="md:ml-[20px] md:px-[25px] h-full shadow-md"
                         onClick={() => router.push('/login')}
                     >
-                        <span>Đăng nhập</span>
+                        <span>
+                            {languageCode == 'vi' ? 'Đăng nhập' : 'Login'}
+                        </span>
                     </Button>
                 )}
 

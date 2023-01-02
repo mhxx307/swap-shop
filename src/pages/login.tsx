@@ -1,4 +1,4 @@
-const Login = () => {
+const LoginPage = () => {
     return (
         <div>
             <h1>Login</h1>
@@ -7,6 +7,6 @@ const Login = () => {
 };
 
 // eslint-disable-next-line react/display-name
-Login.Layout = (page: any) => <>{page}</>;
+LoginPage.Layout = (page: any) => <>{page}</>;
 
-export default Login;
+export default LoginPage;
