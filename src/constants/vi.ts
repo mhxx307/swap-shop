@@ -31,7 +31,7 @@ export const POPUP_MENU_LIST: PopupMenuItemProps[] = [
         title: 'Phản hồi và giúp đỡ',
         to: '/feedback',
     },
-    { icon: CgShortcut, title: 'Phím tắt' },
+    { icon: CgShortcut, title: 'Phím tắt', to: '/shortcuts' },
 ];
 
 export const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
