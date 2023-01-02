@@ -89,9 +89,7 @@ const Header = () => {
                             height={1}
                         />
                     ) : (
-                        <AiOutlineMore
-                            className={`w-[30px] h-[30px] ml-[12px] sm:cursor-pointer ${mobileHidden}`}
-                        />
+                        <AiOutlineMore className="w-[30px] h-[30px] ml-[12px] sm:cursor-pointer" />
                     )}
                 </PopupMenu>
             </div>
