@@ -18,12 +18,13 @@ const Header = () => {
     const mobileShow = 'block md:hidden';
     const mobileHidden = 'hidden md:block';
 
-    const { value } = useContext(TranslationContext);
+    const { value, setLanguageCode } = useContext(TranslationContext);
 
     const currentUser = false;
 
-    const handleMenuChange = () => {
-        console.log('hello');
+    const handleMenuChange = (item: any) => {
+        console.log(item);
+        setLanguageCode(item.code);
     };
 
     return (
