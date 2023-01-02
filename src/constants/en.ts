@@ -6,14 +6,15 @@ import {
 import { CgShortcut } from 'react-icons/cg';
 import { BsGear } from 'react-icons/bs';
 import { VscSignOut } from 'react-icons/vsc';
+import { HeaderNavListProps, PopupMenuItemProps } from '@/types';
 
-export const HEADER_NAV_LIST = [
+export const HEADER_NAV_LIST: HeaderNavListProps[] = [
     { path: '/', label: 'home' },
     { path: '/products', label: 'Share' },
     { path: '/about', label: 'about' },
 ];
 
-export const MENU_ITEMS = [
+export const POPUP_MENU_LIST: PopupMenuItemProps[] = [
     {
         icon: AiOutlineGlobal,
         title: 'English',
@@ -33,9 +34,9 @@ export const MENU_ITEMS = [
     { icon: CgShortcut, title: 'Keyboard shortcuts' },
 ];
 
-export const USER_MENU = [
+export const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     { icon: AiOutlineUser, title: 'View profile', to: '/@hoa' },
     { icon: BsGear, title: 'Settings', to: '/settings' },
-    ...MENU_ITEMS,
+    ...POPUP_MENU_LIST,
     { icon: VscSignOut, title: 'Log out', to: '/logout', separate: true },
 ];

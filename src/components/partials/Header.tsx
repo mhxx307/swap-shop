@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-
+import { useContext } from 'react';
 import { AiOutlineMore, AiOutlineSearch } from 'react-icons/ai';
 import { GoThreeBars } from 'react-icons/go';
 import {
@@ -11,12 +11,14 @@ import {
     PopupMenu,
     Image,
 } from '@/components/shared';
-import { HEADER_NAV_LIST, MENU_ITEMS, USER_MENU } from '@/constants/vi';
+import { TranslationContext } from '@/contexts/TranslationContext';
 
 const Header = () => {
     const router = useRouter();
     const mobileShow = 'block md:hidden';
     const mobileHidden = 'hidden md:block';
+
+    const { value } = useContext(TranslationContext);
 
     const currentUser = false;
 
@@ -35,7 +37,7 @@ const Header = () => {
                     <Logo />
                 </Link>
                 <NavList
-                    navList={HEADER_NAV_LIST}
+                    navList={value.headerNavList}
                     className={`${mobileHidden}`}
                 />
             </div>
@@ -69,7 +71,11 @@ const Header = () => {
                 )}
 
                 <PopupMenu
-                    items={currentUser ? USER_MENU : MENU_ITEMS}
+                    items={
+                        currentUser
+                            ? value.popupUserMenuList
+                            : value.popupMenuList
+                    }
                     onChange={handleMenuChange}
                     hideOnClick
                 >

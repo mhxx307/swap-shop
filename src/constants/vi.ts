@@ -6,14 +6,15 @@ import {
 import { CgShortcut } from 'react-icons/cg';
 import { BsGear } from 'react-icons/bs';
 import { VscSignOut } from 'react-icons/vsc';
+import { HeaderNavListProps, PopupMenuItemProps } from '@/types';
 
-export const HEADER_NAV_LIST = [
+export const HEADER_NAV_LIST: HeaderNavListProps[] = [
     { path: '/', label: 'Trang chủ' },
     { path: '/products', label: 'Giao dịch đồ cũ' },
     { path: '/about', label: 'Về chúng tôi' },
 ];
 
-export const MENU_ITEMS = [
+export const POPUP_MENU_LIST: PopupMenuItemProps[] = [
     {
         icon: AiOutlineGlobal,
         title: 'Tiếng Việt',
@@ -33,9 +34,9 @@ export const MENU_ITEMS = [
     { icon: CgShortcut, title: 'Phím tắt' },
 ];
 
-export const USER_MENU = [
+export const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     { icon: AiOutlineUser, title: 'Thông tin tài khoản', to: '/@hoa' },
     { icon: BsGear, title: 'Cài đặt', to: '/settings' },
-    ...MENU_ITEMS,
+    ...POPUP_MENU_LIST,
     { icon: VscSignOut, title: 'Đăng xuất', to: '/logout', separate: true },
 ];

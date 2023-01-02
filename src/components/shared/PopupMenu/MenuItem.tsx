@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { Button, ButtonLink } from '@/components/shared';
-import { PopupMenuItemProps } from '.';
+import { PopupMenuItemProps } from '@/types';
 
 export interface MenuItemProps {
     data: PopupMenuItemProps;
