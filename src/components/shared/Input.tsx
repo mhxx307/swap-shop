@@ -51,7 +51,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
                 {LeftIcon && (
                     <span onClick={leftIconOnClick}>
                         <LeftIcon
-                            className={classNames(iconClassName, 'w-6 h-6')}
+                            className={classNames('w-6 h-6', iconClassName)}
                         />
                     </span>
                 )}
@@ -59,7 +59,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
                 <input
                     ref={ref}
                     className={classNames(
-                        'bg-transparent appearance-none w-full text-gray-300 focus:outline-none leading-tight',
+                        'bg-transparent appearance-none w-full focus:outline-none leading-tight',
                         className,
                     )}
                     {...inputProps}
@@ -68,7 +68,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
                 {RightIcon && (
                     <span onClick={rightIconOnClick}>
                         <RightIcon
-                            className={classNames(iconClassName, 'w-6 h-6')}
+                            className={classNames('w-6 h-6', iconClassName)}
                         />
                     </span>
                 )}

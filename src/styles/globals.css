@@ -20,7 +20,7 @@ body {
 }
 
 main {
-    @apply overflow-x-hidden flex flex-col min-h-screen bg-white dark:bg-[#081229] dark:text-white;
+    @apply overflow-x-hidden flex flex-col min-h-screen bg-white dark:bg-primaryDark dark:text-white;
 }
 
 .app {

@@ -31,7 +31,7 @@ const Header = () => {
     return (
         <header
             className="container flex items-center justify-between h-[60px] md:h-[80px]
-            [&>*:first-child]:ml-0"
+            [&>*:first-child]:ml-0 dark:bg-secondaryDark"
         >
             <div className="flex items-center">
                 <GoThreeBars className={`mr-[10px] ${mobileShow}`} />
@@ -49,10 +49,10 @@ const Header = () => {
                     LeftIcon={AiOutlineSearch}
                     leftIconOnClick={() => console.log('search')}
                     placeholder={languageCode === 'vi' ? 'Tìm kiếm' : 'Search'}
-                    iconClassName="w-[20px] h-[20px] text-gray-500 cursor-pointer hover:text-primary-500"
+                    iconClassName="w-[22px] h-[22px] text-gray-500 cursor-pointer hover:text-primary-500"
                     containerClassName={mobileHidden}
-                    className="pl-[5px] py-[5px] caret-primary-500 text-black"
-                    containerInputClassName="bg-[#F2F3F6]"
+                    className="pl-[5px] py-[5px] text-black caret-primary-500"
+                    containerInputClassName=" bg-[#F2F3F6]"
                 />
 
                 <Link href="/search">
