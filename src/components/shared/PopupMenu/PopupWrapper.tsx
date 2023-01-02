@@ -7,7 +7,7 @@ export interface PopupWrapperProps {
 
 const PopupWrapper = ({ children, className }: PopupWrapperProps) => {
     const wrapper =
-        'flex flex-col items-start w-full min-h-[100px] bg-white dark:bg-gray-800 rounded[8px] pt-[8px]';
+        'flex flex-col items-start w-full min-h-[100px] bg-white dark:bg-black rounded[8px] pt-[8px]';
     return (
         <div
             className={classNames(

@@ -16,11 +16,11 @@ import { TranslationContext } from '@/contexts/TranslationContext';
 const Header = () => {
     const router = useRouter();
     const mobileShow = 'block md:hidden';
-    const mobileHidden = 'hidden md:block';
+    const mobileHidden = 'hidden md:flex';
 
     const { value, setLanguageCode } = useContext(TranslationContext);
 
-    const currentUser = false;
+    const currentUser = true;
 
     const handleMenuChange = (item: any) => {
         console.log(item);

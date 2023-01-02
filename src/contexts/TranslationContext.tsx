@@ -24,7 +24,7 @@ export const TranslationContext = createContext<ContextProps>({
     },
 });
 
-export const TranslationProvider: React.FC = ({ children }: any) => {
+export const TranslationProvider: React.FC<any> = ({ children }: any) => {
     const [languageCode, setLanguageCode] = useState<string>('vi');
 
     const value = useTranslation(languageCode);

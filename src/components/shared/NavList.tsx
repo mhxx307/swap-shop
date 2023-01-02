@@ -21,9 +21,9 @@ const NavList = ({ navList, className, itemClassName }: NavMenuProps) => {
                     href={path}
                     key={label}
                     className={classNames(
-                        itemClassName,
                         defaultItemStyles,
                         ` ${router.pathname === path && 'text-primary-500'} `,
+                        itemClassName,
                     )}
                 >
                     {label}
