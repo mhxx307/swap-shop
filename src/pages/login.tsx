@@ -1,7 +1,9 @@
+import { LoginForm } from '@/components/features/auth/login';
+
 const LoginPage = () => {
     return (
-        <div>
-            <h1>Login</h1>
+        <div className="w-full min-h-screen flex items-center justify-center">
+            <LoginForm />
         </div>
     );
 };

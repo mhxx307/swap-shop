@@ -62,6 +62,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
                         'bg-transparent appearance-none w-full focus:outline-none leading-tight',
                         className,
                     )}
+                    spellCheck={false}
                     {...inputProps}
                 />
 
