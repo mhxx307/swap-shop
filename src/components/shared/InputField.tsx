@@ -35,7 +35,9 @@ const InputField = ({
                 {...props}
                 ref={ref}
             />
-            {!!error && <p className="text-red-500 text-sm">{error.message}</p>}
+            {!!error && (
+                <p className="text-[1.4rem] text-red-500">{error.message}</p>
+            )}
         </>
     );
 };

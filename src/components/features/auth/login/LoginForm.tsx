@@ -1,26 +1,28 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 import { Button, InputField } from '@/components/shared';
 import { LoginPayload } from '@/types';
 
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-
-const schema = yup
-    .object({
-        username: yup
-            .string()
-            .required('Please enter your username')
-            .min(4, 'Username must be at least 4 characters long'),
-        password: yup
-            .string()
-            .required('Please enter your password')
-            .min(8, 'Password must be at least 8 characters long'),
-    })
-    .required();
-
 const LoginForm = () => {
+    const schema = yup
+        .object({
+            username: yup
+                .string()
+                .required('Please enter your username')
+                .min(4, 'Username must be at least 4 characters long')
+                .max(20, 'Username must be at most 20 characters long'),
+            password: yup
+                .string()
+                .required('Please enter your password')
+                .min(8, 'Password must be at least 8 characters long')
+                .max(20, 'Password must be at most 20 characters long'),
+        })
+        .required();
+
     const [showPassword, setShowPassword] = useState(false);
 
     const { control, handleSubmit } = useForm<LoginPayload>({
@@ -36,7 +38,11 @@ const LoginForm = () => {
     };
 
     return (
-        <form method="POST" onSubmit={handleSubmit(handleLogin)}>
+        <form
+            method="POST"
+            onSubmit={handleSubmit(handleLogin)}
+            className="min-w-[260px]"
+        >
             <InputField
                 type="text"
                 name="username"
@@ -50,7 +56,7 @@ const LoginForm = () => {
                 name="password"
                 control={control}
                 className="px-3 py-2"
-                containerClassName="mt-[8px]"
+                containerClassName="mt-[12px]"
                 label="Password:"
                 iconClassName="w-8 h-8 cursor-pointer hover:text-gray-500"
                 rightIconOnClick={() => setShowPassword(!showPassword)}
