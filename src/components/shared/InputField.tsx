@@ -26,14 +26,17 @@ const InputField = ({
     });
 
     return (
-        <Input
-            name={name}
-            value={value}
-            onChange={onChange}
-            onBlur={onBlur}
-            {...props}
-            ref={ref}
-        />
+        <>
+            <Input
+                name={name}
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
+                {...props}
+                ref={ref}
+            />
+            {!!error && <p className="text-red-500 text-sm">{error.message}</p>}
+        </>
     );
 };
 
