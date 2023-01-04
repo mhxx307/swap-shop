@@ -7,7 +7,7 @@ import { HeaderNavListProps, PopupMenuItemProps } from '@/types';
 export const HEADER_NAV_LIST: HeaderNavListProps[] = [
     { path: '/', label: 'home' },
     { path: '/products', label: 'Share' },
-    { path: '/about', label: 'about' },
+    { path: '/about', label: 'About' },
 ];
 
 export const POPUP_MENU_LIST: PopupMenuItemProps[] = [
