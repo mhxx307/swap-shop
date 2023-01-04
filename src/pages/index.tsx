@@ -1,6 +1,8 @@
 import { ClientOnly, Head } from '@/components/shared';
+import { useTranslation } from 'next-i18next';
 
 const Home = () => {
+    const { t } = useTranslation('header');
     return (
         <>
             <Head
@@ -8,7 +10,7 @@ const Home = () => {
                 description="Trao đổi , chia sẻ với hàng sớm của bạn. Làm cho khu phố thêm gần rũi ấm áp"
             />
             <ClientOnly>
-                <h1 className="text-[3rem]">Content</h1>
+                <h1 className="text-[2rem]">{t('language')}</h1>
             </ClientOnly>
         </>
     );

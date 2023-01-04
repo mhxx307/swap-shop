@@ -20,7 +20,7 @@ body {
 }
 
 main {
-    @apply overflow-x-hidden flex flex-col min-h-screen bg-white dark:bg-black dark:text-white;
+    @apply overflow-x-hidden flex flex-col min-h-screen bg-white dark:bg-primaryDark dark:text-white;
 }
 
 .app {
@@ -29,6 +29,14 @@ main {
 
 .container {
     @apply px-12 sm:px-28 md:px-36 lg:px-48 xl:px-64 min-w-full;
+}
+
+.mobile-show {
+    @apply block md:hidden;
+}
+
+.mobile-hide {
+    @apply hidden md:flex;
 }
 
 @tailwind utilities;

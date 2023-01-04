@@ -1,20 +1,12 @@
-import { useState, forwardRef } from 'react';
+import { useState, forwardRef, memo } from 'react';
 import Tippy from '@tippyjs/react';
-import { IconType } from 'react-icons/lib';
 
 import MenuItem from './MenuItem';
 import PopupWrapper from './PopupWrapper';
 import Header from './Header';
+import { PopupMenuItemProps } from '@/types';
 
 const defaultFn = () => {};
-
-export interface PopupMenuItemProps {
-    icon?: IconType;
-    title: string;
-    to?: string;
-    children?: any;
-    separate?: boolean;
-}
 
 export interface PopupMenuProps {
     children: React.ReactElement | React.ReactNode;
@@ -41,6 +33,7 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
                 <MenuItem
                     data={item}
                     key={index}
+                    className="dark:bg-black dark:text-white dark:hover:bg-white/10"
                     onClick={() => {
                         if (isParent) {
                             setHistory((prev) => [...prev, item.children]);
@@ -87,4 +80,4 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
     );
 });
 
-export default PopupMenu;
+export default memo(PopupMenu);

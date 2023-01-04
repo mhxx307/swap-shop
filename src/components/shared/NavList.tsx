@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
+import { HeaderNavListProps } from '@/types';
 
 export interface NavMenuProps {
-    navList: { path: string; label: string }[];
+    navList: HeaderNavListProps[] | [];
     className?: string;
     itemClassName?: string;
 }
@@ -20,9 +21,9 @@ const NavList = ({ navList, className, itemClassName }: NavMenuProps) => {
                     href={path}
                     key={label}
                     className={classNames(
-                        itemClassName,
                         defaultItemStyles,
                         ` ${router.pathname === path && 'text-primary-500'} `,
+                        itemClassName,
                     )}
                 >
                     {label}
