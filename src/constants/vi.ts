@@ -26,6 +26,24 @@ export const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     { icon: VscSignOut, title: 'Đăng xuất', to: '/logout', separate: true },
 ];
 
+export const CUSTOMER_FOOTER_NAV_LIST = [
+    { path: '/asd', label: 'Chăm sóc khách hàng' },
+    { path: '/products', label: 'Trung tâm trợ giúp' },
+    { path: '/about', label: 'Chính sách bảo hành' },
+];
+
+export const ABOUT_FOOTER_NAV_LIST = [
+    { path: '/asd', label: 'Về chúng tôi' },
+    { path: '/products', label: 'Điều khoản Swap Shop' },
+    { path: '/about', label: 'Liên hệ với chúng tôi' },
+];
+
+export const SOCIAL_FOOTER_NAV_LIST = [
+    { path: '/asd', label: 'Theo dõi chúng tôi trên' },
+    { path: '/products', label: 'Facebook' },
+    { path: '/about', label: 'Instagram' },
+];
+
 const viTranslations = {
     HEADER_NAV_LIST,
     POPUP_MENU_LIST,
