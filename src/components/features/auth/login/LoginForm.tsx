@@ -41,7 +41,7 @@ const LoginForm = () => {
         <form
             method="POST"
             onSubmit={handleSubmit(handleLogin)}
-            className="min-w-[260px]"
+            className="min-w-[260px] w-full"
         >
             <InputField
                 type="text"

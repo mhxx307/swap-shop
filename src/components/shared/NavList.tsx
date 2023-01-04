@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { HeaderNavListProps } from '@/types';
 
 export interface NavMenuProps {
-    navList: HeaderNavListProps[];
+    navList: HeaderNavListProps[] | [];
     className?: string;
     itemClassName?: string;
 }
