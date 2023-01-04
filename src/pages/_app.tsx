@@ -3,9 +3,10 @@ import { SWRConfig } from 'swr';
 import { AppPropsWithLayout } from '@/types/layoutTypes';
 import BaseLayout from '@/components/layouts/BaseLayout';
 import httpRequest from '@/utils/httpRequest';
-import { TranslationProvider } from '@/contexts/TranslationContext';
+import { appWithTranslation } from 'next-i18next';
+import nextI18nextConfig from 'next-i18next.config';
 
-export default function App({ Component, pageProps }: AppPropsWithLayout) {
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const Layout =
         Component.Layout || ((page) => <BaseLayout>{page}</BaseLayout>);
     return (
@@ -15,9 +16,10 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
                 shouldRetryOnError: false,
             }}
         >
-            <TranslationProvider>
-                {Layout(<Component {...pageProps} />)}
-            </TranslationProvider>
+            {Layout(<Component {...pageProps} />)}
         </SWRConfig>
     );
-}
+};
+
+// @ts-ignore
+export default appWithTranslation(App, nextI18nextConfig);

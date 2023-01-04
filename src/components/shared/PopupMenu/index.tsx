@@ -1,4 +1,4 @@
-import { useState, forwardRef } from 'react';
+import { useState, forwardRef, memo } from 'react';
 import Tippy from '@tippyjs/react';
 
 import MenuItem from './MenuItem';
@@ -80,4 +80,4 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
     );
 });
 
-export default PopupMenu;
+export default memo(PopupMenu);

@@ -1,8 +1,4 @@
-import {
-    AiOutlineGlobal,
-    AiOutlineQuestionCircle,
-    AiOutlineUser,
-} from 'react-icons/ai';
+import { AiOutlineQuestionCircle, AiOutlineUser } from 'react-icons/ai';
 import { CgShortcut } from 'react-icons/cg';
 import { BsGear } from 'react-icons/bs';
 import { VscSignOut } from 'react-icons/vsc';
@@ -15,17 +11,6 @@ export const HEADER_NAV_LIST: HeaderNavListProps[] = [
 ];
 
 export const POPUP_MENU_LIST: PopupMenuItemProps[] = [
-    {
-        icon: AiOutlineGlobal,
-        title: 'English',
-        children: {
-            title: 'Language',
-            data: [
-                { code: 'en', title: 'English' },
-                { code: 'vi', title: 'Vietnamese' },
-            ],
-        },
-    },
     {
         icon: AiOutlineQuestionCircle,
         title: 'Feedback and Help',
@@ -40,3 +25,11 @@ export const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     ...POPUP_MENU_LIST,
     { icon: VscSignOut, title: 'Log out', to: '/logout', separate: true },
 ];
+
+const enTranslations = {
+    HEADER_NAV_LIST,
+    POPUP_MENU_LIST,
+    POPUP_USER_MENU_LIST,
+};
+
+export default enTranslations;

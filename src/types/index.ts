@@ -12,3 +12,8 @@ export interface PopupMenuItemProps {
     children?: any;
     separate?: boolean;
 }
+
+export interface LoginPayload {
+    username: string;
+    password: string;
+}
