@@ -1,30 +1,15 @@
-import * as constantsEN from '@/constants/en';
-import * as constantsVI from '@/constants/vi';
-import { HeaderNavListProps, PopupMenuItemProps } from '@/types';
+import { getConstantTranslation } from '@/utils/data';
+import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 
-const useTranslation = (code: string) => {
-    let headerNavList: HeaderNavListProps[] = [];
-    let popupMenuList: PopupMenuItemProps[] = [];
-    let popupUserMenuList: PopupMenuItemProps[] = [];
+const useConstantTranslation = () => {
+    const { locale } = useRouter();
+    const translations = useMemo(
+        () => getConstantTranslation(locale),
+        [locale],
+    );
 
-    switch (code) {
-        case 'vi':
-            headerNavList = constantsVI.HEADER_NAV_LIST;
-            popupMenuList = constantsVI.POPUP_MENU_LIST;
-            popupUserMenuList = constantsVI.POPUP_USER_MENU_LIST;
-            break;
-        case 'en':
-            headerNavList = constantsEN.HEADER_NAV_LIST;
-            popupMenuList = constantsEN.POPUP_MENU_LIST;
-            popupUserMenuList = constantsEN.POPUP_USER_MENU_LIST;
-            break;
-    }
-
-    return {
-        headerNavList,
-        popupMenuList,
-        popupUserMenuList,
-    };
+    return translations;
 };
 
-export default useTranslation;
+export default useConstantTranslation;

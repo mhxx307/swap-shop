@@ -43,7 +43,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 
             <div
                 className={classNames(
-                    'shadow flex items-center space-x-2 bg-background-800 focus:ring focus:ring-primary-500 focus:shadow-outline rounded',
+                    'shadow dark:border-white dark:border-[1px] flex items-center space-x-2 bg-background-800 focus:ring focus:ring-primary-500 focus:shadow-outline rounded',
                     LeftIcon || RightIcon ? 'px-3 py-2' : 'py-1',
                     containerInputClassName,
                 )}
