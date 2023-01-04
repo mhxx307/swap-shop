@@ -47,7 +47,8 @@ const LoginForm = () => {
                 type="text"
                 name="username"
                 control={control}
-                className="px-3 py-2"
+                className="px-3 py-2 shadow-none"
+                // containerInputClassName="border-[1px] border-gray-500 rounded-md focus-within:border-[#00b4d8]"
                 label="Username:"
             />
 
@@ -63,8 +64,12 @@ const LoginForm = () => {
                 RightIcon={showPassword ? FaEye : FaEyeSlash}
             />
 
-            <Button type="submit" primary className="mt-[20px]">
-                Login
+            <Button
+                type="submit"
+                primary
+                className="mt-[20px] w-full justify-center items-center select-none"
+            >
+                Sign in
             </Button>
         </form>
     );
