@@ -10,6 +10,7 @@ import { randomElement } from '@/utils';
 import quotes from '@/quotes.json';
 import { Button, ButtonLink } from '@/components/shared';
 import { REVALIDATE_TIME } from '@/constants';
+import { useTranslation } from 'react-i18next';
 
 interface Quote {
     text: string;
@@ -22,6 +23,7 @@ interface LoginPageProps {
 
 const LoginPage = ({ quotes }: LoginPageProps) => {
     const randomQuote = useMemo(() => randomElement(quotes), [quotes]);
+    const { t } = useTranslation('login');
 
     return (
         <div className="w-full min-h-screen grid grid-cols-1 md:grid-cols-5 relative">
@@ -32,7 +34,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                 LeftIcon={AiOutlineLeft}
                 href="/"
             >
-                back
+                {t('back_btn') || '...'}
             </ButtonLink>
             <div
                 className="hidden md:block relative col-span-2 after:absolute after:inset-0 after:bg-[#000000]/80 after:z-10"
@@ -58,12 +60,12 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
             <div className="col-span-3 flex items-center justify-center">
                 <div className="w-[400px]">
                     <p className="text-5xl font-semibold mb-6">
-                        Welcome to{' '}
+                        {t('welcome_heading')}{' '}
                         <span className="text-primary-500 capitalize">
                             second chance
                         </span>
                     </p>
-                    <p className="text-2xl mb-8">Please enter your detail</p>
+                    <p className="text-2xl mb-8">{t('please_heading')}</p>
                     <LoginForm />
                     <Button
                         outline
@@ -71,17 +73,17 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                         LeftIcon={FcGoogle}
                         iconClassName="w-[20px] h-[20px]"
                     >
-                        Sign in with Google
+                        {t('google_login') || '...'}
                     </Button>
                     <div className="flex mt-[20px]">
                         <p className="font-thin text-gray-500 mr-4">
-                            Don&apos;t have an account?
+                            {t('dont_have_account')}
                         </p>
                         <Link
                             href="/register"
                             className="text-black dark:text-white font-bold hover:text-gray-500 dark:hover:text-opacity-80"
                         >
-                            Sign up for free
+                            {t('sign_up_free')}
                         </Link>
                     </div>
                 </div>

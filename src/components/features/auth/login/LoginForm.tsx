@@ -6,6 +6,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import { Button, InputField } from '@/components/shared';
 import { LoginPayload } from '@/types';
+import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
     const schema = yup
@@ -13,7 +14,7 @@ const LoginForm = () => {
             username: yup
                 .string()
                 .required('Please enter your username')
-                .min(4, 'Username must be at least 4 characters long')
+                .min(6, 'Username must be at least 6 characters long')
                 .max(20, 'Username must be at most 20 characters long'),
             password: yup
                 .string()
@@ -33,6 +34,8 @@ const LoginForm = () => {
         resolver: yupResolver(schema),
     });
 
+    const { t } = useTranslation('login');
+
     const handleLogin = (loginPayload: LoginPayload) => {
         console.log(loginPayload);
     };
@@ -49,7 +52,7 @@ const LoginForm = () => {
                 control={control}
                 className="px-3 py-2 shadow-none"
                 // containerInputClassName="border-[1px] border-gray-500 rounded-md focus-within:border-[#00b4d8]"
-                label="Username:"
+                label={t('username_label') || '...'}
             />
 
             <InputField
@@ -58,7 +61,7 @@ const LoginForm = () => {
                 control={control}
                 className="px-3 py-2"
                 containerClassName="mt-[12px]"
-                label="Password:"
+                label={t('password_label') || '...'}
                 iconClassName="w-8 h-8 cursor-pointer hover:text-gray-500"
                 rightIconOnClick={() => setShowPassword(!showPassword)}
                 RightIcon={showPassword ? FaEye : FaEyeSlash}
@@ -69,7 +72,7 @@ const LoginForm = () => {
                 primary
                 className="mt-[20px] w-full justify-center items-center select-none"
             >
-                Sign in
+                {t('button_login') || '...'}
             </Button>
         </form>
     );

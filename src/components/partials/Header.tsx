@@ -13,13 +13,6 @@ import {
 } from '@/components/shared';
 import { useTranslation } from 'next-i18next';
 import useConstantsTranslation from '@/hooks/useConstantsTranslation';
-import { HeaderNavListProps, PopupMenuItemProps } from '@/types';
-
-interface ConstantsProps {
-    HEADER_NAV_LIST: HeaderNavListProps[];
-    POPUP_MENU_LIST: PopupMenuItemProps[];
-    POPUP_USER_MENU_LIST: PopupMenuItemProps[];
-}
 
 const Header = () => {
     const { t } = useTranslation('header');
