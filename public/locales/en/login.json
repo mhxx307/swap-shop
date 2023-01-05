@@ -1,0 +1,11 @@
+{
+    "button_login": "Sign in",
+    "username_label": "Username:",
+    "password_label": "Password",
+    "back_btn": "Back",
+    "welcome_heading": "Welcome to",
+    "please_heading": "Please enter your detail",
+    "google_login": "Sign in with Google",
+    "dont_have_account": "Don't have an account?",
+    "sign_up_free": "Sign up for free"
+}

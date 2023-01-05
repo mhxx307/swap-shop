@@ -67,5 +67,10 @@ module.exports = {
             emoji: '💍',
             value: 'test',
         },
+        translation: {
+            description: 'Translation',
+            emoji: '👽',
+            value: 'translation',
+        },
     },
 };

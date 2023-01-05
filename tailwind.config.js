@@ -23,7 +23,6 @@ module.exports = {
             xl: '1536px',
         },
         fontFamily: {
-            sevillana: ['Sevillana', 'cursive'],
             lora: ['Lora', 'serif'],
             timeNewRoman: ['Times New Roman', 'serif'],
         },
