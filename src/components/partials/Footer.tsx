@@ -14,9 +14,10 @@ const contents = [
 
 const Footer = () => {
     return (
-        <footer className="container border-t-2 grid py-[50px] grid-cols-2 sm:grid-cols-3 md:grid-cols-4  ">
-            {contents.map((content) => (
+        <footer className="container border-t-2 py-[50px] grid grid-cols-1 ss:grid-cols-2 sm:grid-cols-3 md:grid-cols-4  ">
+            {contents.map((content, index) => (
                 <NavList
+                    key={index}
                     navList={content}
                     className={
                         'flex flex-col md:[&>*:first-child]:text-[1.8rem] [&>*:first-child]:text-primary-500 mb-4'

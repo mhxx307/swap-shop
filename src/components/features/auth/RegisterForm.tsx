@@ -34,7 +34,7 @@ const RegisterForm = () => {
     }
 
     return (
-        <div className="h-screen w-[1084px] flex flex-col justify-around">
+        <div className="h-screen w-[100%] md:w-[1084px] flex flex-col justify-around">
             <h3 className="text-[3rem] font-bold text-center">Registration</h3>
 
             <ProgressBar
@@ -43,23 +43,23 @@ const RegisterForm = () => {
                 goTo={goTo}
             />
 
-            <div className="bg-white dark:bg-secondaryDark shadow-md p-[2rem] m-[1rem] rounded-md w-full">
+            <div className="bg-white dark:bg-secondaryDark shadow-md p-[2rem] mt-[30px] rounded-md w-full">
                 <form
                     onSubmit={handleSubmit(handleRegister)}
                     className="min-h-[400px] flex flex-col justify-between"
                 >
                     <div>{currentStep}</div>
-                    <div className="flex gap-2 justify-end mt-[1rem]">
+                    <div className="flex gap-2 justify-end mt-[2rem]">
                         {!isFirstStep && (
                             <Button
                                 type="button"
-                                className="bg-black text-white"
+                                className="bg-black text-white dark:hover:bg-gray-700"
                                 onClick={back}
                             >
                                 Back
                             </Button>
                         )}
-                        <Button primary type="submit">
+                        <Button primary type="submit" shortcutKey="enter">
                             {isLastStep ? 'Finish' : 'Next'}
                         </Button>
                     </div>

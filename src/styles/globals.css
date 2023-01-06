@@ -31,16 +31,8 @@ main {
     @apply px-12 sm:px-28 md:px-36 lg:px-48 xl:px-64 min-w-full;
 }
 
-.mobile-show {
-    @apply block md:hidden;
-}
-
-.mobile-hide {
-    @apply hidden md:flex;
-}
-
 .register-input {
-    @apply border-[1px] border-gray-300 h-[40px] focus-within:border-blue-500;
+    @apply border-[1px] border-gray-300 h-[40px] focus-within:border-blue-500 dark:focus-within:border-blue-500;
 }
 
 @tailwind utilities;

@@ -57,13 +57,15 @@ const LanguageSwitcher = forwardRef<HTMLDivElement, LanguageSwitcherProps>(
             >
                 <div
                     className={classNames(
-                        'px-2 py-3 rounded-md flex items-center cursor-pointer bg-gray-300 hover:opacity-80 dark:bg-black dark:hover:bg-gray-700 transition-all',
+                        'px-2 py-3 rounded-md flex items-center sm:cursor-pointer bg-white sm:bg-gray-300 dark:bg-transparent sm:hover:opacity-80 sm:dark:hover:bg-gray-700 transition-all',
                         className,
                     )}
                     ref={ref}
                 >
                     <AiOutlineGlobal />
-                    <p className="ml-[5px]">{currentLocale?.name}</p>
+                    <p className="ml-[5px] hidden md:block">
+                        {currentLocale?.name}
+                    </p>
                 </div>
             </Tippy>
         );

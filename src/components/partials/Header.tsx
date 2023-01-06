@@ -21,17 +21,20 @@ const Header = () => {
         useConstantsTranslation();
     const currentUser = false;
 
+    const mobileHide = 'hidden md:flex';
+    const mobileShow = 'block md:hidden';
+
     return (
         <header
             className="container flex items-center justify-between h-[60px] md:h-[80px]
             [&>*:first-child]:ml-0 dark:bg-secondaryDark"
         >
             <div className="flex items-center">
-                <GoThreeBars className="mr-[10px] mobile-show" />
+                <GoThreeBars className={`mr-[10px] ${mobileShow}`} />
                 <Link href="/">
                     <Logo />
                 </Link>
-                <NavList navList={HEADER_NAV_LIST} className="mobile-hidden" />
+                <NavList navList={HEADER_NAV_LIST} className={mobileHide} />
             </div>
             <div className="flex items-center">
                 <LanguageSwitcher />
@@ -40,15 +43,15 @@ const Header = () => {
                     LeftIcon={AiOutlineSearch}
                     leftIconOnClick={() => console.log('search')}
                     placeholder={t('search_placeholder') || '...'}
-                    iconClassName="w-[22px] h-[22px] text-gray-500 cursor-pointer hover:text-primary-500"
-                    containerClassName="ml-[16px] mobile-hidden"
+                    iconClassName="w-[2.2rem] h-[2.2rem] text-gray-500 sm:cursor-pointer sm:hover:text-primary-500"
+                    containerClassName={`ml-[16px] ${mobileHide}`}
                     className="pl-[5px] py-[5px] text-black caret-primary-500"
                     containerInputClassName="bg-[#F2F3F6]"
                 />
 
                 <Link href="/search">
                     <AiOutlineSearch
-                        className={`mr-[10px] w-[2rem] h-[2rem] mobile-show`}
+                        className={`mx-[10px] w-[2.2rem] h-[2.2rem] hover:text-primary-500 transition-colors ${mobileShow}`}
                     />
                 </Link>
 

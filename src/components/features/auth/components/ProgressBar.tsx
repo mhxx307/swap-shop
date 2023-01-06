@@ -56,7 +56,7 @@ const ProgressBar = ({
                             </div>
                         </div>
                         <div
-                            className={`flex-auto border-t-2 transition duration-500 ease-linear ${
+                            className={`flex-auto border-t-2 transition duration-500 ease-in-out ${
                                 isPreviousProgress
                                     ? 'border-primary-500'
                                     : 'border-gray-300'
