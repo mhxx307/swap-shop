@@ -14,7 +14,7 @@ export const REGISTER_INITIAL_DATA: RegisterPayload = {
     password: '',
 };
 
-export const STEPPER_LIST = [
+export const PROGRESS_LIST = [
     {
         title: 'Account',
         number: 0,

@@ -3,8 +3,8 @@ import { useMultiStepForm } from '@/hooks';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/shared';
 import { RegisterPayload } from '@/types';
-import { REGISTER_INITIAL_DATA, STEPPER_LIST } from '@/constants';
-import { AccountForm, AddressForm, Stepper, UserForm } from './components';
+import { REGISTER_INITIAL_DATA, PROGRESS_LIST } from '@/constants';
+import { AccountForm, AddressForm, ProgressBar, UserForm } from './components';
 
 const RegisterForm = () => {
     const { control, handleSubmit } = useForm<RegisterPayload>({
@@ -37,8 +37,8 @@ const RegisterForm = () => {
         <div className="h-screen w-[1084px] flex flex-col justify-around">
             <h3 className="text-[3rem] font-bold text-center">Registration</h3>
 
-            <Stepper
-                stepperList={STEPPER_LIST}
+            <ProgressBar
+                progressList={PROGRESS_LIST}
                 stepCurrentNumber={currentStepIndex}
                 goTo={goTo}
             />
