@@ -39,6 +39,10 @@ main {
     @apply hidden md:flex;
 }
 
+.register-input {
+    @apply border-[1px] border-gray-300 h-[40px] focus-within:border-blue-500;
+}
+
 @tailwind utilities;
 
 ::-webkit-scrollbar {

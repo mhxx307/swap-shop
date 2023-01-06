@@ -12,7 +12,7 @@ import {
     LanguageSwitcher,
 } from '@/components/shared';
 import { useTranslation } from 'next-i18next';
-import useConstantsTranslation from '@/hooks/useConstantsTranslation';
+import { useConstantsTranslation } from '@/hooks';
 
 const Header = () => {
     const { t } = useTranslation('header');

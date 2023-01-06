@@ -4,7 +4,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
 
-import { LoginForm } from '@/components/features/auth/login';
+import { LoginForm } from '@/components/features/auth';
 import { BaseLayout } from '@/components/layouts';
 import { randomElement } from '@/utils';
 import quotes from '@/quotes.json';

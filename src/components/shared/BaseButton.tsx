@@ -64,7 +64,7 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
             if (outline) {
                 buttonClassName = 'border-solid border-[1px] border-black';
             } else {
-                buttonClassName = 'bg-white';
+                buttonClassName = '';
             }
         }
 
