@@ -1,9 +1,8 @@
 import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {
-    const isDark = false;
     return (
-        <Html lang="en" className={`${isDark && 'dark'}`}>
+        <Html lang="en">
             <Head />
             <body>
                 <Main />
