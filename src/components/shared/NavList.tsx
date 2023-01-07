@@ -11,8 +11,6 @@ export interface NavMenuProps {
 
 const NavList = ({ navList, className, itemClassName }: NavMenuProps) => {
     const router = useRouter();
-    const defaultItemStyles =
-        'capitalize font-bold hover:text-primary-500 transition-colors duration-300';
 
     return (
         <nav className={classNames(className)}>
@@ -21,8 +19,11 @@ const NavList = ({ navList, className, itemClassName }: NavMenuProps) => {
                     href={path}
                     key={label}
                     className={classNames(
-                        defaultItemStyles,
-                        ` ${router.pathname === path && 'text-primary-500'} `,
+                        'nav-item',
+                        ` ${
+                            router.pathname === path &&
+                            'text-primary-400 dark:text-white after:w-full'
+                        } `,
                         itemClassName,
                     )}
                 >

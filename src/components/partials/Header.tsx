@@ -21,16 +21,18 @@ const Header = () => {
         useConstantsTranslation();
     const currentUser = false;
 
-    const mobileHide = 'hidden sm:flex';
-    const mobileShow = 'block sm:hidden';
+    const mobileHide = 'hidden md:flex';
+    const mobileShow = 'block md:hidden';
 
     return (
         <header
-            className="container flex items-center justify-between h-[60px] md:h-[80px]
-            [&>*:first-child]:ml-0 dark:bg-secondaryDark"
+            className="container flex items-center justify-between py-[10px] h-[60px] md:h-[80px]
+            [&>*:first-child]:ml-0 dark:bg-secondaryDark shadow-md"
         >
             <div className="flex items-center">
-                <GoThreeBars className={`mr-[10px] ${mobileShow}`} />
+                <GoThreeBars
+                    className={`mr-[10px] w-[2.2rem] h-[2.2rem]  ${mobileShow}`}
+                />
                 <Link href="/" className="mr-[10px]">
                     <Logo />
                 </Link>
@@ -39,7 +41,7 @@ const Header = () => {
 
             <NavList
                 navList={HEADER_NAV_LIST}
-                className={`[&>*:first-child]:ml-0 ${mobileHide}`}
+                className={`[&>*:first-child]:ml-0  ${mobileHide}`}
                 itemClassName="ml-[30px]"
             />
 
@@ -54,10 +56,12 @@ const Header = () => {
                     <Button
                         primary
                         shortcutKey="enter"
-                        className="ml-[15px] sm:ml-[20px] sm:px-[25px] h-full shadow-md"
+                        className="ml-[15px] sm:ml-[20px] sm:px-[25px] shadow-md"
                         onClick={() => router.push('/login')}
                     >
-                        <span>{t('login_title')}</span>
+                        <span className="text-responsive-xl">
+                            {t('login_title')}
+                        </span>
                     </Button>
                 )}
 
