@@ -7,7 +7,10 @@ export interface FormProps {
 
 const AccountForm = ({ control }: FormProps) => {
     return (
-        <FormWrapper title="Account Creation">
+        <FormWrapper
+            title="Account Creation"
+            description="Create info for your account"
+        >
             <InputField
                 label="Email:"
                 type="email"

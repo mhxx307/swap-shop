@@ -4,7 +4,12 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/shared';
 import { RegisterPayload } from '@/types';
 import { REGISTER_INITIAL_DATA, PROGRESS_LIST } from '@/constants';
-import { AccountForm, AddressForm, ProgressBar, UserForm } from './components';
+import {
+    AccountForm,
+    AddressForm,
+    ProgressBar,
+    UserForm,
+} from './components/register';
 
 const RegisterForm = () => {
     const { control, handleSubmit } = useForm<RegisterPayload>({

@@ -28,7 +28,7 @@ main {
 }
 
 .container {
-    @apply px-12 sm:px-28 md:px-36 lg:px-40 xl:px-48 min-w-full;
+    @apply px-4 sm:px-16 md:px-24 lg:px-28 xl:px-32 min-w-full;
 }
 
 .register-input {
@@ -36,6 +36,12 @@ main {
 }
 
 @tailwind utilities;
+
+/* #checkboxSwitcher:checked + label .switch-ball {
+    background-color: white;
+    transform: translateX(24px);
+    transition: transform 0.3s linear;
+} */
 
 ::-webkit-scrollbar {
     @apply w-3 bg-white/10;

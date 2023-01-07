@@ -41,6 +41,7 @@ const Header = () => {
             <NavList
                 navList={HEADER_NAV_LIST}
                 className={`[&>*:first-child]:ml-0 ${mobileHide}`}
+                itemClassName="ml-[30px]"
             />
             <div className="flex items-center">
                 <LanguageSwitcher />
@@ -55,9 +56,24 @@ const Header = () => {
                     containerInputClassName="bg-[#F2F3F6]"
                 /> */}
 
-                <Button className="bg-gray-300 ml-[15px] sm:ml-[20px] h-[40px] w-[40px]">
-                    {isDarkTheme ? <BsMoonStars /> : <BsSun />}
-                </Button>
+                {/* <ThemeSwitcher /> */}
+
+                {/* <div>
+                    <input
+                        type="checkbox"
+                        name=""
+                        id="checkboxSwitcher"
+                        className="hidden"
+                    />
+                    <label
+                        htmlFor="checkboxSwitcher"
+                        className="cursor-pointer"
+                    >
+                        <div className="w-9 h-5 flex items-center bg-gray-300 rounded-full p2">
+                            <div className="w-4 h-4 bg-white rounded-full shadow switch-ball"></div>
+                        </div>
+                    </label>
+                </div> */}
 
                 <Link href="/search">
                     <AiOutlineSearch className="ml-[15px] sm:ml-[20px] w-[2.2rem] h-[2.2rem] sm:hover:text-primary-500 transition-colors" />

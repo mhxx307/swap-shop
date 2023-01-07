@@ -3,7 +3,7 @@ import { FormProps } from './AccountForm';
 
 const AddressForm = ({ control }: FormProps) => {
     return (
-        <FormWrapper title="Address">
+        <FormWrapper title="Address" description="Enter your address">
             <InputField
                 autoFocus
                 label="Street"

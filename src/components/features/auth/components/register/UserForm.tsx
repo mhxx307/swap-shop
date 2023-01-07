@@ -3,7 +3,7 @@ import { FormProps } from './AccountForm';
 
 const UserForm = ({ control }: FormProps) => {
     return (
-        <FormWrapper title="User Details">
+        <FormWrapper title="User Details" description="Describe about yourself">
             <InputField
                 label="First Name:"
                 control={control}

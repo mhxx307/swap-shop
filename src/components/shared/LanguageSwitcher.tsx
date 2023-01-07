@@ -51,7 +51,7 @@ const LanguageSwitcher = forwardRef<HTMLDivElement, LanguageSwitcherProps>(
                 )}
                 trigger="click"
                 animation={false}
-                zIndex={9999}
+                zIndex={99999}
                 offset={[14, 10]}
                 hideOnClick={true}
             >

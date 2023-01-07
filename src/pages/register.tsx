@@ -21,12 +21,6 @@ const RegisterPage = () => {
                 login
             </ButtonLink>
             <RegisterForm />
-            {/* them description cho form */}
-            {/* map picker */}
-            {/* options cho country and state => dropdown => tìm api => getServerProps */}
-            {/* xác dịnh lại các thuộc tính sẽ lưu vào model account */}
-            {/* form validate */}
-            {/* them switcher */}
         </div>
     );
 };
