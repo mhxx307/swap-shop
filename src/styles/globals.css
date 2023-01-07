@@ -37,12 +37,6 @@ main {
 
 @tailwind utilities;
 
-/* #checkboxSwitcher:checked + label .switch-ball {
-    background-color: white;
-    transform: translateX(24px);
-    transition: transform 0.3s linear;
-} */
-
 ::-webkit-scrollbar {
     @apply w-3 bg-white/10;
 }
