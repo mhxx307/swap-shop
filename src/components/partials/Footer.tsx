@@ -1,21 +1,11 @@
 import { NavList } from '@/components/shared';
-import {
-    ABOUT_FOOTER_NAV_LIST,
-    CUSTOMER_FOOTER_NAV_LIST,
-    SOCIAL_FOOTER_NAV_LIST,
-} from '@/constants/vi';
-
-const contents = [
-    ABOUT_FOOTER_NAV_LIST,
-    CUSTOMER_FOOTER_NAV_LIST,
-    SOCIAL_FOOTER_NAV_LIST,
-    SOCIAL_FOOTER_NAV_LIST,
-];
+import { useConstantsTranslation } from '@/hooks';
 
 const Footer = () => {
+    const { FOOTER_LIST }: any = useConstantsTranslation();
     return (
         <footer className="container border-t-2 py-[50px] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  ">
-            {contents.map((content, index) => (
+            {FOOTER_LIST.map((content: any, index: number) => (
                 <NavList
                     key={index}
                     navList={content}
