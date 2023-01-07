@@ -77,7 +77,7 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
             <button
                 type="button"
                 className={classNames(
-                    'flex transition duration-300 outline-none',
+                    'flex items-center justify-center transition duration-300 outline-none',
                     (isLoading || disable) &&
                         'text-gray-300 cursor-not-allowed',
                     buttonClassName,

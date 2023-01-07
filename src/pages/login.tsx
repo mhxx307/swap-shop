@@ -69,7 +69,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                     <LoginForm />
                     <Button
                         outline
-                        className="w-full mt-[20px] justify-center text-black dark:text-white py-2 pr-6 pl-4 select-none hover:bg-gray-200 border-gray-300"
+                        className="w-full mt-[20px] text-black dark:text-white py-2 pr-6 pl-4 select-none hover:bg-gray-200 border-gray-300"
                         LeftIcon={FcGoogle}
                         iconClassName="w-[20px] h-[20px]"
                     >

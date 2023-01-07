@@ -13,6 +13,7 @@ import {
 } from '@/components/shared';
 import { useTranslation } from 'next-i18next';
 import { useConstantsTranslation } from '@/hooks';
+import { BsMoonStars, BsSun } from 'react-icons/bs';
 
 const Header = () => {
     const { t } = useTranslation('header');
@@ -21,8 +22,10 @@ const Header = () => {
         useConstantsTranslation();
     const currentUser = false;
 
-    const mobileHide = 'hidden md:flex';
-    const mobileShow = 'block md:hidden';
+    const mobileHide = 'hidden sm:flex';
+    const mobileShow = 'block sm:hidden';
+
+    const isDarkTheme = false;
 
     return (
         <header
@@ -34,12 +37,15 @@ const Header = () => {
                 <Link href="/">
                     <Logo />
                 </Link>
-                <NavList navList={HEADER_NAV_LIST} className={mobileHide} />
             </div>
+            <NavList
+                navList={HEADER_NAV_LIST}
+                className={`[&>*:first-child]:ml-0 ${mobileHide}`}
+            />
             <div className="flex items-center">
                 <LanguageSwitcher />
 
-                <Input
+                {/* <Input
                     LeftIcon={AiOutlineSearch}
                     leftIconOnClick={() => console.log('search')}
                     placeholder={t('search_placeholder') || '...'}
@@ -47,19 +53,21 @@ const Header = () => {
                     containerClassName={`ml-[16px] ${mobileHide}`}
                     className="pl-[5px] py-[5px] text-black caret-primary-500"
                     containerInputClassName="bg-[#F2F3F6]"
-                />
+                /> */}
+
+                <Button className="bg-gray-300 ml-[15px] sm:ml-[20px] h-[40px] w-[40px]">
+                    {isDarkTheme ? <BsMoonStars /> : <BsSun />}
+                </Button>
 
                 <Link href="/search">
-                    <AiOutlineSearch
-                        className={`mx-[10px] w-[2.2rem] h-[2.2rem] hover:text-primary-500 transition-colors ${mobileShow}`}
-                    />
+                    <AiOutlineSearch className="ml-[15px] sm:ml-[20px] w-[2.2rem] h-[2.2rem] sm:hover:text-primary-500 transition-colors" />
                 </Link>
 
                 {!currentUser && (
                     <Button
                         primary
                         shortcutKey="enter"
-                        className="md:ml-[20px] md:px-[25px] h-full shadow-md"
+                        className="ml-[15px] sm:ml-[20px] sm:px-[25px] h-full shadow-md"
                         onClick={() => router.push('/login')}
                     >
                         <span>{t('login_title')}</span>
@@ -78,7 +86,7 @@ const Header = () => {
                             className="rounded-[50%] w-[32px] h-[32px] object-cover ml-[12px] sm:cursor-pointer"
                         />
                     ) : (
-                        <AiOutlineMore className="w-[30px] h-[30px] ml-[6px] sm:cursor-pointer" />
+                        <AiOutlineMore className="w-[30px] h-[30px] ml-[6px] sm:cursor-pointer sm:hover:text-primary-500" />
                     )}
                 </PopupMenu>
             </div>

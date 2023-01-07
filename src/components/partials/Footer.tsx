@@ -14,7 +14,7 @@ const contents = [
 
 const Footer = () => {
     return (
-        <footer className="container border-t-2 py-[50px] grid grid-cols-1 ss:grid-cols-2 sm:grid-cols-3 md:grid-cols-4  ">
+        <footer className="container border-t-2 py-[50px] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  ">
             {contents.map((content, index) => (
                 <NavList
                     key={index}
