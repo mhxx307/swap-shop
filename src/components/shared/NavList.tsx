@@ -12,7 +12,7 @@ export interface NavMenuProps {
 const NavList = ({ navList, className, itemClassName }: NavMenuProps) => {
     const router = useRouter();
     const defaultItemStyles =
-        'ml-[20px] capitalize font-bold hover:text-primary-500 transition-colors duration-300';
+        'capitalize font-bold hover:text-primary-500 transition-colors duration-300';
 
     return (
         <nav className={classNames(className)}>

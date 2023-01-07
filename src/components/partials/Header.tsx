@@ -12,7 +12,8 @@ import {
     LanguageSwitcher,
 } from '@/components/shared';
 import { useTranslation } from 'next-i18next';
-import useConstantsTranslation from '@/hooks/useConstantsTranslation';
+import { useConstantsTranslation } from '@/hooks';
+import { BsMoonStars, BsSun } from 'react-icons/bs';
 
 const Header = () => {
     const { t } = useTranslation('header');
@@ -21,42 +22,68 @@ const Header = () => {
         useConstantsTranslation();
     const currentUser = false;
 
+    const mobileHide = 'hidden sm:flex';
+    const mobileShow = 'block sm:hidden';
+
+    const isDarkTheme = false;
+
     return (
         <header
             className="container flex items-center justify-between h-[60px] md:h-[80px]
             [&>*:first-child]:ml-0 dark:bg-secondaryDark"
         >
             <div className="flex items-center">
-                <GoThreeBars className="mr-[10px] mobile-show" />
+                <GoThreeBars className={`mr-[10px] ${mobileShow}`} />
                 <Link href="/">
                     <Logo />
                 </Link>
-                <NavList navList={HEADER_NAV_LIST} className="mobile-hidden" />
             </div>
+            <NavList
+                navList={HEADER_NAV_LIST}
+                className={`[&>*:first-child]:ml-0 ${mobileHide}`}
+                itemClassName="ml-[30px]"
+            />
             <div className="flex items-center">
                 <LanguageSwitcher />
 
-                <Input
+                {/* <Input
                     LeftIcon={AiOutlineSearch}
                     leftIconOnClick={() => console.log('search')}
                     placeholder={t('search_placeholder') || '...'}
-                    iconClassName="w-[22px] h-[22px] text-gray-500 cursor-pointer hover:text-primary-500"
-                    containerClassName="ml-[16px] mobile-hidden"
+                    iconClassName="w-[2.2rem] h-[2.2rem] text-gray-500 sm:cursor-pointer sm:hover:text-primary-500"
+                    containerClassName={`ml-[16px] ${mobileHide}`}
                     className="pl-[5px] py-[5px] text-black caret-primary-500"
                     containerInputClassName="bg-[#F2F3F6]"
-                />
+                /> */}
+
+                {/* <ThemeSwitcher /> */}
+
+                {/* <div>
+                    <input
+                        type="checkbox"
+                        name=""
+                        id="checkboxSwitcher"
+                        className="hidden"
+                    />
+                    <label
+                        htmlFor="checkboxSwitcher"
+                        className="cursor-pointer"
+                    >
+                        <div className="w-9 h-5 flex items-center bg-gray-300 rounded-full p2">
+                            <div className="w-4 h-4 bg-white rounded-full shadow switch-ball"></div>
+                        </div>
+                    </label>
+                </div> */}
 
                 <Link href="/search">
-                    <AiOutlineSearch
-                        className={`mr-[10px] w-[2rem] h-[2rem] mobile-show`}
-                    />
+                    <AiOutlineSearch className="ml-[15px] sm:ml-[20px] w-[2.2rem] h-[2.2rem] sm:hover:text-primary-500 transition-colors" />
                 </Link>
 
                 {!currentUser && (
                     <Button
                         primary
                         shortcutKey="enter"
-                        className="md:ml-[20px] md:px-[25px] h-full shadow-md"
+                        className="ml-[15px] sm:ml-[20px] sm:px-[25px] h-full shadow-md"
                         onClick={() => router.push('/login')}
                     >
                         <span>{t('login_title')}</span>
@@ -75,7 +102,7 @@ const Header = () => {
                             className="rounded-[50%] w-[32px] h-[32px] object-cover ml-[12px] sm:cursor-pointer"
                         />
                     ) : (
-                        <AiOutlineMore className="w-[30px] h-[30px] ml-[6px] sm:cursor-pointer" />
+                        <AiOutlineMore className="w-[30px] h-[30px] ml-[6px] sm:cursor-pointer sm:hover:text-primary-500" />
                     )}
                 </PopupMenu>
             </div>

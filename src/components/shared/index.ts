@@ -10,3 +10,4 @@ export { default as PopupMenu } from './PopupMenu';
 export { default as ButtonLink } from './ButtonLink';
 export { default as InputField } from './InputField';
 export { default as LanguageSwitcher } from './LanguageSwitcher';
+export { default as FormWrapper } from './FormWrapper';
