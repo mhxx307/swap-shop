@@ -1,48 +1,18 @@
-import { useState } from 'react';
+import { ThemeContext } from '@/contexts/ThemeContext';
 import { motion } from 'framer-motion';
+import { useContext } from 'react';
 import { RiMoonClearFill, RiSunFill } from 'react-icons/ri';
 
 // https://dev.to/mrpbennett/creating-a-dark-theme-switch-with-tailwind-framer-motion-4f4h
 const ThemeSwitcher = () => {
-    let theme: string | null = 'light';
-    if (typeof window !== 'undefined') theme = localStorage.getItem('theme');
-
-    const [isOn, setIsOn] = useState(() => {
-        if (theme === 'light') {
-            return true;
-        } else {
-            return false;
-        }
-    });
+    const { isOn, setIsOn } = useContext(ThemeContext);
+    console.log(isOn);
 
     const spring = {
         type: 'spring',
         stiffness: 700,
         damping: 30,
     };
-
-    //developer.school/snippets/react/localstorage-is-not-defined-nextjs
-    if (typeof window !== 'undefined') {
-        if (isOn) {
-            document.documentElement.classList.remove('dark');
-
-            localStorage.setItem('theme', 'light');
-        } else {
-            document.documentElement.classList.add('dark');
-
-            localStorage.setItem('theme', 'dark');
-        }
-
-        if (
-            localStorage.theme === 'light' ||
-            (!('theme' in localStorage) &&
-                window.matchMedia('(prefers-color-scheme: light)').matches)
-        ) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    }
 
     return (
         <div
