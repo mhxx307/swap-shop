@@ -34,11 +34,10 @@ const SwiperEffectCard = ({
                 modules={[EffectCards]}
                 className={classNames('w-[400px] h-[550px]', swiperClassName)}
             >
-                {images.map((image) => (
-                    <SwiperSlide className={swiperSlideClassName}>
+                {images.map((image, index) => (
+                    <SwiperSlide className={swiperSlideClassName} key={index}>
                         <Image
                             src={image}
-                            key={image}
                             alt="test"
                             width={width || 400}
                             height={height || 550}

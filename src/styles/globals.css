@@ -27,12 +27,25 @@ main {
     @apply flex-grow;
 }
 
-.container {
+.wrapper {
     @apply px-4 sm:px-16 md:px-24 lg:px-28 xl:px-32 min-w-full;
+}
+
+.flex-center {
+    @apply flex justify-center items-center;
+}
+
+.section {
+    @apply wrapper flex md:flex-row flex-col  py-32;
+}
+
+.section-reverse {
+    @apply wrapper flex md:flex-row flex-col-reverse  py-32;
 }
 
 @tailwind utilities;
 
+/* animation underline */
 .nav-item {
     @apply capitalize font-bold hover:text-primary-400 dark:hover:text-white transition-colors duration-300 relative tracking-[1px];
 }
