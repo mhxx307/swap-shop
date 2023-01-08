@@ -62,7 +62,7 @@ const LanguageSwitcher = forwardRef<HTMLDivElement, LanguageSwitcherProps>(
                     )}
                     ref={ref}
                 >
-                    <AiOutlineGlobal className="w-[2.2rem] h-[2.2rem]" />
+                    <AiOutlineGlobal className="w-[22px] h-[22px]" />
                     <p className="ml-[5px] hidden sm:block">
                         {currentLocale?.name}
                     </p>

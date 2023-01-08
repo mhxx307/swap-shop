@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
-import { HeaderNavListProps } from '@/types';
+import { NavListProps } from '@/types';
 
 export interface NavMenuProps {
-    navList: HeaderNavListProps[] | [];
+    navList: NavListProps[] | [];
     className?: string;
     itemClassName?: string;
 }

@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { AiOutlineMore, AiOutlineSearch } from 'react-icons/ai';
+import {
+    AiOutlineMore,
+    AiOutlineSearch,
+    AiOutlineDownload,
+} from 'react-icons/ai';
 import { GoThreeBars } from 'react-icons/go';
 import {
     Button,
@@ -12,7 +16,7 @@ import {
     ThemeSwitcher,
 } from '@/components/shared';
 import { useTranslation } from 'next-i18next';
-import { useConstantsTranslation } from '@/hooks';
+import { useConstantsTranslation, useDevice } from '@/hooks';
 
 const Header = () => {
     const { t } = useTranslation('header');
@@ -24,6 +28,8 @@ const Header = () => {
     const mobileHide = 'hidden md:flex';
     const mobileShow = 'block md:hidden';
 
+    const { isMobile } = useDevice();
+
     return (
         <header
             className="container flex items-center justify-between py-[10px] h-[60px] md:h-[80px]
@@ -31,9 +37,10 @@ const Header = () => {
         >
             <div className="flex items-center">
                 <GoThreeBars
-                    className={`mr-[10px] w-[2.2rem] h-[2.2rem]  ${mobileShow}`}
+                    className={`mr-[10px] w-[22px] h-[22px] ${mobileShow}`}
                 />
-                <Link href="/" className="mr-[10px]">
+
+                <Link href="/" className={`mr-[10px] ${mobileHide}`}>
                     <Logo />
                 </Link>
                 <ThemeSwitcher />
@@ -45,11 +52,21 @@ const Header = () => {
                 itemClassName="ml-[30px]"
             />
 
+            <Link href="/" className={mobileShow}>
+                <Logo />
+            </Link>
+
             <div className="flex items-center">
                 <LanguageSwitcher />
 
-                <Link href="/search">
-                    <AiOutlineSearch className="ml-[15px] sm:ml-[20px] w-[2.2rem] h-[2.2rem] sm:hover:text-primary-500 transition-colors" />
+                {isMobile && (
+                    <Link href="/download">
+                        <AiOutlineDownload className="w-[22px] h-[22px] ml-[16px]" />
+                    </Link>
+                )}
+
+                <Link href="/search" className={mobileHide}>
+                    <AiOutlineSearch className="w-[22px] h-[22px] ml-[15px] sm:ml-[20px] sm:hover:text-primary-500 transition-colors" />
                 </Link>
 
                 {!currentUser && (
@@ -77,7 +94,9 @@ const Header = () => {
                             className="rounded-[50%] w-[32px] h-[32px] object-cover ml-[12px] sm:cursor-pointer"
                         />
                     ) : (
-                        <AiOutlineMore className="w-[30px] h-[30px] ml-[6px] sm:cursor-pointer sm:hover:text-primary-500" />
+                        <AiOutlineMore
+                            className={`w-[30px] h-[30px] ml-[6px] sm:cursor-pointer sm:hover:text-primary-500 ${mobileHide}`}
+                        />
                     )}
                 </PopupMenu>
             </div>
