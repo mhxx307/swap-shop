@@ -4,6 +4,8 @@ const LocalStorageBackend = require('i18next-localstorage-backend').default;
 
 const isDev = process.env.NODE_ENV === 'development';
 
+// all side optimize
+// https://locize.com/blog/next-i18next/
 module.exports = {
     backend: {
         backendOptions: [

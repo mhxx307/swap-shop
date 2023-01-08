@@ -13,8 +13,6 @@ const Logo: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
                 'flex w-24 h-24 mx-auto object-contain',
                 className,
             )}
-            width={1}
-            height={1}
         />
     );
 };
