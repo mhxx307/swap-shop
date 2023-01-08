@@ -1,3 +1,4 @@
+import { Content } from '@/components/features/home';
 import { ClientOnly, Head } from '@/components/shared';
 
 const Home = () => {
@@ -5,7 +6,7 @@ const Home = () => {
         <>
             <Head />
             <ClientOnly>
-                <h1 className="text-[2rem]">content</h1>
+                <Content />
             </ClientOnly>
         </>
     );
