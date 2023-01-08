@@ -1,6 +1,6 @@
 import { IconType } from 'react-icons/lib';
 
-export interface HeaderNavListProps {
+export interface NavListProps {
     path: string;
     label: string;
 }
@@ -28,4 +28,9 @@ export interface RegisterPayload {
     zip: string;
     email: string;
     password: string;
+}
+
+export interface ProgressItemProps {
+    title: string;
+    number: number;
 }

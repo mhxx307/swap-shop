@@ -13,7 +13,7 @@ const PopupWrapper = ({ children, className }: PopupWrapperProps) => {
             className={classNames(
                 wrapper,
                 className,
-                'max-h-[min((100vh-96px)-60px, 700px)]',
+                'max-h-[min((100vh-96px)-60px, 500px)]',
             )}
         >
             {children}

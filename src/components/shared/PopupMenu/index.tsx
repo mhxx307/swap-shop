@@ -58,7 +58,11 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
         <Tippy
             interactive={true}
             render={(attrs) => (
-                <div className="w-[244px] shadow-md" tabIndex={-1} {...attrs}>
+                <div
+                    className="min-w-[100px] sm:min-w-[200px] md:min-w-[244px] shadow-md"
+                    tabIndex={-1}
+                    {...attrs}
+                >
                     <PopupWrapper className="pb-[8px]">
                         {history.length > 1 && (
                             <Header title={current.title} onBack={handleBack} />
