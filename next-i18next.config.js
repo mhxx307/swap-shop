@@ -22,6 +22,7 @@ module.exports = {
         reloadOnPrerender: isDev,
         load: 'currentOnly',
         debug: isDev,
+        keySeparator: '.',
     },
     serializeConfig: false,
     use: typeof window !== 'undefined' ? [ChainedBackend] : [],

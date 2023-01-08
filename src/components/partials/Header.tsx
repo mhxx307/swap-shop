@@ -76,7 +76,7 @@ const Header = () => {
                         className="ml-[15px] sm:ml-[20px] sm:px-[25px] shadow-md"
                         onClick={() => router.push('/login')}
                     >
-                        <span className="text-[1.4rem] md:text-[1.6rem]">
+                        <span className="text-[1rem] xs:text-[1.4rem] md:text-[1.6rem]">
                             {t('login_title')}
                         </span>
                     </Button>
