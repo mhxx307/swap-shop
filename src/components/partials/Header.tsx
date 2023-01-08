@@ -27,7 +27,7 @@ const Header = () => {
     return (
         <header
             className="container flex items-center justify-between h-[60px] md:h-[80px]
-            [&>*:first-child]:ml-0 dark:bg-secondaryDark"
+            [&>*:first-child]:ml-0 dark:bg-secondaryDark fixed z-[1000] bg-white"
         >
             <div className="flex items-center">
                 <GoThreeBars className={`mr-[10px] ${mobileShow}`} />
