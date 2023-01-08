@@ -41,6 +41,8 @@ const Image: React.FC<ImageProps> = ({ onLoadingComplete, ...props }) => {
                 onLoadingComplete={handleLoadingComplete}
                 unoptimized
                 {...props}
+                width={props.width || 100}
+                height={props.height || 100}
             />
         </motion.div>
     );

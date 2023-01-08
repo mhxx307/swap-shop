@@ -76,7 +76,7 @@ const Header = () => {
                         className="ml-[15px] sm:ml-[20px] sm:px-[25px] shadow-md"
                         onClick={() => router.push('/login')}
                     >
-                        <span className="text-responsive-xl">
+                        <span className="text-[1.4rem] md:text-[1.6rem]">
                             {t('login_title')}
                         </span>
                     </Button>
@@ -95,7 +95,7 @@ const Header = () => {
                         />
                     ) : (
                         <AiOutlineMore
-                            className={`w-[30px] h-[30px] ml-[6px] sm:cursor-pointer sm:hover:text-primary-500 ${mobileHide}`}
+                            className={`w-[30px] h-[30px] ml-[6px] sm:cursor-pointer sm:hover:text-primary-500`}
                         />
                     )}
                 </PopupMenu>

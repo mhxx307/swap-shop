@@ -50,11 +50,11 @@ main {
 }
 
 .text-responsive-xl {
-    @apply text-[1rem] ss:text-[1.2rem]  sm:text-[1.4rem] md:text-[1.6rem];
+    @apply text-[1.2rem] ss:text-[1.2rem]  sm:text-[1.4rem] md:text-[1.6rem];
 }
 
 .text-responsive-md {
-    @apply text-[1rem] ss:text-[1.2rem]  sm:text-[1.4rem] md:text-[1.8rem];
+    @apply text-[1.2rem] ss:text-[1.2rem]  sm:text-[1.4rem] md:text-[1.8rem];
 }
 
 ::-webkit-scrollbar {
