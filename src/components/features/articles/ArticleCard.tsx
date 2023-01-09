@@ -12,9 +12,14 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
             className="col-span-1 cursor-pointer"
             onClick={() => router.push(`/articles/${article.id}`)}
         >
-            <Image src={article.image} alt="article" className="w-full" />
-            <h3>{article.title}</h3>
-            <p className="line-clamp-3">{article.description}</p>
+            <Image
+                src={article.thumbnail}
+                alt="article"
+                containerClassName="w-full h-[300px] rounded-md"
+            />
+            <h3 className="font-bold">{article.title}</h3>
+            <p className="text-primary-600 font-bold">{article.price}</p>
+            <p className="line-clamp-3 text-[1.4rem]">{article.description}</p>
         </div>
     );
 };

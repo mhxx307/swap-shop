@@ -1,6 +1,7 @@
 import { useCallback, useState, memo } from 'react';
 import NextImage, { ImageProps as NextImageProps } from 'next/image';
 import { motion } from 'framer-motion';
+import classNames from 'classnames';
 
 const variants = {
     hidden: {
@@ -14,10 +15,11 @@ const variants = {
 
 interface ImageProps extends NextImageProps {
     containerClassName?: string;
+    className?: string;
 }
 
 const Image: React.FC<ImageProps> = ({ onLoadingComplete, ...props }) => {
-    const { containerClassName } = props;
+    const { containerClassName, className } = props;
 
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -43,6 +45,7 @@ const Image: React.FC<ImageProps> = ({ onLoadingComplete, ...props }) => {
                 {...props}
                 width={props.width || 100}
                 height={props.height || 100}
+                className={classNames('w-full h-full', className)}
             />
         </motion.div>
     );

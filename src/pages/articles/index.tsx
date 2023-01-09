@@ -1,59 +1,12 @@
 import { ArticleList } from '@/components/features/articles';
 import { ClientOnly, Head } from '@/components/shared';
+import { GetStaticProps, GetStaticPropsContext } from 'next';
 
-const List = [
-    {
-        id: 1,
-        title: 'Article 1',
-        description:
-            'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, molestias.',
-        image: 'https://images.unsplash.com/photo-1501829385782-9841539fa6bf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dmludGFnZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    },
-    {
-        id: 2,
-        title: 'Article 1',
-        description:
-            'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, molestias.',
-        image: 'https://images.unsplash.com/photo-1501829385782-9841539fa6bf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dmludGFnZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    },
-    {
-        id: 3,
-        title: 'Article 1',
-        description:
-            'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, molestias.',
-        image: 'https://images.unsplash.com/photo-1501829385782-9841539fa6bf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dmludGFnZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    },
-    {
-        id: 4,
-        title: 'Article 1',
-        description:
-            'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, molestias.',
-        image: 'https://images.unsplash.com/photo-1501829385782-9841539fa6bf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dmludGFnZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    },
-    {
-        id: 1,
-        title: 'Article 1',
-        description:
-            'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, molestias.',
-        image: 'https://images.unsplash.com/photo-1501829385782-9841539fa6bf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dmludGFnZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    },
-    {
-        id: 5,
-        title: 'Article 1',
-        description:
-            'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, molestias.',
-        image: 'https://images.unsplash.com/photo-1501829385782-9841539fa6bf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dmludGFnZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    },
-    {
-        id: 6,
-        title: 'Article 1',
-        description:
-            'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error, molestias.',
-        image: 'https://images.unsplash.com/photo-1501829385782-9841539fa6bf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dmludGFnZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-    },
-];
+export interface ArticlesPageProps {
+    articles: any[];
+}
 
-const Articles = () => {
+const Articles = ({ articles }: ArticlesPageProps) => {
     return (
         <>
             <Head />
@@ -67,13 +20,13 @@ const Articles = () => {
                     <h3>Search</h3>
                     <ArticleList
                         title="Tin đăng mới"
-                        articleList={List}
+                        articleList={articles}
                         className="mt-[20px]"
                         titleClassName="mb-[10px]"
                     />
                     <ArticleList
                         title="Tin phổ biến"
-                        articleList={List}
+                        articleList={articles}
                         className="mt-[20px]"
                         titleClassName="mb-[10px]"
                     />
@@ -81,6 +34,19 @@ const Articles = () => {
             </ClientOnly>
         </>
     );
+};
+
+export const getStaticProps: GetStaticProps<ArticlesPageProps> = async (
+    context: GetStaticPropsContext,
+) => {
+    const response = await fetch('https://dummyjson.com/products');
+    const data = await response.json();
+
+    return {
+        props: {
+            articles: data.products,
+        },
+    };
 };
 
 export default Articles;

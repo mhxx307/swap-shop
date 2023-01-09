@@ -12,7 +12,10 @@ const Banner1 = () => {
                 </div>
             </div>
             <div className="flex-center flex-1">
-                <SwiperEffectCard images={BANNER_IMAGE_LIST} />
+                <SwiperEffectCard
+                    images={BANNER_IMAGE_LIST}
+                    swiperClassName="w-[400px] h-[550px]"
+                />
             </div>
         </div>
     );

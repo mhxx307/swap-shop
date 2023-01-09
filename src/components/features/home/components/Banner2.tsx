@@ -5,7 +5,10 @@ const Banner2 = () => {
     return (
         <div className="section-reverse bg-white dark:bg-primaryDark min-h-screen">
             <div className="flex-center flex-1">
-                <SwiperEffectCard images={BANNER_IMAGE_LIST} />
+                <SwiperEffectCard
+                    images={BANNER_IMAGE_LIST}
+                    swiperClassName="w-[400px] h-[550px]"
+                />
             </div>
 
             <div className="flex-center flex-1 flex-col mb-28">

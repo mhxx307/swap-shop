@@ -62,6 +62,7 @@ main {
     @apply border-[1px] border-gray-300 h-[40px] focus-within:border-blue-500 dark:focus-within:border-blue-500;
 }
 
+/* text */
 .text-responsive-xl {
     @apply text-[1.2rem] ss:text-[1.2rem]  sm:text-[1.4rem] md:text-[1.6rem];
 }
@@ -70,6 +71,12 @@ main {
     @apply text-[1.2rem] ss:text-[1.2rem]  sm:text-[1.4rem] md:text-[1.8rem];
 }
 
+/* border */
+.border-bottom {
+    @apply border-b-[1px] border-[#e9ecef];
+}
+
+/* scrollbar */
 ::-webkit-scrollbar {
     @apply w-3 bg-white/10;
 }
@@ -80,4 +87,16 @@ main {
 
 .no-scrollbar::-webkit-scrollbar {
     @apply hidden;
+}
+
+.swiper-button-prev::after {
+    left: 30;
+    font-size: 20px !important;
+    color: rgb(255, 255, 255);
+}
+
+.swiper-button-next::after {
+    right: 30;
+    font-size: 20px !important;
+    color: rgb(255, 255, 255);
 }

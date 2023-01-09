@@ -11,8 +11,6 @@ import { EffectCards } from 'swiper';
 
 export interface SwiperEffectCardProps {
     images: string[];
-    width?: number;
-    height?: number;
     swiperClassName?: string;
     swiperSlideClassName?: string;
     className?: string;
@@ -20,8 +18,6 @@ export interface SwiperEffectCardProps {
 
 const SwiperEffectCard = ({
     images,
-    width,
-    height,
     swiperClassName,
     swiperSlideClassName,
     className,
@@ -32,17 +28,15 @@ const SwiperEffectCard = ({
                 effect={'cards'}
                 grabCursor={true}
                 modules={[EffectCards]}
-                className={classNames('w-[400px] h-[550px]', swiperClassName)}
+                className={classNames('overflow-hidden', swiperClassName)}
             >
                 {images.map((image, index) => (
                     <SwiperSlide className={swiperSlideClassName} key={index}>
                         <Image
                             src={image}
-                            alt="test"
-                            width={width || 400}
-                            height={height || 550}
-                            className={classNames(
-                                'w-[400px] h-[550px] rounded-lg shadow-lg',
+                            alt="Banner"
+                            containerClassName={classNames(
+                                'w-full h-full rounded-lg shadow-lg',
                                 className,
                             )}
                         />
