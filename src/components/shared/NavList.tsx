@@ -1,10 +1,9 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
-import { NavListProps } from '@/types';
 
 export interface NavMenuProps {
-    navList: NavListProps[] | [];
+    navList: any[];
     className?: string;
     itemClassName?: string;
 }
