@@ -19,26 +19,35 @@ import { useTranslation } from 'next-i18next';
 import { useConstantsTranslation, useDevice } from '@/hooks';
 
 const Header = () => {
-    const { t } = useTranslation('header');
     const router = useRouter();
+    const { t } = useTranslation('header');
     const { HEADER_NAV_LIST, POPUP_MENU_LIST, POPUP_USER_MENU_LIST }: any =
         useConstantsTranslation();
-    const currentUser = false;
 
     const mobileHide = 'hidden md:flex';
     const mobileShow = 'block md:hidden';
 
     const { isMobile } = useDevice();
 
+    const currentUser = false;
+
     return (
         <header
-            className="container flex items-center justify-between h-[60px] md:h-[80px]
-            [&>*:first-child]:ml-0 dark:bg-secondaryDark fixed z-[1000] bg-white"
+            className="wrapper flex items-center justify-between h-[60px] md:h-[80px]
+            [&>*:first-child]:ml-0 bg-white dark:bg-secondaryDark fixed z-[100] shadow-md"
         >
             <div className="flex items-center">
-                <GoThreeBars
-                    className={`mr-[10px] w-[22px] h-[22px] ${mobileShow}`}
-                />
+                <PopupMenu items={HEADER_NAV_LIST} hideOnClick>
+                    <GoThreeBars
+                        className={`mr-[10px] w-[22px] h-[22px] ${mobileShow}`}
+                    />
+                </PopupMenu>
+
+                {/* <PopupMenu items={HEADER_NAV_LIST} hideOnClick>
+                    <GoThreeBars
+                        className={`mr-[10px] w-[22px] h-[22px] ${mobileShow}`}
+                    />
+                </PopupMenu> */}
 
                 <Link href="/" className={`mr-[10px] ${mobileHide}`}>
                     <Logo />
@@ -76,7 +85,7 @@ const Header = () => {
                         className="ml-[15px] sm:ml-[20px] sm:px-[25px] shadow-md"
                         onClick={() => router.push('/login')}
                     >
-                        <span className="text-[1.4rem] md:text-[1.6rem]">
+                        <span className="text-[1rem] xs:text-[1.4rem] md:text-[1.6rem]">
                             {t('login_title')}
                         </span>
                     </Button>

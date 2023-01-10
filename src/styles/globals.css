@@ -27,12 +27,25 @@ main {
     @apply flex-grow;
 }
 
-.container {
+.wrapper {
     @apply px-4 sm:px-16 md:px-24 lg:px-28 xl:px-32 min-w-full;
+}
+
+.flex-center {
+    @apply flex justify-center items-center;
+}
+
+.section {
+    @apply wrapper flex md:flex-row flex-col  py-32;
+}
+
+.section-reverse {
+    @apply wrapper flex md:flex-row flex-col-reverse  py-32;
 }
 
 @tailwind utilities;
 
+/* animation underline */
 .nav-item {
     @apply capitalize font-bold hover:text-primary-400 dark:hover:text-white transition-colors duration-300 relative tracking-[1px];
 }
@@ -49,6 +62,7 @@ main {
     @apply border-[1px] border-gray-300 h-[40px] focus-within:border-blue-500 dark:focus-within:border-blue-500;
 }
 
+/* text */
 .text-responsive-xl {
     @apply text-[1.2rem] ss:text-[1.2rem]  sm:text-[1.4rem] md:text-[1.6rem];
 }
@@ -57,6 +71,12 @@ main {
     @apply text-[1.2rem] ss:text-[1.2rem]  sm:text-[1.4rem] md:text-[1.8rem];
 }
 
+/* border */
+.border-bottom {
+    @apply border-b-[1px] border-[#e9ecef];
+}
+
+/* scrollbar */
 ::-webkit-scrollbar {
     @apply w-3 bg-white/10;
 }
@@ -67,4 +87,16 @@ main {
 
 .no-scrollbar::-webkit-scrollbar {
     @apply hidden;
+}
+
+.swiper-button-prev::after {
+    left: 30;
+    font-size: 20px !important;
+    color: rgb(255, 255, 255);
+}
+
+.swiper-button-next::after {
+    right: 30;
+    font-size: 20px !important;
+    color: rgb(255, 255, 255);
 }

@@ -2,9 +2,9 @@ import { AiOutlineQuestionCircle, AiOutlineUser } from 'react-icons/ai';
 import { CgShortcut } from 'react-icons/cg';
 import { BsGear } from 'react-icons/bs';
 import { VscSignOut } from 'react-icons/vsc';
-import { NavListProps, PopupMenuItemProps } from '@/types';
+import { PopupMenuItemProps } from '@/types';
 
-const HEADER_NAV_LIST: NavListProps[] = [
+const HEADER_NAV_LIST: PopupMenuItemProps[] = [
     { path: '/', label: 'Home' },
     { path: '/articles', label: 'Articles' },
     { path: '/about', label: 'About' },
@@ -13,17 +13,17 @@ const HEADER_NAV_LIST: NavListProps[] = [
 const POPUP_MENU_LIST: PopupMenuItemProps[] = [
     {
         icon: AiOutlineQuestionCircle,
-        title: 'Feedback and Help',
-        to: '/feedback',
+        label: 'Feedback and Help',
+        path: '/feedback',
     },
-    { icon: CgShortcut, title: 'Keyboard shortcuts', to: '/shortcuts' },
+    { icon: CgShortcut, label: 'Keyboard shortcuts', path: '/shortcuts' },
 ];
 
 const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
-    { icon: AiOutlineUser, title: 'View profile', to: '/@hoa' },
-    { icon: BsGear, title: 'Settings', to: '/settings' },
+    { icon: AiOutlineUser, label: 'View profile', path: '/@hoa' },
+    { icon: BsGear, label: 'Settings', path: '/settings' },
     ...POPUP_MENU_LIST,
-    { icon: VscSignOut, title: 'Log out', to: '/logout', separate: true },
+    { icon: VscSignOut, label: 'Log out', path: '/logout', separate: true },
 ];
 
 const enTranslations = {
