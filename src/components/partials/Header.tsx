@@ -19,16 +19,17 @@ import { useTranslation } from 'next-i18next';
 import { useConstantsTranslation, useDevice } from '@/hooks';
 
 const Header = () => {
-    const { t } = useTranslation('header');
     const router = useRouter();
+    const { t } = useTranslation('header');
     const { HEADER_NAV_LIST, POPUP_MENU_LIST, POPUP_USER_MENU_LIST }: any =
         useConstantsTranslation();
-    const currentUser = false;
 
     const mobileHide = 'hidden md:flex';
     const mobileShow = 'block md:hidden';
 
     const { isMobile } = useDevice();
+
+    const currentUser = false;
 
     return (
         <header
@@ -36,9 +37,17 @@ const Header = () => {
             [&>*:first-child]:ml-0 bg-white dark:bg-secondaryDark fixed z-[100] shadow-md"
         >
             <div className="flex items-center">
-                <GoThreeBars
-                    className={`mr-[10px] w-[22px] h-[22px] ${mobileShow}`}
-                />
+                <PopupMenu items={HEADER_NAV_LIST} hideOnClick>
+                    <GoThreeBars
+                        className={`mr-[10px] w-[22px] h-[22px] ${mobileShow}`}
+                    />
+                </PopupMenu>
+
+                {/* <PopupMenu items={HEADER_NAV_LIST} hideOnClick>
+                    <GoThreeBars
+                        className={`mr-[10px] w-[22px] h-[22px] ${mobileShow}`}
+                    />
+                </PopupMenu> */}
 
                 <Link href="/" className={`mr-[10px] ${mobileHide}`}>
                     <Logo />

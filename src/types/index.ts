@@ -1,14 +1,9 @@
 import { IconType } from 'react-icons/lib';
 
-export interface NavListProps {
-    path: string;
-    label: string;
-}
-
 export interface PopupMenuItemProps {
     icon?: IconType;
-    title: string;
-    to?: string;
+    label: string;
+    path?: string;
     children?: any;
     separate?: boolean;
 }

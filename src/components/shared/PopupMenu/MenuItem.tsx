@@ -13,10 +13,10 @@ export interface MenuItemProps {
 
 const MenuItem = (props: MenuItemProps) => {
     const { data, className, titleClassName, onClick } = props;
-    const { icon, title, separate, to } = data;
-    return to ? (
+    const { icon, label, separate, path } = data;
+    return path ? (
         <ButtonLink
-            href={to}
+            href={path}
             LeftIcon={icon}
             onClick={onClick}
             className={classNames(
@@ -32,7 +32,7 @@ const MenuItem = (props: MenuItemProps) => {
                     titleClassName,
                 )}
             >
-                {title}
+                {label}
             </span>
         </ButtonLink>
     ) : (
@@ -47,7 +47,7 @@ const MenuItem = (props: MenuItemProps) => {
             )}
         >
             <span className={classNames('ml-[8px]', titleClassName)}>
-                {title}
+                {label}
             </span>
         </Button>
     );

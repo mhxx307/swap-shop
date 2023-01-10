@@ -23,36 +23,38 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
         hideOnClick = false,
         onChange = defaultFn,
     } = props;
-    const [history, setHistory] = useState<any[]>([{ data: items }]);
-    const current = history[history.length - 1];
+    // const [history, setHistory] = useState<any[]>([{ data: items }]);
+    // const current = history[history.length - 1];
+    // current.data
 
     const renderItems = () => {
-        return current.data.map((item: any, index: number) => {
-            const isParent = !!item?.children;
+        return items.map((item: any, index: number) => {
+            // const isParent = !!item?.children;
             return (
                 <MenuItem
                     data={item}
                     key={index}
                     className="dark:bg-black dark:text-white dark:hover:bg-white/10"
                     onClick={() => {
-                        if (isParent) {
-                            setHistory((prev) => [...prev, item.children]);
-                        } else {
-                            onChange(item);
-                        }
+                        // if (isParent) {
+                        //     setHistory((prev) => [...prev, item.children]);
+                        // } else {
+                        //     onChange(item);
+                        // }
+                        onChange(item);
                     }}
                 />
             );
         });
     };
 
-    const handleResetToFirstMenu = () => {
-        setHistory((prev) => prev.slice(0, 1));
-    };
+    // const handleResetToFirstMenu = () => {
+    //     setHistory((prev) => prev.slice(0, 1));
+    // };
 
-    const handleBack = () => {
-        setHistory((prev) => prev.slice(0, history.length - 1));
-    };
+    // const handleBack = () => {
+    //     setHistory((prev) => prev.slice(0, history.length - 1));
+    // };
 
     return (
         <Tippy
@@ -64,9 +66,9 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
                     {...attrs}
                 >
                     <PopupWrapper className="pb-[8px]">
-                        {history.length > 1 && (
+                        {/* {history.length > 1 && (
                             <Header title={current.title} onBack={handleBack} />
-                        )}
+                        )} */}
                         <div className="w-full">{renderItems()}</div>
                     </PopupWrapper>
                 </div>
@@ -74,7 +76,7 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
             trigger="click"
             animation={false}
             zIndex={9999}
-            onHide={handleResetToFirstMenu}
+            // onHide={handleResetToFirstMenu}
             placement="bottom-end"
             offset={[14, 10]}
             hideOnClick={hideOnClick}
