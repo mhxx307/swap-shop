@@ -14,7 +14,7 @@ const POPUP_MENU_LIST: PopupMenuItemProps[] = [
     {
         icon: AiOutlineQuestionCircle,
         label: 'Feedback and Help',
-        path: '/feedback',
+        path: '/contact',
     },
     { icon: CgShortcut, label: 'Keyboard shortcuts', path: '/shortcuts' },
 ];
