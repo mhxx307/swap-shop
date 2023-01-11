@@ -60,7 +60,7 @@ const LoginForm = () => {
                 name="password"
                 control={control}
                 className="px-3 py-2"
-                containerClassName="mt-[12px]"
+                containerclassname="mt-[12px]"
                 label={t('password_label') || '...'}
                 iconClassName="w-8 h-8 cursor-pointer hover:text-gray-500"
                 rightIconOnClick={() => setShowPassword(!showPassword)}

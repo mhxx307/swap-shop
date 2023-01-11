@@ -28,12 +28,12 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
     // current.data
 
     const renderItems = () => {
-        return items.map((item: any, index: number) => {
+        return items.map((item: PopupMenuItemProps) => {
             // const isParent = !!item?.children;
             return (
                 <MenuItem
                     data={item}
-                    key={index}
+                    key={item.label}
                     className="dark:bg-black dark:text-white dark:hover:bg-white/10"
                     onClick={() => {
                         // if (isParent) {
@@ -57,32 +57,34 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
     // };
 
     return (
-        <Tippy
-            interactive={true}
-            render={(attrs) => (
-                <div
-                    className="min-w-[100px] sm:min-w-[200px] md:min-w-[244px] shadow-md"
-                    tabIndex={-1}
-                    {...attrs}
-                >
-                    <PopupWrapper className="pb-[8px]">
-                        {/* {history.length > 1 && (
-                            <Header title={current.title} onBack={handleBack} />
-                        )} */}
-                        <div className="w-full">{renderItems()}</div>
-                    </PopupWrapper>
-                </div>
-            )}
-            trigger="click"
-            animation={false}
-            zIndex={9999}
-            // onHide={handleResetToFirstMenu}
-            placement="bottom-end"
-            offset={[14, 10]}
-            hideOnClick={hideOnClick}
-        >
-            <div ref={ref}>{children}</div>
-        </Tippy>
+        <div>
+            <Tippy
+                interactive={true}
+                render={(attrs) => (
+                    <div
+                        className="min-w-[100px] sm:min-w-[200px] md:min-w-[244px] shadow-md"
+                        tabIndex={-1}
+                        {...attrs}
+                    >
+                        <PopupWrapper className="pb-[8px]">
+                            {/* {history.length > 1 && (
+                                <Header title={current.title} onBack={handleBack} />
+                            )} */}
+                            <div className="w-full">{renderItems()}</div>
+                        </PopupWrapper>
+                    </div>
+                )}
+                trigger="click"
+                animation={false}
+                zIndex={9999}
+                // onHide={handleResetToFirstMenu}
+                placement="bottom-end"
+                offset={[14, 10]}
+                hideOnClick={hideOnClick}
+            >
+                <div ref={ref}>{children}</div>
+            </Tippy>
+        </div>
     );
 });
 

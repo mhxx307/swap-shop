@@ -26,7 +26,7 @@ const UserForm = ({ control }: FormProps) => {
                 control={control}
                 name="age"
                 type="number"
-                containerClassName="w-[100px]"
+                containerclassname="w-[100px]"
             />
         </FormWrapper>
     );

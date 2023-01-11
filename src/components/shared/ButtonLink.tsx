@@ -3,18 +3,18 @@ import Button, { ButtonProps } from './Button';
 
 export interface ButtonLinkProps extends ButtonProps {
     href: string;
-    containerClassName?: string;
+    containerclassname?: string;
 }
 
 const ButtonLink = ({
     children,
     href,
     className,
-    containerClassName,
+    containerclassname,
     ...passProps
 }: ButtonLinkProps) => {
     return (
-        <NextLink href={href} className={containerClassName}>
+        <NextLink href={href} className={containerclassname}>
             <Button {...passProps} className={className}>
                 {children}
             </Button>

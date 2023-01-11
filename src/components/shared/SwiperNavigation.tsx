@@ -34,12 +34,12 @@ const SwiperNavigation = ({
                     className,
                 )}
             >
-                {images.map((image, index) => (
-                    <SwiperSlide className={swiperSlideClassName} key={index}>
+                {images.map((image) => (
+                    <SwiperSlide className={swiperSlideClassName} key={image}>
                         <Image
                             src={image}
                             alt="thumb"
-                            containerClassName={classNames(
+                            containerclassname={classNames(
                                 'w-full h-full shadow-lg',
                                 imageClassName,
                             )}

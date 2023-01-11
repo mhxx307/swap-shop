@@ -14,12 +14,12 @@ const variants = {
 };
 
 interface ImageProps extends NextImageProps {
-    containerClassName?: string;
+    containerclassname?: string;
     className?: string;
 }
 
 const Image: React.FC<ImageProps> = ({ onLoadingComplete, ...props }) => {
-    const { containerClassName, className } = props;
+    const { containerclassname, className } = props;
 
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -37,7 +37,7 @@ const Image: React.FC<ImageProps> = ({ onLoadingComplete, ...props }) => {
             initial="hidden"
             variants={variants}
             animate={isLoaded ? 'visible' : 'hidden'}
-            className={containerClassName}
+            className={containerclassname}
         >
             <NextImage
                 onLoadingComplete={handleLoadingComplete}

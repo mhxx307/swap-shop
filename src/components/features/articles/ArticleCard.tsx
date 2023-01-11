@@ -15,7 +15,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
             <Image
                 src={article.thumbnail}
                 alt="article"
-                containerClassName="w-full h-[300px] rounded-md"
+                containerclassname="w-full h-[300px] rounded-md"
             />
             <h3 className="font-bold">{article.title}</h3>
             <p className="text-primary-600 font-bold">{article.price}</p>

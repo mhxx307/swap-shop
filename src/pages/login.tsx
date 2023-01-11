@@ -31,7 +31,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
             <div className="w-full min-h-screen grid grid-cols-1 md:grid-cols-5 relative">
                 <ButtonLink
                     secondary
-                    containerClassName="absolute top-10 left-20 bg-black z-[200]"
+                    containerclassname="absolute top-10 left-20 bg-black z-[200]"
                     className="text-white py-2 pr-6 pl-4 select-none"
                     LeftIcon={AiOutlineLeft}
                     href="/"
