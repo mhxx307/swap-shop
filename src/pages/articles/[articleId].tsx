@@ -8,7 +8,7 @@ export interface ArticleDetailPageProps {
 const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
     return (
         <>
-            <Head title={article.title} />
+            <Head title={article.title} description={article.description} />
             <ClientOnly>
                 <div className="mt-[100px] flex-center">
                     <div className="w-[500px] min-h-[400px]">
@@ -51,7 +51,7 @@ export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
                 });
             })
             .flat(),
-        fallback: false,
+        fallback: 'blocking',
     };
 };
 
@@ -70,6 +70,7 @@ export const getStaticProps: GetStaticProps<ArticleDetailPageProps> = async (
         props: {
             article: data,
         },
+        revalidate: 10,
     };
 };
 
