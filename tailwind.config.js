@@ -10,6 +10,8 @@ module.exports = {
         extend: {
             colors: {
                 primary: colors.red,
+                primaryDark: '#0d1117',
+                secondaryDark: '#161b22',
             },
         },
         screens: {
@@ -21,7 +23,6 @@ module.exports = {
             xl: '1536px',
         },
         fontFamily: {
-            sevillana: ['Sevillana', 'cursive'],
             lora: ['Lora', 'serif'],
             timeNewRoman: ['Times New Roman', 'serif'],
         },
