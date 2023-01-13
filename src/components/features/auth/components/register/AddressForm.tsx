@@ -14,13 +14,13 @@ const AddressForm = ({ control }: FormProps) => {
     }
 
     return (
-        <FormWrapper title="Address" description="Enter your address">
+        <FormWrapper title="Address" description="Address">
             <Autocomplete>
                 <InputField
                     autoFocus
-                    label="Street"
+                    label="Your address:"
                     type="text"
-                    name="street"
+                    name="address"
                     control={control}
                     containerInputClassName="register-input shadow-none"
                     placeholder="Enter your address"
