@@ -39,7 +39,7 @@ const RegisterForm = () => {
     }
 
     return (
-        <div className="h-screen w-[100%] md:w-[1084px] flex flex-col justify-around">
+        <div className="min-h-screen w-[100%] md:w-[1084px] flex flex-col space-y-32 py-[50px]">
             <h3 className="text-[3rem] font-bold text-center">Registration</h3>
 
             <ProgressBar

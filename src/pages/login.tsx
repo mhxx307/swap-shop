@@ -28,6 +28,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
     return (
         <>
             <Head />
+            
             <div className="w-full min-h-screen grid grid-cols-1 md:grid-cols-5 relative">
                 <ButtonLink
                     secondary
@@ -36,7 +37,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                     LeftIcon={AiOutlineLeft}
                     href="/"
                 >
-                    {t('back_btn') || '...'}
+                    {t('back_btn')}
                 </ButtonLink>
                 <div
                     className="hidden md:block relative col-span-2 after:absolute after:inset-0 after:bg-[#000000]/80 after:z-10"
@@ -75,7 +76,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                             LeftIcon={FcGoogle}
                             iconClassName="w-[20px] h-[20px]"
                         >
-                            {t('google_login') || '...'}
+                            {t('google_login')}
                         </Button>
                         <div className="flex mt-[20px]">
                             <p className="font-thin text-gray-500 mr-4">

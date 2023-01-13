@@ -24,7 +24,7 @@ const LoginForm = () => {
         })
         .required();
 
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const { control, handleSubmit } = useForm<LoginPayload>({
         defaultValues: {
@@ -52,7 +52,7 @@ const LoginForm = () => {
                 control={control}
                 className="px-3 py-2 shadow-none"
                 // containerInputClassName="border-[1px] border-gray-500 rounded-md focus-within:border-[#00b4d8]"
-                label={t('username_label') || '...'}
+                label={t('username_label')!}
             />
 
             <InputField
@@ -61,7 +61,7 @@ const LoginForm = () => {
                 control={control}
                 className="px-3 py-2"
                 containerclassname="mt-[12px]"
-                label={t('password_label') || '...'}
+                label={t('password_label')!}
                 iconClassName="w-8 h-8 cursor-pointer hover:text-gray-500"
                 rightIconOnClick={() => setShowPassword(!showPassword)}
                 RightIcon={showPassword ? FaEye : FaEyeSlash}
@@ -72,7 +72,7 @@ const LoginForm = () => {
                 primary
                 className="mt-[20px] w-full justify-center items-center select-none"
             >
-                {t('button_login') || '...'}
+                {t('button_login')!}
             </Button>
         </form>
     );
