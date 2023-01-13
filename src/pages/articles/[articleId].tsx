@@ -1,4 +1,4 @@
-import { ClientOnly, Head, Map, SwiperNavigation } from '@/components/shared';
+import { ClientOnly, Head, SwiperNavigation } from '@/components/shared';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 
 export interface ArticleDetailPageProps {
@@ -10,32 +10,33 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
         <>
             <Head title={article.title} description={article.description} />
             <ClientOnly>
-                <div className="mt-[100px] flex-center">
-                    <div className="w-[500px] min-h-[400px] space-y-20">
-                        <SwiperNavigation
-                            images={article.images}
-                            className="w-full h-[400px]"
-                        />
-
-                        <div className="flex justify-between">
-                            <p>User name</p>
-                            <p>Attitude</p>
+                <div className="mt-[100px] wrapper space-y-20">
+                    <div className="grid grid-cols-10 space-y-20 md:space-x-20">
+                        <div className="col-span-10 md:col-span-4">
+                            <SwiperNavigation
+                                images={article.images}
+                                className="w-full h-[500px]"
+                            />
                         </div>
 
-                        <div className="border-bottom" />
+                        <div className="col-span-10 md:col-span-6 space-y-20">
+                            <div className="flex justify-between">
+                                <p>User name</p>
+                                <p>Attitude</p>
+                            </div>
 
-                        <div>
-                            <h3>{article.title}</h3>
-                            <p>{article.category} - 17h</p>
-                            <p>{article.description}</p>
+                            <div className="border-bottom" />
+
+                            <div>
+                                <h3>{article.title}</h3>
+                                <p>{article.price}</p>
+                                <p>{article.category} - 17h</p>
+                                <p>{article.description}</p>
+                            </div>
                         </div>
-
-                        <div className="border-bottom" />
-
-                        <Map />
-
-                        <div>san pham lien quan</div>
                     </div>
+
+                    <div>san pham lien quan</div>
                 </div>
             </ClientOnly>
         </>
