@@ -26,6 +26,14 @@ const AccountForm = ({ control }: FormProps) => {
                 control={control}
                 containerInputClassName="register-input shadow-none"
             />
+
+            <InputField
+                label="Confirm password:"
+                type="password"
+                name="confirmPassword"
+                control={control}
+                containerInputClassName="register-input shadow-none"
+            />
         </FormWrapper>
     );
 };

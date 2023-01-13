@@ -13,7 +13,7 @@ const ContactPage = () => {
     const emailRef = createRef<HTMLInputElement>();
     const messageRef = createRef<HTMLTextAreaElement>();
     const subjectRef = createRef<HTMLInputElement>();
-    const [done, setDone] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const EMAILJS_SERVICE = process.env.NEXT_PUBLIC_EMAILJS_SERVICE;
     const EMAILJS_TEMPLATE = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE;
@@ -23,6 +23,7 @@ const ContactPage = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsLoading(true);
         console.log('submit');
         if (formRef.current) {
             if (EMAILJS_SERVICE && EMAILJS_TEMPLATE && EMAILJS_PUBLIC_KEY) {
@@ -36,7 +37,7 @@ const ContactPage = () => {
                     .then(
                         (result) => {
                             console.log(result.text);
-                            setDone(true);
+                            setIsLoading(false);
                             if (
                                 emailRef.current &&
                                 nameRef.current &&
@@ -61,9 +62,10 @@ const ContactPage = () => {
     return (
         <>
             <Head
-                title={t('head_title') || 'Liên hệ'}
-                description={t('head_description') || 'Liên hệ với chúng tôi.'}
+                title={t('head_title')!}
+                description={t('head_description')!}
             />
+
             <div className="wrapper pt-[100px] space-y-9">
                 <h1 className="text-2xl font-bold">{t('contact')}</h1>
 
@@ -77,6 +79,7 @@ const ContactPage = () => {
                         iconContainerClassName="bg-[#007bff]"
                     />
                 </div>
+
                 <div className="space-y-4">
                     <p>{t('heading2')}</p>
                     <form
@@ -87,18 +90,18 @@ const ContactPage = () => {
                         <Input
                             ref={nameRef}
                             type="text"
-                            placeholder={t('name') || '...'}
+                            placeholder={t('name')!}
                             name="user_name"
-                            label={t('name') || '...'}
+                            label={t('name')!}
                             className="p-[5px]"
                             containerInputClassName="register-input"
                         />
                         <Input
                             ref={subjectRef}
                             type="text"
-                            placeholder={t('subject') || '...'}
+                            placeholder={t('subject')!}
                             name="user_subject"
-                            label={t('subject') || '...'}
+                            label={t('subject')!}
                             className="p-[5px]"
                             containerInputClassName="register-input"
                         />
@@ -107,21 +110,28 @@ const ContactPage = () => {
                             type="email"
                             placeholder="Email"
                             name="user_email"
-                            label={t('email') || '...'}
+                            label={t('email')!}
                             className="p-[5px]"
                             containerInputClassName="register-input"
                         />
                         <textarea
                             ref={messageRef}
                             rows={5}
-                            placeholder={t('message') || '...'}
+                            placeholder={t('message')!}
                             name="message"
                             className="w-full p-5 rounded-md text-black border border-gray-300 focus:outline-none focus:border-blue-500"
                         />
-                        <Button primary type="submit" className="px-[20px]">
+                        <Button
+                            primary
+                            type="submit"
+                            className="px-[20px]"
+                            isLoading={isLoading}
+                        >
                             {t('send')}
                         </Button>
-                        {done && <span>Thanks, I&apos;ll reply ASAP</span>}
+                        {!isLoading && (
+                            <span>Thanks, I&apos;ll reply ASAP</span>
+                        )}
                     </form>
                 </div>
             </div>

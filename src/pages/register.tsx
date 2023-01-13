@@ -7,7 +7,7 @@ const RegisterPage = () => {
     return (
         <>
             <Head />
-            <div className="w-full h-screen flex-center bg-[#f0f0f0] dark:bg-primaryDark relative">
+            <div className="w-full min-h-screen flex-center bg-[#f0f0f0] dark:bg-primaryDark relative">
                 <ButtonLink
                     shortcutKey="enter"
                     className="h-[35px] shadow-md bg-black text-white absolute top-10 left-10 hidden dark:hover:bg-gray-700 md:ml-[20px] md:px-[25px] sm:block"

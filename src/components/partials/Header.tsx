@@ -43,12 +43,6 @@ const Header = () => {
                     />
                 </PopupMenu>
 
-                {/* <PopupMenu items={HEADER_NAV_LIST} hideOnClick>
-                    <GoThreeBars
-                        className={`mr-[10px] w-[22px] h-[22px] ${mobileShow}`}
-                    />
-                </PopupMenu> */}
-
                 <Link href="/" className={`mr-[10px] ${mobileHide}`}>
                     <Logo />
                 </Link>

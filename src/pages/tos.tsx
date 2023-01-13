@@ -6,10 +6,9 @@ const TosPage = () => {
     return (
         <>
             <Head
-                title={t('head_title') || 'Điều khoản dịch vụ - SecondChance'}
+                title={t('head_title')!}
                 description={
-                    t('head_description') ||
-                    'Điều khoản dịch vụ tại SecondChance'
+                    t('head_description')!
                 }
             />
 

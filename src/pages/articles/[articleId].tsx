@@ -1,4 +1,4 @@
-import { ClientOnly, Head, SwiperNavigation } from '@/components/shared';
+import { ClientOnly, Head, Map, SwiperNavigation } from '@/components/shared';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 
 export interface ArticleDetailPageProps {
@@ -11,23 +11,30 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
             <Head title={article.title} description={article.description} />
             <ClientOnly>
                 <div className="mt-[100px] flex-center">
-                    <div className="w-[500px] min-h-[400px]">
+                    <div className="w-[500px] min-h-[400px] space-y-20">
                         <SwiperNavigation
                             images={article.images}
                             className="w-full h-[400px]"
                         />
-                        <div className="flex justify-between py-[23px] border-bottom">
+
+                        <div className="flex justify-between">
                             <p>User name</p>
                             <p>Attitude</p>
                         </div>
-                        <div className="py-[32px] border-bottom">
+
+                        <div className="border-bottom" />
+
+                        <div>
                             <h3>{article.title}</h3>
                             <p>{article.category} - 17h</p>
                             <p>{article.description}</p>
                         </div>
-                        <div className="py-[32px]">
-                            san pham lien quan - su dung lai ArticleList
-                        </div>
+
+                        <div className="border-bottom" />
+
+                        <Map />
+
+                        <div>san pham lien quan</div>
                     </div>
                 </div>
             </ClientOnly>

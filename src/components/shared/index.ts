@@ -14,3 +14,4 @@ export { default as FormWrapper } from './FormWrapper';
 export { default as ThemeSwitcher } from './ThemeSwitcher';
 export { default as SwiperEffectCard } from './SwiperEffectCard';
 export { default as SwiperNavigation } from './SwiperNavigation';
+export { default as Map } from './Map';
