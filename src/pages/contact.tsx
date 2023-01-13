@@ -37,19 +37,12 @@ const ContactPage = () => {
                     .then(
                         (result) => {
                             console.log(result.text);
+                            emailRef.current!.value = '';
+                            nameRef.current!.value = '';
+                            subjectRef.current!.value = '';
+                            messageRef.current!.value = '';
+                            nameRef.current!.focus();
                             setIsLoading(false);
-                            if (
-                                emailRef.current &&
-                                nameRef.current &&
-                                subjectRef.current &&
-                                messageRef.current
-                            ) {
-                                emailRef.current.value = '';
-                                nameRef.current.value = '';
-                                subjectRef.current.value = '';
-                                messageRef.current.value = '';
-                                nameRef.current.focus();
-                            }
                         },
                         (error) => {
                             console.log(error.text);
