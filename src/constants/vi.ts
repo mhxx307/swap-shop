@@ -8,6 +8,7 @@ const HEADER_NAV_LIST: PopupMenuItemProps[] = [
     { path: '/', label: 'Trang chủ' },
     { path: '/articles', label: 'Bài viết' },
     { path: '/about', label: 'Giới thiệu' },
+    { path: '/trust', label: 'Tin cậy' },
 ];
 
 const POPUP_MENU_LIST: PopupMenuItemProps[] = [

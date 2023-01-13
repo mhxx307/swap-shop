@@ -8,6 +8,7 @@ const HEADER_NAV_LIST: PopupMenuItemProps[] = [
     { path: '/', label: 'Home' },
     { path: '/articles', label: 'Articles' },
     { path: '/about', label: 'About' },
+    { path: '/trust', label: 'Trust' },
 ];
 
 const POPUP_MENU_LIST: PopupMenuItemProps[] = [
