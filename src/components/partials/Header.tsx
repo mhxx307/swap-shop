@@ -6,6 +6,7 @@ import {
     AiOutlineDownload,
 } from 'react-icons/ai';
 import { GoThreeBars } from 'react-icons/go';
+import { MdNotifications } from 'react-icons/md';
 import {
     Button,
     NavList,
@@ -21,8 +22,12 @@ import { useConstantsTranslation, useDevice } from '@/hooks';
 const Header = () => {
     const router = useRouter();
     const { t } = useTranslation('header');
-    const { HEADER_NAV_LIST, POPUP_MENU_LIST, POPUP_USER_MENU_LIST }: any =
-        useConstantsTranslation();
+    const {
+        HEADER_NAV_LIST,
+        POPUP_MENU_LIST,
+        POPUP_USER_MENU_LIST,
+        HEADER_MOBILE_NAV_LIST,
+    }: any = useConstantsTranslation();
 
     const mobileHide = 'hidden md:flex';
     const mobileShow = 'block md:hidden';
@@ -37,7 +42,7 @@ const Header = () => {
             [&>*:first-child]:ml-0 bg-white dark:bg-secondaryDark fixed z-[100] shadow-md"
         >
             <div className="flex items-center">
-                <PopupMenu items={HEADER_NAV_LIST} hideOnClick>
+                <PopupMenu items={HEADER_MOBILE_NAV_LIST} hideOnClick>
                     <GoThreeBars
                         className={`mr-[10px] w-[22px] h-[22px] ${mobileShow}`}
                     />
@@ -67,6 +72,15 @@ const Header = () => {
                         <AiOutlineDownload className="w-[22px] h-[22px] ml-[16px]" />
                     </Link>
                 )}
+
+                <PopupMenu
+                    hideOnClick
+                    title="Chưa có thông báo"
+                    items={[]}
+                    placement="bottom"
+                >
+                    <MdNotifications className="w-[22px] h-[22px] ml-[16px]" />
+                </PopupMenu>
 
                 <Link href="/search" className={mobileHide}>
                     <AiOutlineSearch className="w-[22px] h-[22px] ml-[15px] sm:ml-[20px] sm:hover:text-primary-500 transition-colors" />

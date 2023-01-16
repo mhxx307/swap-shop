@@ -11,6 +11,11 @@ const HEADER_NAV_LIST: PopupMenuItemProps[] = [
     { path: '/trust', label: 'Trust' },
 ];
 
+const HEADER_MOBILE_NAV_LIST: PopupMenuItemProps[] = [
+    { path: '/search', label: 'Search' },
+    ...HEADER_NAV_LIST,
+];
+
 const POPUP_MENU_LIST: PopupMenuItemProps[] = [
     {
         icon: AiOutlineQuestionCircle,
@@ -18,11 +23,10 @@ const POPUP_MENU_LIST: PopupMenuItemProps[] = [
         path: '/contact',
     },
     { icon: CgShortcut, label: 'Keyboard shortcuts', path: '/shortcuts' },
+    { icon: BsGear, label: 'Settings', path: '/settings/profile' },
 ];
 
 const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
-    { icon: AiOutlineUser, label: 'View profile', path: '/@hoa' },
-    { icon: BsGear, label: 'Settings', path: '/settings' },
     { icon: BsPencilSquare, label: 'Create article', path: '/create-article' },
     ...POPUP_MENU_LIST,
     { icon: VscSignOut, label: 'Log out', path: '/logout', separate: true },
@@ -30,6 +34,7 @@ const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
 
 const enTranslations = {
     HEADER_NAV_LIST,
+    HEADER_MOBILE_NAV_LIST,
     POPUP_MENU_LIST,
     POPUP_USER_MENU_LIST,
 };

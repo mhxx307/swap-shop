@@ -28,7 +28,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
     return (
         <>
             <Head />
-            
+
             <div className="w-full min-h-screen grid grid-cols-1 md:grid-cols-5 relative">
                 <ButtonLink
                     secondary
@@ -42,8 +42,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                 <div
                     className="hidden md:block relative col-span-2 after:absolute after:inset-0 after:bg-[#000000]/80 after:z-10"
                     style={{
-                        backgroundImage:
-                            "url('https://images.unsplash.com/photo-1672664648342-dca370c6ebd7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60')",
+                        backgroundImage: "url('/images/login-background.avif')",
                         backgroundPosition: 'center center',
                         backgroundSize: 'cover',
                     }}

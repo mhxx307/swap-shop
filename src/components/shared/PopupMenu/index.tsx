@@ -1,10 +1,12 @@
-import { useState, forwardRef, memo } from 'react';
+import { forwardRef, memo } from 'react';
 import Tippy from '@tippyjs/react';
+import { Placement } from 'tippy.js';
 
 import MenuItem from './MenuItem';
 import PopupWrapper from './PopupWrapper';
 import Header from './Header';
 import { PopupMenuItemProps } from '@/types';
+// import ThemeSwitcher from '../ThemeSwitcher';
 
 const defaultFn = () => {};
 
@@ -13,6 +15,8 @@ export interface PopupMenuProps {
     items: PopupMenuItemProps[];
     hideOnClick?: boolean;
     onChange?: (item: any) => void;
+    title?: string;
+    placement?: Placement;
 }
 
 // eslint-disable-next-line react/display-name
@@ -22,6 +26,8 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
         items = [],
         hideOnClick = false,
         onChange = defaultFn,
+        title = '',
+        placement = 'bottom-end',
     } = props;
     // const [history, setHistory] = useState<any[]>([{ data: items }]);
     // const current = history[history.length - 1];
@@ -62,7 +68,7 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
                 interactive={true}
                 render={(attrs) => (
                     <div
-                        className="min-w-[100px] sm:min-w-[200px] md:min-w-[244px] shadow-md"
+                        className="min-w-[100px] sm:min-w-[200px] md:min-w-[264px] shadow-md"
                         tabIndex={-1}
                         {...attrs}
                     >
@@ -70,7 +76,11 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
                             {/* {history.length > 1 && (
                                 <Header title={current.title} onBack={handleBack} />
                             )} */}
+                            {title && <Header title={title} />}
                             <div className="w-full">{renderItems()}</div>
+                            {/* <div className="ml-[11px]">
+                                <ThemeSwitcher />
+                            </div> */}
                         </PopupWrapper>
                     </div>
                 )}
@@ -78,7 +88,7 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
                 animation={false}
                 zIndex={9999}
                 // onHide={handleResetToFirstMenu}
-                placement="bottom-end"
+                placement={placement}
                 offset={[14, 10]}
                 hideOnClick={hideOnClick}
             >
