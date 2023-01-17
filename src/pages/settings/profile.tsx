@@ -1,8 +1,8 @@
-import { SettingsLayout } from '@/components/layouts';
-import { Button, Image, InputField } from '@/components/shared';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillCamera } from 'react-icons/ai';
+import { SettingsLayout } from '@/components/layouts';
+import { Button, Image, InputField } from '@/components/shared';
 
 const ProfilePage = () => {
     const { control, handleSubmit } = useForm<any>({
@@ -62,49 +62,48 @@ const ProfilePage = () => {
 
                 <button>Remove</button>
             </div>
-            <div>
-                <form
-                    method="POST"
-                    onSubmit={handleSubmit(handleUpdate)}
-                    className="space-y-8"
+
+            <form
+                method="POST"
+                onSubmit={handleSubmit(handleUpdate)}
+                className="space-y-8"
+            >
+                <InputField
+                    name="username"
+                    control={control}
+                    autoFocus
+                    label="Username"
+                    containerInputClassName="register-input"
+                />
+
+                <InputField
+                    name="address"
+                    control={control}
+                    label="Address"
+                    containerInputClassName="register-input"
+                />
+
+                <InputField
+                    name="email"
+                    control={control}
+                    label="Email"
+                    containerInputClassName="register-input"
+                />
+
+                <InputField
+                    name="phone"
+                    control={control}
+                    label="Your phone number"
+                    containerInputClassName="register-input"
+                />
+
+                <Button
+                    primary
+                    className="font-semibold border-[2px] border-transparent"
                 >
-                    <InputField
-                        name="username"
-                        control={control}
-                        autoFocus
-                        label="Username"
-                        containerInputClassName="register-input"
-                    />
-
-                    <InputField
-                        name="address"
-                        control={control}
-                        label="Address"
-                        containerInputClassName="register-input"
-                    />
-
-                    <InputField
-                        name="email"
-                        control={control}
-                        label="Email"
-                        containerInputClassName="register-input"
-                    />
-
-                    <InputField
-                        name="phone"
-                        control={control}
-                        label="Your phone number"
-                        containerInputClassName="register-input"
-                    />
-
-                    <Button
-                        primary
-                        className="font-semibold border-[2px] border-transparent"
-                    >
-                        Save
-                    </Button>
-                </form>
-            </div>
+                    Save
+                </Button>
+            </form>
         </div>
     );
 };

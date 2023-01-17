@@ -20,7 +20,7 @@ const SettingsLayout = ({ children }: BaseLayoutProps) => {
                     <div className="border-bottom"></div>
                     <Dropdown className="block ss:hidden" dataList={settings} />
                     <div className="grid grid-cols-10">
-                        <div className="hidden ss:block col-span-2 space-y-8">
+                        <div className="hidden ss:block col-span-2 space-y-8 pr-10">
                             <NavList navList={settings} />
                             <div className="border-bottom"></div>
                             <p className="text-primary-500 font-medium cursor-pointer mt-[20px]">
