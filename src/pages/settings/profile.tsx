@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillCamera } from 'react-icons/ai';
 import { SettingsLayout } from '@/components/layouts';
@@ -14,22 +14,39 @@ const ProfilePage = () => {
         },
     });
 
-    const [avatar, setAvatar] = useState<string | null>(null);
-    useEffect(() => {
-        return () => {
-            avatar && URL.revokeObjectURL(avatar);
-        };
-    }, [avatar]);
+    const [selectedFile, setSelectedFile] = useState<File | null>();
+    const [preview, setPreview] = useState<string>();
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const onFileChange = (e: any) => {
-        if (e.target.files.length !== 0) {
-            const preview = URL.createObjectURL(e.target.files[0]);
-            preview && setAvatar(preview);
+    // create a preview as a side effect, whenever selected file is changed
+    useEffect(() => {
+        if (!selectedFile) {
+            setPreview(undefined);
+            return;
         }
+
+        const objectUrl = URL.createObjectURL(selectedFile);
+        setPreview(objectUrl);
+
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [selectedFile]);
+
+    const onSelectFile = (e: any) => {
+        if (!e.target.files || e.target.files.length === 0) {
+            setSelectedFile(undefined);
+            return;
+        }
+
+        setSelectedFile(e.target.files[0]);
     };
 
     const handleUpdate = (payload: any) => {
         console.log(payload);
+    };
+
+    const profile = {
+        pic: 'https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium',
     };
 
     return (
@@ -38,12 +55,9 @@ const ProfilePage = () => {
                 <div className="relative">
                     <Image
                         src={
-                            avatar
-                                ? avatar
-                                : 'https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium'
-                            // after: user.avatar
+                            preview ? preview : profile?.pic ? profile?.pic : ''
                         }
-                        alt="dog avatar"
+                        alt="avatar"
                         className="rounded-[50%] w-[128px] h-[128px] object-cover border-[4px] border-white shadow-2xl ss:mx-[24px]"
                     />
                     <label
@@ -54,12 +68,28 @@ const ProfilePage = () => {
                     </label>
                     <input
                         type="file"
+                        accept="image/*"
                         hidden
+                        ref={fileInputRef}
                         id="avatar"
-                        onChange={onFileChange}
+                        onChange={onSelectFile}
                     />
                 </div>
 
+                {selectedFile && (
+                    <div>
+                        <button>Save</button>
+                        <button
+                            onClick={() => {
+                                setSelectedFile(null);
+                                setPreview('');
+                                fileInputRef.current!.value = '';
+                            }}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                )}
                 <button>Remove</button>
             </div>
 

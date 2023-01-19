@@ -19,14 +19,18 @@ interface ImageProps extends NextImageProps {
     fallbackImg?: string;
 }
 
-const Image: React.FC<ImageProps> = ({ onLoadingComplete, ...props }) => {
-    const { containerclassname, className, fallbackImg } = props;
+const Image: React.FC<ImageProps> = ({ onLoadingComplete, src, ...props }) => {
+    const {
+        containerclassname,
+        className,
+        fallbackImg = '/images/avatar-fallback.png',
+    } = props;
 
     const [isLoaded, setIsLoaded] = useState(false);
+    const [fallback, setFallback] = useState<string>('');
 
-    const handleError = ({ currentTarget }: any) => {
-        currentTarget.onerror = null; // prevents looping
-        currentTarget.src = fallbackImg || '/public/images/avatar-fallback.png';
+    const handleError = () => {
+        setFallback(fallbackImg);
     };
 
     const handleLoadingComplete: NextImageProps['onLoadingComplete'] =
@@ -46,6 +50,7 @@ const Image: React.FC<ImageProps> = ({ onLoadingComplete, ...props }) => {
             className={containerclassname}
         >
             <NextImage
+                src={fallback || src}
                 onLoadingComplete={handleLoadingComplete}
                 unoptimized
                 {...props}

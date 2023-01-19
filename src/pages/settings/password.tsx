@@ -14,7 +14,8 @@ const PasswordPage = (props: IPasswordPageProps) => {
         },
     });
 
-    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showOldPassword, setShowOldPassword] = useState<boolean>(false);
+    const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
 
     const handleUpdate = (payload: any) => {
         console.log(payload);
@@ -29,27 +30,31 @@ const PasswordPage = (props: IPasswordPageProps) => {
                 className="space-y-12"
             >
                 <InputField
-                    type={showPassword ? 'text' : 'password'}
+                    type={showOldPassword ? 'text' : 'password'}
                     name="oldPassword"
                     control={control}
                     className="px-3 py-2"
                     containerclassname="mt-[12px]"
                     label="Old password"
                     iconClassName="w-8 h-8 cursor-pointer hover:text-gray-500"
-                    rightIconOnClick={() => setShowPassword(!showPassword)}
-                    RightIcon={showPassword ? FaEye : FaEyeSlash}
+                    rightIconOnClick={() =>
+                        setShowOldPassword(!showOldPassword)
+                    }
+                    RightIcon={showOldPassword ? FaEye : FaEyeSlash}
                 />
 
                 <InputField
-                    type={showPassword ? 'text' : 'password'}
+                    type={showNewPassword ? 'text' : 'password'}
                     name="newPassword"
                     control={control}
                     className="px-3 py-2"
                     containerclassname="mt-[12px]"
                     label="New password"
                     iconClassName="w-8 h-8 cursor-pointer hover:text-gray-500"
-                    rightIconOnClick={() => setShowPassword(!showPassword)}
-                    RightIcon={showPassword ? FaEye : FaEyeSlash}
+                    rightIconOnClick={() =>
+                        setShowNewPassword(!showNewPassword)
+                    }
+                    RightIcon={showNewPassword ? FaEye : FaEyeSlash}
                 />
 
                 <Button
