@@ -23,12 +23,12 @@ const POPUP_MENU_LIST: PopupMenuItemProps[] = [
         path: '/contact',
     },
     { icon: CgShortcut, label: 'Keyboard shortcuts', path: '/shortcuts' },
-    { icon: BsGear, label: 'Settings', path: '/settings/profile' },
 ];
 
 const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     { icon: BsPencilSquare, label: 'Create article', path: '/create-article' },
     ...POPUP_MENU_LIST,
+    { icon: BsGear, label: 'Settings', path: '/settings/profile' },
     { icon: VscSignOut, label: 'Log out', path: '/logout', separate: true },
 ];
 

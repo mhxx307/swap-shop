@@ -23,12 +23,12 @@ const POPUP_MENU_LIST: PopupMenuItemProps[] = [
         path: '/contact',
     },
     { icon: CgShortcut, label: 'Phím tắt', path: '/shortcuts' },
-    { icon: BsGear, label: 'Cài đặt', path: '/settings/profile' },
 ];
 
 const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     { icon: BsPencilSquare, label: 'Tạo bài viết', path: '/create-article' },
     ...POPUP_MENU_LIST,
+    { icon: BsGear, label: 'Cài đặt', path: '/settings/profile' },
     { icon: VscSignOut, label: 'Đăng xuất', path: '/logout', separate: true },
 ];
 

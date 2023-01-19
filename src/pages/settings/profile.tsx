@@ -57,7 +57,7 @@ const ProfilePage = () => {
                         src={
                             preview ? preview : profile?.pic ? profile?.pic : ''
                         }
-                        alt="avatar"
+                        alt="Avatar"
                         className="rounded-[50%] w-[128px] h-[128px] object-cover border-[4px] border-white shadow-2xl ss:mx-[24px]"
                     />
                     <label
