@@ -1,6 +1,7 @@
 import { ArticleList } from '@/components/features/articles';
-import { ClientOnly, Head } from '@/components/shared';
+import { ClientOnly, Head, SwiperNavigation } from '@/components/shared';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
+import { BANNER_IMAGE_LIST } from '@/constants';
 
 export interface ArticlesPageProps {
     articles: any[];
@@ -11,10 +12,14 @@ const Articles = ({ articles }: ArticlesPageProps) => {
         <>
             <Head />
             <ClientOnly>
-                <div className="mt-[80px] wrapper">
+                <div className="mt-[100px] wrapper">
                     {/* <ArticlesBanner /> */}
                     {/* search & sort */}
-                    <h3>Banner</h3>
+                    <SwiperNavigation
+                        images={BANNER_IMAGE_LIST}
+                        className="w-full h-[450px] hidden sm:block"
+                        imageClassName="border-black border-[1px]"
+                    />
                     <h3>Options</h3>
                     <h3>Sort</h3>
                     <h3>Search</h3>
