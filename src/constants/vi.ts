@@ -11,6 +11,11 @@ const HEADER_NAV_LIST: PopupMenuItemProps[] = [
     { path: '/trust', label: 'Tin cậy' },
 ];
 
+const HEADER_MOBILE_NAV_LIST: PopupMenuItemProps[] = [
+    { path: '/search', label: 'Tìm kiếm' },
+    ...HEADER_NAV_LIST,
+];
+
 const POPUP_MENU_LIST: PopupMenuItemProps[] = [
     {
         icon: AiOutlineQuestionCircle,
@@ -21,15 +26,15 @@ const POPUP_MENU_LIST: PopupMenuItemProps[] = [
 ];
 
 const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
-    { icon: AiOutlineUser, label: 'Thông tin tài khoản', path: '/@hoa' },
-    { icon: BsGear, label: 'Cài đặt', path: '/settings' },
     { icon: BsPencilSquare, label: 'Tạo bài viết', path: '/create-article' },
     ...POPUP_MENU_LIST,
+    { icon: BsGear, label: 'Cài đặt', path: '/settings/profile' },
     { icon: VscSignOut, label: 'Đăng xuất', path: '/logout', separate: true },
 ];
 
 const viTranslations = {
     HEADER_NAV_LIST,
+    HEADER_MOBILE_NAV_LIST,
     POPUP_MENU_LIST,
     POPUP_USER_MENU_LIST,
 };

@@ -20,7 +20,7 @@ const MenuItem = (props: MenuItemProps) => {
             LeftIcon={icon}
             onClick={onClick}
             className={classNames(
-                'font-[600] py-[6px] px-[11px] md:py-[11px] md:px-[16px] leading-[18px] text-black hover:bg-[#d0d0d0] w-full',
+                'font-[600] py-[6px] md:py-[11px] px-[11px] md:px-[16px] leading-[18px] text-black hover:bg-[#d0d0d0] w-full',
                 separate &&
                     'border-t-[1px] border-solid border-gray-300 dark:border-gray-700',
                 className,

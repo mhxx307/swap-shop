@@ -7,6 +7,7 @@ import { REGISTER_INITIAL_DATA, PROGRESS_LIST } from '@/constants';
 import {
     AccountForm,
     AddressForm,
+    FinishForm,
     ProgressBar,
     UserForm,
 } from './components/register';
@@ -30,7 +31,7 @@ const RegisterForm = () => {
         <AccountForm control={control} />,
         <UserForm control={control} />,
         <AddressForm control={control} />,
-        <h3>Are u sure?</h3>,
+        <FinishForm />,
     ]);
 
     function handleRegister(payload: RegisterPayload) {

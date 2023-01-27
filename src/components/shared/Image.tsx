@@ -16,12 +16,22 @@ const variants = {
 interface ImageProps extends NextImageProps {
     containerclassname?: string;
     className?: string;
+    fallbackImg?: string;
 }
 
-const Image: React.FC<ImageProps> = ({ onLoadingComplete, ...props }) => {
-    const { containerclassname, className } = props;
+const Image: React.FC<ImageProps> = ({ onLoadingComplete, src, ...props }) => {
+    const {
+        containerclassname,
+        className,
+        fallbackImg = '/images/avatar-fallback.png',
+    } = props;
 
     const [isLoaded, setIsLoaded] = useState(false);
+    const [fallback, setFallback] = useState<string>('');
+
+    const handleError = () => {
+        setFallback(fallbackImg);
+    };
 
     const handleLoadingComplete: NextImageProps['onLoadingComplete'] =
         useCallback(
@@ -40,12 +50,14 @@ const Image: React.FC<ImageProps> = ({ onLoadingComplete, ...props }) => {
             className={containerclassname}
         >
             <NextImage
+                src={fallback || src}
                 onLoadingComplete={handleLoadingComplete}
                 unoptimized
                 {...props}
                 width={props.width || 100}
                 height={props.height || 100}
                 className={classNames('w-full h-full', className)}
+                onError={handleError}
             />
         </motion.div>
     );

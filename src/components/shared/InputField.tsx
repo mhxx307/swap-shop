@@ -10,7 +10,7 @@ const InputField = ({
     name,
     control,
     // not using these props, but we don't want to pass them down to the Input component
-    onChange: externalOnChange,
+    // onChange: externalOnChange,
     onBlur: externalOnBlur,
     value: externalValue,
     ref: externalRef,

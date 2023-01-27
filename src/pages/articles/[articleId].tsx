@@ -11,7 +11,7 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
             <Head title={article.title} description={article.description} />
             <ClientOnly>
                 <div className="mt-[100px] wrapper space-y-20">
-                    <div className="grid grid-cols-10 space-y-20 md:space-x-20">
+                    <div className="grid grid-cols-10 space-y-20 md:space-y-0 md:space-x-20">
                         <div className="col-span-10 md:col-span-4">
                             <SwiperNavigation
                                 images={article.images}
