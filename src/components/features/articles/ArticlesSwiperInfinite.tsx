@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 // import required modules
-import { Pagination, Navigation } from 'swiper';
+import { Navigation } from 'swiper';
 import ArticleCard from './ArticleCard';
 
 interface ArticlesSwiperInfiniteProps {
@@ -38,11 +38,8 @@ const ArticlesSwiperInfinite = ({
                 slidesPerGroup={3}
                 loop={false}
                 loopFillGroupWithBlank={true}
-                pagination={{
-                    clickable: true,
-                }}
                 navigation={true}
-                modules={[Pagination, Navigation]}
+                modules={[Navigation]}
             >
                 {articleList.map((article: any) => (
                     <SwiperSlide key={article.id}>
