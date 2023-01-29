@@ -6,29 +6,38 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 // import required modules
-import { Navigation } from 'swiper';
+import { Navigation, Autoplay, Pagination } from 'swiper';
 import classNames from 'classnames';
 import Image from './Image';
 
-export interface SwiperNavigationProps {
+export interface SwiperAutoplayProps {
     images: string[];
     imageClassName?: string;
     swiperSlideClassName?: string;
     className?: string;
 }
 
-const SwiperNavigation = ({
+const SwiperAutoplay = ({
     images,
     imageClassName,
     swiperSlideClassName,
     className,
-}: SwiperNavigationProps) => {
+}: SwiperAutoplayProps) => {
     return (
         <>
             <Swiper
+                autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                }}
+                pagination={{
+                    clickable: true,
+                }}
+                centeredSlides={true}
+                loop={true}
                 navigation={true}
                 spaceBetween={10}
-                modules={[Navigation]}
+                modules={[Autoplay, Pagination, Navigation]}
                 className={classNames(
                     'overflow-hidden rounded-2xl select-none',
                     className,
@@ -52,4 +61,4 @@ const SwiperNavigation = ({
     );
 };
 
-export default SwiperNavigation;
+export default SwiperAutoplay;

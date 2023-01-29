@@ -6,7 +6,6 @@ import {
     SwiperNavigation,
 } from '@/components/shared';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
-import { GrStatusGoodSmall } from 'react-icons/gr';
 
 export interface ArticleDetailPageProps {
     article: any;
@@ -22,8 +21,7 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
                         <div className="col-span-10 md:col-span-4">
                             <SwiperNavigation
                                 images={article.images}
-                                className="w-full h-[500px]"
-                                imageClassName="border-black border-[1px]"
+                                className="w-full h-[500px] shadow-3xl"
                             />
                         </div>
 
@@ -31,6 +29,7 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
                             <p className="text-6xl line-clamp-2 break-words">
                                 {article.title}
                             </p>
+
                             <div className="flex justify-between">
                                 <p className="text-4xl text-primary-400 ">
                                     {article.price}
@@ -57,19 +56,16 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
                     </div>
 
                     <div className="flex justify-between items-center border-gray-400 border px-[20px] py-[20px] rounded-xl">
-                        <div className="flex justify-between items-center">
-                            <Image
-                                src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
-                                alt="dog avatar"
-                                className="rounded-[50%] w-[70px] h-[70px] object-cover mr-[12px] sm:cursor-pointer"
-                            />
-                            <div>
-                                <p>User Name</p>
-                                <span className="flex items-center">
-                                    <GrStatusGoodSmall className="mr-2 text-green-500" />
-                                    online
-                                </span>
+                        <div className="flex justify-between items-center space-x-2">
+                            <div className="relative">
+                                <Image
+                                    src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
+                                    alt="dog avatar"
+                                    className="w-[40px] h-[40px] rounded-full sm:cursor-pointer"
+                                />
+                                <span className="bottom-0 left-[28px] absolute w-[14px] h-[14px] bg-green-400 border-[2px] border-white dark:border-gray-800 rounded-full"></span>
                             </div>
+                            <p>Minh Quan</p>
                         </div>
                         <div>
                             <Button

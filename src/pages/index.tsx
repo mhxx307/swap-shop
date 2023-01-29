@@ -1,18 +1,26 @@
-import { ArticleList } from '@/components/features/articles';
 import { Banner1, Banner2 } from '@/components/features/home';
 import { ClientOnly, Head } from '@/components/shared';
-import { ArticlesPageProps } from './articles';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
+import { ArticlesSwiperInfinite } from '@/components/features/articles';
 
-const Home = ({ articles }: ArticlesPageProps) => {
+interface HomeProps {
+    articles: any;
+}
+
+const Home = ({ articles }: HomeProps) => {
     return (
         <>
             <Head />
             <ClientOnly>
                 <Banner1 />
                 <Banner2 />
-                <div className="wrapper mb-[50px]">
-                    <ArticleList articleList={articles} />
+                <div className="wrapper mb-[50px] space-y-6">
+                    <h3 className="text-4xl font-bold">Recommended for you</h3>
+                    <ArticlesSwiperInfinite articleList={articles} />
+                </div>
+                <div className="wrapper mb-[50px] space-y-6">
+                    <h3 className="text-4xl font-bold">New articles</h3>
+                    <ArticlesSwiperInfinite articleList={articles} />
                 </div>
             </ClientOnly>
         </>
@@ -21,7 +29,7 @@ const Home = ({ articles }: ArticlesPageProps) => {
 
 export default Home;
 
-export const getStaticProps: GetStaticProps<ArticlesPageProps> = async (
+export const getStaticProps: GetStaticProps<HomeProps> = async (
     context: GetStaticPropsContext,
 ) => {
     const response = await fetch('https://dummyjson.com/products?limit=10');

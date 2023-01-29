@@ -13,6 +13,9 @@ module.exports = {
                 primaryDark: '#0d1117',
                 secondaryDark: '#161b22',
             },
+            boxShadow: {
+                '3xl': 'rgb(145 158 171 / 20%) 0px 0px 2px 0px, rgb(145 158 171 / 12%) 0px 12px 24px -4px',
+            },
         },
         screens: {
             xs: '480px',

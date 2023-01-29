@@ -1,5 +1,5 @@
 import { ArticleList } from '@/components/features/articles';
-import { ClientOnly, Head, SwiperNavigation } from '@/components/shared';
+import { ClientOnly, Head, SwiperAutoPlay } from '@/components/shared';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import { BANNER_IMAGE_LIST } from '@/constants';
 
@@ -15,7 +15,7 @@ const Articles = ({ articles }: ArticlesPageProps) => {
                 <div className="mt-[100px] wrapper">
                     {/* <ArticlesBanner /> */}
                     {/* search & sort */}
-                    <SwiperNavigation
+                    <SwiperAutoPlay
                         images={BANNER_IMAGE_LIST}
                         className="w-full h-[450px] hidden sm:block"
                         imageClassName="border-black border-[1px]"

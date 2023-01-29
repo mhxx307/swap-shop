@@ -22,7 +22,7 @@ const ArticleList = ({
             <h3 className={classNames('text-4xl font-bold', titleClassName)}>
                 {title}
             </h3>
-            <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-10">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-10">
                 {articleList.map((article) => (
                     <ArticleCard key={article.id} article={article} />
                 ))}
