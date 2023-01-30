@@ -12,6 +12,7 @@ const Home = ({ articles }: HomeProps) => {
         <>
             <Head />
             <ClientOnly>
+                <div className="section bg-[#FBF7F2] min-h-screen bg-[url('/images/bg-together.jpg')] object-cover bg-cover bg-center"></div>
                 <Banner1 />
                 <Banner2 />
                 <div className="wrapper mb-[50px] space-y-6">

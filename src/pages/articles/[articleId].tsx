@@ -1,11 +1,16 @@
+import { ArticlesSwiperInfinite } from '@/components/features/articles';
 import {
     Button,
     ClientOnly,
     Head,
     Image,
     SwiperNavigation,
+    TabView,
 } from '@/components/shared';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
+import { BsFillStarFill, BsFillTelephoneFill } from 'react-icons/bs';
+import { FaFacebookF, FaLink, FaTwitter } from 'react-icons/fa';
+import { MdReportProblem } from 'react-icons/md';
 
 export interface ArticleDetailPageProps {
     article: any;
@@ -32,31 +37,45 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
 
                             <div className="flex justify-between">
                                 <p className="text-4xl text-primary-400 ">
-                                    {article.price}
+                                    {article.price} $
                                 </p>
-                                <p className="hover:cursor-pointer">Tố cáo</p>
+                                <Button
+                                    LeftIcon={MdReportProblem}
+                                    className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-xl px-[20px] py-[10px] text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                >
+                                    Tố cáo
+                                </Button>
                             </div>
 
                             <div className="border-bottom" />
 
-                            <div>
-                                <p>{article.category} - 17h</p>
-                                <p>{article.description}</p>
-                            </div>
+                            <p>Category: {article.category}</p>
 
-                            <div className="flex justify-end">
-                                <Button
-                                    className="py-[14px] font-[500] px-[30px] "
-                                    primary
-                                >
-                                    Liên hệ
-                                </Button>
+                            <Button
+                                className="py-[10px] px-[20px] text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-xl text-center"
+                                primary
+                                LeftIcon={BsFillTelephoneFill}
+                            >
+                                Liên hệ
+                            </Button>
+
+                            <Button
+                                className="py-[10px] px-[20px] text-xl font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                LeftIcon={BsFillStarFill}
+                            >
+                                Add to wishlist
+                            </Button>
+                            <div className="flex items-center space-x-6">
+                                <span>Share</span>
+                                <FaFacebookF />
+                                <FaTwitter />
+                                <FaLink />
                             </div>
                         </div>
                     </div>
 
                     <div className="flex justify-between items-center border-gray-400 border px-[20px] py-[20px] rounded-xl">
-                        <div className="flex justify-between items-center space-x-2">
+                        <div className="flex justify-between items-center space-x-4">
                             <div className="relative">
                                 <Image
                                     src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
@@ -67,17 +86,26 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
                             </div>
                             <p>Minh Quan</p>
                         </div>
-                        <div>
-                            <Button
-                                className="py-[14px] font-[500] px-[30px] "
-                                primary
-                            >
-                                Xem bài viết
-                            </Button>
-                        </div>
                     </div>
 
-                    <div>san pham lien quan</div>
+                    <TabView
+                        tabs={[
+                            {
+                                label: 'Description',
+                                content: article.description,
+                            },
+                            { label: 'Comments', content: <div>Hello</div> },
+                            {
+                                label: 'MinhQuan articles',
+                                content: <div>Article</div>,
+                            },
+                        ]}
+                    />
+
+                    <div className="mb-[50px] space-y-6">
+                        <h3 className="text-4xl font-bold">Relate articles</h3>
+                        <ArticlesSwiperInfinite articleList={[]} />
+                    </div>
                 </div>
             </ClientOnly>
         </>

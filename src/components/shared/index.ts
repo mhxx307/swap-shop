@@ -17,3 +17,4 @@ export { default as SwiperNavigation } from './SwiperNavigation';
 export { default as Map } from './Map';
 export { default as Dropdown } from './Dropdown';
 export { default as SwiperAutoPlay } from './SwiperAutoPlay';
+export { default as TabView } from './TabView';
