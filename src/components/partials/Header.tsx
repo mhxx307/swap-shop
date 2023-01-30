@@ -18,8 +18,11 @@ import {
 } from '@/components/shared';
 import { useTranslation } from 'next-i18next';
 import { useConstantsTranslation, useDevice } from '@/hooks';
+import { useEffect, useState } from 'react';
 
 const Header = () => {
+    const [navbar, setNavbar] = useState<boolean>(false);
+
     const router = useRouter();
     const { t } = useTranslation('header');
     const {
@@ -36,10 +39,30 @@ const Header = () => {
 
     const currentUser = false;
 
+    useEffect(() => {
+        window.addEventListener('scroll', changeBackground);
+
+        return () => {
+            window.removeEventListener('scroll', changeBackground);
+        };
+    }, []);
+
+    const changeBackground = () => {
+        if (window.scrollY >= 80) {
+            setNavbar(true);
+        } else {
+            setNavbar(false);
+        }
+    };
+
     return (
         <header
-            className="wrapper flex items-center justify-between h-[60px] md:h-[80px]
-            [&>*:first-child]:ml-0 bg-white dark:bg-secondaryDark fixed z-[100] shadow-md"
+            className={`wrapper flex items-center justify-between h-[60px] md:h-[80px]
+            [&>*:first-child]:ml-0 ${
+                navbar
+                    ? 'backdrop-blur-sm shadow-3xl bg-white/30 dark:bg-black/30'
+                    : 'bg-transparent dark:bg-secondaryDark'
+            }  fixed z-[100] transition-colors`}
         >
             <div className="flex items-center">
                 <PopupMenu items={HEADER_MOBILE_NAV_LIST} hideOnClick>
