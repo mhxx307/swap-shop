@@ -19,6 +19,7 @@ import {
 import { useTranslation } from 'next-i18next';
 import { useConstantsTranslation, useDevice } from '@/hooks';
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 const Header = () => {
     const [navbar, setNavbar] = useState<boolean>(false);

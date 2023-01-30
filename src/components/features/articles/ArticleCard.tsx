@@ -39,38 +39,35 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 />
             </div>
 
-            <div className="py-[28px] px-[20px] space-y-6">
+            <div className="py-[20px] px-[12px] md:py-[28px] md:px-[20px] space-y-6">
                 <div className="space-y-2">
-                    <span className="mb-[8px] font-[400] text-[#919eab] leading-[1.5] text-[1rem] block">
+                    <span className="mb-[8px] font-[400] text-[#919eab] text-responsive-sx block">
                         07 Apr 2022
                     </span>
-                    <h3 className="text-[1.4rem] font-[600] line-clamp-1">
+                    <h3 className="text-responsive-xl font-[600] line-clamp-1">
                         {article.title}
                     </h3>
-                    <p className="text-[1.3rem] text-red-600 font-[600]">
+                    <p className="text-responsive-xl text-red-600 font-[600]">
                         {article.price} $
-                    </p>
-                    <p className="line-clamp-2 text-[1.3rem]">
-                        {article.description}
                     </p>
                 </div>
 
                 <div className="flex flex-wrap justify-end text-[#919eab] space-x-4">
                     <div className="flex items-center space-x-2">
                         <BsFillChatDotsFill className="w-[12px] h-[12px]" />
-                        <span className="m-0 leading-[1.5] text-[1.2rem] font-[400]">
+                        <span className="m-0 text-responsive-sx font-[400]">
                             30.20k
                         </span>
                     </div>
                     <div className="flex items-center space-x-2">
                         <BsFillEyeFill className="w-[12px] h-[12px]" />
-                        <span className="m-0 leading-[1.5] text-[1.2rem] font-[400]">
+                        <span className="m-0 text-responsive-sx font-[400]">
                             37.81k
                         </span>
                     </div>
                     <div className="flex items-center space-x-2">
                         <BsShareFill className="w-[12px] h-[12px]" />
-                        <span className="m-0 leading-[1.5] text-[1.2rem] font-[400]">
+                        <span className="m-0 text-responsive-sx font-[400]">
                             1.66k
                         </span>
                     </div>

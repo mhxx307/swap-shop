@@ -65,6 +65,10 @@ main {
 }
 
 /* text */
+.text-responsive-sx {
+    @apply text-[0.6rem] ss:text-[0.8rem]  sm:text-[1rem] md:text-[1.2rem];
+}
+
 .text-responsive-xl {
     @apply text-[1.2rem] ss:text-[1.2rem]  sm:text-[1.4rem] md:text-[1.6rem];
 }

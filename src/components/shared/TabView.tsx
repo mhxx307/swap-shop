@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { RiH4 } from 'react-icons/ri';
 
 export interface TabViewProps {
     title?: string;
@@ -8,10 +7,6 @@ export interface TabViewProps {
 
 const TabView = ({ title, tabs = {} }: TabViewProps) => {
     const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
-
-    const activateTab = (index: number) => {
-        setActiveTabIndex(index);
-    };
 
     return (
         <div>
@@ -25,10 +20,10 @@ const TabView = ({ title, tabs = {} }: TabViewProps) => {
                             {tabs.map((tab: any, index: number) => (
                                 <label
                                     key={index}
-                                    className={`cursor-pointer inline-block p-4 rounded-t-lg ${
+                                    className={`cursor-pointer inline-block p-4 rounded-t-lg transition-colors ${
                                         index === activeTabIndex
-                                            ? 'text-white dark:bg-gray-800 dark:text-blue-500'
-                                            : 'hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300'
+                                            ? 'text-blue-500 bg-gray-300 dark:bg-gray-800'
+                                            : 'hover:text-gray-600 hover:bg-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-300'
                                     }`}
                                     onClick={() => setActiveTabIndex(index)}
                                 >

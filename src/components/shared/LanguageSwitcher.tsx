@@ -43,7 +43,7 @@ const LanguageSwitcher = forwardRef<HTMLDivElement, LanguageSwitcherProps>(
                                 <div
                                     key={locale}
                                     onClick={handleChangeLanguage(locale)}
-                                    className="min-w-[90px] md:min-w-[150px] cursor-pointer px-6 py-2 bg-white/70 dark:bg-black/70 backdrop-blur-sm hover:bg-gray-300 dark:hover:bg-black/50 transition-colors select-none text-responsive-xl transition-colors"
+                                    className="min-w-[90px] md:min-w-[150px] cursor-pointer px-6 py-2 bg-white/70 dark:bg-black/70 backdrop-blur-sm hover:bg-gray-300 dark:hover:bg-black/50 select-none text-responsive-xl transition-colors"
                                 >
                                     {name}
                                 </div>
