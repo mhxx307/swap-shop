@@ -10,7 +10,7 @@ const Logo: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
             src="/logo.svg"
             alt="logo"
             className={classNames(
-                'flex w-32 h-32 mx-auto object-contain',
+                'flex w-16 h-16 mx-auto object-contain',
                 className,
             )}
         />

@@ -12,27 +12,22 @@ const Articles = ({ articles }: ArticlesPageProps) => {
         <>
             <Head />
             <ClientOnly>
-                <div className="mt-[100px] wrapper">
-                    {/* <ArticlesBanner /> */}
-                    {/* search & sort */}
+                <div className="mt-[100px] wrapper space-y-20">
                     <SwiperAutoPlay
                         images={BANNER_IMAGE_LIST}
                         className="w-full h-[450px] hidden sm:block"
                         imageClassName="border-black border-[1px]"
                     />
-                    <h3>Options</h3>
-                    <h3>Sort</h3>
-                    <h3>Search</h3>
+
                     <ArticleList
                         title="Tin đăng mới"
                         articleList={articles}
-                        className="mt-[20px]"
                         titleClassName="mb-[10px]"
                     />
+
                     <ArticleList
                         title="Tin phổ biến"
                         articleList={articles}
-                        className="mt-[20px]"
                         titleClassName="mb-[10px]"
                     />
                 </div>

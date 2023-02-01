@@ -8,20 +8,22 @@ const RegisterPage = () => {
         <>
             <Head />
             <div className="w-full min-h-screen flex-center bg-[#f0f0f0] dark:bg-primaryDark relative">
-                <ButtonLink
-                    shortcutKey="enter"
-                    className="h-[35px] shadow-md bg-black text-white absolute top-10 left-10 hidden dark:hover:bg-gray-700 md:ml-[20px] md:px-[25px] sm:block"
-                    href="/"
-                >
-                    <AiOutlineHome />
-                </ButtonLink>
-                <ButtonLink
-                    shortcutKey="enter"
-                    className="h-[35px] shadow-md bg-black text-white absolute top-10 left-40 hidden dark:hover:bg-gray-700 md:ml-[20px] md:px-[25px] sm:block"
-                    href="/login"
-                >
-                    login
-                </ButtonLink>
+                <div className="absolute top-2 left-2 flex space-x-4">
+                    <ButtonLink
+                        shortcutKey="enter"
+                        className="h-[35px] shadow-3xl bg-black text-white dark:hover:bg-gray-700 md:px-[25px] "
+                        href="/"
+                    >
+                        <AiOutlineHome />
+                    </ButtonLink>
+                    <ButtonLink
+                        shortcutKey="enter"
+                        className="h-[35px] shadow-md bg-black text-white dark:hover:bg-gray-700 md:px-[25px]"
+                        href="/login"
+                    >
+                        login
+                    </ButtonLink>
+                </div>
                 <RegisterForm />
             </div>
         </>

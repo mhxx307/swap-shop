@@ -19,7 +19,7 @@ const ArticleList = ({
 }: ArticleListProps) => {
     return (
         <div className={classNames(className)}>
-            <h3 className={classNames('text-4xl font-bold', titleClassName)}>
+            <h3 className={classNames('text-2xl font-bold', titleClassName)}>
                 {title}
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-10">

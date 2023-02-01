@@ -9,12 +9,12 @@ const DmcaPage = () => {
                 title="DMCA - SecondChance"
                 description="DMCA for seconde chance"
             />
-            <div className="wrapper py-[100px] space-y-12">
-                <h1 className="text-4xl font-bold">{t('heading1')}</h1>
+            <div className="wrapper py-[100px] space-y-8">
+                <h1 className="text-3xl font-bold">{t('heading1')}</h1>
                 <p>{t('description')}</p>
 
-                <h4 className="text-4xl font-semibold">{t('heading2')}</h4>
-                <ul className="px-4 list-inside list-disc">
+                <h4 className="text-3xl font-semibold">{t('heading2')}</h4>
+                <ul className="px-2 list-inside list-disc">
                     <li>{t('item1')};</li>
 
                     <li>{t('item2')};</li>

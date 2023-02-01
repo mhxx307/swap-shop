@@ -15,6 +15,7 @@ import {
     Image,
     LanguageSwitcher,
     ThemeSwitcher,
+    Notification,
 } from '@/components/shared';
 import { useTranslation } from 'next-i18next';
 import { useConstantsTranslation, useDevice } from '@/hooks';
@@ -57,7 +58,14 @@ const Header = () => {
     };
 
     return (
-        <header
+        <motion.header
+            initial={{ opacity: 0, y: -180 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+                ease: 'easeInOut',
+                duration: 1,
+                delay: 0.6,
+            }}
             className={`wrapper flex items-center justify-between h-[60px] md:h-[80px]
             [&>*:first-child]:ml-0 ${
                 navbar
@@ -65,61 +73,41 @@ const Header = () => {
                     : 'bg-transparent dark:bg-secondaryDark'
             }  fixed z-[100] transition-colors`}
         >
-            <div className="flex items-center">
+            <div className="flex items-center space-x-2">
                 <PopupMenu items={HEADER_MOBILE_NAV_LIST} hideOnClick>
-                    <GoThreeBars
-                        className={`mr-[10px] w-[22px] h-[22px] ${mobileShow}`}
-                    />
+                    <GoThreeBars className={`w-6 h-6 ${mobileShow}`} />
                 </PopupMenu>
 
-                <Link href="/" className={`mr-[10px] ${mobileHide}`}>
+                <Link href="/" className={mobileHide}>
                     <Logo />
                 </Link>
                 <ThemeSwitcher />
             </div>
 
-            <NavList
-                navList={HEADER_NAV_LIST}
-                className={`[&>*:first-child]:ml-0  ${mobileHide}`}
-                itemClassName="ml-[30px]"
-            />
+            <NavList navList={HEADER_NAV_LIST} className={mobileHide} />
 
             <Link href="/" className={mobileShow}>
                 <Logo />
             </Link>
 
-            <div className="flex items-center">
+            <div className="flex items-center space-x-2">
                 <LanguageSwitcher />
 
                 {isMobile && (
                     <Link href="/download">
-                        <AiOutlineDownload className="w-[22px] h-[22px] ml-[16px]" />
+                        <AiOutlineDownload className="w-6 h-6" />
                     </Link>
                 )}
 
-                <PopupMenu
-                    hideOnClick
-                    title="Chưa có thông báo"
-                    items={[]}
-                    placement="bottom"
-                >
-                    <MdNotifications className="w-[22px] h-[22px] ml-[16px]" />
-                </PopupMenu>
-
-                <Link href="/search" className={mobileHide}>
-                    <AiOutlineSearch className="w-[22px] h-[22px] ml-[15px] sm:ml-[20px] sm:hover:text-primary-500 transition-colors" />
-                </Link>
+                <Notification />
 
                 {!currentUser && (
                     <Button
                         primary
                         shortcutKey="enter"
-                        className="ml-[15px] sm:ml-[20px] sm:px-[25px] shadow-md"
                         onClick={() => router.push('/login')}
                     >
-                        <span className="text-[1rem] xs:text-[1.4rem] md:text-[1.6rem]">
-                            {t('login_title')}
-                        </span>
+                        {t('login_title')}
                     </Button>
                 )}
 
@@ -132,16 +120,16 @@ const Header = () => {
                         <Image
                             src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
                             alt="dog avatar"
-                            className="rounded-[50%] w-[32px] h-[32px] object-cover ml-[12px] sm:cursor-pointer"
+                            className="rounded-[50%] w-8 h-8 object-coversm:cursor-pointer"
                         />
                     ) : (
                         <AiOutlineMore
-                            className={`w-[30px] h-[30px] ml-[6px] sm:cursor-pointer sm:hover:text-primary-500`}
+                            className={`w-8 h-8 sm:cursor-pointer sm:hover:text-primary-500`}
                         />
                     )}
                 </PopupMenu>
             </div>
-        </header>
+        </motion.header>
     );
 };
 

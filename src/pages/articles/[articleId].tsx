@@ -6,6 +6,7 @@ import {
     Image,
     SwiperNavigation,
     TabView,
+    TextSpan,
 } from '@/components/shared';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import { BsFillStarFill, BsFillTelephoneFill } from 'react-icons/bs';
@@ -17,12 +18,13 @@ export interface ArticleDetailPageProps {
 }
 
 const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
+    const sentence = article.title.split('');
     return (
         <>
             <Head title={article.title} description={article.description} />
             <ClientOnly>
                 <div className="mt-[100px] wrapper space-y-20">
-                    <div className="grid grid-cols-10 space-y-20 md:space-y-0 md:space-x-20">
+                    <div className="grid grid-cols-10 space-y-10 md:space-y-0 md:space-x-10">
                         <div className="col-span-10 md:col-span-4">
                             <SwiperNavigation
                                 images={article.images}
@@ -30,18 +32,23 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
                             />
                         </div>
 
-                        <div className="col-span-10 md:col-span-6 space-y-20">
-                            <p className="text-6xl line-clamp-2 break-words">
-                                {article.title}
+                        <div className="col-span-10 md:col-span-6 space-y-10">
+                            <p className="text-4xl line-clamp-2 break-words">
+                                {sentence.map((letter: any, index: number) => (
+                                    <TextSpan key={index}>
+                                        {letter === ' ' ? '\u00A0' : letter}
+                                    </TextSpan>
+                                ))}
                             </p>
 
                             <div className="flex justify-between">
-                                <p className="text-4xl text-primary-400 ">
+                                <p className="text-2xl text-primary-400 ">
                                     {article.price} $
                                 </p>
                                 <Button
                                     LeftIcon={MdReportProblem}
-                                    className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-xl px-[20px] py-[10px] text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                    iconClassName="w-4 h-4"
+                                    className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-[20px] py-[10px] text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                                 >
                                     Tố cáo
                                 </Button>
@@ -52,21 +59,23 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
                             <p>Category: {article.category}</p>
 
                             <Button
-                                className="py-[10px] px-[20px] text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-xl text-center"
+                                className="py-[10px] px-[20px] text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm text-center"
                                 primary
                                 LeftIcon={BsFillTelephoneFill}
+                                iconClassName="w-4 h-4"
                             >
                                 Liên hệ
                             </Button>
 
                             <Button
-                                className="py-[10px] px-[20px] text-xl font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                className="py-[10px] px-[20px] text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                                 LeftIcon={BsFillStarFill}
+                                iconClassName="w-4 h-4"
                             >
                                 Add to wishlist
                             </Button>
                             <div className="flex items-center space-x-6">
-                                <span>Share</span>
+                                <span>Share:</span>
                                 <FaFacebookF />
                                 <FaTwitter />
                                 <FaLink />

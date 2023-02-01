@@ -10,7 +10,7 @@ module.exports = {
         extend: {
             colors: {
                 primary: colors.red,
-                primaryDark: '#0d1117',
+                primaryDark: '#1d1d1d',
                 secondaryDark: '#161b22',
             },
             boxShadow: {
@@ -26,7 +26,6 @@ module.exports = {
             xl: '1536px',
         },
         fontFamily: {
-            lora: ['Lora', 'serif'],
             timeNewRoman: ['Times New Roman', 'serif'],
         },
     },

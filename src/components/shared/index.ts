@@ -18,3 +18,6 @@ export { default as Map } from './Map';
 export { default as Dropdown } from './Dropdown';
 export { default as SwiperAutoPlay } from './SwiperAutoPlay';
 export { default as TabView } from './TabView';
+export { default as TextSpan } from './TextSpan';
+export { default as Spinner } from './Spinner';
+export { default as Notification } from './Notification';

@@ -32,8 +32,8 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
             <div className="w-full min-h-screen grid grid-cols-1 md:grid-cols-5 relative">
                 <ButtonLink
                     secondary
-                    containerclassname="absolute top-10 left-20 bg-black z-[200]"
-                    className="text-white py-2 pr-6 pl-4 select-none"
+                    containerclassname="absolute right-2 top-0 shadow-3xl mt-4"
+                    className="py-2 pr-6 pl-4 select-none bg-white dark:bg-white text-white dark:text-black hover:opacity-80 transition-opacity"
                     LeftIcon={AiOutlineLeft}
                     href="/"
                 >
@@ -49,10 +49,10 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                 >
                     <div className="relative flex flex-col justify-center items-center w-full h-full z-20">
                         <div className="w-full px-8">
-                            <p className="italic text-5xl text-white font-semibold line-clamp-6 leading-[40px]">
+                            <p className="italic text-3xl text-white font-semibold line-clamp-6">
                                 &quot;{randomQuote.text}&quot;
                             </p>
-                            <p className="text-4xl italic mt-4 text-white font-semibold text-right">
+                            <p className="text-4xl italic mt-2 text-white font-semibold text-right">
                                 {randomQuote.author}
                             </p>
                         </div>
@@ -60,25 +60,30 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                 </div>
 
                 <div className="col-span-3 flex items-center justify-center">
-                    <div className="w-[400px]">
-                        <p className="text-5xl font-semibold mb-6">
+                    <div className="w-[400px] space-y-4">
+                        <div className="text-2xl font-semibold">
                             {t('welcome_heading')}{' '}
                             <span className="text-primary-500 capitalize">
                                 second chance
                             </span>
-                        </p>
-                        <p className="text-2xl mb-8">{t('please_heading')}</p>
+                            <p className="text-xl mt-2">
+                                {t('please_heading')}
+                            </p>
+                        </div>
+
                         <LoginForm />
+
                         <Button
                             outline
-                            className="w-full mt-[20px] justify-center text-black dark:text-white py-2 pr-6 pl-4 select-none hover:bg-gray-200 border-gray-300"
+                            className="w-full justify-center py-2 pr-6 pl-4 select-none hover:bg-blue-500 hover:text-white"
                             LeftIcon={FcGoogle}
-                            iconClassName="w-[20px] h-[20px]"
+                            iconClassName="w-5 h-5"
                         >
                             {t('google_login')}
                         </Button>
-                        <div className="flex mt-[20px]">
-                            <p className="font-thin text-gray-500 mr-4">
+
+                        <div className="flex items-center">
+                            <p className="font-thin text-gray-500 dark:text-white mr-2">
                                 {t('dont_have_account')}
                             </p>
                             <Link

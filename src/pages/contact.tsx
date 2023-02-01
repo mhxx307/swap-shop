@@ -59,10 +59,10 @@ const ContactPage = () => {
                 description={t('head_description')!}
             />
 
-            <div className="wrapper pt-[100px] space-y-9">
-                <h1 className="text-2xl font-bold">{t('contact')}</h1>
+            <div className="wrapper pt-[100px] space-y-6">
+                <h1 className="text-xl font-bold">{t('contact')}</h1>
 
-                <p className="text-2xl">{t('heading1')}</p>
+                <p className="text-lg">{t('heading1')}</p>
 
                 <div className="flex items-center space-x-4">
                     <ContactItem
@@ -122,9 +122,6 @@ const ContactPage = () => {
                         >
                             {t('send')}
                         </Button>
-                        {!isLoading && (
-                            <span>Thanks, I&apos;ll reply ASAP</span>
-                        )}
                     </form>
                 </div>
             </div>

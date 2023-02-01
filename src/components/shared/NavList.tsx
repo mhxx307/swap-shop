@@ -12,7 +12,7 @@ const NavList = ({ navList, className, itemClassName }: NavMenuProps) => {
     const router = useRouter();
 
     return (
-        <nav className={classNames(className)}>
+        <nav className={classNames('space-x-6', className)}>
             {navList.map(({ path, label }) => (
                 <Link
                     href={path}
@@ -21,7 +21,7 @@ const NavList = ({ navList, className, itemClassName }: NavMenuProps) => {
                         `nav-item
                         ${
                             router.pathname === path &&
-                            'text-primary-400 dark:text-white after:w-full'
+                            'text-primary-500 dark:text-white after:w-full'
                         }`,
                         itemClassName,
                     )}
