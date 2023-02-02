@@ -1,9 +1,9 @@
-import { Button, TextSpan } from '@/components/shared';
+import { Button, ButtonLink, TextSpan } from '@/components/shared';
 import { useEffect } from 'react';
 
 const HeroSection = () => {
     useEffect(() => {
-        const banner = document.querySelector('#banner');
+        const hero = document.querySelector('#hero');
 
         const mouseTrail = (e: any) => {
             [1, 0.9, 0.8, 0.5, 0.1].forEach(function (i) {
@@ -27,11 +27,11 @@ const HeroSection = () => {
                     ')';
                 elem.style.borderRadius = size;
                 elem.style.pointerEvents = 'none';
-                if (banner) {
-                    banner.appendChild(elem);
+                if (hero) {
+                    hero.appendChild(elem);
 
                     window.setTimeout(function () {
-                        banner.removeChild(elem);
+                        hero.removeChild(elem);
                     }, Math.round(Math.random() * i * 500));
                 }
             });
@@ -45,29 +45,38 @@ const HeroSection = () => {
     }, []);
 
     return (
-        <div
-            id="banner"
-            className="bg-[#FBF7F2] min-h-screen bg-[url('/images/bg-together.jpg')] object-cover bg-cover bg-center relative after:absolute after:inset-0 after:bg-[#000000]/10 dark:after:bg-[#000000]/20 flex-center"
+        <section
+            className="h-screen flex-center text-center text-white"
+            id="hero"
         >
-            <div className="z-[1000] space-y-6 text-center">
-                <TextSpan
-                    text="SECOND CHANCE"
-                    className="text-5xl text-white font-extrabold tracking-wider"
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden bg-no-repeat bg-center bg-cover video-container">
+                <video
+                    src="https://traversymedia.com/downloads/video.mov"
+                    muted
+                    loop
+                    autoPlay
+                    className="min-w-full min-h-full absolute top-[50%] left-[50%] object-cover"
+                    style={{ transform: 'translate(-50%, -50%)' }}
                 />
-                <h3 className="text-2xl text-white font-bold">
-                    Cơ hội tìm thấy những món đồ giá trị miễn phí
-                </h3>
+            </div>
+            <div className="z-[2] space-y-4">
+                <TextSpan
+                    text="Second Chance"
+                    className="uppercase text-5xl tracking-wider font-extrabold"
+                />
+                <h3>Cơ hội tìm được món hàng ưng ý một cách miễn phí</h3>
                 <div className="flex-center space-x-4">
-                    <Button
+                    <ButtonLink
+                        href="/articles"
                         outline
-                        className="border-white text-white hover:bg-white hover:text-black"
+                        className="border-white hover:scale-110"
                     >
                         Tìm kiếm
-                    </Button>
+                    </ButtonLink>
                     <Button primary>Viết bài</Button>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 
