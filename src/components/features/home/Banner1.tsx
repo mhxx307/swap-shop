@@ -48,8 +48,8 @@ const Banner1 = () => {
             >
                 <div className="space-y-6">
                     <TextSpan
-                        text="Easy to use"
-                        className="text-6xl text-primary-500"
+                        text="Tìm kiếm dễ dàng"
+                        className="text-4xl text-primary-500"
                     />
                     <div>
                         <h4>Hãy chia sẽ với hàng xóm của bạn</h4>

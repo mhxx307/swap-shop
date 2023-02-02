@@ -60,8 +60,8 @@ const Banner2 = () => {
                 animate={animation}
             >
                 <div className="space-y-6">
-                    <h2 className="text-6xl text-primary-500">
-                        <TextSpan text="Loyalty" />
+                    <h2 className="text-4xl text-primary-500">
+                        <TextSpan text="Second Chance có gì ?" />
                     </h2>
 
                     <div>
@@ -77,7 +77,7 @@ const Banner2 = () => {
                             Xem các mặt hàng phổ biến
                         </Button>
                         <Button className="bg-black py-[14px] font-medium text-white hover:bg-gray-800 ">
-                            Giao dịch đáng tin cậy
+                            Hướng dẫn
                         </Button>
                     </div>
                 </div>

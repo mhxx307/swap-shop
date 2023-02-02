@@ -67,13 +67,13 @@ const HeroSection = () => {
                 <h3>Cơ hội tìm được món hàng ưng ý một cách miễn phí</h3>
                 <div className="flex-center space-x-4">
                     <ButtonLink
-                        href="/articles"
+                        href="/register"
                         outline
                         className="border-white hover:scale-110"
                     >
-                        Tìm kiếm
+                        Đăng ký
                     </ButtonLink>
-                    <Button primary>Viết bài</Button>
+                    <Button primary>Tìm hiểu thêm</Button>
                 </div>
             </div>
         </section>

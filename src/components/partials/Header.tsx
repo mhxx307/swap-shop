@@ -66,12 +66,12 @@ const Header = () => {
                 duration: 1,
                 delay: 0.6,
             }}
-            className={`wrapper flex items-center justify-between h-[60px] md:h-[80px]
-            [&>*:first-child]:ml-0 ${
-                navbar
-                    ? 'backdrop-blur-sm shadow-3xl bg-white/30 dark:bg-black/30'
-                    : 'bg-transparent dark:bg-secondaryDark'
-            }  fixed z-[100] transition-colors`}
+            className={`wrapper w-full flex items-center justify-between h-[60px] md:h-[80px]
+                [&>*:first-child]:ml-0 ${
+                    navbar
+                        ? 'backdrop-blur-sm shadow-3xl bg-white/30 dark:bg-black/30'
+                        : 'bg-transparent'
+                }  fixed z-[100] transition-colors border-b-[1px] border-white/30`}
         >
             <div className="flex items-center space-x-2">
                 <PopupMenu items={HEADER_MOBILE_NAV_LIST} hideOnClick>

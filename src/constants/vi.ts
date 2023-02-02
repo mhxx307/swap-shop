@@ -8,13 +8,9 @@ const HEADER_NAV_LIST: PopupMenuItemProps[] = [
     { path: '/', label: 'Trang chủ' },
     { path: '/articles', label: 'Bài viết' },
     { path: '/about', label: 'Giới thiệu' },
-    { path: '/trust', label: 'Tin cậy' },
 ];
 
-const HEADER_MOBILE_NAV_LIST: PopupMenuItemProps[] = [
-    { path: '/search', label: 'Tìm kiếm' },
-    ...HEADER_NAV_LIST,
-];
+const HEADER_MOBILE_NAV_LIST: PopupMenuItemProps[] = [...HEADER_NAV_LIST];
 
 const POPUP_MENU_LIST: PopupMenuItemProps[] = [
     {
