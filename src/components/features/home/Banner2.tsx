@@ -32,8 +32,27 @@ const Banner2 = () => {
     useEffect(() => {
         debouncedStartAnimation;
 
+        function rotateCube(e: any) {
+            const cube: any = document.getElementsByClassName('cube');
+            let x = e.clientX - window.innerWidth / 2;
+            let y = e.clientY - window.innerHeight / 2;
+            const q = 0.15;
+            let i;
+
+            x = x * q * 1.25;
+            y = -y * q * 1.25;
+
+            for (i = 0; i < cube.length; i++) {
+                cube[i].style.transform =
+                    'rotateY(' + x + 'deg) rotateX(' + y + 'deg)';
+            }
+        }
+
+        document.addEventListener('mousemove', rotateCube);
+
         return () => {
             animation.stop;
+            document.removeEventListener('mousemove', rotateCube);
         };
     }, [inView, animation, debouncedStartAnimation]);
 
@@ -43,10 +62,21 @@ const Banner2 = () => {
             className="section-reverse dark:bg-primaryDark min-h-screen"
         >
             <div className="flex-center flex-1">
-                <SwiperEffectCard
-                    images={BANNER_IMAGE_LIST}
-                    swiperClassName="w-[400px] h-[550px]"
-                />
+                <div
+                    className=" w-[300px] h-[300px] bg-slate-500 cube"
+                    style={{
+                        transformOrigin: '50% 50% 150px',
+                        transformStyle: 'preserve-3d',
+                        transition: 'all 5s ease-out',
+                    }}
+                >
+                    <div className="face">1</div>
+                    <div className="face">2</div>
+                    <div className="face">3</div>
+                    <div className="face">4</div>
+                    <div className="face">5</div>
+                    <div className="face">6</div>
+                </div>
             </div>
 
             <motion.div
