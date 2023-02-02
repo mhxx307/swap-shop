@@ -16,7 +16,7 @@ const Articles = ({ articles }: ArticlesPageProps) => {
                     <SwiperAutoPlay
                         images={BANNER_IMAGE_LIST}
                         className="w-full h-[450px] hidden sm:block"
-                        imageClassName="border-black border-[1px]"
+                        imageClassName="border-black"
                     />
 
                     <ArticleList

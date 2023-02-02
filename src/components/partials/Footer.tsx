@@ -15,7 +15,7 @@ const Footer = () => {
         'font-bold hover:text-primary-300 transition duration-300';
 
     return (
-        <div className="w-full flex flex-col items-center justify-center px-4 md:px-12 py-16 space-y-4 border-t-[1px] border-[#282828]">
+        <div className="w-full flex flex-col items-center justify-center px-4 md:px-12 py-16 space-y-4 border-t-[1px] border-black/10 dark:border-[#282828]">
             <div className="flex items-center space-x-4">
                 <ContactItem href={YOUTUBE_URL} Icon={AiFillYoutube} />
                 <ContactItem href={FACEBOOK_URL} Icon={AiFillFacebook} />

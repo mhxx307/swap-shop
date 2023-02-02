@@ -6,7 +6,6 @@ import {
     Image,
     SwiperNavigation,
     TabView,
-    TextSpan,
 } from '@/components/shared';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import { BsFillStarFill, BsFillTelephoneFill } from 'react-icons/bs';
@@ -18,7 +17,6 @@ export interface ArticleDetailPageProps {
 }
 
 const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
-    const sentence = article.title.split('');
     return (
         <>
             <Head title={article.title} description={article.description} />
@@ -34,11 +32,7 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
 
                         <div className="col-span-10 md:col-span-6 space-y-10">
                             <p className="text-4xl line-clamp-2 break-words">
-                                {sentence.map((letter: any, index: number) => (
-                                    <TextSpan key={index}>
-                                        {letter === ' ' ? '\u00A0' : letter}
-                                    </TextSpan>
-                                ))}
+                                {article.title}
                             </p>
 
                             <div className="flex justify-between">

@@ -27,15 +27,15 @@ const ArticlesSwiperInfinite = ({
                         spaceBetween: 20,
                     },
                     768: {
-                        slidesPerView: 3,
-                        spaceBetween: 20,
-                    },
-                    1280: {
                         slidesPerView: 4,
                         spaceBetween: 20,
                     },
+                    1280: {
+                        slidesPerView: 5,
+                        spaceBetween: 20,
+                    },
                 }}
-                slidesPerGroup={3}
+                slidesPerGroup={1}
                 loop={false}
                 loopFillGroupWithBlank={true}
                 navigation={true}

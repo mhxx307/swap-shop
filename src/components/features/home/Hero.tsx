@@ -1,7 +1,7 @@
-import { TextSpan } from '@/components/shared';
+import { Button, TextSpan } from '@/components/shared';
 import { useEffect } from 'react';
 
-const MainBanner = () => {
+const HeroSection = () => {
     useEffect(() => {
         const banner = document.querySelector('#banner');
 
@@ -47,9 +47,28 @@ const MainBanner = () => {
     return (
         <div
             id="banner"
-            className="bg-[#FBF7F2] min-h-screen bg-[url('/images/bg-together.jpg')] object-cover bg-cover bg-center relative after:absolute after:inset-0 after:bg-[#000000]/20"
-        ></div>
+            className="bg-[#FBF7F2] min-h-screen bg-[url('/images/bg-together.jpg')] object-cover bg-cover bg-center relative after:absolute after:inset-0 after:bg-[#000000]/10 dark:after:bg-[#000000]/20 flex-center"
+        >
+            <div className="z-[1000] space-y-6 text-center">
+                <TextSpan
+                    text="SECOND CHANCE"
+                    className="text-5xl text-white font-extrabold tracking-wider"
+                />
+                <h3 className="text-2xl text-white font-bold">
+                    Cơ hội tìm thấy những món đồ giá trị miễn phí
+                </h3>
+                <div className="flex-center space-x-4">
+                    <Button
+                        outline
+                        className="border-white text-white hover:bg-white hover:text-black"
+                    >
+                        Tìm kiếm
+                    </Button>
+                    <Button primary>Viết bài</Button>
+                </div>
+            </div>
+        </div>
     );
 };
 
-export default MainBanner;
+export default HeroSection;

@@ -47,7 +47,10 @@ const Banner1 = () => {
                 className="flex-center flex-1 flex-col mb-8"
             >
                 <div className="space-y-6">
-                    <TextSpan text="Easy to use" />
+                    <TextSpan
+                        text="Easy to use"
+                        className="text-6xl text-primary-500"
+                    />
                     <div>
                         <h4>Hãy chia sẽ với hàng xóm của bạn</h4>
                         <h4>Làm cho khu phố của bạn gần gũi và ấm áp</h4>

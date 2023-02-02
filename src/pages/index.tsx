@@ -1,6 +1,6 @@
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 
-import { Banner1, Banner2, MainBanner } from '@/components/features/home';
+import { Banner1, Banner2, HeroSection } from '@/components/features/home';
 import { ClientOnly, Head } from '@/components/shared';
 import { ArticlesSwiperInfinite } from '@/components/features/articles';
 
@@ -13,16 +13,10 @@ const Home = ({ articles }: HomeProps) => {
         <>
             <Head />
             <ClientOnly>
-                <MainBanner />
+                <HeroSection />
                 <Banner1 />
                 <Banner2 />
-                <div className="space-y-8 wrapper">
-                    <div className="space-y-3">
-                        <h3 className="text-4xl font-extrabold text-primary-500 italic">
-                            Recommended for you
-                        </h3>
-                        <ArticlesSwiperInfinite articleList={articles} />
-                    </div>
+                <div className="space-y-8 wrapper mb-[60px]">
                     <div className="space-y-3">
                         <h3 className="text-4xl font-extrabold text-primary-500 italic">
                             New articles

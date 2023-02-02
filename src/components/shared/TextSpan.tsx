@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { motion } from 'framer-motion';
 
 const spanVariants = {
@@ -37,14 +38,19 @@ const list = {
     },
 };
 
-const TextSpan = ({ text }: { text: string }) => {
+interface TextSpanProps {
+    text: string;
+    className?: string;
+}
+
+const TextSpan = ({ text, className }: TextSpanProps) => {
     const sentence = text.split('');
     return (
         <motion.div
             variants={list}
             initial="hidden"
             animate="visible"
-            className="text-7xl font-extrabold text-primary-500 relative inline-block"
+            className={(classNames('relative inline-block'), className)}
         >
             {sentence.map((letter: any, index: number) => (
                 <motion.span

@@ -52,13 +52,13 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
 
             <div className="py-[20px] px-[12px] md:py-[28px] md:px-[20px] space-y-6">
                 <div className="space-y-1">
-                    <span className="mb-[8px] font-normal text-[#919eab] text-[10px] block">
-                        07 Apr 2022
+                    <span className="mb-[8px] font-normal text-[#919eab] text-[10px] block line-clamp-1">
+                        07 Apr 2022 Tp Hồ Chí Minh
                     </span>
-                    <h3 className="text-sm md:text-lg font-extrabold line-clamp-1">
+                    <h3 className="text-2xl md:text-lg font-extrabold line-clamp-1">
                         {article.title}
                     </h3>
-                    <p className="text-responsive-sm text-red-600 font-semibold">
+                    <p className="text-sm text-red-600 font-bold">
                         {article.price} $
                     </p>
                 </div>
@@ -66,15 +66,15 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 <div className="flex flex-wrap justify-end text-[#919eab] space-x-2">
                     <div className="flex items-center space-x-1">
                         <BsFillChatDotsFill className="w-3 h-3" />
-                        <span className="text-xs font-[400]">30.10k</span>
+                        <span className="text-[10px] font-[400]">30.10k</span>
                     </div>
                     <div className="flex items-center space-x-1">
                         <BsFillEyeFill className="w-3 h-3" />
-                        <span className="text-xs font-[400]">37.81k</span>
+                        <span className="text-[10px] font-[400]">37.81k</span>
                     </div>
                     <div className="flex items-center space-x-1">
                         <BsShareFill className="w-3 h-3" />
-                        <span className="text-xs font-[400]">1.66k</span>
+                        <span className="text-[10px] font-[400]">1.66k</span>
                     </div>
                 </div>
             </div>

@@ -38,10 +38,7 @@ const SwiperAutoplay = ({
                 navigation={true}
                 spaceBetween={10}
                 modules={[Autoplay, Pagination, Navigation]}
-                className={classNames(
-                    'overflow-hidden rounded-2xl select-none',
-                    className,
-                )}
+                className={classNames('overflow-hidden select-none', className)}
             >
                 {images.map((image) => (
                     <SwiperSlide className={swiperSlideClassName} key={image}>
@@ -52,7 +49,6 @@ const SwiperAutoplay = ({
                                 'w-full h-full shadow-3xl',
                                 imageClassName,
                             )}
-                            className="rounded-2xl"
                         />
                     </SwiperSlide>
                 ))}
