@@ -125,7 +125,7 @@ main {
     position: absolute;
     transform-style: preserve-3d;
     transform: translateZ(-100px) rotateZ(45deg) rotateX(45deg);
-    animation: move 5s infinite linear;
+    animation: move 5s linear infinite;
 }
 
 @keyframes move {

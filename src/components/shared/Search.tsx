@@ -31,8 +31,8 @@ const Search = (props: SearchProps) => {
                 type="text"
                 placeholder="Search"
                 className={`${
-                    toggle ? 'w-[350px]' : 'w-0'
-                } font-medium text-base transition-all outline-none text-black caret-primary-500`}
+                    toggle ? 'w-[200px]' : 'w-0'
+                } font-medium text-base transition-all outline-none text-black caret-primary-500 pr-[5px]`}
             />
             {toggle ? (
                 <button onClick={() => router.push('/articles')}>

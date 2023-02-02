@@ -1,6 +1,4 @@
-import { Button, SwiperEffectCard, TextSpan } from '@/components/shared';
-import { BANNER_IMAGE_LIST } from '@/constants';
-import { useDebounce } from '@/hooks';
+import { Button, TextSpan } from '@/components/shared';
 import { motion, useAnimation } from 'framer-motion';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -10,7 +8,8 @@ const Banner2 = () => {
         threshold: 0.2,
     });
     const animation = useAnimation();
-    const startAnimation = () => {
+
+    useEffect(() => {
         if (inView) {
             animation.start({
                 x: 0,
@@ -22,20 +21,10 @@ const Banner2 = () => {
             });
         }
 
-        if (!inView) {
-            animation.start({ x: '100vw' });
-        }
-    };
-
-    const debouncedStartAnimation = useDebounce(startAnimation, 400);
-
-    useEffect(() => {
-        debouncedStartAnimation;
-
         return () => {
             animation.stop;
         };
-    }, [inView, animation, debouncedStartAnimation]);
+    }, [inView, animation]);
 
     return (
         <div
@@ -61,7 +50,7 @@ const Banner2 = () => {
             >
                 <div className="space-y-6">
                     <h2 className="text-4xl text-primary-500">
-                        <TextSpan text="Second Chance có gì ?" />
+                        Second Chance có gì ?
                     </h2>
 
                     <div>

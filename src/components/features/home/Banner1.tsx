@@ -10,7 +10,8 @@ const Banner1 = () => {
         threshold: 0.2,
     });
     const animation = useAnimation();
-    const startAnimation = () => {
+
+    useEffect(() => {
         if (inView) {
             animation.start({
                 x: 0,
@@ -22,20 +23,10 @@ const Banner1 = () => {
             });
         }
 
-        if (!inView) {
-            animation.start({ x: '-100vw' });
-        }
-    };
-
-    const debouncedStartAnimation = useDebounce(startAnimation, 400);
-
-    useEffect(() => {
-        debouncedStartAnimation;
-
         return () => {
             animation.stop;
         };
-    }, [inView, animation, debouncedStartAnimation]);
+    }, [inView, animation]);
 
     return (
         <div
@@ -44,13 +35,13 @@ const Banner1 = () => {
         >
             <motion.div
                 animate={animation}
+                initial={{ x: '-100vw' }}
                 className="flex-center flex-1 flex-col mb-8"
             >
                 <div className="space-y-6">
-                    <TextSpan
-                        text="Tìm kiếm dễ dàng"
-                        className="text-4xl text-primary-500"
-                    />
+                    <h3 className="text-4xl text-primary-500">
+                        Tìm kiếm dễ dàng
+                    </h3>
                     <div>
                         <h4>Hãy chia sẽ với hàng xóm của bạn</h4>
                         <h4>Làm cho khu phố của bạn gần gũi và ấm áp</h4>
