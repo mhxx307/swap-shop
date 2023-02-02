@@ -18,10 +18,11 @@ const NavList = ({ navList, className, itemClassName }: NavMenuProps) => {
                     href={path}
                     key={label}
                     className={classNames(
-                        `nav-item
+                        `nav-item drop-shadow-lg
                         ${
-                            router.pathname === path &&
-                            'text-primary-500 dark:text-white after:w-full'
+                            router.pathname === path
+                                ? ' text-black dark:text-white after:w-full'
+                                : 'text-black/50 dark:text-[#d6d3d1]'
                         }`,
                         itemClassName,
                     )}

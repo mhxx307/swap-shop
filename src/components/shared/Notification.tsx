@@ -8,7 +8,7 @@ const Notification = () => {
             <button
                 id="dropdownNotificationButton"
                 data-dropdown-toggle="dropdownNotification"
-                className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400 relative"
+                className="inline-flex items-center text-sm font-medium text-black hover:text-gray-500 focus:outline-none dark:hover:text-white dark:text-gray-400 relative transition-colors"
                 type="button"
                 onClick={() => setToggle(!toggle)}
             >

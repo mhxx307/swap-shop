@@ -49,9 +49,9 @@ const HeroSection = () => {
             className="h-screen flex-center text-center text-white"
             id="hero"
         >
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden bg-no-repeat bg-center bg-cover video-container">
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden bg-no-repeat bg-center bg-cover">
                 <div
-                    className="bg-[url('/images/bg-together.jpg')] min-w-full min-h-full absolute top-[50%] left-[50%] object-cover bg-cover"
+                    className="bg-[url('https://images.unsplash.com/32/Mc8kW4x9Q3aRR3RkP5Im_IMG_4417.jpg?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80')] min-w-full min-h-full absolute top-[50%] left-[50%] object-cover bg-cover"
                     style={{ transform: 'translate(-50%, -50%)' }}
                 />
             </div>

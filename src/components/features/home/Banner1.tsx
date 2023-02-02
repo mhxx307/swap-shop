@@ -1,43 +1,10 @@
-import { SwiperEffectCard, TextSpan } from '@/components/shared';
+import { SwiperEffectCard } from '@/components/shared';
 import { BANNER_IMAGE_LIST } from '@/constants';
-import { useDebounce } from '@/hooks';
-import { motion, useAnimation } from 'framer-motion';
-import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
 
 const Banner1 = () => {
-    const { ref, inView } = useInView({
-        threshold: 0.2,
-    });
-    const animation = useAnimation();
-
-    useEffect(() => {
-        if (inView) {
-            animation.start({
-                x: 0,
-                transition: {
-                    type: 'spring',
-                    duration: 1,
-                    bounce: 0.1,
-                },
-            });
-        }
-
-        return () => {
-            animation.stop;
-        };
-    }, [inView, animation]);
-
     return (
-        <div
-            ref={ref}
-            className="section bg-[#FBF7F2] dark:bg-primaryDark min-h-screen"
-        >
-            <motion.div
-                animate={animation}
-                initial={{ x: '-100vw' }}
-                className="flex-center flex-1 flex-col mb-8"
-            >
+        <div className="section bg-[#FBF7F2] dark:bg-primaryDark min-h-screen">
+            <div className="flex-center flex-1 flex-col mb-8">
                 <div className="space-y-6">
                     <h3 className="text-4xl text-primary-500">
                         Tìm kiếm dễ dàng
@@ -47,7 +14,7 @@ const Banner1 = () => {
                         <h4>Làm cho khu phố của bạn gần gũi và ấm áp</h4>
                     </div>
                 </div>
-            </motion.div>
+            </div>
             <div className="flex-center flex-1">
                 <SwiperEffectCard
                     images={BANNER_IMAGE_LIST}

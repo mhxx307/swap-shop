@@ -58,7 +58,7 @@ const LanguageSwitcher = forwardRef<HTMLDivElement, LanguageSwitcherProps>(
                 >
                     <div
                         className={classNames(
-                            'px-2 py-3 rounded-md flex items-center sm:cursor-pointer bg-transparent sm:hover:bg-white/30 select-none transition-colors',
+                            'px-2 py-3 rounded-md flex items-center sm:cursor-pointer bg-transparent dark:sm:hover:bg-white/30 sm:hover:bg-black/30 select-none  transition-colors shadow-blue-600/50',
                             className,
                         )}
                         ref={ref}
