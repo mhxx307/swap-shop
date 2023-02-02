@@ -50,12 +50,8 @@ const HeroSection = () => {
             id="hero"
         >
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden bg-no-repeat bg-center bg-cover video-container">
-                <video
-                    src="https://traversymedia.com/downloads/video.mov"
-                    muted
-                    loop
-                    autoPlay
-                    className="min-w-full min-h-full absolute top-[50%] left-[50%] object-cover"
+                <div
+                    className="bg-[url('/images/bg-together.jpg')] min-w-full min-h-full absolute top-[50%] left-[50%] object-cover bg-cover"
                     style={{ transform: 'translate(-50%, -50%)' }}
                 />
             </div>
@@ -68,8 +64,7 @@ const HeroSection = () => {
                 <div className="flex-center space-x-4">
                     <ButtonLink
                         href="/register"
-                        outline
-                        className="border-white hover:scale-110"
+                        className="border-white border-[1px] hover:scale-110"
                     >
                         Đăng ký
                     </ButtonLink>
