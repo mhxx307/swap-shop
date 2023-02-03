@@ -1,10 +1,13 @@
+import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { BiSearchAlt2 } from 'react-icons/bi';
 
-export interface SearchProps {}
+export interface SearchProps {
+    className?: string;
+}
 
-const Search = (props: SearchProps) => {
+const Search = ({ className }: SearchProps) => {
     const [toggle, setToggle] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const router = useRouter();
@@ -24,7 +27,10 @@ const Search = (props: SearchProps) => {
     return (
         <div
             ref={ref}
-            className="bg-white h-[30px] rounded-[30px] py-[10px] px-[20px] flex items-center transition-all shadow-3xl cursor-pointer"
+            className={classNames(
+                'bg-white h-[30px] rounded-[30px] py-[10px] px-[20px] flex items-center transition-all shadow-md cursor-pointer',
+                className,
+            )}
             onClick={() => setToggle(true)}
         >
             <input

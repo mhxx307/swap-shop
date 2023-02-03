@@ -2,11 +2,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
     AiOutlineMore,
-    AiOutlineSearch,
     AiOutlineDownload,
+    AiOutlineMenu,
 } from 'react-icons/ai';
-import { GoThreeBars } from 'react-icons/go';
-import { MdNotifications } from 'react-icons/md';
+
 import {
     Button,
     NavList,
@@ -14,8 +13,9 @@ import {
     PopupMenu,
     Image,
     LanguageSwitcher,
-    ThemeSwitcher,
     Notification,
+    Search,
+    ThemeSwitcher,
 } from '@/components/shared';
 import { useTranslation } from 'next-i18next';
 import { useConstantsTranslation, useDevice } from '@/hooks';
@@ -27,15 +27,8 @@ const Header = () => {
 
     const router = useRouter();
     const { t } = useTranslation('header');
-    const {
-        HEADER_NAV_LIST,
-        POPUP_MENU_LIST,
-        POPUP_USER_MENU_LIST,
-        HEADER_MOBILE_NAV_LIST,
-    }: any = useConstantsTranslation();
-
-    const mobileHide = 'hidden md:flex';
-    const mobileShow = 'block md:hidden';
+    const { HEADER_NAV_LIST, POPUP_MENU_LIST, POPUP_USER_MENU_LIST }: any =
+        useConstantsTranslation();
 
     const { isMobile } = useDevice();
 
@@ -66,68 +59,80 @@ const Header = () => {
                 duration: 1,
                 delay: 0.3,
             }}
-            className={`wrapper w-full flex items-center justify-between h-[60px] md:h-[80px]
-                [&>*:first-child]:ml-0 ${
-                    navbar
-                        ? 'backdrop-blur-sm shadow-3xl bg-white/30 dark:bg-black/30'
-                        : 'bg-transparent'
-                }  fixed z-[100] transition-colors`}
+            className={`w-full flex flex-col [&>*:first-child]:ml-0 fixed z-[100] transition-colors`}
         >
-            <div className="flex items-center space-x-2">
-                <PopupMenu items={HEADER_MOBILE_NAV_LIST} hideOnClick>
-                    <GoThreeBars className={`w-6 h-6 ${mobileShow}`} />
-                </PopupMenu>
+            <div
+                className={`wrapper flex items-center justify-between bg-white ${
+                    navbar && 'hidden'
+                }`}
+            >
+                {/* header navlist mobile, logo, theme switcher */}
+                <div className="flex items-center space-x-2">
+                    <Link href="/">
+                        <Logo />
+                    </Link>
+                </div>
 
-                <Link href="/" className={mobileHide}>
-                    <Logo />
-                </Link>
-                <ThemeSwitcher />
+                {/* language switcher, notification, login, bar */}
+                <div className="flex items-center space-x-2">
+                    <Search className="hidden md:flex" />
+
+                    <LanguageSwitcher />
+
+                    {isMobile && (
+                        <Link href="/download">
+                            <AiOutlineDownload className="w-6 h-6" />
+                        </Link>
+                    )}
+
+                    <Notification />
+
+                    {!currentUser && (
+                        <Button
+                            primary
+                            shortcutKey="enter"
+                            onClick={() => router.push('/login')}
+                        >
+                            <p className="line-clamp-1">{t('login_title')}</p>
+                        </Button>
+                    )}
+
+                    <PopupMenu
+                        items={
+                            currentUser ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST
+                        }
+                        onChange={() => console.log('menu change')}
+                        hideOnClick
+                    >
+                        {currentUser ? (
+                            <Image
+                                src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
+                                alt="dog avatar"
+                                className="rounded-[50%] w-8 h-8 object-coversm:cursor-pointer"
+                            />
+                        ) : (
+                            <AiOutlineMore
+                                className={`w-8 h-8 sm:cursor-pointer text-black`}
+                            />
+                        )}
+                    </PopupMenu>
+                </div>
             </div>
 
-            <NavList navList={HEADER_NAV_LIST} className={mobileHide} />
+            {/* ${
+                    navbar && 'backdrop-blur-sm shadow-3xl bg-black/30'
+                } */}
+            <div className="wrapper bg-[#333] flex items-center justify-between py-3">
+                <div className="flex items-center space-x-4">
+                    <AiOutlineMenu className="block md:hidden text-white cursor-pointer" />
+                    <NavList
+                        navList={HEADER_NAV_LIST}
+                        className="items-center justify-between hidden md:flex"
+                    />
+                    <Search className="block md:hidden" />
+                </div>
 
-            <Link href="/" className={mobileShow}>
-                <Logo />
-            </Link>
-
-            <div className="flex items-center space-x-2">
-                <LanguageSwitcher />
-
-                {isMobile && (
-                    <Link href="/download">
-                        <AiOutlineDownload className="w-6 h-6" />
-                    </Link>
-                )}
-
-                <Notification />
-
-                {!currentUser && (
-                    <Button
-                        primary
-                        shortcutKey="enter"
-                        onClick={() => router.push('/login')}
-                    >
-                        {t('login_title')}
-                    </Button>
-                )}
-
-                <PopupMenu
-                    items={currentUser ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST}
-                    onChange={() => console.log('menu change')}
-                    hideOnClick
-                >
-                    {currentUser ? (
-                        <Image
-                            src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
-                            alt="dog avatar"
-                            className="rounded-[50%] w-8 h-8 object-coversm:cursor-pointer"
-                        />
-                    ) : (
-                        <AiOutlineMore
-                            className={`w-8 h-8 sm:cursor-pointer`}
-                        />
-                    )}
-                </PopupMenu>
+                <ThemeSwitcher />
             </div>
         </motion.header>
     );

@@ -8,13 +8,13 @@ const Notification = () => {
             <button
                 id="dropdownNotificationButton"
                 data-dropdown-toggle="dropdownNotification"
-                className="inline-flex items-center text-sm font-medium text-black hover:text-gray-500 focus:outline-none dark:hover:text-white dark:text-gray-400 relative transition-colors"
+                className="inline-flex items-center text-sm font-medium text-black relative transition-colors"
                 type="button"
                 onClick={() => setToggle(!toggle)}
             >
                 <BellIcon />
                 <div className="relative flex">
-                    <div className="relative inline-flex w-3 h-3 bg-red-500 border-2 border-white rounded-full -top-2 right-3 dark:border-gray-900"></div>
+                    <div className="relative inline-flex w-3 h-3 bg-red-500 border-2 rounded-full -top-2 right-3 border-white"></div>
                 </div>
 
                 {/* dropdown */}

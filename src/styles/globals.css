@@ -47,7 +47,7 @@ main {
 
 /* animation underline */
 .nav-item {
-    @apply capitalize font-bold hover:text-black dark:hover:text-white transition-colors duration-300 relative tracking-[1px];
+    @apply capitalize font-bold hover:text-white transition-colors duration-300 relative tracking-[1px];
 }
 
 .nav-item::after {
