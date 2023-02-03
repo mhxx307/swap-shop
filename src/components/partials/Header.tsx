@@ -1,10 +1,9 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import {
-    AiOutlineMore,
-    AiOutlineDownload,
-    AiOutlineMenu,
-} from 'react-icons/ai';
+import { AiOutlineMore, AiOutlineDownload } from 'react-icons/ai';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'next-i18next';
 
 import {
     Button,
@@ -16,20 +15,20 @@ import {
     Notification,
     Search,
     ThemeSwitcher,
+    HamburgerNavbar,
 } from '@/components/shared';
-import { useTranslation } from 'next-i18next';
 import { useConstantsTranslation, useDevice } from '@/hooks';
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 
 const Header = () => {
     const [navbar, setNavbar] = useState<boolean>(false);
-
     const router = useRouter();
     const { t } = useTranslation('header');
-    const { HEADER_NAV_LIST, POPUP_MENU_LIST, POPUP_USER_MENU_LIST }: any =
-        useConstantsTranslation();
-
+    const {
+        HEADER_NAV_LIST,
+        POPUP_MENU_LIST,
+        POPUP_USER_MENU_LIST,
+        HEADER_MOBILE_NAV_LIST,
+    }: any = useConstantsTranslation();
     const { isMobile } = useDevice();
 
     const currentUser = false;
@@ -59,7 +58,7 @@ const Header = () => {
                 duration: 1,
                 delay: 0.3,
             }}
-            className={`w-full flex flex-col [&>*:first-child]:ml-0 fixed z-[100] transition-colors`}
+            className="w-full flex flex-col [&>*:first-child]:ml-0 fixed z-[100] transition-colors shadow-md"
         >
             <div
                 className={`wrapper flex items-center justify-between bg-white ${
@@ -71,7 +70,7 @@ const Header = () => {
                 </Link>
 
                 {/* language switcher, notification, login, bar */}
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-4">
                     <Search className="hidden md:flex" />
 
                     <LanguageSwitcher />
@@ -82,9 +81,7 @@ const Header = () => {
                         </Link>
                     )}
 
-                    <Notification />
-
-                    {!currentUser && (
+                    {!currentUser ? (
                         <Button
                             primary
                             shortcutKey="enter"
@@ -92,6 +89,8 @@ const Header = () => {
                         >
                             <p className="line-clamp-1">{t('login_title')}</p>
                         </Button>
+                    ) : (
+                        <Notification />
                     )}
 
                     <PopupMenu
@@ -105,7 +104,7 @@ const Header = () => {
                             <Image
                                 src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
                                 alt="dog avatar"
-                                className="rounded-[50%] w-8 h-8 object-coversm:cursor-pointer"
+                                className="rounded-[50%] w-8 h-8 object-cover sm:cursor-pointer"
                             />
                         ) : (
                             <AiOutlineMore
@@ -121,7 +120,10 @@ const Header = () => {
                 } */}
             <div className="wrapper bg-[#1b1b1b] flex items-center justify-between py-3">
                 <div className="flex items-center space-x-4">
-                    <AiOutlineMenu className="block md:hidden text-white cursor-pointer" />
+                    <HamburgerNavbar
+                        data={HEADER_MOBILE_NAV_LIST}
+                        className="block md:hidden text-white cursor-pointer"
+                    />
                     <NavList
                         navList={HEADER_NAV_LIST}
                         className="items-center justify-between hidden md:flex"

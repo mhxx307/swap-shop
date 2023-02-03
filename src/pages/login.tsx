@@ -40,7 +40,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                     {t('back_btn')}
                 </ButtonLink>
                 <div
-                    className="hidden md:block relative col-span-2 after:absolute after:inset-0 after:bg-[#000000]/80 after:z-10"
+                    className="hidden md:block relative col-span-2 after:absolute after:inset-0 after:bg-[#000000]/30 after:z-10"
                     style={{
                         backgroundImage: "url('/images/login-background.avif')",
                         backgroundPosition: 'center center',

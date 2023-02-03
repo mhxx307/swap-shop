@@ -36,7 +36,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
 
                 {/* user avatar */}
                 <Image
-                    src=""
+                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                     alt="Avatar"
                     className="w-full h-full object-cover ss:mx-[24px] text-center"
                     containerclassname="flex-center text-sm z-50 w-8 h-8 rounded-[50%] overflow-hidden absolute left-[24px] bottom-[-16px]"

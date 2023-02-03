@@ -1,9 +1,9 @@
 import { ArticlesSwiperInfinite } from '@/components/features/articles';
 import {
+    Avatar,
     Button,
     ClientOnly,
     Head,
-    Image,
     SwiperNavigation,
     TabView,
 } from '@/components/shared';
@@ -21,7 +21,7 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
         <>
             <Head title={article.title} description={article.description} />
             <ClientOnly>
-                <div className="mt-[100px] wrapper space-y-20">
+                <div className="mt-[200px] wrapper space-y-20">
                     <div className="grid grid-cols-10 space-y-10 md:space-y-0 md:space-x-10">
                         <div className="col-span-10 md:col-span-4">
                             <SwiperNavigation
@@ -79,14 +79,7 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
 
                     <div className="flex justify-between items-center border-gray-400 border px-[20px] py-[20px] rounded-xl">
                         <div className="flex justify-between items-center space-x-4">
-                            <div className="relative">
-                                <Image
-                                    src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
-                                    alt="dog avatar"
-                                    className="w-[40px] h-[40px] rounded-full sm:cursor-pointer"
-                                />
-                                <span className="bottom-0 left-[28px] absolute w-[14px] h-[14px] bg-green-400 border-[2px] border-white dark:border-gray-800 rounded-full"></span>
-                            </div>
+                            <Avatar src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" />
                             <p>Minh Quan</p>
                         </div>
                     </div>

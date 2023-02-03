@@ -43,7 +43,7 @@ const LanguageSwitcher = forwardRef<HTMLDivElement, LanguageSwitcherProps>(
                                 <div
                                     key={locale}
                                     onClick={handleChangeLanguage(locale)}
-                                    className="cursor-pointer px-6 py-2 select-none text-responsive-sm transition-colors bg-white dark:bg-primaryDark"
+                                    className="cursor-pointer px-6 py-2 select-none text-responsive-sm bg-white dark:bg-primaryDark hover:bg-gray-300 dark:hover:bg-gray-800 transition-colors"
                                 >
                                     {name}
                                 </div>
@@ -61,7 +61,7 @@ const LanguageSwitcher = forwardRef<HTMLDivElement, LanguageSwitcherProps>(
                         className={classNames('text-black', className)}
                     >
                         <AiOutlineGlobal className="block sm:hidden w-[22px] h-[22px]" />
-                        <p className="ml-[5px] hidden sm:block font-medium cursor-pointer hover:text-primary-500">
+                        <p className="hidden sm:block font-medium cursor-pointer hover:text-primary-500 transition-colors">
                             {currentLocale?.name}
                         </p>
                     </div>

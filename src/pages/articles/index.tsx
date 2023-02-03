@@ -11,7 +11,7 @@ const Articles = ({ articles }: ArticlesPageProps) => {
         <>
             <Head />
             <ClientOnly>
-                <div className="mt-[100px] wrapper space-y-20">
+                <div className="mt-[200px] wrapper space-y-20">
                     <ArticleList articleList={articles} className="mb-[30px]" />
                 </div>
             </ClientOnly>
