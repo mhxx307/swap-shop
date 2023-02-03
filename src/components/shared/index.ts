@@ -22,3 +22,4 @@ export { default as TextSpan } from './TextSpan';
 export { default as Spinner } from './Spinner';
 export { default as Notification } from './Notification';
 export { default as Search } from './Search';
+export { default as CubeRotate } from './CubeRotate';

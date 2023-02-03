@@ -3,18 +3,8 @@ import { BANNER_IMAGE_LIST } from '@/constants';
 
 const Banner2 = () => {
     return (
-        <div className="section-reverse dark:bg-primaryDark min-h-screen">
+        <div className="section-reverse bg-[#e6f3e6] dark:bg-secondaryDark min-h-screen">
             <div className="flex-center flex-1 mt-[100px] md:mt-0">
-                {/* <div className="cube-wrapper">
-                    <div className="cube">
-                        <div className="face bg-[url('/images/youtube.jpg')]"></div>
-                        <div className="face bg-[url('/images/discord.jpg')]"></div>
-                        <div className="face bg-[url('/images/twitter.jpg')]"></div>
-                        <div className="face bg-[url('/images/insta.jpg')]"></div>
-                        <div className="face bg-[url('/images/youtube.jpg')]"></div>
-                        <div className="face bg-[url('/images/youtube.jpg')]"></div>
-                    </div>
-                </div> */}
                 <SwiperEffectCard
                     images={BANNER_IMAGE_LIST}
                     swiperClassName="w-[400px] h-[550px]"

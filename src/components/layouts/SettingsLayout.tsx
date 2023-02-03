@@ -15,7 +15,7 @@ const SettingsLayout = ({ children }: BaseLayoutProps) => {
         <main>
             <Header />
             <div className="app">
-                <div className="wrapper pt-[100px] space-y-12">
+                <div className="wrapper pt-[200px] space-y-12">
                     <h3 className="text-4xl font-bold">Settings</h3>
                     <div className="border-bottom"></div>
                     <Dropdown className="block ss:hidden" dataList={settings} />

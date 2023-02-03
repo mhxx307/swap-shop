@@ -16,7 +16,7 @@ const Home = ({ articles }: HomeProps) => {
                 <HeroSection />
                 <Banner1 />
                 <Banner2 />
-                <div className="space-y-8 wrapper mb-[60px]">
+                <div className="wrapper mb-[60px] bg-[#FBF7F2] dark:bg-primaryDark py-8">
                     <div className="space-y-3">
                         <h3 className="text-4xl font-extrabold text-primary-500 italic">
                             New articles

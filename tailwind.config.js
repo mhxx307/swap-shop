@@ -10,8 +10,8 @@ module.exports = {
         extend: {
             colors: {
                 primary: colors.red,
-                primaryDark: '#1d1d1d',
-                secondaryDark: '#161b22',
+                primaryDark: '#18191a',
+                secondaryDark: '#1e1e1e',
             },
             boxShadow: {
                 '3xl': 'rgb(145 158 171 / 20%) 0px 0px 2px 0px, rgb(145 158 171 / 12%) 0px 12px 24px -4px',

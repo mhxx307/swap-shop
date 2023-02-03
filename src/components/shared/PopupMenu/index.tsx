@@ -40,7 +40,7 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
                 <MenuItem
                     data={item}
                     key={item.label}
-                    className="dark:bg-black dark:text-white dark:hover:bg-white/10"
+                    className="dark:text-white dark:hover:bg-white/10"
                     onClick={() => {
                         // if (isParent) {
                         //     setHistory((prev) => [...prev, item.children]);

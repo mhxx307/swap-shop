@@ -66,12 +66,9 @@ const Header = () => {
                     navbar && 'hidden'
                 }`}
             >
-                {/* header navlist mobile, logo, theme switcher */}
-                <div className="flex items-center space-x-2">
-                    <Link href="/">
-                        <Logo />
-                    </Link>
-                </div>
+                <Link href="/">
+                    <Logo />
+                </Link>
 
                 {/* language switcher, notification, login, bar */}
                 <div className="flex items-center space-x-2">
@@ -122,7 +119,7 @@ const Header = () => {
             {/* ${
                     navbar && 'backdrop-blur-sm shadow-3xl bg-black/30'
                 } */}
-            <div className="wrapper bg-[#333] flex items-center justify-between py-3">
+            <div className="wrapper bg-[#1b1b1b] flex items-center justify-between py-3">
                 <div className="flex items-center space-x-4">
                     <AiOutlineMenu className="block md:hidden text-white cursor-pointer" />
                     <NavList
