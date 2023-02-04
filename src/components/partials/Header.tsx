@@ -81,7 +81,9 @@ const Header = () => {
                         </Link>
                     )}
 
-                    {!currentUser ? (
+                    <Notification />
+
+                    {!currentUser && (
                         <Button
                             primary
                             shortcutKey="enter"
@@ -89,8 +91,6 @@ const Header = () => {
                         >
                             <p className="line-clamp-1">{t('login_title')}</p>
                         </Button>
-                    ) : (
-                        <Notification />
                     )}
 
                     <PopupMenu
