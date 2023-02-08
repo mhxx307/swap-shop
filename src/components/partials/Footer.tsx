@@ -15,7 +15,7 @@ const Footer = () => {
         'font-bold hover:text-primary-300 transition duration-300';
 
     return (
-        <div className="w-full flex flex-col items-center justify-center px-4 md:px-12 py-16 space-y-4 border-t-[1px]">
+        <div className="w-full flex flex-col items-center justify-center px-4 md:px-12 py-16 space-y-4 border-t-[1px] border-black/10 dark:border-[#282828]">
             <div className="flex items-center space-x-4">
                 <ContactItem href={YOUTUBE_URL} Icon={AiFillYoutube} />
                 <ContactItem href={FACEBOOK_URL} Icon={AiFillFacebook} />
@@ -23,29 +23,29 @@ const Footer = () => {
 
             <div className="flex items-center space-x-8 text-center">
                 <Link href="/tos" className={footerLink}>
-                    <p className="text-responsive-md">
+                    <p className="text-responsive-xl">
                         {t('term_of_services')}
                     </p>
                 </Link>
 
                 <Link href="/dmca" className={footerLink}>
-                    <p className="text-responsive-md">{t('dmca')}</p>
+                    <p className="text-responsive-xl">{t('dmca')}</p>
                 </Link>
 
                 <Link href="/contact" className={footerLink}>
-                    <p className="text-responsive-md">{t('contact')}</p>
+                    <p className="text-responsive-xl">{t('contact')}</p>
                 </Link>
 
                 <Link href="/privacy" className={footerLink}>
-                    <p className="text-responsive-md">{t('privacy_policy')}</p>
+                    <p className="text-responsive-xl">{t('privacy_policy')}</p>
                 </Link>
             </div>
 
-            <p className="text-[1rem] sm:text-[1.2rem] md:text-[1.4rem] dark:text-gray-300 text-center">
+            <p className="text-responsive-sm dark:text-gray-300 text-center">
                 {t('disclaimer')}
             </p>
 
-            <p className="text-[1.4rem] dark:text-gray-300 text-center">
+            <p className="text-xs dark:text-gray-300 text-center">
                 © 2023 SecondChance
             </p>
         </div>

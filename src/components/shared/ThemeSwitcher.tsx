@@ -7,7 +7,6 @@ import ClientOnly from './ClientOnly';
 // https://dev.to/mrpbennett/creating-a-dark-theme-switch-with-tailwind-framer-motion-4f4h
 const ThemeSwitcher = () => {
     const { isOn, setIsOn } = useContext(ThemeContext);
-    console.log(isOn);
 
     const spring = {
         type: 'spring',
@@ -24,6 +23,7 @@ const ThemeSwitcher = () => {
                 }`}
             >
                 <motion.div
+                    initial={{ y: '0%' }}
                     className="flex h-[100%] w-[30px] items-center justify-center rounded-full bg-black/90"
                     layout
                     transition={spring}

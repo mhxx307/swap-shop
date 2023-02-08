@@ -6,15 +6,11 @@ import { PopupMenuItemProps } from '@/types';
 
 const HEADER_NAV_LIST: PopupMenuItemProps[] = [
     { path: '/', label: 'Home' },
-    { path: '/articles', label: 'Articles' },
+    { path: '/articles', label: 'Second hand transaction' },
     { path: '/about', label: 'About' },
-    { path: '/trust', label: 'Trust' },
 ];
 
-const HEADER_MOBILE_NAV_LIST: PopupMenuItemProps[] = [
-    { path: '/search', label: 'Search' },
-    ...HEADER_NAV_LIST,
-];
+const HEADER_MOBILE_NAV_LIST: PopupMenuItemProps[] = [...HEADER_NAV_LIST];
 
 const POPUP_MENU_LIST: PopupMenuItemProps[] = [
     {

@@ -6,7 +6,7 @@ import MenuItem from './MenuItem';
 import PopupWrapper from './PopupWrapper';
 import Header from './Header';
 import { PopupMenuItemProps } from '@/types';
-// import ThemeSwitcher from '../ThemeSwitcher';
+import ThemeSwitcher from '../ThemeSwitcher';
 
 const defaultFn = () => {};
 
@@ -40,7 +40,7 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
                 <MenuItem
                     data={item}
                     key={item.label}
-                    className="dark:bg-black dark:text-white dark:hover:bg-white/10"
+                    className="dark:text-white dark:hover:bg-white/10"
                     onClick={() => {
                         // if (isParent) {
                         //     setHistory((prev) => [...prev, item.children]);
@@ -67,20 +67,13 @@ const PopupMenu = forwardRef<HTMLDivElement, PopupMenuProps>((props, ref) => {
             <Tippy
                 interactive={true}
                 render={(attrs) => (
-                    <div
-                        className="min-w-[100px] sm:min-w-[200px] md:min-w-[264px] shadow-md"
-                        tabIndex={-1}
-                        {...attrs}
-                    >
+                    <div className="shadow-3xl" tabIndex={-1} {...attrs}>
                         <PopupWrapper className="pb-[8px]">
                             {/* {history.length > 1 && (
                                 <Header title={current.title} onBack={handleBack} />
                             )} */}
                             {title && <Header title={title} />}
                             <div className="w-full">{renderItems()}</div>
-                            {/* <div className="ml-[11px]">
-                                <ThemeSwitcher />
-                            </div> */}
                         </PopupWrapper>
                     </div>
                 )}

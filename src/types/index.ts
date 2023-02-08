@@ -29,3 +29,7 @@ export interface ProgressItemProps {
     title: string;
     number: number;
 }
+
+export interface ArticleProps {
+    id: string;
+}

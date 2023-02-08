@@ -1,15 +1,21 @@
 import '@/styles/globals.css';
 import { SWRConfig } from 'swr';
 import { AppPropsWithLayout } from '@/types/layoutTypes';
-import BaseLayout from '@/components/layouts/BaseLayout';
 import httpRequest from '@/utils/httpRequest';
 import { appWithTranslation } from 'next-i18next';
 import nextI18nextConfig from 'next-i18next.config';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useRouter } from 'next/router';
+import NextNProgress from 'nextjs-progressbar';
+
+import BaseLayout from '@/components/layouts/BaseLayout';
 import ThemeProvider from '@/contexts/ThemeContext';
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const Layout =
         Component.Layout || ((page) => <BaseLayout>{page}</BaseLayout>);
+    const router = useRouter();
+
     return (
         <ThemeProvider>
             <SWRConfig
@@ -18,7 +24,31 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
                     shouldRetryOnError: false,
                 }}
             >
-                {Layout(<Component {...pageProps} />)}
+                {Layout(
+                    <AnimatePresence>
+                        <motion.div
+                            key={router.route}
+                            initial="initialState"
+                            animate="animateState"
+                            exit="exitState"
+                            transition={{
+                                duration: 0.5,
+                            }}
+                            variants={{
+                                initialState: {
+                                    opacity: 0,
+                                },
+                                animateState: {
+                                    opacity: 1,
+                                },
+                                exitState: {},
+                            }}
+                        >
+                            <NextNProgress color="#ef4444" />
+                            <Component {...pageProps} />
+                        </motion.div>
+                    </AnimatePresence>,
+                )}
             </SWRConfig>
         </ThemeProvider>
     );

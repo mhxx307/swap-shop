@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
+import ThemeSwitcher from './ThemeSwitcher';
 
 export interface NavMenuProps {
     navList: any[];
@@ -12,7 +13,7 @@ const NavList = ({ navList, className, itemClassName }: NavMenuProps) => {
     const router = useRouter();
 
     return (
-        <nav className={classNames(className)}>
+        <nav className={classNames('space-x-10', className)}>
             {navList.map(({ path, label }) => (
                 <Link
                     href={path}
@@ -20,8 +21,9 @@ const NavList = ({ navList, className, itemClassName }: NavMenuProps) => {
                     className={classNames(
                         `nav-item
                         ${
-                            router.pathname === path &&
-                            'text-primary-400 dark:text-white after:w-full'
+                            router.pathname === path
+                                ? ' text-white after:w-full'
+                                : 'text-[#d6d3d1]'
                         }`,
                         itemClassName,
                     )}
