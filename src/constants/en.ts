@@ -6,7 +6,7 @@ import { PopupMenuItemProps } from '@/types';
 
 const HEADER_NAV_LIST: PopupMenuItemProps[] = [
     { path: '/', label: 'Home' },
-    { path: '/articles', label: 'Articles' },
+    { path: '/articles', label: 'Second hand transaction' },
     { path: '/about', label: 'About' },
 ];
 
