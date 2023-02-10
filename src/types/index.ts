@@ -8,11 +8,6 @@ export interface PopupMenuItemProps {
     separate?: boolean;
 }
 
-export interface LoginPayload {
-    username: string;
-    password: string;
-}
-
 export interface RegisterPayload {
     fullName: string;
     email: string;

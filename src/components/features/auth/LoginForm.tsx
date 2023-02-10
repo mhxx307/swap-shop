@@ -1,43 +1,58 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
-import { Button, InputField } from '@/components/shared';
-import { LoginPayload } from '@/types';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
+import { Button, InputField } from '@/components/shared';
+import { useValidateSchema } from '@/hooks';
+import { LoginInput, useLoginMutation } from '@/types/generated/graphql';
+
 const LoginForm = () => {
-    const schema = yup
-        .object({
-            username: yup
-                .string()
-                .required('Please enter your username')
-                .min(6, 'Username must be at least 6 characters long')
-                .max(20, 'Username must be at most 20 characters long'),
-            password: yup
-                .string()
-                .required('Please enter your password')
-                .min(8, 'Password must be at least 8 characters long')
-                .max(20, 'Password must be at most 20 characters long'),
-        })
-        .required();
-
+    const { t } = useTranslation('login');
+    const schema = useValidateSchema({ name: 'login' });
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const router = useRouter();
 
-    const { control, handleSubmit } = useForm<LoginPayload>({
+    const { control, handleSubmit, setError } = useForm<LoginInput>({
         defaultValues: {
-            username: '',
+            usernameOrEmail: '',
             password: '',
         },
         resolver: yupResolver(schema),
     });
 
-    const { t } = useTranslation('login');
+    const [login, { loading, error }] = useLoginMutation();
 
-    const handleLogin = (loginPayload: LoginPayload) => {
-        console.log(loginPayload);
+    if (error) return `Login error! ${error.message}`;
+
+    const handleLogin = async (payload: LoginInput) => {
+        const response = await login({
+            variables: {
+                loginInput: payload,
+            },
+        });
+
+        if (response.data?.login.errors) {
+            response.data?.login.errors.forEach((error) => {
+                if (
+                    error.field === 'usernameOrEmail' ||
+                    error.field === 'password'
+                ) {
+                    setError(
+                        error.field,
+                        {
+                            type: 'focus',
+                            message: error.message,
+                        },
+                        { shouldFocus: true },
+                    );
+                }
+            });
+        } else if (response.data?.login.success) {
+            router.push('/login');
+        }
     };
 
     return (
@@ -48,7 +63,7 @@ const LoginForm = () => {
         >
             <InputField
                 type="text"
-                name="username"
+                name="usernameOrEmail"
                 control={control}
                 className="px-3 py-2 shadow-none"
                 // containerInputClassName="border-[1px] border-gray-500 rounded-md focus-within:border-[#00b4d8]"
@@ -71,6 +86,7 @@ const LoginForm = () => {
                 type="submit"
                 primary
                 className="mt-[20px] w-full justify-center items-center select-none"
+                isLoading={loading}
             >
                 {t('button_login')!}
             </Button>

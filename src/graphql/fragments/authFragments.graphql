@@ -1,0 +1,27 @@
+# fragment userInfo on User {
+#     id
+#     username
+#     email
+#     address
+#     phoneNumber
+#     fullName
+#     birthday
+#     avatar
+#     isOnline
+#     createdDate
+#     updatedDate
+# }
+
+fragment user on User {
+    id
+}
+
+fragment userMutationResponse on UserMutationResponse {
+    ...mutationStatus
+    user {
+        ...user
+    }
+    errors {
+        ...errors
+    }
+}
