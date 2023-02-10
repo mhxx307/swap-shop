@@ -1,19 +1,15 @@
-# fragment userInfo on User {
-#     id
-#     username
-#     email
-#     address
-#     phoneNumber
-#     fullName
-#     birthday
-#     avatar
-#     isOnline
-#     createdDate
-#     updatedDate
-# }
-
 fragment user on User {
     id
+    username
+    email
+    address
+    phoneNumber
+    fullName
+    birthday
+    avatar
+    isOnline
+    createdDate
+    updatedDate
 }
 
 fragment userMutationResponse on UserMutationResponse {

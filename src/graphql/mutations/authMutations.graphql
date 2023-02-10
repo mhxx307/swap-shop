@@ -9,3 +9,7 @@ mutation Login($loginInput: LoginInput!) {
         ...userMutationResponse
     }
 }
+
+mutation logout {
+    logout
+}

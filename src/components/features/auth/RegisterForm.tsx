@@ -13,7 +13,11 @@ import {
     ProgressBar,
     UserForm,
 } from './components/register';
-import { useRegisterMutation } from '@/types/generated/graphql';
+import {
+    UserInfoDocument,
+    UserInfoQuery,
+    useRegisterMutation,
+} from '@/types/generated/graphql';
 import { useRouter } from 'next/router';
 
 const RegisterForm = () => {
@@ -61,6 +65,14 @@ const RegisterForm = () => {
             variables: {
                 registerInput,
             },
+            // update(cache, { data }) {
+            //     if (data?.register.success) {
+            //         cache.writeQuery<UserInfoQuery>({
+            //             query: UserInfoDocument,
+            //             data: { userInfo: data.register.user },
+            //         });
+            //     }
+            // },
         });
 
         if (response.data?.register.errors) {

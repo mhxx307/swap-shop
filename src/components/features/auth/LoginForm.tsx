@@ -7,7 +7,12 @@ import { useTranslation } from 'react-i18next';
 
 import { Button, InputField } from '@/components/shared';
 import { useValidateSchema } from '@/hooks';
-import { LoginInput, useLoginMutation } from '@/types/generated/graphql';
+import {
+    LoginInput,
+    UserInfoDocument,
+    UserInfoQuery,
+    useLoginMutation,
+} from '@/types/generated/graphql';
 
 const LoginForm = () => {
     const { t } = useTranslation('login');
@@ -32,6 +37,14 @@ const LoginForm = () => {
             variables: {
                 loginInput: payload,
             },
+            update(cache, { data }) {
+                if (data?.login.success) {
+                    cache.writeQuery<UserInfoQuery>({
+                        query: UserInfoDocument,
+                        data: { userInfo: data.login.user },
+                    });
+                }
+            },
         });
 
         if (response.data?.login.errors) {
@@ -51,7 +64,7 @@ const LoginForm = () => {
                 }
             });
         } else if (response.data?.login.success) {
-            router.push('/login');
+            router.push('/');
         }
     };
 
