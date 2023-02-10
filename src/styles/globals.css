@@ -59,8 +59,20 @@ main {
         @apply w-full;
     }
 
-    .register-input {
-        @apply border-[1px] border-gray-300 h-[40px] focus-within:border-blue-500 dark:focus-within:border-blue-500;
+    .default-input {
+        @apply flex items-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+    }
+
+    .error-input {
+        @apply flex items-center bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 p-2.5 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500;
+    }
+
+    .default-label {
+        @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white;
+    }
+
+    .error-label {
+        @apply block text-sm font-medium text-red-700 dark:text-red-500;
     }
 
     /* text */

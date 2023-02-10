@@ -25,3 +25,5 @@ export { default as Search } from './Search';
 export { default as CubeRotate } from './CubeRotate';
 export { default as Avatar } from './Avatar';
 export { default as HamburgerNavbar } from './HamburgerNavbar';
+export { default as UploadAvatar } from './UploadAvatar';
+export { default as DateField } from './DateField';

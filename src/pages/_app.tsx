@@ -10,6 +10,13 @@ import NextNProgress from 'nextjs-progressbar';
 
 import BaseLayout from '@/components/layouts/BaseLayout';
 import ThemeProvider from '@/contexts/ThemeContext';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+const client = new ApolloClient({
+    uri: 'http://localhost:4000/graphql',
+    cache: new InMemoryCache(),
+    credentials: 'include',
+});
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const Layout =
@@ -18,38 +25,40 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
     return (
         <ThemeProvider>
-            <SWRConfig
-                value={{
-                    fetcher: (url) => httpRequest.get(url),
-                    shouldRetryOnError: false,
-                }}
-            >
-                {Layout(
-                    <AnimatePresence>
-                        <motion.div
-                            key={router.route}
-                            initial="initialState"
-                            animate="animateState"
-                            exit="exitState"
-                            transition={{
-                                duration: 0.5,
-                            }}
-                            variants={{
-                                initialState: {
-                                    opacity: 0,
-                                },
-                                animateState: {
-                                    opacity: 1,
-                                },
-                                exitState: {},
-                            }}
-                        >
-                            <NextNProgress color="#ef4444" />
-                            <Component {...pageProps} />
-                        </motion.div>
-                    </AnimatePresence>,
-                )}
-            </SWRConfig>
+            <ApolloProvider client={client}>
+                <SWRConfig
+                    value={{
+                        fetcher: (url) => httpRequest.get(url),
+                        shouldRetryOnError: false,
+                    }}
+                >
+                    {Layout(
+                        <AnimatePresence>
+                            <motion.div
+                                key={router.route}
+                                initial="initialState"
+                                animate="animateState"
+                                exit="exitState"
+                                transition={{
+                                    duration: 0.5,
+                                }}
+                                variants={{
+                                    initialState: {
+                                        opacity: 0,
+                                    },
+                                    animateState: {
+                                        opacity: 1,
+                                    },
+                                    exitState: {},
+                                }}
+                            >
+                                <NextNProgress color="#ef4444" />
+                                <Component {...pageProps} />
+                            </motion.div>
+                        </AnimatePresence>,
+                    )}
+                </SWRConfig>
+            </ApolloProvider>
         </ThemeProvider>
     );
 };

@@ -15,12 +15,14 @@ export interface InputProps extends React.HTMLProps<HTMLInputElement> {
     leftIconOnClick?: () => void;
     rightIconOnClick?: () => void;
     label?: string;
+    defaultLayout?: boolean;
 }
 
 // first props is for ref, second props is for props
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     const {
         label,
+        defaultLayout,
         containerclassname,
         containerInputClassName,
         labelClassName,
@@ -43,7 +45,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 
             <div
                 className={classNames(
-                    'dark:border-white dark:border-[1px] flex items-center space-x-2 bg-background-800 focus:ring focus:ring-primary-500 focus:shadow-outline rounded px-3',
+                    `${
+                        defaultLayout &&
+                        'dark:border-white dark:border-[1px] flex items-center space-x-2 bg-background-800 focus:ring focus:ring-primary-500 focus:shadow-outline rounded px-3'
+                    }`,
                     LeftIcon || RightIcon ? 'py-2' : 'py-1',
                     containerInputClassName,
                 )}

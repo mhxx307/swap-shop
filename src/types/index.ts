@@ -14,15 +14,14 @@ export interface LoginPayload {
 }
 
 export interface RegisterPayload {
-    firstName: string;
-    lastName: string;
-    age: string;
-    street: string;
-    city: string;
-    state: string;
-    zip: string;
+    fullName: string;
     email: string;
+    username: string;
     password: string;
+    address: string;
+    phoneNumber: string;
+    confirmPassword: string;
+    date?: any;
 }
 
 export interface ProgressItemProps {
