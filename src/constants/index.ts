@@ -1,4 +1,5 @@
 import { ProgressItemProps, RegisterPayload } from '@/types';
+import { FieldError } from '@/types/generated/graphql';
 
 export const REVALIDATE_TIME = 86_400; // 24 hours
 

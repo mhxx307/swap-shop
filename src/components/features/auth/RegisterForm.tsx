@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-key */
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
-import { useMultiStepForm } from '@/hooks';
 import { useForm } from 'react-hook-form';
+
+import { useMultiStepForm, useValidateSchema } from '@/hooks';
 import { Button } from '@/components/shared';
 import { RegisterPayload } from '@/types';
 import { REGISTER_INITIAL_DATA, PROGRESS_LIST } from '@/constants';
@@ -14,61 +13,17 @@ import {
     ProgressBar,
     UserForm,
 } from './components/register';
-import { useMutation } from '@apollo/client';
-import { REGISTER_MUTATION } from '@/graphql/mutation';
+import { useRegisterMutation } from '@/types/generated/graphql';
+import { useRouter } from 'next/router';
 
 const RegisterForm = () => {
-    const schema = yup
-        .object({
-            email: yup
-                .string()
-                .required('Please enter your email')
-                .matches(
-                    /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g,
-                    'Incorrect format of email',
-                ),
-            username: yup
-                .string()
-                .required('Please enter your username')
-                .min(2, 'Username must be at least 2 characters long')
-                .max(20, 'Username must be at most 20 characters long')
-                .matches(
-                    /^(?=[a-zA-Z0-9._]{2,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/g,
-                    'Username is 2-20 characters long, not special characters',
-                ),
-            password: yup
-                .string()
-                .required('Please enter your password')
-                .min(8, 'Password must be at least 8 characters long')
-                .matches(
-                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
-                    'At least 8 characters must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number Can contain special characters.',
-                ),
-            confirmPassword: yup
-                .string()
-                .required('Please enter your confirm password')
-                .oneOf([yup.ref('password'), null], 'Passwords must match'),
-            fullName: yup
-                .string()
-                .required('Please enter your full name')
-                .matches(
-                    /(?:[A-ZẮẰẲẴẶĂẤẦẨẪẬÂÁÀÃẢẠĐẾỀỂỄỆÊÉÈẺẼẸÍÌỈĨỊỐỒỔỖỘÔỚỜỞỠỢƠÓÒÕỎỌỨỪỬỮỰƯÚÙỦŨỤÝỲỶỸỴ][a-zắằẳẵặăấầẩẫậâáàãảạđếềểễệêéèẻẽẹíìỉĩịốồổỗộôớờởỡợơóòõỏọứừửữựưúùủũụýỳỷỹỵ]{1,}\s)+[A-ZẮẰẲẴẶĂẤẦẨẪẬÂÁÀÃẢẠĐẾỀỂỄỆÊÉÈẺẼẸÍÌỈĨỊỐỒỔỖỘÔỚỜỞỠỢƠÓÒÕỎỌỨỪỬỮỰƯÚÙỦŨỤÝỲỶỸỴ][a-zắằẳẵặăấầẩẫậâáàãảạđếềểễệêéèẻẽẹíìỉĩịốồổỗộôớờởỡợơóòõỏọứừửữựưúùủũụýỳỷỹỵ]+/g,
-                    'Incorrect format',
-                ),
-            phoneNumber: yup
-                .string()
-                .required('Please enter your phone number')
-                .matches(
-                    /^(0|\+84)(\s|\.)?((3[3-9])|(5[689])|(7[06-9])|(8[1-6789])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/gm,
-                    'Incorrect format',
-                ),
-            address: yup.string().required('Please enter your address'),
-        })
-        .required();
+    const router = useRouter();
+    const schema = useValidateSchema({ name: 'register' });
 
     const {
         control,
         handleSubmit,
+        setError,
         formState: { errors },
     } = useForm<RegisterPayload>({
         defaultValues: {
@@ -90,34 +45,49 @@ const RegisterForm = () => {
         <AccountForm control={control} />,
         <UserForm control={control} />,
         <AddressForm control={control} />,
-        <FinishForm />,
+        <FinishForm errors={errors} />,
     ]);
 
-    const [register, { data, loading, error }] = useMutation(REGISTER_MUTATION);
+    const [register, { loading, error }] = useRegisterMutation();
 
     if (error) return `Submission error! ${error.message}`;
 
-    const handleRegister = (payload: RegisterPayload) => {
+    const handleRegister = async (payload: RegisterPayload) => {
         const { confirmPassword, date, ...rest } = payload;
         const { startDate: birthday } = date;
         const registerInput = { ...rest, birthday };
 
-        register({
+        const response = await register({
             variables: {
                 registerInput,
             },
         });
+
+        if (response.data?.register.errors) {
+            response.data?.register.errors.forEach((error) => {
+                if (
+                    error.field === 'username' ||
+                    error.field === 'email' ||
+                    error.field === 'phoneNumber'
+                ) {
+                    setError(
+                        error.field,
+                        {
+                            type: 'focus',
+                            message: error.message,
+                        },
+                        { shouldFocus: true },
+                    );
+                    alert(error.message);
+                }
+            });
+        } else if (response.data?.register.success) {
+            router.push('/login');
+        }
     };
 
     const handleNextStep = () => {
         if (!isLastStep) return next();
-
-        if (errors) {
-            alert(
-                `There are a few fields that have not yet entered enough data, please come back and check. Sorry for the inconvenience. We will upgrade the test in the future.
-                ${JSON.stringify(errors)}`,
-            );
-        }
     };
 
     return (
