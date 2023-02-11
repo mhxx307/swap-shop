@@ -1,37 +1,41 @@
 import '@/styles/globals.css';
-import { SWRConfig } from 'swr';
 import { AppPropsWithLayout } from '@/types/layoutTypes';
-import httpRequest from '@/utils/httpRequest';
+import { AnimatePresence, motion } from 'framer-motion';
 import { appWithTranslation } from 'next-i18next';
 import nextI18nextConfig from 'next-i18next.config';
-import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import NextNProgress from 'nextjs-progressbar';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import BaseLayout from '@/components/layouts/BaseLayout';
 import ThemeProvider from '@/contexts/ThemeContext';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-
-const client = new ApolloClient({
-    uri: 'http://localhost:4000/graphql',
-    cache: new InMemoryCache(),
-    credentials: 'include',
-});
+import { useApollo } from '@/libs/apolloClient';
+import { ApolloProvider } from '@apollo/client';
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const Layout =
         Component.Layout || ((page) => <BaseLayout>{page}</BaseLayout>);
     const router = useRouter();
 
+    const apolloClient = useApollo(pageProps);
+
     return (
-        <ThemeProvider>
-            <ApolloProvider client={client}>
-                <SWRConfig
-                    value={{
-                        fetcher: (url) => httpRequest.get(url),
-                        shouldRetryOnError: false,
-                    }}
-                >
+        <>
+            <ToastContainer
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar={true}
+                newestOnTop={true}
+                closeOnClick
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
+
+            <ThemeProvider>
+                <ApolloProvider client={apolloClient}>
                     {Layout(
                         <AnimatePresence>
                             <motion.div
@@ -57,9 +61,9 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
                             </motion.div>
                         </AnimatePresence>,
                     )}
-                </SWRConfig>
-            </ApolloProvider>
-        </ThemeProvider>
+                </ApolloProvider>
+            </ThemeProvider>
+        </>
     );
 };
 

@@ -13,6 +13,7 @@ import {
     UserInfoQuery,
     useLoginMutation,
 } from '@/types/generated/graphql';
+import { toast } from 'react-toastify';
 
 const LoginForm = () => {
     const { t } = useTranslation('login');
@@ -30,7 +31,7 @@ const LoginForm = () => {
 
     const [login, { loading, error }] = useLoginMutation();
 
-    if (error) return `Login error! ${error.message}`;
+    if (error) return <p>Login error</p>;
 
     const handleLogin = async (payload: LoginInput) => {
         const response = await login({
@@ -64,6 +65,9 @@ const LoginForm = () => {
                 }
             });
         } else if (response.data?.login.success) {
+            toast.success(
+                `Login successfully! WELCOME ${response.data?.login.user?.username}`,
+            );
             router.push('/');
         }
     };

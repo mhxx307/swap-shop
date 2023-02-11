@@ -24,6 +24,7 @@ import {
     useLogoutMutation,
     useUserInfoQuery,
 } from '@/types/generated/graphql';
+import { toast } from 'react-toastify';
 
 const Header = () => {
     const [navbar, setNavbar] = useState<boolean>(false);
@@ -61,6 +62,7 @@ const Header = () => {
         if (!item.path)
             await logout({
                 update(cache, { data }) {
+                    toast.success('Logout successfully');
                     if (data?.logout) {
                         cache.writeQuery<UserInfoQuery>({
                             query: UserInfoDocument,

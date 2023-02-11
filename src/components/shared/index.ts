@@ -27,3 +27,4 @@ export { default as Avatar } from './Avatar';
 export { default as HamburgerNavbar } from './HamburgerNavbar';
 export { default as UploadAvatar } from './UploadAvatar';
 export { default as DateField } from './DateField';
+export { default as Auth } from './Auth';

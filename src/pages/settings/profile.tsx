@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { SettingsLayout } from '@/components/layouts';
-import { Button, InputField, UploadAvatar } from '@/components/shared';
+import { Auth, Button, InputField, UploadAvatar } from '@/components/shared';
 
 const ProfilePage = () => {
     const { control, handleSubmit } = useForm<any>({
@@ -21,51 +21,53 @@ const ProfilePage = () => {
     };
 
     return (
-        <div className="space-y-12 pb-[60px]">
-            <UploadAvatar picture={profile.pic} />
+        <Auth>
+            <div className="space-y-12 pb-[60px]">
+                <UploadAvatar picture={profile.pic} />
 
-            <form
-                method="POST"
-                onSubmit={handleSubmit(handleUpdate)}
-                className="space-y-8"
-            >
-                <InputField
-                    name="username"
-                    control={control}
-                    autoFocus
-                    label="Username"
-                    containerInputClassName="default-input"
-                />
-
-                <InputField
-                    name="address"
-                    control={control}
-                    label="Address"
-                    containerInputClassName="default-input"
-                />
-
-                <InputField
-                    name="email"
-                    control={control}
-                    label="Email"
-                    containerInputClassName="default-input"
-                />
-
-                <InputField
-                    name="phone"
-                    control={control}
-                    label="Your phone number"
-                    containerInputClassName="default-input"
-                />
-
-                <Button
-                    primary
-                    className="font-semibold border-[2px] border-transparent"
+                <form
+                    method="POST"
+                    onSubmit={handleSubmit(handleUpdate)}
+                    className="space-y-8"
                 >
-                    Save
-                </Button>
-            </form>
-        </div>
+                    <InputField
+                        name="username"
+                        control={control}
+                        autoFocus
+                        label="Username"
+                        containerInputClassName="default-input"
+                    />
+
+                    <InputField
+                        name="address"
+                        control={control}
+                        label="Address"
+                        containerInputClassName="default-input"
+                    />
+
+                    <InputField
+                        name="email"
+                        control={control}
+                        label="Email"
+                        containerInputClassName="default-input"
+                    />
+
+                    <InputField
+                        name="phone"
+                        control={control}
+                        label="Your phone number"
+                        containerInputClassName="default-input"
+                    />
+
+                    <Button
+                        primary
+                        className="font-semibold border-[2px] border-transparent"
+                    >
+                        Save
+                    </Button>
+                </form>
+            </div>
+        </Auth>
     );
 };
 

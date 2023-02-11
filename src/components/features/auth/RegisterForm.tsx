@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-key */
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import { useMultiStepForm, useValidateSchema } from '@/hooks';
 import { Button } from '@/components/shared';
@@ -49,12 +50,12 @@ const RegisterForm = () => {
         <AccountForm control={control} />,
         <UserForm control={control} />,
         <AddressForm control={control} />,
-        <FinishForm errors={errors} />,
+        <FinishForm />,
     ]);
 
     const [register, { loading, error }] = useRegisterMutation();
 
-    if (error) return `Submission error! ${error.message}`;
+    if (error) return <p>Submission error</p>;
 
     const handleRegister = async (payload: RegisterPayload) => {
         const { confirmPassword, date, ...rest } = payload;
@@ -65,14 +66,14 @@ const RegisterForm = () => {
             variables: {
                 registerInput,
             },
-            // update(cache, { data }) {
-            //     if (data?.register.success) {
-            //         cache.writeQuery<UserInfoQuery>({
-            //             query: UserInfoDocument,
-            //             data: { userInfo: data.register.user },
-            //         });
-            //     }
-            // },
+            update(cache, { data }) {
+                if (data?.register.success) {
+                    cache.writeQuery<UserInfoQuery>({
+                        query: UserInfoDocument,
+                        data: { userInfo: data.register.user },
+                    });
+                }
+            },
         });
 
         if (response.data?.register.errors) {
@@ -90,7 +91,6 @@ const RegisterForm = () => {
                         },
                         { shouldFocus: true },
                     );
-                    alert(error.message);
                 }
             });
         } else if (response.data?.register.success) {
@@ -100,47 +100,58 @@ const RegisterForm = () => {
 
     const handleNextStep = () => {
         if (!isLastStep) return next();
+
+        Object.entries(errors).forEach(([_errorKey, errorValue]) => {
+            const errorMessage = errorValue?.message;
+            if (errorMessage) {
+                toast.error(errorMessage.toString(), {
+                    toastId: errorMessage.toString(),
+                });
+            }
+        });
     };
 
     return (
-        <div className="min-h-screen w-[100%] md:w-[1084px] flex flex-col space-y-28 py-[80px] md:py-[20px] px-[20px] md:px-0">
-            <h3 className="text-5xl font-bold text-center">Registration</h3>
+        <>
+            <div className="min-h-screen w-[100%] md:w-[1084px] flex flex-col space-y-28 py-[80px] md:py-[20px] px-[20px] md:px-0">
+                <h3 className="text-5xl font-bold text-center">Registration</h3>
 
-            <ProgressBar
-                progressList={PROGRESS_LIST}
-                stepCurrentNumber={currentStepIndex}
-                goTo={goTo}
-            />
+                <ProgressBar
+                    progressList={PROGRESS_LIST}
+                    stepCurrentNumber={currentStepIndex}
+                    goTo={goTo}
+                />
 
-            <div className="bg-white dark:bg-secondaryDark shadow-md p-[20px] mt-[30px] rounded-md w-full">
-                <form
-                    onSubmit={handleSubmit(handleRegister)}
-                    className="min-h-[400px] flex flex-col justify-between"
-                >
-                    <div>{currentStep}</div>
-                    <div className="flex gap-2 justify-end mt-[40px]">
-                        {!isFirstStep && (
+                <div className="bg-white dark:bg-secondaryDark shadow-md p-[20px] mt-[30px] rounded-md w-full">
+                    <form
+                        onSubmit={handleSubmit(handleRegister)}
+                        className="min-h-[400px] flex flex-col justify-between"
+                    >
+                        <div>{currentStep}</div>
+                        <div className="flex gap-2 justify-end mt-[40px]">
+                            {!isFirstStep && (
+                                <Button
+                                    type="button"
+                                    className="bg-black text-white dark:hover:bg-gray-700"
+                                    onClick={back}
+                                >
+                                    Back
+                                </Button>
+                            )}
                             <Button
-                                type="button"
-                                className="bg-black text-white dark:hover:bg-gray-700"
-                                onClick={back}
+                                primary
+                                type={isLastStep ? 'submit' : 'button'}
+                                shortcutKey="enter"
+                                onClick={handleNextStep}
+                                isLoading={loading}
                             >
-                                Back
+                                {isLastStep ? 'Finish' : 'Next'}
                             </Button>
-                        )}
-                        <Button
-                            primary
-                            type={isLastStep ? 'submit' : 'button'}
-                            shortcutKey="enter"
-                            onClick={handleNextStep}
-                            isLoading={loading}
-                        >
-                            {isLastStep ? 'Finish' : 'Next'}
-                        </Button>
-                    </div>
-                </form>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

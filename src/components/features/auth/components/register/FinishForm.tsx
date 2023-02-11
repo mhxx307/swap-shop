@@ -1,23 +1,7 @@
-import { RegisterPayload } from '@/types';
-import { FieldErrorsImpl } from 'react-hook-form';
-
-const FinishForm = ({
-    errors,
-}: {
-    errors: Partial<FieldErrorsImpl<RegisterPayload>>;
-}) => {
+const FinishForm = () => {
     return (
         <>
             <h3>Review</h3>
-            <div>
-                <h3>Error</h3>
-                <p>{errors.email?.message}</p>
-                <p>{errors.username?.message}</p>
-                <p>{errors.fullName?.message}</p>
-                <p>{errors.phoneNumber?.message}</p>
-                <p>{errors.address?.message}</p>
-            </div>
-            <div></div>
             <div className="flex items-center">
                 <input
                     id="link-checkbox"

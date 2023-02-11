@@ -173,6 +173,11 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
+export type FindArticlesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindArticlesQuery = { __typename?: 'Query', findArticles?: Array<{ __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any }> | null };
+
 export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -286,7 +291,7 @@ export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const LogoutDocument = gql`
-    mutation logout {
+    mutation Logout {
   logout
 }
     `;
@@ -315,8 +320,46 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const FindArticlesDocument = gql`
+    query FindArticles {
+  findArticles {
+    id
+    title
+    description
+    createdDate
+    updatedDate
+  }
+}
+    `;
+
+/**
+ * __useFindArticlesQuery__
+ *
+ * To run a query within a React component, call `useFindArticlesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindArticlesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindArticlesQuery(baseOptions?: Apollo.QueryHookOptions<FindArticlesQuery, FindArticlesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindArticlesQuery, FindArticlesQueryVariables>(FindArticlesDocument, options);
+      }
+export function useFindArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindArticlesQuery, FindArticlesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindArticlesQuery, FindArticlesQueryVariables>(FindArticlesDocument, options);
+        }
+export type FindArticlesQueryHookResult = ReturnType<typeof useFindArticlesQuery>;
+export type FindArticlesLazyQueryHookResult = ReturnType<typeof useFindArticlesLazyQuery>;
+export type FindArticlesQueryResult = Apollo.QueryResult<FindArticlesQuery, FindArticlesQueryVariables>;
 export const UserInfoDocument = gql`
-    query userInfo {
+    query UserInfo {
   userInfo {
     ...user
   }

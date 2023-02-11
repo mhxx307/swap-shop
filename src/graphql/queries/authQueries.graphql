@@ -1,4 +1,4 @@
-query userInfo {
+query UserInfo {
     userInfo {
         ...user
     }
