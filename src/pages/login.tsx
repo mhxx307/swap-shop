@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import { AiOutlineLeft } from 'react-icons/ai';
-import { FcGoogle } from 'react-icons/fc';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
 
@@ -8,7 +7,7 @@ import { LoginForm } from '@/components/features/auth';
 import { BaseLayout } from '@/components/layouts';
 import { randomElement } from '@/utils';
 import quotes from '@/quotes.json';
-import { Button, ButtonLink, Head, Spinner } from '@/components/shared';
+import { ButtonLink, Head, Spinner } from '@/components/shared';
 import { REVALIDATE_TIME } from '@/constants';
 import { useTranslation } from 'react-i18next';
 import { useCheckAuth } from '@/hooks';
@@ -39,7 +38,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                     <ButtonLink
                         secondary
                         containerclassname="absolute right-2 top-0 shadow-3xl mt-4"
-                        className="py-2 pr-6 pl-4 select-none bg-white dark:bg-white text-white dark:text-black hover:opacity-80 transition-opacity"
+                        className="py-2 pr-6 pl-4 select-none bg-white dark:bg-white text-black dark:text-white hover:opacity-80 transition-opacity"
                         LeftIcon={AiOutlineLeft}
                         href="/"
                     >
@@ -67,7 +66,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                     </div>
 
                     <div className="col-span-3 flex items-center justify-center">
-                        <div className="w-[400px] space-y-4">
+                        <div className="w-[400px] space-y-6">
                             <div className="text-2xl font-semibold">
                                 {t('welcome_heading')}{' '}
                                 <span className="text-primary-500 capitalize">
@@ -80,24 +79,24 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
 
                             <LoginForm />
 
-                            <Button
-                                outline
-                                className="w-full justify-center py-2 pr-6 pl-4 select-none hover:bg-blue-500 hover:text-white"
-                                LeftIcon={FcGoogle}
-                                iconClassName="w-5 h-5"
-                            >
-                                {t('google_login')}
-                            </Button>
+                            <div className="space-y-2 flex flex-col">
+                                <div className="flex items-center">
+                                    <p className="font-thin text-gray-500 dark:text-white mr-2">
+                                        {t('dont_have_account')}
+                                    </p>
+                                    <Link
+                                        href="/register"
+                                        className="text-black dark:text-white font-bold hover:text-gray-500 dark:hover:text-opacity-80"
+                                    >
+                                        {t('sign_up_free')}
+                                    </Link>
+                                </div>
 
-                            <div className="flex items-center">
-                                <p className="font-thin text-gray-500 dark:text-white mr-2">
-                                    {t('dont_have_account')}
-                                </p>
                                 <Link
-                                    href="/register"
-                                    className="text-black dark:text-white font-bold hover:text-gray-500 dark:hover:text-opacity-80"
+                                    href="/forgot-password"
+                                    className="text-blue-500 hover:text-blue-400 transition-colors"
                                 >
-                                    {t('sign_up_free')}
+                                    Forgot password ?
                                 </Link>
                             </div>
                         </div>

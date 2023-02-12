@@ -14,6 +14,7 @@ import {
     useLoginMutation,
 } from '@/types/generated/graphql';
 import { toast } from 'react-toastify';
+import { FcGoogle } from 'react-icons/fc';
 
 const LoginForm = () => {
     const { t } = useTranslation('login');
@@ -76,14 +77,13 @@ const LoginForm = () => {
         <form
             method="POST"
             onSubmit={handleSubmit(handleLogin)}
-            className="min-w-[260px] w-full"
+            className="min-w-[260px] w-full space-y-4"
         >
             <InputField
                 type="text"
                 name="usernameOrEmail"
                 control={control}
-                className="px-3 py-2 shadow-none"
-                // containerInputClassName="border-[1px] border-gray-500 rounded-md focus-within:border-[#00b4d8]"
+                containerInputClassName="default-input"
                 label={t('username_label')!}
             />
 
@@ -91,22 +91,33 @@ const LoginForm = () => {
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 control={control}
-                className="px-3 py-2"
-                containerclassname="mt-[12px]"
+                containerInputClassName="default-input"
                 label={t('password_label')!}
-                iconClassName="w-8 h-8 cursor-pointer hover:text-gray-500"
+                iconClassName="w-4 h-4 cursor-pointer hover:text-gray-500"
                 rightIconOnClick={() => setShowPassword(!showPassword)}
                 RightIcon={showPassword ? FaEye : FaEyeSlash}
             />
 
-            <Button
-                type="submit"
-                primary
-                className="mt-[20px] w-full justify-center items-center select-none"
-                isLoading={loading}
-            >
-                {t('button_login')!}
-            </Button>
+            <div className="flex flex-col space-y-3">
+                <Button
+                    type="submit"
+                    primary
+                    className="mt-[20px] w-full justify-center items-center select-none"
+                    isLoading={loading}
+                >
+                    {t('button_login')!}
+                </Button>
+
+                <Button
+                    type="button"
+                    outline
+                    className="w-full justify-center py-2 pr-6 pl-4 select-none hover:bg-blue-500 hover:text-white"
+                    LeftIcon={FcGoogle}
+                    iconClassName="w-5 h-5"
+                >
+                    {t('google_login')}
+                </Button>
+            </div>
         </form>
     );
 };

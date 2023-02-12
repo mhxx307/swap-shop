@@ -19,6 +19,11 @@ export interface RegisterPayload {
     date?: any;
 }
 
+export interface ChangePasswordPayload {
+    password: string;
+    confirmPassword: string;
+}
+
 export interface ProgressItemProps {
     title: string;
     number: number;

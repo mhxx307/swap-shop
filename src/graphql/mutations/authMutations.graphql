@@ -13,3 +13,23 @@ mutation Login($loginInput: LoginInput!) {
 mutation Logout {
     logout
 }
+
+mutation ForgotPassword($forgotPasswordInput: ForgotPasswordInput!) {
+    forgotPassword(forgotPasswordInput: $forgotPasswordInput) {
+        ...mutationStatus
+    }
+}
+
+mutation ChangePassword(
+    $changePasswordInput: ChangePasswordInput!
+    $userId: String!
+    $token: String!
+) {
+    changePassword(
+        changePasswordInput: $changePasswordInput
+        userId: $userId
+        token: $token
+    ) {
+        ...userMutationResponse
+    }
+}

@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 interface UseValidateSchemaProps {
-    name: 'register' | 'login';
+    name: 'register' | 'login' | 'password';
 }
 
 const useValidateSchema = ({ name }: UseValidateSchemaProps) => {
@@ -70,11 +70,30 @@ const useValidateSchema = ({ name }: UseValidateSchemaProps) => {
         })
         .required();
 
+    const changePasswordSchema = yup
+        .object({
+            password: yup
+                .string()
+                .required('Please enter your password')
+                .min(8, 'Password must be at least 8 characters long')
+                .matches(
+                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
+                    'At least 8 characters must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number Can contain special characters.',
+                ),
+            confirmPassword: yup
+                .string()
+                .required('Please enter your confirm password')
+                .oneOf([yup.ref('password'), null], 'Passwords must match'),
+        })
+        .required();
+
     switch (name) {
         case 'register':
             return registerSchema;
         case 'login':
             return loginSchema;
+        case 'password':
+            return changePasswordSchema;
         default:
             break;
     }
