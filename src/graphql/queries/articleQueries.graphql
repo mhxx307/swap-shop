@@ -1,5 +1,15 @@
-query FindArticles {
-    findArticles {
+query Articles {
+    articles {
+        id
+        title
+        description
+        createdDate
+        updatedDate
+    }
+}
+
+query Article($findArticleInput: FindArticleInput!) {
+    article(findArticleInput: $findArticleInput) {
         id
         title
         description

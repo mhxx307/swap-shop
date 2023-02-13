@@ -49,10 +49,18 @@ export type CreateArticleInput = {
   title: Scalars['String'];
 };
 
+export type DeleteArticleInput = {
+  id: Scalars['String'];
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
   message: Scalars['String'];
+};
+
+export type FindArticleInput = {
+  id: Scalars['String'];
 };
 
 export type ForgotPasswordInput = {
@@ -132,7 +140,7 @@ export type MutationCreatedMessageArgs = {
 
 
 export type MutationDeleteArticleArgs = {
-  id: Scalars['ID'];
+  deleteArticleInput: DeleteArticleInput;
 };
 
 
@@ -157,14 +165,14 @@ export type MutationUpdateArticleArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  findArticleById?: Maybe<Article>;
-  findArticles?: Maybe<Array<Article>>;
+  article?: Maybe<Article>;
+  articles?: Maybe<Array<Article>>;
   userInfo?: Maybe<User>;
 };
 
 
-export type QueryFindArticleByIdArgs = {
-  id: Scalars['ID'];
+export type QueryArticleArgs = {
+  findArticleInput: FindArticleInput;
 };
 
 export type RegisterInput = {
@@ -262,10 +270,17 @@ export type ChangePasswordLoggedMutationVariables = Exact<{
 
 export type ChangePasswordLoggedMutation = { __typename?: 'Mutation', changePasswordLogged: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
-export type FindArticlesQueryVariables = Exact<{ [key: string]: never; }>;
+export type ArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindArticlesQuery = { __typename?: 'Query', findArticles?: Array<{ __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any }> | null };
+export type ArticlesQuery = { __typename?: 'Query', articles?: Array<{ __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any }> | null };
+
+export type ArticleQueryVariables = Exact<{
+  findArticleInput: FindArticleInput;
+}>;
+
+
+export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any } | null };
 
 export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -518,9 +533,9 @@ export function useChangePasswordLoggedMutation(baseOptions?: Apollo.MutationHoo
 export type ChangePasswordLoggedMutationHookResult = ReturnType<typeof useChangePasswordLoggedMutation>;
 export type ChangePasswordLoggedMutationResult = Apollo.MutationResult<ChangePasswordLoggedMutation>;
 export type ChangePasswordLoggedMutationOptions = Apollo.BaseMutationOptions<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>;
-export const FindArticlesDocument = gql`
-    query FindArticles {
-  findArticles {
+export const ArticlesDocument = gql`
+    query Articles {
+  articles {
     id
     title
     description
@@ -531,31 +546,70 @@ export const FindArticlesDocument = gql`
     `;
 
 /**
- * __useFindArticlesQuery__
+ * __useArticlesQuery__
  *
- * To run a query within a React component, call `useFindArticlesQuery` and pass it any options that fit your needs.
- * When your component renders, `useFindArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useArticlesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useArticlesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFindArticlesQuery({
+ * const { data, loading, error } = useArticlesQuery({
  *   variables: {
  *   },
  * });
  */
-export function useFindArticlesQuery(baseOptions?: Apollo.QueryHookOptions<FindArticlesQuery, FindArticlesQueryVariables>) {
+export function useArticlesQuery(baseOptions?: Apollo.QueryHookOptions<ArticlesQuery, ArticlesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindArticlesQuery, FindArticlesQueryVariables>(FindArticlesDocument, options);
+        return Apollo.useQuery<ArticlesQuery, ArticlesQueryVariables>(ArticlesDocument, options);
       }
-export function useFindArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindArticlesQuery, FindArticlesQueryVariables>) {
+export function useArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ArticlesQuery, ArticlesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindArticlesQuery, FindArticlesQueryVariables>(FindArticlesDocument, options);
+          return Apollo.useLazyQuery<ArticlesQuery, ArticlesQueryVariables>(ArticlesDocument, options);
         }
-export type FindArticlesQueryHookResult = ReturnType<typeof useFindArticlesQuery>;
-export type FindArticlesLazyQueryHookResult = ReturnType<typeof useFindArticlesLazyQuery>;
-export type FindArticlesQueryResult = Apollo.QueryResult<FindArticlesQuery, FindArticlesQueryVariables>;
+export type ArticlesQueryHookResult = ReturnType<typeof useArticlesQuery>;
+export type ArticlesLazyQueryHookResult = ReturnType<typeof useArticlesLazyQuery>;
+export type ArticlesQueryResult = Apollo.QueryResult<ArticlesQuery, ArticlesQueryVariables>;
+export const ArticleDocument = gql`
+    query Article($findArticleInput: FindArticleInput!) {
+  article(findArticleInput: $findArticleInput) {
+    id
+    title
+    description
+    createdDate
+    updatedDate
+  }
+}
+    `;
+
+/**
+ * __useArticleQuery__
+ *
+ * To run a query within a React component, call `useArticleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useArticleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useArticleQuery({
+ *   variables: {
+ *      findArticleInput: // value for 'findArticleInput'
+ *   },
+ * });
+ */
+export function useArticleQuery(baseOptions: Apollo.QueryHookOptions<ArticleQuery, ArticleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ArticleQuery, ArticleQueryVariables>(ArticleDocument, options);
+      }
+export function useArticleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ArticleQuery, ArticleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ArticleQuery, ArticleQueryVariables>(ArticleDocument, options);
+        }
+export type ArticleQueryHookResult = ReturnType<typeof useArticleQuery>;
+export type ArticleLazyQueryHookResult = ReturnType<typeof useArticleLazyQuery>;
+export type ArticleQueryResult = Apollo.QueryResult<ArticleQuery, ArticleQueryVariables>;
 export const UserInfoDocument = gql`
     query UserInfo {
   userInfo {
