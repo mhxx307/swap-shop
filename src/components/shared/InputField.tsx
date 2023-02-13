@@ -34,9 +34,16 @@ const InputField = ({
                 onBlur={onBlur}
                 {...props}
                 ref={ref}
+                defaultLayout={false}
+                labelClassName={`${error ? 'error-label' : 'default-label'}`}
+                containerInputClassName={`${
+                    error ? 'error-input' : 'default-input'
+                }`}
             />
             {!!error && (
-                <p className="text-[1.4rem] text-red-500">{error.message}</p>
+                <p className="text-sm text-red-600 dark:text-red-500">
+                    {error.message}
+                </p>
             )}
         </>
     );

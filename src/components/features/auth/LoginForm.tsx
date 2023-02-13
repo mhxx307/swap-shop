@@ -1,57 +1,89 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
-import { Button, InputField } from '@/components/shared';
-import { LoginPayload } from '@/types';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
+import { Button, InputField } from '@/components/shared';
+import { useValidateSchema } from '@/hooks';
+import {
+    LoginInput,
+    UserInfoDocument,
+    UserInfoQuery,
+    useLoginMutation,
+} from '@/types/generated/graphql';
+import { toast } from 'react-toastify';
+import { FcGoogle } from 'react-icons/fc';
+
 const LoginForm = () => {
-    const schema = yup
-        .object({
-            username: yup
-                .string()
-                .required('Please enter your username')
-                .min(6, 'Username must be at least 6 characters long')
-                .max(20, 'Username must be at most 20 characters long'),
-            password: yup
-                .string()
-                .required('Please enter your password')
-                .min(8, 'Password must be at least 8 characters long')
-                .max(20, 'Password must be at most 20 characters long'),
-        })
-        .required();
-
+    const { t } = useTranslation('login');
+    const schema = useValidateSchema({ name: 'login' });
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const router = useRouter();
 
-    const { control, handleSubmit } = useForm<LoginPayload>({
+    const { control, handleSubmit, setError } = useForm<LoginInput>({
         defaultValues: {
-            username: '',
+            usernameOrEmail: '',
             password: '',
         },
         resolver: yupResolver(schema),
     });
 
-    const { t } = useTranslation('login');
+    const [login, { loading, error }] = useLoginMutation();
 
-    const handleLogin = (loginPayload: LoginPayload) => {
-        console.log(loginPayload);
+    if (error) return <p>Login error</p>;
+
+    const handleLogin = async (payload: LoginInput) => {
+        const response = await login({
+            variables: {
+                loginInput: payload,
+            },
+            update(cache, { data }) {
+                if (data?.login.success) {
+                    cache.writeQuery<UserInfoQuery>({
+                        query: UserInfoDocument,
+                        data: { userInfo: data.login.user },
+                    });
+                }
+            },
+        });
+
+        if (response.data?.login.errors) {
+            response.data?.login.errors.forEach((error) => {
+                if (
+                    error.field === 'usernameOrEmail' ||
+                    error.field === 'password'
+                ) {
+                    setError(
+                        error.field,
+                        {
+                            type: 'focus',
+                            message: error.message,
+                        },
+                        { shouldFocus: true },
+                    );
+                }
+            });
+        } else if (response.data?.login.success) {
+            toast.success(
+                `Login successfully! WELCOME ${response.data?.login.user?.username}`,
+            );
+            router.push('/');
+        }
     };
 
     return (
         <form
             method="POST"
             onSubmit={handleSubmit(handleLogin)}
-            className="min-w-[260px] w-full"
+            className="min-w-[260px] w-full space-y-4"
         >
             <InputField
                 type="text"
-                name="username"
+                name="usernameOrEmail"
                 control={control}
-                className="px-3 py-2 shadow-none"
-                // containerInputClassName="border-[1px] border-gray-500 rounded-md focus-within:border-[#00b4d8]"
+                containerInputClassName="default-input"
                 label={t('username_label')!}
             />
 
@@ -59,21 +91,33 @@ const LoginForm = () => {
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 control={control}
-                className="px-3 py-2"
-                containerclassname="mt-[12px]"
+                containerInputClassName="default-input"
                 label={t('password_label')!}
-                iconClassName="w-8 h-8 cursor-pointer hover:text-gray-500"
+                iconClassName="w-4 h-4 cursor-pointer hover:text-gray-500"
                 rightIconOnClick={() => setShowPassword(!showPassword)}
                 RightIcon={showPassword ? FaEye : FaEyeSlash}
             />
 
-            <Button
-                type="submit"
-                primary
-                className="mt-[20px] w-full justify-center items-center select-none"
-            >
-                {t('button_login')!}
-            </Button>
+            <div className="flex flex-col space-y-3">
+                <Button
+                    type="submit"
+                    primary
+                    className="mt-[20px] w-full justify-center items-center select-none"
+                    isLoading={loading}
+                >
+                    {t('button_login')!}
+                </Button>
+
+                <Button
+                    type="button"
+                    outline
+                    className="w-full justify-center py-2 pr-6 pl-4 select-none hover:bg-blue-500 hover:text-white"
+                    LeftIcon={FcGoogle}
+                    iconClassName="w-5 h-5"
+                >
+                    {t('google_login')}
+                </Button>
+            </div>
         </form>
     );
 };

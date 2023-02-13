@@ -15,14 +15,15 @@ const AddressForm = ({ control }: FormProps) => {
 
     return (
         <FormWrapper title="Address" description="Address">
-            <Autocomplete>
+            <Autocomplete key={process.env.NEXT_PUBLIC_GOOGLE_API_KEY!}>
                 <InputField
                     autoFocus
                     label="Your address:"
                     type="text"
                     name="address"
+                    required
                     control={control}
-                    containerInputClassName="register-input shadow-none"
+                    containerInputClassName="default-input shadow-none"
                     placeholder="Enter your address"
                 />
             </Autocomplete>

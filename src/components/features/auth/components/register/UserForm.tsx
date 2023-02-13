@@ -1,33 +1,25 @@
-import { FormWrapper, InputField } from '@/components/shared';
+import { DateField, FormWrapper, InputField } from '@/components/shared';
 import { FormProps } from './AccountForm';
 
 const UserForm = ({ control }: FormProps) => {
     return (
         <FormWrapper title="User Details" description="Describe about yourself">
             <InputField
-                label="First Name:"
+                label="Full name:"
                 control={control}
-                name="firstName"
+                name="fullName"
                 autoFocus
                 type="text"
-                containerInputClassName="register-input shadow-none"
             />
 
             <InputField
-                label="Last name:"
+                label="Phone number:"
                 control={control}
-                name="lastName"
+                name="phoneNumber"
                 type="text"
-                containerInputClassName="register-input shadow-none"
             />
 
-            <InputField
-                label="Age"
-                control={control}
-                name="age"
-                type="number"
-                containerclassname="w-[100px]"
-            />
+            <DateField control={control} name="date" />
         </FormWrapper>
     );
 };

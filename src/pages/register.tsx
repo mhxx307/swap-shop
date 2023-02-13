@@ -1,31 +1,40 @@
 import { RegisterForm } from '@/components/features/auth';
 import { BaseLayout } from '@/components/layouts';
-import { ButtonLink, Head } from '@/components/shared';
+import { ButtonLink, Head, Spinner } from '@/components/shared';
+import { useCheckAuth } from '@/hooks';
 import { AiOutlineHome } from 'react-icons/ai';
 
 const RegisterPage = () => {
+    const { data, loading } = useCheckAuth();
+
     return (
         <>
             <Head />
-            <div className="w-full min-h-screen flex-center bg-[#f0f0f0] dark:bg-primaryDark relative">
-                <div className="absolute top-2 left-2 flex space-x-4">
-                    <ButtonLink
-                        shortcutKey="enter"
-                        className="h-[35px] shadow-3xl bg-black text-white dark:hover:bg-gray-700 md:px-[25px] "
-                        href="/"
-                    >
-                        <AiOutlineHome />
-                    </ButtonLink>
-                    <ButtonLink
-                        shortcutKey="enter"
-                        className="h-[35px] shadow-md bg-black text-white dark:hover:bg-gray-700 md:px-[25px]"
-                        href="/login"
-                    >
-                        login
-                    </ButtonLink>
+            {loading || (!loading && data?.userInfo) ? (
+                <div className="flex-center h-screen">
+                    <Spinner />
                 </div>
-                <RegisterForm />
-            </div>
+            ) : (
+                <div className="w-full min-h-screen flex-center bg-[#f0f0f0] dark:bg-primaryDark relative">
+                    <div className="absolute top-2 left-2 flex space-x-4">
+                        <ButtonLink
+                            shortcutKey="enter"
+                            className="h-[35px] shadow-3xl bg-black text-white dark:hover:bg-gray-700 md:px-[25px] "
+                            href="/"
+                        >
+                            <AiOutlineHome />
+                        </ButtonLink>
+                        <ButtonLink
+                            shortcutKey="enter"
+                            className="h-[35px] shadow-md bg-black text-white dark:hover:bg-gray-700 md:px-[25px]"
+                            href="/login"
+                        >
+                            login
+                        </ButtonLink>
+                    </div>
+                    <RegisterForm />
+                </div>
+            )}
         </>
     );
 };

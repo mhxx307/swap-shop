@@ -1,0 +1,9 @@
+query FindArticles {
+    findArticles {
+        id
+        title
+        description
+        createdDate
+        updatedDate
+    }
+}

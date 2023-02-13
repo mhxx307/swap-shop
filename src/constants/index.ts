@@ -1,17 +1,17 @@
 import { ProgressItemProps, RegisterPayload } from '@/types';
+import { FieldError } from '@/types/generated/graphql';
 
 export const REVALIDATE_TIME = 86_400; // 24 hours
 
 export const REGISTER_INITIAL_DATA: RegisterPayload = {
-    firstName: '',
-    lastName: '',
-    age: '',
-    street: '',
-    city: '',
-    state: '',
-    zip: '',
+    fullName: '',
+    date: null,
+    address: '',
     email: '',
+    username: '',
     password: '',
+    phoneNumber: '',
+    confirmPassword: '',
 };
 
 export const PROGRESS_LIST: ProgressItemProps[] = [

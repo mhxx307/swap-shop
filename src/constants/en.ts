@@ -25,7 +25,7 @@ const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     { icon: BsPencilSquare, label: 'Create article', path: '/create-article' },
     ...POPUP_MENU_LIST,
     { icon: BsGear, label: 'Settings', path: '/settings/profile' },
-    { icon: VscSignOut, label: 'Log out', path: '/logout', separate: true },
+    { icon: VscSignOut, label: 'Log out', separate: true },
 ];
 
 const enTranslations = {

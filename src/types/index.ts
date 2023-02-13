@@ -1,4 +1,5 @@
 import { IconType } from 'react-icons/lib';
+import { ChangePasswordLoggedInput } from './generated/graphql';
 
 export interface PopupMenuItemProps {
     icon?: IconType;
@@ -8,21 +9,24 @@ export interface PopupMenuItemProps {
     separate?: boolean;
 }
 
-export interface LoginPayload {
+export interface RegisterPayload {
+    fullName: string;
+    email: string;
     username: string;
     password: string;
+    address: string;
+    phoneNumber: string;
+    confirmPassword: string;
+    date?: any;
 }
 
-export interface RegisterPayload {
-    firstName: string;
-    lastName: string;
-    age: string;
-    street: string;
-    city: string;
-    state: string;
-    zip: string;
-    email: string;
+export interface ChangePasswordPayload {
     password: string;
+    confirmPassword: string;
+}
+
+export interface ChangePasswordLoggedPayload extends ChangePasswordLoggedInput {
+    confirmNewPassword: string;
 }
 
 export interface ProgressItemProps {

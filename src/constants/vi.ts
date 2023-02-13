@@ -25,7 +25,7 @@ const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     { icon: BsPencilSquare, label: 'Tạo bài viết', path: '/create-article' },
     ...POPUP_MENU_LIST,
     { icon: BsGear, label: 'Cài đặt', path: '/settings/profile' },
-    { icon: VscSignOut, label: 'Đăng xuất', path: '/logout', separate: true },
+    { icon: VscSignOut, label: 'Đăng xuất', separate: true },
 ];
 
 const viTranslations = {

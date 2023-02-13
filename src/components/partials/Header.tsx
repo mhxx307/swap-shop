@@ -18,6 +18,13 @@ import {
     HamburgerNavbar,
 } from '@/components/shared';
 import { useConstantsTranslation, useDevice } from '@/hooks';
+import {
+    UserInfoDocument,
+    UserInfoQuery,
+    useLogoutMutation,
+    useUserInfoQuery,
+} from '@/types/generated/graphql';
+import { toast } from 'react-toastify';
 
 const Header = () => {
     const [navbar, setNavbar] = useState<boolean>(false);
@@ -31,7 +38,9 @@ const Header = () => {
     }: any = useConstantsTranslation();
     const { isMobile } = useDevice();
 
-    const currentUser = false;
+    const { data } = useUserInfoQuery();
+    const [logout] = useLogoutMutation();
+    const currentUser = data?.userInfo;
 
     useEffect(() => {
         window.addEventListener('scroll', changeBackground);
@@ -47,6 +56,21 @@ const Header = () => {
         } else {
             setNavbar(false);
         }
+    };
+
+    const handleChangeMenu = async (item: any) => {
+        if (!item.path)
+            await logout({
+                update(cache, { data }) {
+                    toast.success('Logout successfully');
+                    if (data?.logout) {
+                        cache.writeQuery<UserInfoQuery>({
+                            query: UserInfoDocument,
+                            data: { userInfo: null },
+                        });
+                    }
+                },
+            });
     };
 
     return (
@@ -97,7 +121,7 @@ const Header = () => {
                         items={
                             currentUser ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST
                         }
-                        onChange={() => console.log('menu change')}
+                        onChange={handleChangeMenu}
                         hideOnClick
                     >
                         {currentUser ? (

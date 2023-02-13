@@ -87,7 +87,7 @@ const ContactPage = () => {
                             name="user_name"
                             label={t('name')!}
                             className="p-[5px]"
-                            containerInputClassName="register-input"
+                            containerInputClassName="default-input"
                         />
                         <Input
                             ref={subjectRef}
@@ -96,7 +96,7 @@ const ContactPage = () => {
                             name="user_subject"
                             label={t('subject')!}
                             className="p-[5px]"
-                            containerInputClassName="register-input"
+                            containerInputClassName="default-input"
                         />
                         <Input
                             ref={emailRef}
@@ -105,7 +105,7 @@ const ContactPage = () => {
                             name="user_email"
                             label={t('email')!}
                             className="p-[5px]"
-                            containerInputClassName="register-input"
+                            containerInputClassName="default-input"
                         />
                         <textarea
                             ref={messageRef}
