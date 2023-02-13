@@ -37,8 +37,8 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                 <div className="w-full min-h-screen grid grid-cols-1 md:grid-cols-5 relative">
                     <ButtonLink
                         secondary
-                        containerclassname="absolute right-2 top-0 shadow-3xl mt-4"
-                        className="py-2 pr-6 pl-4 select-none bg-white dark:bg-white text-black dark:text-white hover:opacity-80 transition-opacity"
+                        containerclassname="absolute right-2 top-0 shadow-3xl mt-4 bg-black dark:bg-white"
+                        className="py-2 pr-6 pl-4 select-none text-white dark:text-black hover:opacity-80 transition-opacity"
                         LeftIcon={AiOutlineLeft}
                         href="/"
                     >
@@ -65,8 +65,8 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                         </div>
                     </div>
 
-                    <div className="col-span-3 flex items-center justify-center">
-                        <div className="w-[400px] space-y-6">
+                    <div className="col-span-3 flex-center">
+                        <div className="w-full p-6 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md dark:bg-gray-800 dark:border-gray-700 sm:p-8 space-y-6">
                             <div className="text-2xl font-semibold">
                                 {t('welcome_heading')}{' '}
                                 <span className="text-primary-500 capitalize">

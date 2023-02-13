@@ -43,7 +43,7 @@ const UploadAvatar = ({ picture }: UploadAvatarProps) => {
                             ? preview
                             : picture
                             ? picture
-                            : 'images/avatar-fallback.png'
+                            : '/images/avatar-fallback.png'
                     }
                     alt="Avatar"
                     className="rounded-full w-[128px] h-[128px] object-cover border-[4px] border-white shadow-2xl"

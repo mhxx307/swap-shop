@@ -33,3 +33,16 @@ mutation ChangePassword(
         ...userMutationResponse
     }
 }
+
+mutation ChangePasswordLogged(
+    $changePasswordLoggedInput: ChangePasswordLoggedInput!
+) {
+    changePasswordLogged(
+        changePasswordLoggedInput: $changePasswordLoggedInput
+    ) {
+        ...mutationStatus
+        errors {
+            ...errors
+        }
+    }
+}

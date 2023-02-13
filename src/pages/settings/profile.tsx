@@ -1,14 +1,24 @@
 import { useForm } from 'react-hook-form';
 import { SettingsLayout } from '@/components/layouts';
-import { Auth, Button, InputField, UploadAvatar } from '@/components/shared';
+import {
+    Auth,
+    Button,
+    DateField,
+    InputField,
+    UploadAvatar,
+} from '@/components/shared';
+import { useUserInfoQuery } from '@/types/generated/graphql';
 
 const ProfilePage = () => {
+    const { data } = useUserInfoQuery();
     const { control, handleSubmit } = useForm<any>({
         defaultValues: {
-            username: 'minhquan',
-            address: 'Dong Thap',
-            email: 'minhquan@gmail.com',
-            phone: '0123456789',
+            username: data?.userInfo?.username,
+            address: data?.userInfo?.address,
+            email: data?.userInfo?.email,
+            phoneNumber: data?.userInfo?.phoneNumber,
+            fullName: data?.userInfo?.fullName,
+            birthday: data?.userInfo?.birthday,
         },
     });
 
@@ -16,14 +26,10 @@ const ProfilePage = () => {
         console.log(payload);
     };
 
-    const profile = {
-        pic: 'https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium',
-    };
-
     return (
         <Auth>
             <div className="space-y-12 pb-[60px]">
-                <UploadAvatar picture={profile.pic} />
+                <UploadAvatar picture={data?.userInfo?.avatar!} />
 
                 <form
                     method="POST"
@@ -53,10 +59,23 @@ const ProfilePage = () => {
                     />
 
                     <InputField
-                        name="phone"
+                        name="phoneNumber"
                         control={control}
-                        label="Your phone number"
+                        label="Phone number"
                         containerInputClassName="default-input"
+                    />
+
+                    <InputField
+                        name="fullName"
+                        control={control}
+                        label="Full name"
+                        containerInputClassName="default-input"
+                    />
+
+                    <DateField
+                        name="birthday"
+                        control={control}
+                        placeholder={data?.userInfo?.birthday!}
                     />
 
                     <Button

@@ -39,6 +39,11 @@ export type ChangePasswordInput = {
   newPassword: Scalars['String'];
 };
 
+export type ChangePasswordLoggedInput = {
+  newPassword: Scalars['String'];
+  oldPassword: Scalars['String'];
+};
+
 export type CreateArticleInput = {
   description: Scalars['String'];
   title: Scalars['String'];
@@ -92,6 +97,7 @@ export type MessageMutationResponse = IMutationResponse & {
 export type Mutation = {
   __typename?: 'Mutation';
   changePassword: UserMutationResponse;
+  changePasswordLogged: UserMutationResponse;
   createArticle: ArticleMutationResponse;
   createdMessage: MessageMutationResponse;
   deleteArticle: ArticleMutationResponse;
@@ -107,6 +113,11 @@ export type MutationChangePasswordArgs = {
   changePasswordInput: ChangePasswordInput;
   token: Scalars['String'];
   userId: Scalars['String'];
+};
+
+
+export type MutationChangePasswordLoggedArgs = {
+  changePasswordLoggedInput: ChangePasswordLoggedInput;
 };
 
 
@@ -159,7 +170,7 @@ export type QueryFindArticleByIdArgs = {
 export type RegisterInput = {
   address: Scalars['String'];
   avatar?: InputMaybe<Scalars['String']>;
-  birthday?: InputMaybe<Scalars['DateTime']>;
+  birthday?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   fullName: Scalars['String'];
   password: Scalars['String'];
@@ -177,7 +188,7 @@ export type User = {
   __typename?: 'User';
   address: Scalars['String'];
   avatar?: Maybe<Scalars['String']>;
-  birthday?: Maybe<Scalars['DateTime']>;
+  birthday?: Maybe<Scalars['String']>;
   createdDate: Scalars['DateTime'];
   email: Scalars['String'];
   fullName: Scalars['String'];
@@ -201,9 +212,9 @@ export type UserMutationResponse = IMutationResponse & {
   user?: Maybe<User>;
 };
 
-export type UserFragment = { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: any | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any };
+export type UserFragment = { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any };
 
-export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: any | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null };
+export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null };
 
 export type ErrorsFragment = { __typename?: 'FieldError', field: string, message: string };
 
@@ -214,14 +225,14 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: any | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type LoginMutationVariables = Exact<{
   loginInput: LoginInput;
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: any | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -242,7 +253,14 @@ export type ChangePasswordMutationVariables = Exact<{
 }>;
 
 
-export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: any | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+
+export type ChangePasswordLoggedMutationVariables = Exact<{
+  changePasswordLoggedInput: ChangePasswordLoggedInput;
+}>;
+
+
+export type ChangePasswordLoggedMutation = { __typename?: 'Mutation', changePasswordLogged: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type FindArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -252,7 +270,7 @@ export type FindArticlesQuery = { __typename?: 'Query', findArticles?: Array<{ _
 export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserInfoQuery = { __typename?: 'Query', userInfo?: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: any | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null };
+export type UserInfoQuery = { __typename?: 'Query', userInfo?: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null };
 
 export const MutationStatusFragmentDoc = gql`
     fragment mutationStatus on UserMutationResponse {
@@ -463,6 +481,43 @@ export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptio
 export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
 export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
 export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
+export const ChangePasswordLoggedDocument = gql`
+    mutation ChangePasswordLogged($changePasswordLoggedInput: ChangePasswordLoggedInput!) {
+  changePasswordLogged(changePasswordLoggedInput: $changePasswordLoggedInput) {
+    ...mutationStatus
+    errors {
+      ...errors
+    }
+  }
+}
+    ${MutationStatusFragmentDoc}
+${ErrorsFragmentDoc}`;
+export type ChangePasswordLoggedMutationFn = Apollo.MutationFunction<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>;
+
+/**
+ * __useChangePasswordLoggedMutation__
+ *
+ * To run a mutation, you first call `useChangePasswordLoggedMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangePasswordLoggedMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changePasswordLoggedMutation, { data, loading, error }] = useChangePasswordLoggedMutation({
+ *   variables: {
+ *      changePasswordLoggedInput: // value for 'changePasswordLoggedInput'
+ *   },
+ * });
+ */
+export function useChangePasswordLoggedMutation(baseOptions?: Apollo.MutationHookOptions<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>(ChangePasswordLoggedDocument, options);
+      }
+export type ChangePasswordLoggedMutationHookResult = ReturnType<typeof useChangePasswordLoggedMutation>;
+export type ChangePasswordLoggedMutationResult = Apollo.MutationResult<ChangePasswordLoggedMutation>;
+export type ChangePasswordLoggedMutationOptions = Apollo.BaseMutationOptions<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>;
 export const FindArticlesDocument = gql`
     query FindArticles {
   findArticles {
