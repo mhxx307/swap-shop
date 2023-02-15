@@ -163,16 +163,30 @@ export type MutationUpdateArticleArgs = {
   updateArticleInput: UpdateArticleInput;
 };
 
+export type PaginatedArticles = {
+  __typename?: 'PaginatedArticles';
+  articles: Array<Article>;
+  endCursor: Scalars['String'];
+  hasMore: Scalars['Boolean'];
+  totalCount: Scalars['Float'];
+};
+
 export type Query = {
   __typename?: 'Query';
   article?: Maybe<Article>;
-  articles?: Maybe<Array<Article>>;
+  articles?: Maybe<PaginatedArticles>;
   userInfo?: Maybe<User>;
 };
 
 
 export type QueryArticleArgs = {
   findArticleInput: FindArticleInput;
+};
+
+
+export type QueryArticlesArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
 };
 
 export type RegisterInput = {
@@ -228,6 +242,13 @@ export type ErrorsFragment = { __typename?: 'FieldError', field: string, message
 
 export type MutationStatusFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null };
 
+export type CreateArticleMutationVariables = Exact<{
+  createArticleInput: CreateArticleInput;
+}>;
+
+
+export type CreateArticleMutation = { __typename?: 'Mutation', createArticle: { __typename?: 'ArticleMutationResponse', code: number, success: boolean, message?: string | null, article?: { __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } } | null, errors?: Array<{ __typename?: 'FieldError', message: string, field: string }> | null } };
+
 export type RegisterMutationVariables = Exact<{
   registerInput: RegisterInput;
 }>;
@@ -270,17 +291,20 @@ export type ChangePasswordLoggedMutationVariables = Exact<{
 
 export type ChangePasswordLoggedMutation = { __typename?: 'Mutation', changePasswordLogged: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
-export type ArticlesQueryVariables = Exact<{ [key: string]: never; }>;
+export type ArticlesQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+}>;
 
 
-export type ArticlesQuery = { __typename?: 'Query', articles?: Array<{ __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any }> | null };
+export type ArticlesQuery = { __typename?: 'Query', articles?: { __typename?: 'PaginatedArticles', endCursor: string, hasMore: boolean, totalCount: number, articles: Array<{ __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } }> } | null };
 
 export type ArticleQueryVariables = Exact<{
   findArticleInput: FindArticleInput;
 }>;
 
 
-export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any } | null };
+export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } } | null };
 
 export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -328,6 +352,65 @@ export const UserMutationResponseFragmentDoc = gql`
     ${MutationStatusFragmentDoc}
 ${UserFragmentDoc}
 ${ErrorsFragmentDoc}`;
+export const CreateArticleDocument = gql`
+    mutation CreateArticle($createArticleInput: CreateArticleInput!) {
+  createArticle(createArticleInput: $createArticleInput) {
+    code
+    success
+    message
+    article {
+      id
+      title
+      description
+      user {
+        id
+        username
+        email
+        address
+        phoneNumber
+        fullName
+        birthday
+        avatar
+        isOnline
+        createdDate
+        updatedDate
+      }
+      createdDate
+      updatedDate
+    }
+    errors {
+      message
+      field
+    }
+  }
+}
+    `;
+export type CreateArticleMutationFn = Apollo.MutationFunction<CreateArticleMutation, CreateArticleMutationVariables>;
+
+/**
+ * __useCreateArticleMutation__
+ *
+ * To run a mutation, you first call `useCreateArticleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateArticleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createArticleMutation, { data, loading, error }] = useCreateArticleMutation({
+ *   variables: {
+ *      createArticleInput: // value for 'createArticleInput'
+ *   },
+ * });
+ */
+export function useCreateArticleMutation(baseOptions?: Apollo.MutationHookOptions<CreateArticleMutation, CreateArticleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateArticleMutation, CreateArticleMutationVariables>(CreateArticleDocument, options);
+      }
+export type CreateArticleMutationHookResult = ReturnType<typeof useCreateArticleMutation>;
+export type CreateArticleMutationResult = Apollo.MutationResult<CreateArticleMutation>;
+export type CreateArticleMutationOptions = Apollo.BaseMutationOptions<CreateArticleMutation, CreateArticleMutationVariables>;
 export const RegisterDocument = gql`
     mutation Register($registerInput: RegisterInput!) {
   register(registerInput: $registerInput) {
@@ -534,13 +617,31 @@ export type ChangePasswordLoggedMutationHookResult = ReturnType<typeof useChange
 export type ChangePasswordLoggedMutationResult = Apollo.MutationResult<ChangePasswordLoggedMutation>;
 export type ChangePasswordLoggedMutationOptions = Apollo.BaseMutationOptions<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>;
 export const ArticlesDocument = gql`
-    query Articles {
-  articles {
-    id
-    title
-    description
-    createdDate
-    updatedDate
+    query Articles($after: String, $first: Int) {
+  articles(after: $after, first: $first) {
+    articles {
+      id
+      title
+      description
+      user {
+        id
+        username
+        email
+        address
+        phoneNumber
+        fullName
+        birthday
+        avatar
+        isOnline
+        createdDate
+        updatedDate
+      }
+      createdDate
+      updatedDate
+    }
+    endCursor
+    hasMore
+    totalCount
   }
 }
     `;
@@ -557,6 +658,8 @@ export const ArticlesDocument = gql`
  * @example
  * const { data, loading, error } = useArticlesQuery({
  *   variables: {
+ *      after: // value for 'after'
+ *      first: // value for 'first'
  *   },
  * });
  */
@@ -579,6 +682,19 @@ export const ArticleDocument = gql`
     description
     createdDate
     updatedDate
+    user {
+      id
+      username
+      email
+      address
+      phoneNumber
+      fullName
+      birthday
+      avatar
+      isOnline
+      createdDate
+      updatedDate
+    }
   }
 }
     `;

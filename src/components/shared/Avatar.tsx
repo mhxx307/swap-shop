@@ -2,11 +2,11 @@ import Image from './Image';
 import classNames from 'classnames';
 
 export interface AvatarProps {
-    src: string;
     className?: string;
+    src: string;
 }
 
-export default function Avatar({ src, className }: AvatarProps) {
+export default function Avatar({ className, src }: AvatarProps) {
     return (
         <div className="flex-shrink-0">
             <Image

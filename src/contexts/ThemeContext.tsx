@@ -15,7 +15,7 @@ export interface ThemeProviderProps {
 }
 
 //developer.school/snippets/react/localstorage-is-not-defined-nextjs
-const ThemeProvider = ({ children }: ThemeProviderProps) => {
+export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     const theme =
         (typeof window !== 'undefined' && localStorage.getItem('theme')) ||
         'light';
@@ -54,5 +54,3 @@ const ThemeProvider = ({ children }: ThemeProviderProps) => {
         </ThemeContext.Provider>
     );
 };
-
-export default ThemeProvider;

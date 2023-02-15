@@ -10,6 +10,7 @@ import { onError } from '@apollo/client/link/error';
 import { concatPagination } from '@apollo/client/utilities';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
+import { Article, PaginatedArticles } from '@/types/generated/graphql';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -42,7 +43,23 @@ function createApolloClient() {
             typePolicies: {
                 Query: {
                     fields: {
-                        allPosts: concatPagination(),
+                        // articles: {
+                        //     keyArgs: false,
+                        //     merge(
+                        //         existing: PaginatedArticles,
+                        //         incoming: PaginatedArticles,
+                        //     ) {
+                        //         if (!incoming) return existing;
+                        //         if (!existing) return incoming;
+                        //         return {
+                        //             ...incoming,
+                        //             articles: [
+                        //                 ...existing.articles,
+                        //                 ...incoming.articles,
+                        //             ],
+                        //         };
+                        //     },
+                        // },
                     },
                 },
             },

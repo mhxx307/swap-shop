@@ -1,10 +1,12 @@
 import { BaseLayout } from '@/components/layouts';
 import { Button } from '@/components/shared';
+import { useCheckAuth } from '@/hooks';
 import { useForgotPasswordMutation } from '@/types/generated/graphql';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 export default function ForgotPassword() {
+    const { data: authData, loading: authLoading } = useCheckAuth();
     const [email, setEmail] = useState('');
     const [forgotPassword, { loading, data }] = useForgotPasswordMutation();
 
@@ -26,6 +28,10 @@ export default function ForgotPassword() {
             });
         }
     }, [data]);
+
+    if (authLoading || (!authLoading && authData?.userInfo)) {
+        return <p>Loading...</p>;
+    }
 
     return (
         <section className="bg-gray-50 dark:bg-primaryDark">

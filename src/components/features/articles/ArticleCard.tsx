@@ -2,9 +2,10 @@ import { useRouter } from 'next/router';
 import { Image } from '@/components/shared';
 import { BsFillChatDotsFill, BsFillEyeFill, BsShareFill } from 'react-icons/bs';
 import { motion } from 'framer-motion';
+import { Article } from '@/types/generated/graphql';
 
 export interface ArticleCardProps {
-    article: any; // sau này là article props
+    article: Article; // sau này là article props
 }
 
 const ArticleCard = ({ article }: ArticleCardProps) => {
@@ -36,7 +37,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
 
                 {/* user avatar */}
                 <Image
-                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                    src={article.user.avatar || '/images/avatar-fallback.png'}
                     alt="Avatar"
                     className="w-full h-full object-cover ss:mx-[24px] text-center"
                     containerclassname="flex-center text-sm z-50 w-8 h-8 rounded-[50%] overflow-hidden absolute left-[24px] bottom-[-16px]"
@@ -44,7 +45,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
 
                 {/* article image */}
                 <Image
-                    src={article.thumbnail}
+                    src={'/images/avatar-fallback.png'}
                     alt="article"
                     containerclassname="absolute top-0 w-full h-full"
                 />
@@ -53,13 +54,13 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
             <div className="py-[20px] px-[12px] md:py-[28px] md:px-[20px] space-y-6">
                 <div className="space-y-1">
                     <span className="mb-[8px] font-normal text-[#919eab] text-[10px] block line-clamp-1">
-                        07 Apr 2022 Tp Hồ Chí Minh
+                        {article.createdDate} {article.user.address}
                     </span>
                     <h3 className="text-2xl md:text-lg font-extrabold line-clamp-1">
                         {article.title}
                     </h3>
                     <p className="text-sm text-red-600 font-bold">
-                        {article.price} $
+                        {/* {article.price} $ */}
                     </p>
                 </div>
 

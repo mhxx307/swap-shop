@@ -1,10 +1,28 @@
-query Articles {
-    articles {
-        id
-        title
-        description
-        createdDate
-        updatedDate
+query Articles($after: String, $first: Int) {
+    articles(after: $after, first: $first) {
+        articles {
+            id
+            title
+            description
+            user {
+                id
+                username
+                email
+                address
+                phoneNumber
+                fullName
+                birthday
+                avatar
+                isOnline
+                createdDate
+                updatedDate
+            }
+            createdDate
+            updatedDate
+        }
+        endCursor
+        hasMore
+        totalCount
     }
 }
 
@@ -15,5 +33,18 @@ query Article($findArticleInput: FindArticleInput!) {
         description
         createdDate
         updatedDate
+        user {
+            id
+            username
+            email
+            address
+            phoneNumber
+            fullName
+            birthday
+            avatar
+            isOnline
+            createdDate
+            updatedDate
+        }
     }
 }

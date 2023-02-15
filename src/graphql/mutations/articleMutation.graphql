@@ -1,0 +1,31 @@
+mutation CreateArticle($createArticleInput: CreateArticleInput!) {
+    createArticle(createArticleInput: $createArticleInput) {
+        code
+        success
+        message
+        article {
+            id
+            title
+            description
+            user {
+                id
+                username
+                email
+                address
+                phoneNumber
+                fullName
+                birthday
+                avatar
+                isOnline
+                createdDate
+                updatedDate
+            }
+            createdDate
+            updatedDate
+        }
+        errors {
+            message
+            field
+        }
+    }
+}

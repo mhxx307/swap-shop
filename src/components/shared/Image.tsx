@@ -13,7 +13,7 @@ const variants = {
     },
 };
 
-interface ImageProps extends NextImageProps {
+export interface ImageProps extends NextImageProps {
     containerclassname?: string;
     className?: string;
     fallbackImg?: string;

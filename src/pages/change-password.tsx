@@ -5,13 +5,14 @@ import { useEffect, useState } from 'react';
 
 import { BaseLayout } from '@/components/layouts';
 import { Button, InputField } from '@/components/shared';
-import { useValidateSchema } from '@/hooks';
+import { useCheckAuth, useValidateSchema } from '@/hooks';
 import { ChangePasswordPayload } from '@/types';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useChangePasswordMutation } from '@/types/generated/graphql';
 import { toast } from 'react-toastify';
 
 const ChangePassword = () => {
+    const { data: authData, loading: authLoading } = useCheckAuth();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const schema = useValidateSchema({ name: 'password' });
@@ -48,19 +49,17 @@ const ChangePassword = () => {
     };
 
     useEffect(() => {
-        if (!data?.changePassword.success) {
-            toast.error('Fail!!! Token maybe wrong or expired', {
-                toastId: 'error',
-            });
-        }
-
         if (data?.changePassword.success) {
             toast.success('Change password successfully', {
                 toastId: 'success',
             });
             router.push('/');
         }
-    }, [data, router]);
+    }, [data, router, token]);
+
+    if (authLoading || (!authLoading && authData?.userInfo)) {
+        return <p>Loading...</p>;
+    }
 
     return (
         <section className="bg-gray-50 dark:bg-primaryDark">
@@ -103,7 +102,7 @@ const ChangePassword = () => {
                             label="Confirm password"
                             iconClassName="w-4 h-4 cursor-pointer hover:text-gray-500"
                             rightIconOnClick={() =>
-                                setShowConfirmPassword(!showPassword)
+                                setShowConfirmPassword(!showConfirmPassword)
                             }
                             RightIcon={showConfirmPassword ? FaEye : FaEyeSlash}
                         />

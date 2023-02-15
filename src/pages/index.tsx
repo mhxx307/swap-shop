@@ -7,8 +7,6 @@ import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import { ArticlesDocument, useArticlesQuery } from '@/types/generated/graphql';
 
 const Home = () => {
-    const { data, loading } = useArticlesQuery();
-
     return (
         <>
             <Head />
@@ -21,7 +19,9 @@ const Home = () => {
                         <h3 className="text-4xl font-extrabold text-primary-500 italic">
                             New articles
                         </h3>
-                        <ArticlesSwiperInfinite articleList={data?.articles} />
+                        {/* <ArticlesSwiperInfinite
+                            articleList={data?.articles?.paginatedArticles}
+                        /> */}
                     </div>
                 </div>
             </ClientOnly>
@@ -30,25 +30,3 @@ const Home = () => {
 };
 
 export default Home;
-
-export const getStaticProps: GetStaticProps = async () => {
-    // const Cookie = context.req.headers.cookie;
-    const apolloClient = initializeApollo();
-
-    await apolloClient.query({
-        query: ArticlesDocument,
-    });
-
-    // await apolloClient.query<PostsQuery, QueryPostsArgs>({
-    //     context: { headers: { Cookie } },
-    //     query: PostsDocument,
-    //     variables: { limit },
-
-    //     //Rerender component when networkStatus change
-    //     notifyOnNetworkStatusChange: true,
-    // });
-
-    return addApolloState(apolloClient, {
-        props: {},
-    });
-};
