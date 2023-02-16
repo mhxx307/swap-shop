@@ -43,23 +43,29 @@ function createApolloClient() {
             typePolicies: {
                 Query: {
                     fields: {
-                        // articles: {
-                        //     keyArgs: false,
-                        //     merge(
-                        //         existing: PaginatedArticles,
-                        //         incoming: PaginatedArticles,
-                        //     ) {
-                        //         if (!incoming) return existing;
-                        //         if (!existing) return incoming;
-                        //         return {
-                        //             ...incoming,
-                        //             articles: [
-                        //                 ...existing.articles,
-                        //                 ...incoming.articles,
-                        //             ],
-                        //         };
-                        //     },
-                        // },
+                        articles: {
+                            keyArgs: false,
+                            merge(existing, incoming) {
+                                let paginatedArticles: Article[] = [];
+                                console.log('EXISTING', existing);
+                                console.log('INCOMING', incoming);
+                                if (existing && existing.paginatedArticles) {
+                                    paginatedArticles =
+                                        paginatedArticles.concat(
+                                            existing.paginatedArticles,
+                                        );
+                                }
+
+                                if (incoming && incoming.paginatedArticles) {
+                                    paginatedArticles =
+                                        paginatedArticles.concat(
+                                            incoming.paginatedArticles,
+                                        );
+                                }
+
+                                return { ...incoming, paginatedArticles };
+                            },
+                        },
                     },
                 },
             },

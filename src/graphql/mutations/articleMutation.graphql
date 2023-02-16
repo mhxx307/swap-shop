@@ -4,28 +4,10 @@ mutation CreateArticle($createArticleInput: CreateArticleInput!) {
         success
         message
         article {
-            id
-            title
-            description
-            user {
-                id
-                username
-                email
-                address
-                phoneNumber
-                fullName
-                birthday
-                avatar
-                isOnline
-                createdDate
-                updatedDate
-            }
-            createdDate
-            updatedDate
+            ...article
         }
         errors {
-            message
-            field
+            ...errors
         }
     }
 }

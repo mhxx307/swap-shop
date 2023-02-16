@@ -15,8 +15,8 @@ import {
     UserForm,
 } from './components/register';
 import {
-    UserInfoDocument,
-    UserInfoQuery,
+    MeDocument,
+    MeQuery,
     useRegisterMutation,
 } from '@/types/generated/graphql';
 import { useRouter } from 'next/router';
@@ -68,9 +68,9 @@ const RegisterForm = () => {
             },
             update(cache, { data }) {
                 if (data?.register.success) {
-                    cache.writeQuery<UserInfoQuery>({
-                        query: UserInfoDocument,
-                        data: { userInfo: data.register.user },
+                    cache.writeQuery<MeQuery>({
+                        query: MeDocument,
+                        data: { me: data.register.user },
                     });
                 }
             },

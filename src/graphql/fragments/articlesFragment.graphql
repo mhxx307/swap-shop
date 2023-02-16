@@ -1,0 +1,10 @@
+fragment article on Article {
+    id
+    title
+    description
+    user {
+        ...user
+    }
+    createdDate
+    updatedDate
+}

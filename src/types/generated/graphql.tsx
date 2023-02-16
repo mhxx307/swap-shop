@@ -165,9 +165,9 @@ export type MutationUpdateArticleArgs = {
 
 export type PaginatedArticles = {
   __typename?: 'PaginatedArticles';
-  articles: Array<Article>;
-  endCursor: Scalars['String'];
+  cursor: Scalars['DateTime'];
   hasMore: Scalars['Boolean'];
+  paginatedArticles: Array<Article>;
   totalCount: Scalars['Float'];
 };
 
@@ -175,7 +175,7 @@ export type Query = {
   __typename?: 'Query';
   article?: Maybe<Article>;
   articles?: Maybe<PaginatedArticles>;
-  userInfo?: Maybe<User>;
+  me?: Maybe<User>;
 };
 
 
@@ -185,8 +185,8 @@ export type QueryArticleArgs = {
 
 
 export type QueryArticlesArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
+  cursor?: InputMaybe<Scalars['String']>;
+  limit: Scalars['Int'];
 };
 
 export type RegisterInput = {
@@ -234,20 +234,20 @@ export type UserMutationResponse = IMutationResponse & {
   user?: Maybe<User>;
 };
 
+export type ArticleFragment = { __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } };
+
 export type UserFragment = { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any };
 
 export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null };
 
 export type ErrorsFragment = { __typename?: 'FieldError', field: string, message: string };
 
-export type MutationStatusFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null };
-
 export type CreateArticleMutationVariables = Exact<{
   createArticleInput: CreateArticleInput;
 }>;
 
 
-export type CreateArticleMutation = { __typename?: 'Mutation', createArticle: { __typename?: 'ArticleMutationResponse', code: number, success: boolean, message?: string | null, article?: { __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } } | null, errors?: Array<{ __typename?: 'FieldError', message: string, field: string }> | null } };
+export type CreateArticleMutation = { __typename?: 'Mutation', createArticle: { __typename?: 'ArticleMutationResponse', code: number, success: boolean, message?: string | null, article?: { __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type RegisterMutationVariables = Exact<{
   registerInput: RegisterInput;
@@ -292,12 +292,12 @@ export type ChangePasswordLoggedMutationVariables = Exact<{
 export type ChangePasswordLoggedMutation = { __typename?: 'Mutation', changePasswordLogged: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type ArticlesQueryVariables = Exact<{
-  after?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
+  limit: Scalars['Int'];
+  cursor?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type ArticlesQuery = { __typename?: 'Query', articles?: { __typename?: 'PaginatedArticles', endCursor: string, hasMore: boolean, totalCount: number, articles: Array<{ __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } }> } | null };
+export type ArticlesQuery = { __typename?: 'Query', articles?: { __typename?: 'PaginatedArticles', totalCount: number, cursor: any, hasMore: boolean, paginatedArticles: Array<{ __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } }> } | null };
 
 export type ArticleQueryVariables = Exact<{
   findArticleInput: FindArticleInput;
@@ -306,18 +306,11 @@ export type ArticleQueryVariables = Exact<{
 
 export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, title: string, description: string, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } } | null };
 
-export type UserInfoQueryVariables = Exact<{ [key: string]: never; }>;
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserInfoQuery = { __typename?: 'Query', userInfo?: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, username: string, email: string, address: string, phoneNumber: string, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null };
 
-export const MutationStatusFragmentDoc = gql`
-    fragment mutationStatus on UserMutationResponse {
-  code
-  success
-  message
-}
-    `;
 export const UserFragmentDoc = gql`
     fragment user on User {
   id
@@ -333,6 +326,18 @@ export const UserFragmentDoc = gql`
   updatedDate
 }
     `;
+export const ArticleFragmentDoc = gql`
+    fragment article on Article {
+  id
+  title
+  description
+  user {
+    ...user
+  }
+  createdDate
+  updatedDate
+}
+    ${UserFragmentDoc}`;
 export const ErrorsFragmentDoc = gql`
     fragment errors on FieldError {
   field
@@ -341,7 +346,9 @@ export const ErrorsFragmentDoc = gql`
     `;
 export const UserMutationResponseFragmentDoc = gql`
     fragment userMutationResponse on UserMutationResponse {
-  ...mutationStatus
+  code
+  success
+  message
   user {
     ...user
   }
@@ -349,8 +356,7 @@ export const UserMutationResponseFragmentDoc = gql`
     ...errors
   }
 }
-    ${MutationStatusFragmentDoc}
-${UserFragmentDoc}
+    ${UserFragmentDoc}
 ${ErrorsFragmentDoc}`;
 export const CreateArticleDocument = gql`
     mutation CreateArticle($createArticleInput: CreateArticleInput!) {
@@ -359,32 +365,15 @@ export const CreateArticleDocument = gql`
     success
     message
     article {
-      id
-      title
-      description
-      user {
-        id
-        username
-        email
-        address
-        phoneNumber
-        fullName
-        birthday
-        avatar
-        isOnline
-        createdDate
-        updatedDate
-      }
-      createdDate
-      updatedDate
+      ...article
     }
     errors {
-      message
-      field
+      ...errors
     }
   }
 }
-    `;
+    ${ArticleFragmentDoc}
+${ErrorsFragmentDoc}`;
 export type CreateArticleMutationFn = Apollo.MutationFunction<CreateArticleMutation, CreateArticleMutationVariables>;
 
 /**
@@ -510,10 +499,12 @@ export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, L
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($forgotPasswordInput: ForgotPasswordInput!) {
   forgotPassword(forgotPasswordInput: $forgotPasswordInput) {
-    ...mutationStatus
+    code
+    success
+    message
   }
 }
-    ${MutationStatusFragmentDoc}`;
+    `;
 export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
 
 /**
@@ -582,14 +573,15 @@ export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePas
 export const ChangePasswordLoggedDocument = gql`
     mutation ChangePasswordLogged($changePasswordLoggedInput: ChangePasswordLoggedInput!) {
   changePasswordLogged(changePasswordLoggedInput: $changePasswordLoggedInput) {
-    ...mutationStatus
+    code
+    success
+    message
     errors {
       ...errors
     }
   }
 }
-    ${MutationStatusFragmentDoc}
-${ErrorsFragmentDoc}`;
+    ${ErrorsFragmentDoc}`;
 export type ChangePasswordLoggedMutationFn = Apollo.MutationFunction<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>;
 
 /**
@@ -617,34 +609,17 @@ export type ChangePasswordLoggedMutationHookResult = ReturnType<typeof useChange
 export type ChangePasswordLoggedMutationResult = Apollo.MutationResult<ChangePasswordLoggedMutation>;
 export type ChangePasswordLoggedMutationOptions = Apollo.BaseMutationOptions<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>;
 export const ArticlesDocument = gql`
-    query Articles($after: String, $first: Int) {
-  articles(after: $after, first: $first) {
-    articles {
-      id
-      title
-      description
-      user {
-        id
-        username
-        email
-        address
-        phoneNumber
-        fullName
-        birthday
-        avatar
-        isOnline
-        createdDate
-        updatedDate
-      }
-      createdDate
-      updatedDate
-    }
-    endCursor
-    hasMore
+    query Articles($limit: Int!, $cursor: String) {
+  articles(limit: $limit, cursor: $cursor) {
     totalCount
+    cursor
+    hasMore
+    paginatedArticles {
+      ...article
+    }
   }
 }
-    `;
+    ${ArticleFragmentDoc}`;
 
 /**
  * __useArticlesQuery__
@@ -658,12 +633,12 @@ export const ArticlesDocument = gql`
  * @example
  * const { data, loading, error } = useArticlesQuery({
  *   variables: {
- *      after: // value for 'after'
- *      first: // value for 'first'
+ *      limit: // value for 'limit'
+ *      cursor: // value for 'cursor'
  *   },
  * });
  */
-export function useArticlesQuery(baseOptions?: Apollo.QueryHookOptions<ArticlesQuery, ArticlesQueryVariables>) {
+export function useArticlesQuery(baseOptions: Apollo.QueryHookOptions<ArticlesQuery, ArticlesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<ArticlesQuery, ArticlesQueryVariables>(ArticlesDocument, options);
       }
@@ -677,27 +652,10 @@ export type ArticlesQueryResult = Apollo.QueryResult<ArticlesQuery, ArticlesQuer
 export const ArticleDocument = gql`
     query Article($findArticleInput: FindArticleInput!) {
   article(findArticleInput: $findArticleInput) {
-    id
-    title
-    description
-    createdDate
-    updatedDate
-    user {
-      id
-      username
-      email
-      address
-      phoneNumber
-      fullName
-      birthday
-      avatar
-      isOnline
-      createdDate
-      updatedDate
-    }
+    ...article
   }
 }
-    `;
+    ${ArticleFragmentDoc}`;
 
 /**
  * __useArticleQuery__
@@ -726,37 +684,37 @@ export function useArticleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ar
 export type ArticleQueryHookResult = ReturnType<typeof useArticleQuery>;
 export type ArticleLazyQueryHookResult = ReturnType<typeof useArticleLazyQuery>;
 export type ArticleQueryResult = Apollo.QueryResult<ArticleQuery, ArticleQueryVariables>;
-export const UserInfoDocument = gql`
-    query UserInfo {
-  userInfo {
+export const MeDocument = gql`
+    query Me {
+  me {
     ...user
   }
 }
     ${UserFragmentDoc}`;
 
 /**
- * __useUserInfoQuery__
+ * __useMeQuery__
  *
- * To run a query within a React component, call `useUserInfoQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUserInfoQuery({
+ * const { data, loading, error } = useMeQuery({
  *   variables: {
  *   },
  * });
  */
-export function useUserInfoQuery(baseOptions?: Apollo.QueryHookOptions<UserInfoQuery, UserInfoQueryVariables>) {
+export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserInfoQuery, UserInfoQueryVariables>(UserInfoDocument, options);
+        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
       }
-export function useUserInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserInfoQuery, UserInfoQueryVariables>) {
+export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserInfoQuery, UserInfoQueryVariables>(UserInfoDocument, options);
+          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
         }
-export type UserInfoQueryHookResult = ReturnType<typeof useUserInfoQuery>;
-export type UserInfoLazyQueryHookResult = ReturnType<typeof useUserInfoLazyQuery>;
-export type UserInfoQueryResult = Apollo.QueryResult<UserInfoQuery, UserInfoQueryVariables>;
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;

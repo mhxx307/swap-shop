@@ -3,71 +3,37 @@ import { Button, ClientOnly, Head } from '@/components/shared';
 import { GetServerSideProps } from 'next';
 import { ArticlesDocument, useArticlesQuery } from '@/types/generated/graphql';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
-import { useContext } from 'react';
-import { ArticlesContext } from '@/contexts/ArticlesContext';
+import { NetworkStatus } from '@apollo/client';
 
-export const first = 3;
+export const limit = 3;
 
 const Articles = () => {
-    const { data, fetchMore } = useArticlesQuery({
-        variables: { first },
+    const { data, loading, fetchMore, networkStatus } = useArticlesQuery({
+        variables: { limit },
         notifyOnNetworkStatusChange: true,
     });
-    const { hasMore, setHasMore } = useContext(ArticlesContext);
-    console.log(hasMore);
 
-    const loadMoreArticles = () => {
-        if (data?.articles?.articles) {
-            fetchMore({
-                variables: {
-                    after: data.articles.endCursor,
-                },
-                updateQuery: (prevResult, { fetchMoreResult }): any => {
-                    if (!fetchMoreResult) return prevResult;
+    const loadingMoreArticles = networkStatus === NetworkStatus.fetchMore;
 
-                    const mergedArticles = [
-                        ...prevResult.articles!.articles,
-                        ...fetchMoreResult.articles!.articles.filter(
-                            (edge) =>
-                                !prevResult.articles!.articles.some(
-                                    (prevEdge) => prevEdge.id === edge.id,
-                                ),
-                        ),
-                    ];
+    const loadMoreArticles = () =>
+        fetchMore({ variables: { cursor: data?.articles?.cursor } });
 
-                    const totalCount = fetchMoreResult.articles!.totalCount;
-                    const endCursor = fetchMoreResult.articles!.endCursor;
-                    const hasMore =
-                        mergedArticles.length < totalCount
-                            ? fetchMoreResult.articles!.hasMore
-                            : false;
-
-                    setHasMore(hasMore);
-
-                    return {
-                        articles: {
-                            ...prevResult.articles,
-                            articles: mergedArticles,
-                            totalCount: totalCount,
-                            endCursor: endCursor,
-                            hasMore: hasMore, // Merge hasMore field
-                        },
-                    };
-                },
-            });
-        }
-    };
+    console.log(data?.articles?.paginatedArticles);
 
     return (
         <>
             <Head />
             <ClientOnly>
                 <div className="mt-[200px] wrapper space-y-20 pb-[20px]">
-                    {data && <ArticleList articles={data.articles?.articles} />}
-
-                    {hasMore && (
-                        <Button primary onClick={loadMoreArticles}>
-                            Show more
+                    {data?.articles?.paginatedArticles.map((article) => (
+                        <div key={article.id}>{article.title}</div>
+                    ))}
+                    {data?.articles?.hasMore && (
+                        <Button
+                            isLoading={loadingMoreArticles}
+                            onClick={loadMoreArticles}
+                        >
+                            {loadingMoreArticles ? 'Loading' : 'Show more'}
                         </Button>
                     )}
                 </div>
@@ -84,7 +50,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     await apolloClient.query({
         query: ArticlesDocument,
         variables: {
-            first,
+            limit,
         },
     });
 

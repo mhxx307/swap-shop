@@ -1,50 +1,16 @@
-query Articles($after: String, $first: Int) {
-    articles(after: $after, first: $first) {
-        articles {
-            id
-            title
-            description
-            user {
-                id
-                username
-                email
-                address
-                phoneNumber
-                fullName
-                birthday
-                avatar
-                isOnline
-                createdDate
-                updatedDate
-            }
-            createdDate
-            updatedDate
-        }
-        endCursor
-        hasMore
+query Articles($limit: Int!, $cursor: String) {
+    articles(limit: $limit, cursor: $cursor) {
         totalCount
+        cursor
+        hasMore
+        paginatedArticles {
+            ...article
+        }
     }
 }
 
 query Article($findArticleInput: FindArticleInput!) {
     article(findArticleInput: $findArticleInput) {
-        id
-        title
-        description
-        createdDate
-        updatedDate
-        user {
-            id
-            username
-            email
-            address
-            phoneNumber
-            fullName
-            birthday
-            avatar
-            isOnline
-            createdDate
-            updatedDate
-        }
+        ...article
     }
 }

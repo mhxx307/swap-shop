@@ -22,7 +22,11 @@ const POPUP_MENU_LIST: PopupMenuItemProps[] = [
 ];
 
 const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
-    { icon: BsPencilSquare, label: 'Thêm sản phẩm', path: '/create-article' },
+    {
+        icon: BsPencilSquare,
+        label: 'Thêm sản phẩm',
+        path: '/articles/create-article',
+    },
     ...POPUP_MENU_LIST,
     { icon: BsGear, label: 'Cài đặt', path: '/settings/profile' },
     { icon: VscSignOut, label: 'Đăng xuất', separate: true },

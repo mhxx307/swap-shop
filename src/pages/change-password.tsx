@@ -57,7 +57,7 @@ const ChangePassword = () => {
         }
     }, [data, router, token]);
 
-    if (authLoading || (!authLoading && authData?.userInfo)) {
+    if (authLoading || (!authLoading && authData?.me)) {
         return <p>Loading...</p>;
     }
 
