@@ -615,11 +615,28 @@ export const ArticlesDocument = gql`
     cursor
     hasMore
     paginatedArticles {
-      ...article
+      id
+      title
+      description
+      user {
+        id
+        username
+        email
+        address
+        phoneNumber
+        fullName
+        birthday
+        avatar
+        isOnline
+        createdDate
+        updatedDate
+      }
+      createdDate
+      updatedDate
     }
   }
 }
-    ${ArticleFragmentDoc}`;
+    `;
 
 /**
  * __useArticlesQuery__

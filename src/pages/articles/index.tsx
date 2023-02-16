@@ -4,6 +4,8 @@ import { GetServerSideProps } from 'next';
 import { ArticlesDocument, useArticlesQuery } from '@/types/generated/graphql';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import { NetworkStatus } from '@apollo/client';
+import { useContext } from 'react';
+import { ArticlesContext } from '@/contexts/ArticlesContext';
 
 export const limit = 3;
 
@@ -13,12 +15,33 @@ const Articles = () => {
         notifyOnNetworkStatusChange: true,
     });
 
+    const { hasMore, setHasMore } = useContext(ArticlesContext);
+
     const loadingMoreArticles = networkStatus === NetworkStatus.fetchMore;
 
-    const loadMoreArticles = () =>
-        fetchMore({ variables: { cursor: data?.articles?.cursor } });
+    const handleFetchMore = () => {
+        console.log(data?.articles?.cursor);
+        fetchMore({
+            variables: { cursor: data?.articles?.cursor as string },
+            updateQuery: (prev, { fetchMoreResult }): any => {
+                if (!fetchMoreResult) return prev;
 
-    console.log(data?.articles?.paginatedArticles);
+                if (fetchMoreResult.articles?.hasMore === false) {
+                    setHasMore(fetchMoreResult.articles?.hasMore);
+                }
+
+                return {
+                    articles: {
+                        ...fetchMoreResult.articles,
+                        paginatedArticles: [
+                            ...prev.articles!.paginatedArticles,
+                            ...fetchMoreResult.articles!.paginatedArticles,
+                        ],
+                    },
+                };
+            },
+        });
+    };
 
     return (
         <>
@@ -28,10 +51,12 @@ const Articles = () => {
                     {data?.articles?.paginatedArticles.map((article) => (
                         <div key={article.id}>{article.title}</div>
                     ))}
-                    {data?.articles?.hasMore && (
+
+                    {hasMore && (
                         <Button
+                            primary
                             isLoading={loadingMoreArticles}
-                            onClick={loadMoreArticles}
+                            onClick={handleFetchMore}
                         >
                             {loadingMoreArticles ? 'Loading' : 'Show more'}
                         </Button>
