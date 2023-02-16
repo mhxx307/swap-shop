@@ -1,9 +1,18 @@
+import { ImageUpload } from '@/components/features/uploads';
 import { Auth, Button, InputField, FormSelect } from '@/components/shared';
+import { useState } from 'react';
+import CurrencyInput from 'react-currency-input-field';
 import { useForm } from 'react-hook-form';
 
 export interface CreateArticleProps {}
 
+const prices = [
+    { id: 1, label: 'Free' },
+    { id: 2, label: 'Charges' },
+];
+
 const CreateArticle = (props: CreateArticleProps) => {
+    const [checked, setChecked] = useState(1);
     const { control, handleSubmit } = useForm<any>({
         defaultValues: {
             title: '',
@@ -50,14 +59,51 @@ const CreateArticle = (props: CreateArticleProps) => {
                             placeholder="Product name"
                         />
 
-                        <InputField
-                            label="Price"
-                            type="text"
-                            name="price"
-                            control={control}
-                            containerInputClassName="default-input"
-                            placeholder="price"
-                        />
+                        <div>
+                            <div className="flex justify-between">
+                                <label htmlFor="" className="default-label">
+                                    Price
+                                </label>
+                                <div className="flex space-x-2">
+                                    {prices.map((item) => {
+                                        return (
+                                            <div key={item.id}>
+                                                <label htmlFor="">
+                                                    {item.label}
+                                                </label>
+                                                <input
+                                                    type="radio"
+                                                    checked={
+                                                        checked === item.id
+                                                    }
+                                                    onChange={() =>
+                                                        setChecked(item.id)
+                                                    }
+                                                />
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                            <CurrencyInput
+                                name="price"
+                                placeholder={
+                                    checked === 1
+                                        ? 'Free'
+                                        : 'Please enter a number'
+                                }
+                                decimalsLimit={2}
+                                onValueChange={(value, name) =>
+                                    console.log(value, name)
+                                }
+                                suffix="vnđ"
+                                disabled={checked === 1}
+                                className={`default-input outline-none w-full ${
+                                    checked === 1 &&
+                                    'opacity-70 cursor-not-allowed'
+                                }`}
+                            />
+                        </div>
 
                         <FormSelect
                             control={control}
@@ -88,13 +134,18 @@ const CreateArticle = (props: CreateArticleProps) => {
                             containerInputClassName="default-input"
                         />
 
-                        <div className="sm:col-span-2">
-                            <label
-                                htmlFor="description"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                                Description
-                            </label>
+                        <div className="sm:col-span-2 space-y-2">
+                            <p>Thumbnail:</p>
+                            <ImageUpload multiple={false} initialFiles={[]} />
+                        </div>
+
+                        <div className="sm:col-span-2 space-y-2">
+                            <p>Images:</p>
+                            <ImageUpload initialFiles={[]} />
+                        </div>
+
+                        <div className="sm:col-span-2 space-y-2">
+                            <label htmlFor="description">Description</label>
                             <textarea
                                 id="description"
                                 rows={8}

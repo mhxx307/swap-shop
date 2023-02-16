@@ -1,13 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { SettingsLayout } from '@/components/layouts';
-import {
-    Auth,
-    Button,
-    DateField,
-    InputField,
-    UploadAvatar,
-} from '@/components/shared';
+import { Auth, Button, DateField, InputField } from '@/components/shared';
 import { useUserInfoQuery } from '@/types/generated/graphql';
+import { AvatarUpload } from '@/components/features/uploads';
 
 const ProfilePage = () => {
     const { data } = useUserInfoQuery();
@@ -29,7 +24,7 @@ const ProfilePage = () => {
     return (
         <Auth>
             <div className="space-y-12 pb-[60px]">
-                <UploadAvatar picture={data?.userInfo?.avatar!} />
+                <AvatarUpload picture={data?.userInfo?.avatar!} />
 
                 <form
                     method="POST"

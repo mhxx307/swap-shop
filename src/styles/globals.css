@@ -60,7 +60,7 @@ main {
     }
 
     .default-input {
-        @apply flex items-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+        @apply flex items-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus-within:ring-primary-500 dark:focus-within:border-primary-500 focus-within:ring-primary-500 focus-within:border-primary-500;
     }
 
     .error-input {
@@ -68,7 +68,7 @@ main {
     }
 
     .default-label {
-        @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white;
+        @apply block mb-2 text-sm font-medium;
     }
 
     .error-label {
