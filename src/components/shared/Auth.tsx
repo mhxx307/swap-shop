@@ -14,7 +14,7 @@ const Auth = ({ children }: AuthProps) => {
 
     useEffect(() => {
         if (!loading && !data?.userInfo) {
-            toast.error('You need login first!');
+            toast.error('You need login first!', { toastId: 'success' });
             router.push('/login');
         }
     }, [loading, router, data]);

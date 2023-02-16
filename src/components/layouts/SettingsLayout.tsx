@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { BaseLayoutProps } from '@/types/layoutTypes';
 import { Header, Footer } from '@/components/partials';
-import { Dropdown } from '@/components/shared';
+import { SettingsDropdown } from '@/components/shared';
 import Link from 'next/link';
 
 const settings = [
@@ -18,7 +18,10 @@ const SettingsLayout = ({ children }: BaseLayoutProps) => {
                 <div className="wrapper pt-[200px] space-y-12">
                     <h3 className="text-4xl font-bold">Settings</h3>
                     <div className="border-bottom"></div>
-                    <Dropdown className="block ss:hidden" dataList={settings} />
+                    <SettingsDropdown
+                        className="block ss:hidden"
+                        dataList={settings}
+                    />
                     <div className="grid grid-cols-10">
                         <div className="hidden ss:block col-span-2 space-y-8 pr-10">
                             <NavList navList={settings} />
