@@ -29,7 +29,7 @@ export default function ForgotPassword() {
         }
     }, [data]);
 
-    if (authLoading || (!authLoading && authData?.userInfo)) {
+    if (authLoading || (!authLoading && authData?.me)) {
         return <p>Loading...</p>;
     }
 

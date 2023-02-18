@@ -4,24 +4,7 @@ query Articles($limit: Int!, $cursor: String) {
         cursor
         hasMore
         paginatedArticles {
-            id
-            title
-            description
-            user {
-                id
-                username
-                email
-                address
-                phoneNumber
-                fullName
-                birthday
-                avatar
-                isOnline
-                createdDate
-                updatedDate
-            }
-            createdDate
-            updatedDate
+            ...article
         }
     }
 }

@@ -35,6 +35,43 @@ const CreateArticle = (props: CreateArticleProps) => {
                     description: payload.description,
                 },
             },
+            update(cache, { data }) {
+                cache.modify({
+                    fields: {
+                        articles(existingArticles) {
+                            if (
+                                data?.createArticle.success &&
+                                data.createArticle.article
+                            ) {
+                                const newArticleRef = cache.identify(
+                                    data.createArticle.article,
+                                );
+
+                                const newTotalCount =
+                                    existingArticles.totalCount + 1;
+
+                                const newPaginatedArticles = [
+                                    { __ref: newArticleRef },
+                                    ...existingArticles.paginatedArticles,
+                                ];
+
+                                // Remove final article from paginatedArticles array using splice()
+                                if (newPaginatedArticles.length > 3) {
+                                    newPaginatedArticles.splice(-1, 1);
+                                }
+
+                                const newArticlesAfterCreation = {
+                                    ...existingArticles,
+                                    totalCount: newTotalCount,
+                                    paginatedArticles: newPaginatedArticles,
+                                };
+
+                                return newArticlesAfterCreation;
+                            }
+                        },
+                    },
+                });
+            },
         });
     };
 

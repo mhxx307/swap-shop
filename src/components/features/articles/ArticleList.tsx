@@ -2,12 +2,13 @@ import classNames from 'classnames';
 import ArticleCard from './ArticleCard';
 import { motion } from 'framer-motion';
 import { memo } from 'react';
+import { Article } from '@/types/generated/graphql';
 
 export interface ArticleListProps {
     title?: string;
     titleClassName?: string;
     className?: string;
-    articles?: any;
+    articles?: Article[];
 }
 
 const ArticleList = ({

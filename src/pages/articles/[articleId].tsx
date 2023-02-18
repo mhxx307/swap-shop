@@ -7,12 +7,18 @@ import {
     SwiperNavigation,
     TabView,
 } from '@/components/shared';
+import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import {
     Article,
+    ArticleDocument,
+    ArticleQuery,
+    ArticlesDocument,
+    ArticlesQuery,
     useArticleQuery,
     useArticlesQuery,
 } from '@/types/generated/graphql';
-import { GetStaticProps, GetStaticPropsContext } from 'next';
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
+import { useRouter } from 'next/router';
 import { BsFillStarFill, BsFillTelephoneFill } from 'react-icons/bs';
 import { FaFacebookF, FaLink, FaTwitter } from 'react-icons/fa';
 import { MdReportProblem } from 'react-icons/md';
@@ -21,10 +27,21 @@ export interface ArticleDetailPageProps {
     article: Article;
 }
 
-const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
+const limit = 10;
+
+const ArticleDetailPage = () => {
+    const router = useRouter();
+    const { data, loading, error } = useArticleQuery({
+        variables: { findArticleInput: { id: router.query.id as string } },
+    });
+
+    const article = data?.article;
+
+    console.log(article);
+
     return (
         <>
-            <Head title={article.title} description={article.description} />
+            <Head title={article?.title} description={article?.description} />
             <ClientOnly>
                 <div className="mt-[200px] wrapper space-y-20">
                     <div className="grid grid-cols-10 space-y-10 md:space-y-0 md:space-x-10">
@@ -37,7 +54,7 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
 
                         <div className="col-span-10 md:col-span-6 space-y-10">
                             <p className="text-4xl line-clamp-2 break-words">
-                                {article.title}
+                                {article?.title}
                             </p>
 
                             <div className="flex justify-between">
@@ -86,11 +103,11 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
                         <div className="flex justify-between items-center space-x-4">
                             <Avatar
                                 src={
-                                    article.user.avatar ||
+                                    article?.user.avatar ||
                                     '/images/fallback-avatar.png'
                                 }
                             />
-                            <p>{article.user.username}</p>
+                            <p>{article?.user.username}</p>
                         </div>
                     </div>
 
@@ -98,7 +115,7 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
                         tabs={[
                             {
                                 label: 'Description',
-                                content: article.description,
+                                content: article?.description,
                             },
                             { label: 'Comments', content: <div>Hello</div> },
                             {
@@ -118,17 +135,20 @@ const ArticleDetailPage = ({ article }: ArticleDetailPageProps) => {
     );
 };
 
-// https://stackoverflow.com/questions/70596939/how-to-generate-dynamic-paths-for-non-default-locales-in-next-js
 export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { data } = useArticlesQuery({ variables: { limit: 10 } });
+    const apolloClient = initializeApollo();
+
+    const { data } = await apolloClient.query<ArticlesQuery>({
+        query: ArticlesDocument,
+        variables: { limit },
+    });
 
     return {
         paths: data?.articles?.paginatedArticles
-            .map((item: any) => {
+            .map((article: any) => {
                 return locales.map((locale) => {
                     return {
-                        params: { articleId: item.id.toString() },
+                        params: { articleId: article.id.toString() },
                         locale,
                     };
                 });
@@ -138,23 +158,17 @@ export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
     };
 };
 
-export const getStaticProps: GetStaticProps<ArticleDetailPageProps> = async (
+export const getStaticProps: GetStaticProps = async (
     context: GetStaticPropsContext,
 ) => {
-    const id = context.params?.articleId as string;
-    if (!id) return { notFound: true };
+    const apolloClient = initializeApollo();
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { data } = useArticleQuery({
-        variables: { findArticleInput: { id: id } },
+    await apolloClient.query<ArticleQuery>({
+        query: ArticleDocument,
+        variables: { findArticleInput: { id: context.params?.articleId } },
     });
 
-    return {
-        props: {
-            article: data?.article as Article,
-        },
-        revalidate: 10,
-    };
+    return addApolloState(apolloClient, { props: {} });
 };
 
 export default ArticleDetailPage;

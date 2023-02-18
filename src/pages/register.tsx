@@ -10,7 +10,7 @@ const RegisterPage = () => {
     return (
         <>
             <Head />
-            {loading || (!loading && data?.userInfo) ? (
+            {loading || (!loading && data?.me) ? (
                 <div className="flex-center h-screen">
                     <Spinner />
                 </div>

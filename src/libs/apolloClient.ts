@@ -40,33 +40,33 @@ function createApolloClient() {
         ssrMode: typeof window === 'undefined',
         link: from([errorLink, httpLink]),
         cache: new InMemoryCache({
-            typePolicies: {
-                // Query: {
-                //     fields: {
-                //         articles: {
-                //             keyArgs: false,
-                //             merge(existing, incoming) {
-                //                 let paginatedArticles: Article[] = [];
-                //                 console.log('EXISTING', existing);
-                //                 console.log('INCOMING', incoming);
-                //                 if (existing && existing.paginatedArticles) {
-                //                     paginatedArticles =
-                //                         paginatedArticles.concat(
-                //                             existing.paginatedArticles,
-                //                         );
-                //                 }
-                //                 if (incoming && incoming.paginatedArticles) {
-                //                     paginatedArticles =
-                //                         paginatedArticles.concat(
-                //                             incoming.paginatedArticles,
-                //                         );
-                //                 }
-                //                 return { ...incoming, paginatedArticles };
-                //             },
-                //         },
-                //     },
-                // },
-            },
+            // typePolicies: {
+            //     Query: {
+            //         fields: {
+            //             articles: {
+            //                 keyArgs: false,
+            //                 merge(existing, incoming) {
+            //                     let paginatedArticles: Article[] = [];
+            //                     console.log('EXISTING', existing);
+            //                     console.log('INCOMING', incoming);
+            //                     if (existing && existing.paginatedArticles) {
+            //                         paginatedArticles =
+            //                             paginatedArticles.concat(
+            //                                 existing.paginatedArticles,
+            //                             );
+            //                     }
+            //                     if (incoming && incoming.paginatedArticles) {
+            //                         paginatedArticles =
+            //                             paginatedArticles.concat(
+            //                                 incoming.paginatedArticles,
+            //                             );
+            //                     }
+            //                     return { ...incoming, paginatedArticles };
+            //                 },
+            //             },
+            //         },
+            //     },
+            // },
         }),
     });
 }
