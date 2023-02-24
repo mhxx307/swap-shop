@@ -3,6 +3,7 @@ import { Image } from '@/components/shared';
 import { BsFillChatDotsFill, BsFillEyeFill, BsShareFill } from 'react-icons/bs';
 import { motion } from 'framer-motion';
 import { Article } from '@/types/generated/graphql';
+import TimeAgo from 'timeago-react';
 
 export interface ArticleCardProps {
     article: Article; // sau này là article props
@@ -54,7 +55,8 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
             <div className="py-[20px] px-[12px] md:py-[28px] md:px-[20px] space-y-6">
                 <div className="space-y-1">
                     <span className="mb-[8px] font-normal text-[#919eab] text-[10px] block line-clamp-1">
-                        {article.createdDate} {article.user.address}
+                        <TimeAgo datetime={article.createdDate} />{' '}
+                        {article.user.address}
                     </span>
                     <h3 className="text-2xl md:text-lg font-extrabold line-clamp-1">
                         {article.title}

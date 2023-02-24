@@ -7,10 +7,10 @@ import {
     from,
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
-import { concatPagination } from '@apollo/client/utilities';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
-import { Article, PaginatedArticles } from '@/types/generated/graphql';
+import { Article } from '@/types/generated/graphql';
+import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -36,38 +36,53 @@ const httpLink = new HttpLink({
 });
 
 function createApolloClient() {
+    const cache = new InMemoryCache({
+        typePolicies: {
+            Query: {
+                fields: {
+                    articles: {
+                        keyArgs: false,
+                        merge(existing, incoming) {
+                            let paginatedArticles: Article[] = [];
+                            console.log('EXISTING', existing);
+                            console.log('INCOMING', incoming);
+
+                            if (existing && existing.paginatedArticles) {
+                                paginatedArticles = paginatedArticles.concat(
+                                    existing.paginatedArticles,
+                                );
+                            }
+
+                            if (incoming && incoming.paginatedArticles) {
+                                paginatedArticles = paginatedArticles.concat(
+                                    incoming.paginatedArticles,
+                                );
+                            }
+
+                            console.log({ ...incoming, paginatedArticles });
+
+                            return { ...incoming, paginatedArticles };
+                        },
+                    },
+                },
+            },
+        },
+    });
+
+    // await before instantiating ApolloClient, else queries might run before the cache is persisted
+    (async function () {
+        if (typeof window !== 'undefined') {
+            await persistCache({
+                cache,
+                storage: new LocalStorageWrapper(window.localStorage),
+            });
+        }
+    })();
+
     return new ApolloClient({
         ssrMode: typeof window === 'undefined',
         link: from([errorLink, httpLink]),
-        cache: new InMemoryCache({
-            // typePolicies: {
-            //     Query: {
-            //         fields: {
-            //             articles: {
-            //                 keyArgs: false,
-            //                 merge(existing, incoming) {
-            //                     let paginatedArticles: Article[] = [];
-            //                     console.log('EXISTING', existing);
-            //                     console.log('INCOMING', incoming);
-            //                     if (existing && existing.paginatedArticles) {
-            //                         paginatedArticles =
-            //                             paginatedArticles.concat(
-            //                                 existing.paginatedArticles,
-            //                             );
-            //                     }
-            //                     if (incoming && incoming.paginatedArticles) {
-            //                         paginatedArticles =
-            //                             paginatedArticles.concat(
-            //                                 incoming.paginatedArticles,
-            //                             );
-            //                     }
-            //                     return { ...incoming, paginatedArticles };
-            //                 },
-            //             },
-            //         },
-            //     },
-            // },
-        }),
+        cache: cache,
     });
 }
 

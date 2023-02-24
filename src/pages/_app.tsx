@@ -7,12 +7,11 @@ import { useRouter } from 'next/router';
 import NextNProgress from 'nextjs-progressbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import BaseLayout from '@/components/layouts/BaseLayout';
-import { ThemeProvider } from '@/contexts/ThemeContext';
-import { useApollo } from '@/libs/apolloClient';
 import { ApolloProvider } from '@apollo/client';
-import { ArticlesProvider } from '@/contexts/ArticlesContext';
+import { useApollo } from '@/libs/apolloClient';
+
+import { ThemeProvider } from '@/contexts/ThemeContext';
+import BaseLayout from '@/components/layouts/BaseLayout';
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const Layout =
@@ -35,37 +34,35 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
                 theme="dark"
             />
 
-            <ArticlesProvider>
-                <ThemeProvider>
-                    <ApolloProvider client={apolloClient}>
-                        {Layout(
-                            <AnimatePresence>
-                                <motion.div
-                                    key={router.route}
-                                    initial="initialState"
-                                    animate="animateState"
-                                    exit="exitState"
-                                    transition={{
-                                        duration: 0.5,
-                                    }}
-                                    variants={{
-                                        initialState: {
-                                            opacity: 0,
-                                        },
-                                        animateState: {
-                                            opacity: 1,
-                                        },
-                                        exitState: {},
-                                    }}
-                                >
-                                    <NextNProgress color="#ef4444" />
-                                    <Component {...pageProps} />
-                                </motion.div>
-                            </AnimatePresence>,
-                        )}
-                    </ApolloProvider>
-                </ThemeProvider>
-            </ArticlesProvider>
+            <ThemeProvider>
+                <ApolloProvider client={apolloClient}>
+                    {Layout(
+                        <AnimatePresence>
+                            <motion.div
+                                key={router.route}
+                                initial="initialState"
+                                animate="animateState"
+                                exit="exitState"
+                                transition={{
+                                    duration: 0.5,
+                                }}
+                                variants={{
+                                    initialState: {
+                                        opacity: 0,
+                                    },
+                                    animateState: {
+                                        opacity: 1,
+                                    },
+                                    exitState: {},
+                                }}
+                            >
+                                <NextNProgress color="#ef4444" />
+                                <Component {...pageProps} />
+                            </motion.div>
+                        </AnimatePresence>,
+                    )}
+                </ApolloProvider>
+            </ThemeProvider>
         </>
     );
 };

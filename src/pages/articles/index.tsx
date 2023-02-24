@@ -8,11 +8,10 @@ import {
     useArticlesQuery,
 } from '@/types/generated/graphql';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
-import { NetworkStatus } from '@apollo/client';
-import { useContext } from 'react';
-import { ArticlesContext } from '@/contexts/ArticlesContext';
+import { NetworkStatus, useApolloClient } from '@apollo/client';
+import { useEffect } from 'react';
 
-export const limit = 3;
+export const limit = 12;
 
 const Articles = () => {
     const { data, fetchMore, networkStatus } = useArticlesQuery({
@@ -20,32 +19,20 @@ const Articles = () => {
         notifyOnNetworkStatusChange: true,
     });
 
-    const { hasMore, setHasMore } = useContext(ArticlesContext);
-
     const loadingMoreArticles = networkStatus === NetworkStatus.fetchMore;
 
-    const handleFetchMore = () => {
-        fetchMore({
-            variables: { cursor: data?.articles?.cursor as string },
-            updateQuery: (prev, { fetchMoreResult }): any => {
-                if (!fetchMoreResult) return prev;
+    const handleMoreArticles = () =>
+        fetchMore({ variables: { cursor: data?.articles?.cursor as string } });
 
-                if (fetchMoreResult.articles?.hasMore === false) {
-                    setHasMore(fetchMoreResult.articles?.hasMore);
-                }
+    const client = useApolloClient();
 
-                return {
-                    articles: {
-                        ...fetchMoreResult.articles,
-                        paginatedArticles: [
-                            ...prev.articles!.paginatedArticles,
-                            ...fetchMoreResult.articles!.paginatedArticles,
-                        ],
-                    },
-                };
-            },
-        });
-    };
+    useEffect(() => {
+        return () => {
+            // Clear the cache when the user navigates away from the page
+            client.resetStore();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <>
@@ -54,11 +41,11 @@ const Articles = () => {
                 <div className="mt-[200px] wrapper space-y-20 pb-[20px]">
                     <ArticleList articles={data?.articles?.paginatedArticles} />
 
-                    {hasMore && (
+                    {data?.articles?.hasMore && (
                         <Button
                             primary
                             isLoading={loadingMoreArticles}
-                            onClick={handleFetchMore}
+                            onClick={handleMoreArticles}
                         >
                             {loadingMoreArticles ? 'Loading' : 'Show more'}
                         </Button>
