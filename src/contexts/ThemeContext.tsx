@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 
 interface ContextProps {
     isOn: boolean;
@@ -28,6 +28,10 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
         }
     });
 
+    const valueContext = useMemo(() => {
+        return { isOn, setIsOn };
+    }, [isOn, setIsOn]);
+
     useEffect(() => {
         if (typeof window !== 'undefined') {
             if (isOn) {
@@ -49,7 +53,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     }, [isOn]);
 
     return (
-        <ThemeContext.Provider value={{ isOn, setIsOn }}>
+        <ThemeContext.Provider value={valueContext}>
             {children}
         </ThemeContext.Provider>
     );
