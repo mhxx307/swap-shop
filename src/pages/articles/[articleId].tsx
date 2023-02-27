@@ -1,4 +1,12 @@
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
+import { useRouter } from 'next/router';
+import { BsFillStarFill, BsFillTelephoneFill } from 'react-icons/bs';
+import { FaFacebookF, FaLink, FaTwitter } from 'react-icons/fa';
+import { MdReportProblem } from 'react-icons/md';
+
+import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import { ArticlesSwiperInfinite } from '@/components/features/articles';
+import { Comment } from '@/components/features/comment';
 import {
     Avatar,
     Button,
@@ -7,7 +15,6 @@ import {
     SwiperNavigation,
     TabView,
 } from '@/components/shared';
-import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import {
     Article,
     ArticleDocument,
@@ -17,11 +24,6 @@ import {
     useArticleQuery,
     useArticlesQuery,
 } from '@/types/generated/graphql';
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
-import { useRouter } from 'next/router';
-import { BsFillStarFill, BsFillTelephoneFill } from 'react-icons/bs';
-import { FaFacebookF, FaLink, FaTwitter } from 'react-icons/fa';
-import { MdReportProblem } from 'react-icons/md';
 
 export interface ArticleDetailPageProps {
     article: Article;
@@ -31,6 +33,7 @@ const limit = 10;
 
 const ArticleDetailPage = () => {
     const router = useRouter();
+
     const { data, loading, error } = useArticleQuery({
         variables: {
             findArticleInput: { id: router.query.articleId as string },
@@ -114,13 +117,14 @@ const ArticleDetailPage = () => {
                             <p>{article?.user.username}</p>
                         </div>
                     </div>
+
                     <TabView
                         tabs={[
                             {
                                 label: 'Description',
                                 content: article?.description,
                             },
-                            { label: 'Comments', content: <div>Hello</div> },
+                            { label: 'Comments', content: <Comment /> },
                             {
                                 label: 'MinhQuan articles',
                                 content: <div>Article</div>,
@@ -129,7 +133,7 @@ const ArticleDetailPage = () => {
                     />
 
                     <div className="mb-[50px] space-y-6">
-                        <h3 className="text-4xl font-bold">Relate articles</h3>
+                        <h3 className="text-4xl font-bold">Related articles</h3>
                         <ArticlesSwiperInfinite articleList={[]} />
                     </div>
                 </div>

@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { NetworkStatus, useApolloClient } from '@apollo/client';
+
 import { ArticleList } from '@/components/features/articles';
 import { Button, ClientOnly, Head } from '@/components/shared';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import {
     ArticlesDocument,
     ArticlesQuery,
@@ -8,14 +11,11 @@ import {
     useArticlesQuery,
 } from '@/types/generated/graphql';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
-import { NetworkStatus, useApolloClient } from '@apollo/client';
-import { useEffect } from 'react';
-
-export const limit = 12;
+import { limitArticlesPaginated } from '@/constants';
 
 const Articles = () => {
     const { data, fetchMore, networkStatus } = useArticlesQuery({
-        variables: { limit },
+        variables: { limit: limitArticlesPaginated },
         notifyOnNetworkStatusChange: true,
     });
 
@@ -68,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (
     await apolloClient.query<ArticlesQuery, QueryArticlesArgs>({
         context: { headers: { Cookie } },
         query: ArticlesDocument,
-        variables: { limit },
+        variables: { limit: limitArticlesPaginated },
 
         //Rerender component when networkStatus change
         notifyOnNetworkStatusChange: true,

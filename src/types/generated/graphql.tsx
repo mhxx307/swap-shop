@@ -330,6 +330,13 @@ export type ChangePasswordLoggedMutationVariables = Exact<{
 
 export type ChangePasswordLoggedMutation = { __typename?: 'Mutation', changePasswordLogged: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
+export type InsertCommentMutationVariables = Exact<{
+  insertCommentInput: InsertCommentInput;
+}>;
+
+
+export type InsertCommentMutation = { __typename?: 'Mutation', insertComment: { __typename?: 'CommentMutationResponse', message?: string | null, success: boolean, comment?: { __typename?: 'Comment', text: string, updatedDate: any, status?: string | null, id: string, createdDate: any, user: { __typename?: 'User', username: string, avatar?: string | null } } | null } };
+
 export type ArticlesQueryVariables = Exact<{
   limit: Scalars['Int'];
   cursor?: InputMaybe<Scalars['String']>;
@@ -349,6 +356,15 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null };
+
+export type CommentListByArticleIdQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  articleId: Scalars['String'];
+  cursor?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type CommentListByArticleIdQuery = { __typename?: 'Query', commentListByArticleId?: { __typename?: 'PaginatedComments', paginatedComments: Array<{ __typename?: 'Comment', text: string, updatedDate: any, status?: string | null, id: string, createdDate: any, user: { __typename?: 'User', username: string, avatar?: string | null } }> } | null };
 
 export const UserFragmentDoc = gql`
     fragment user on User {
@@ -646,6 +662,51 @@ export function useChangePasswordLoggedMutation(baseOptions?: Apollo.MutationHoo
 export type ChangePasswordLoggedMutationHookResult = ReturnType<typeof useChangePasswordLoggedMutation>;
 export type ChangePasswordLoggedMutationResult = Apollo.MutationResult<ChangePasswordLoggedMutation>;
 export type ChangePasswordLoggedMutationOptions = Apollo.BaseMutationOptions<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>;
+export const InsertCommentDocument = gql`
+    mutation InsertComment($insertCommentInput: InsertCommentInput!) {
+  insertComment(insertCommentInput: $insertCommentInput) {
+    message
+    success
+    comment {
+      text
+      user {
+        username
+        avatar
+      }
+      updatedDate
+      status
+      id
+      createdDate
+    }
+  }
+}
+    `;
+export type InsertCommentMutationFn = Apollo.MutationFunction<InsertCommentMutation, InsertCommentMutationVariables>;
+
+/**
+ * __useInsertCommentMutation__
+ *
+ * To run a mutation, you first call `useInsertCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertCommentMutation, { data, loading, error }] = useInsertCommentMutation({
+ *   variables: {
+ *      insertCommentInput: // value for 'insertCommentInput'
+ *   },
+ * });
+ */
+export function useInsertCommentMutation(baseOptions?: Apollo.MutationHookOptions<InsertCommentMutation, InsertCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertCommentMutation, InsertCommentMutationVariables>(InsertCommentDocument, options);
+      }
+export type InsertCommentMutationHookResult = ReturnType<typeof useInsertCommentMutation>;
+export type InsertCommentMutationResult = Apollo.MutationResult<InsertCommentMutation>;
+export type InsertCommentMutationOptions = Apollo.BaseMutationOptions<InsertCommentMutation, InsertCommentMutationVariables>;
 export const ArticlesDocument = gql`
     query Articles($limit: Int!, $cursor: String) {
   articles(limit: $limit, cursor: $cursor) {
@@ -756,3 +817,50 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const CommentListByArticleIdDocument = gql`
+    query CommentListByArticleId($limit: Int!, $articleId: String!, $cursor: String) {
+  commentListByArticleId(limit: $limit, articleId: $articleId, cursor: $cursor) {
+    paginatedComments {
+      text
+      user {
+        username
+        avatar
+      }
+      updatedDate
+      status
+      id
+      createdDate
+    }
+  }
+}
+    `;
+
+/**
+ * __useCommentListByArticleIdQuery__
+ *
+ * To run a query within a React component, call `useCommentListByArticleIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommentListByArticleIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommentListByArticleIdQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      articleId: // value for 'articleId'
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useCommentListByArticleIdQuery(baseOptions: Apollo.QueryHookOptions<CommentListByArticleIdQuery, CommentListByArticleIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CommentListByArticleIdQuery, CommentListByArticleIdQueryVariables>(CommentListByArticleIdDocument, options);
+      }
+export function useCommentListByArticleIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommentListByArticleIdQuery, CommentListByArticleIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CommentListByArticleIdQuery, CommentListByArticleIdQueryVariables>(CommentListByArticleIdDocument, options);
+        }
+export type CommentListByArticleIdQueryHookResult = ReturnType<typeof useCommentListByArticleIdQuery>;
+export type CommentListByArticleIdLazyQueryHookResult = ReturnType<typeof useCommentListByArticleIdLazyQuery>;
+export type CommentListByArticleIdQueryResult = Apollo.QueryResult<CommentListByArticleIdQuery, CommentListByArticleIdQueryVariables>;

@@ -1,5 +1,6 @@
 import { ImageUpload } from '@/components/features/uploads';
 import { Auth, Button, InputField, FormSelect } from '@/components/shared';
+import { limitArticlesPaginated } from '@/constants';
 import { useInsertArticleMutation } from '@/types/generated/graphql';
 import { useState } from 'react';
 import CurrencyInput from 'react-currency-input-field';
@@ -59,7 +60,10 @@ const CreateArticle = (props: CreateArticleProps) => {
                                 ];
 
                                 // Remove final article from paginatedArticles array using splice()
-                                if (newPaginatedArticles.length > 3) {
+                                if (
+                                    newPaginatedArticles.length >
+                                    limitArticlesPaginated
+                                ) {
                                     newPaginatedArticles.splice(-1, 1);
                                 }
 

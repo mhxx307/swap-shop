@@ -3,10 +3,13 @@ import classNames from 'classnames';
 
 export interface AvatarProps {
     className?: string;
-    src: string;
+    src?: string;
 }
 
-export default function Avatar({ className, src }: AvatarProps) {
+export default function Avatar({
+    className,
+    src = '/images/avatar-fallback.png',
+}: AvatarProps) {
     return (
         <div className="flex-shrink-0">
             <Image
