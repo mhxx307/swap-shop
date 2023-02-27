@@ -97,6 +97,15 @@ main {
         @apply border-b-[1px] border-[#e9ecef];
     }
 
+    /* btn */
+    .btn-contact {
+        @apply py-[10px] px-[20px] text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm text-center;
+    }
+
+    .btn-wishlist {
+        @apply py-[10px] px-[20px] text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700;
+    }
+
     /* scrollbar */
     ::-webkit-scrollbar {
         @apply w-2 bg-white/10;

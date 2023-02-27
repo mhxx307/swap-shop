@@ -1,13 +1,9 @@
-mutation CreateArticle($createArticleInput: CreateArticleInput!) {
-    createArticle(createArticleInput: $createArticleInput) {
-        code
-        success
-        message
+mutation InsertArticle($insertArticleInput: InsertArticleInput!) {
+    insertArticle(insertArticleInput: $insertArticleInput) {
         article {
             ...article
         }
-        errors {
-            ...errors
-        }
+        message
+        success
     }
 }

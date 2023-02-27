@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
-import { Image } from '@/components/shared';
+import { Avatar, Image } from '@/components/shared';
 import { BsFillChatDotsFill, BsFillEyeFill, BsShareFill } from 'react-icons/bs';
 import { motion } from 'framer-motion';
 import { Article } from '@/types/generated/graphql';
 import TimeAgo from 'timeago-react';
 
 export interface ArticleCardProps {
-    article: Article; // sau này là article props
+    article: Article;
 }
 
 const ArticleCard = ({ article }: ArticleCardProps) => {

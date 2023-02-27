@@ -1,6 +1,6 @@
 import { ImageUpload } from '@/components/features/uploads';
 import { Auth, Button, InputField, FormSelect } from '@/components/shared';
-import { useCreateArticleMutation } from '@/types/generated/graphql';
+import { useInsertArticleMutation } from '@/types/generated/graphql';
 import { useState } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 import { useForm } from 'react-hook-form';
@@ -14,25 +14,28 @@ const prices = [
 
 const CreateArticle = (props: CreateArticleProps) => {
     const [checked, setChecked] = useState(1);
-    const { control, handleSubmit } = useForm<any>({
+    const { control, handleSubmit, register } = useForm<any>({
         defaultValues: {
             title: '',
             category: [''],
             brand: '',
             product: '',
             description: '',
+            thumbnail: 'fuck',
         },
     });
 
-    const [createArticle, { loading }] = useCreateArticleMutation();
+    const [createArticle, { loading }] = useInsertArticleMutation();
 
     const handleAddProduct = async (payload: any) => {
         console.log(payload);
         await createArticle({
             variables: {
-                createArticleInput: {
+                insertArticleInput: {
                     title: payload.title,
                     description: payload.description,
+                    productName: payload.product,
+                    thumbnail: payload.thumbnail,
                 },
             },
             update(cache, { data }) {
@@ -40,11 +43,11 @@ const CreateArticle = (props: CreateArticleProps) => {
                     fields: {
                         articles(existingArticles) {
                             if (
-                                data?.createArticle.success &&
-                                data.createArticle.article
+                                data?.insertArticle.success &&
+                                data.insertArticle.article
                             ) {
                                 const newArticleRef = cache.identify(
-                                    data.createArticle.article,
+                                    data.insertArticle.article,
                                 );
 
                                 const newTotalCount =
@@ -135,7 +138,8 @@ const CreateArticle = (props: CreateArticleProps) => {
                                     </div>
                                 </div>
                                 <CurrencyInput
-                                    name="price"
+                                    // name="price"
+                                    {...register('price')}
                                     placeholder={
                                         checked === 1
                                             ? 'Free'

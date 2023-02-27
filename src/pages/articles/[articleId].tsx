@@ -32,7 +32,9 @@ const limit = 10;
 const ArticleDetailPage = () => {
     const router = useRouter();
     const { data, loading, error } = useArticleQuery({
-        variables: { findArticleInput: { id: router.query.id as string } },
+        variables: {
+            findArticleInput: { id: router.query.articleId as string },
+        },
     });
 
     const article = data?.article;
@@ -47,7 +49,7 @@ const ArticleDetailPage = () => {
                     <div className="grid grid-cols-10 space-y-10 md:space-y-0 md:space-x-10">
                         <div className="col-span-10 md:col-span-4">
                             {/* <SwiperNavigation
-                                images={article.images}
+                                images={article?.images}
                                 className="w-full h-[500px] shadow-3xl"
                             /> */}
                         </div>
@@ -59,12 +61,14 @@ const ArticleDetailPage = () => {
 
                             <div className="flex justify-between">
                                 <p className="text-2xl text-primary-400 ">
-                                    {/* {article.price} $ */}
+                                    {article?.price
+                                        ? article.price
+                                        : 'Miễn phí'}
                                 </p>
                                 <Button
+                                    primary
                                     LeftIcon={MdReportProblem}
                                     iconClassName="w-4 h-4"
-                                    className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-[20px] py-[10px] text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                                 >
                                     Tố cáo
                                 </Button>
@@ -75,7 +79,7 @@ const ArticleDetailPage = () => {
                             {/* <p>Category: {article.category}</p> */}
 
                             <Button
-                                className="py-[10px] px-[20px] text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm text-center"
+                                className="btn-contact"
                                 primary
                                 LeftIcon={BsFillTelephoneFill}
                                 iconClassName="w-4 h-4"
@@ -84,7 +88,7 @@ const ArticleDetailPage = () => {
                             </Button>
 
                             <Button
-                                className="py-[10px] px-[20px] text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                className="btn-wishlist"
                                 LeftIcon={BsFillStarFill}
                                 iconClassName="w-4 h-4"
                             >
@@ -110,7 +114,6 @@ const ArticleDetailPage = () => {
                             <p>{article?.user.username}</p>
                         </div>
                     </div>
-
                     <TabView
                         tabs={[
                             {
@@ -145,7 +148,7 @@ export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
 
     return {
         paths: data?.articles?.paginatedArticles
-            .map((article: any) => {
+            .map((article: Article) => {
                 return locales.map((locale) => {
                     return {
                         params: { articleId: article.id.toString() },
