@@ -15,3 +15,10 @@ mutation InsertComment($insertCommentInput: InsertCommentInput!) {
         }
     }
 }
+
+mutation DeleteComment($deleteCommentId: String!) {
+    deleteComment(id: $deleteCommentId) {
+        message
+        success
+    }
+}

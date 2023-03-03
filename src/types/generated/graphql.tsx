@@ -198,7 +198,7 @@ export type PaginatedComments = {
   cursor: Scalars['DateTime'];
   hasMore: Scalars['Boolean'];
   paginatedComments: Array<Comment>;
-  totalCount?: Maybe<Scalars['Float']>;
+  totalCount: Scalars['Float'];
 };
 
 export type Query = {
@@ -337,6 +337,13 @@ export type InsertCommentMutationVariables = Exact<{
 
 export type InsertCommentMutation = { __typename?: 'Mutation', insertComment: { __typename?: 'CommentMutationResponse', message?: string | null, success: boolean, comment?: { __typename?: 'Comment', text: string, updatedDate: any, status?: string | null, id: string, createdDate: any, user: { __typename?: 'User', username: string, avatar?: string | null } } | null } };
 
+export type DeleteCommentMutationVariables = Exact<{
+  deleteCommentId: Scalars['String'];
+}>;
+
+
+export type DeleteCommentMutation = { __typename?: 'Mutation', deleteComment: { __typename?: 'CommentMutationResponse', message?: string | null, success: boolean } };
+
 export type ArticlesQueryVariables = Exact<{
   limit: Scalars['Int'];
   cursor?: InputMaybe<Scalars['String']>;
@@ -364,7 +371,7 @@ export type CommentListByArticleIdQueryVariables = Exact<{
 }>;
 
 
-export type CommentListByArticleIdQuery = { __typename?: 'Query', commentListByArticleId?: { __typename?: 'PaginatedComments', paginatedComments: Array<{ __typename?: 'Comment', text: string, updatedDate: any, status?: string | null, id: string, createdDate: any, user: { __typename?: 'User', username: string, avatar?: string | null } }> } | null };
+export type CommentListByArticleIdQuery = { __typename?: 'Query', commentListByArticleId?: { __typename?: 'PaginatedComments', cursor: any, totalCount: number, hasMore: boolean, paginatedComments: Array<{ __typename?: 'Comment', text: string, updatedDate: any, status?: string | null, id: string, createdDate: any, user: { __typename?: 'User', id: string, username: string, avatar?: string | null } }> } | null };
 
 export const UserFragmentDoc = gql`
     fragment user on User {
@@ -707,6 +714,40 @@ export function useInsertCommentMutation(baseOptions?: Apollo.MutationHookOption
 export type InsertCommentMutationHookResult = ReturnType<typeof useInsertCommentMutation>;
 export type InsertCommentMutationResult = Apollo.MutationResult<InsertCommentMutation>;
 export type InsertCommentMutationOptions = Apollo.BaseMutationOptions<InsertCommentMutation, InsertCommentMutationVariables>;
+export const DeleteCommentDocument = gql`
+    mutation DeleteComment($deleteCommentId: String!) {
+  deleteComment(id: $deleteCommentId) {
+    message
+    success
+  }
+}
+    `;
+export type DeleteCommentMutationFn = Apollo.MutationFunction<DeleteCommentMutation, DeleteCommentMutationVariables>;
+
+/**
+ * __useDeleteCommentMutation__
+ *
+ * To run a mutation, you first call `useDeleteCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCommentMutation, { data, loading, error }] = useDeleteCommentMutation({
+ *   variables: {
+ *      deleteCommentId: // value for 'deleteCommentId'
+ *   },
+ * });
+ */
+export function useDeleteCommentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCommentMutation, DeleteCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteCommentMutation, DeleteCommentMutationVariables>(DeleteCommentDocument, options);
+      }
+export type DeleteCommentMutationHookResult = ReturnType<typeof useDeleteCommentMutation>;
+export type DeleteCommentMutationResult = Apollo.MutationResult<DeleteCommentMutation>;
+export type DeleteCommentMutationOptions = Apollo.BaseMutationOptions<DeleteCommentMutation, DeleteCommentMutationVariables>;
 export const ArticlesDocument = gql`
     query Articles($limit: Int!, $cursor: String) {
   articles(limit: $limit, cursor: $cursor) {
@@ -823,6 +864,7 @@ export const CommentListByArticleIdDocument = gql`
     paginatedComments {
       text
       user {
+        id
         username
         avatar
       }
@@ -831,6 +873,9 @@ export const CommentListByArticleIdDocument = gql`
       id
       createdDate
     }
+    cursor
+    totalCount
+    hasMore
   }
 }
     `;

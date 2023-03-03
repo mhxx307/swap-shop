@@ -11,6 +11,7 @@ query CommentListByArticleId(
         paginatedComments {
             text
             user {
+                id
                 username
                 avatar
             }
@@ -19,5 +20,8 @@ query CommentListByArticleId(
             id
             createdDate
         }
+        cursor
+        totalCount
+        hasMore
     }
 }
