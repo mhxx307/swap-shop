@@ -13,7 +13,7 @@ const variants = {
     },
 };
 
-interface ImageProps extends NextImageProps {
+export interface ImageProps extends NextImageProps {
     containerclassname?: string;
     className?: string;
     fallbackImg?: string;
@@ -56,7 +56,7 @@ const Image: React.FC<ImageProps> = ({ onLoadingComplete, src, ...props }) => {
                 {...props}
                 width={props.width || 100}
                 height={props.height || 100}
-                className={classNames('w-full h-full', className)}
+                className={classNames('w-full h-full flex-shrink-0', className)}
                 onError={handleError}
             />
         </motion.div>

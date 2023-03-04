@@ -1,0 +1,27 @@
+query CommentListByArticleId(
+    $limit: Int!
+    $articleId: String!
+    $cursor: String
+) {
+    commentListByArticleId(
+        limit: $limit
+        articleId: $articleId
+        cursor: $cursor
+    ) {
+        paginatedComments {
+            text
+            user {
+                id
+                username
+                avatar
+            }
+            updatedDate
+            status
+            id
+            createdDate
+        }
+        cursor
+        totalCount
+        hasMore
+    }
+}

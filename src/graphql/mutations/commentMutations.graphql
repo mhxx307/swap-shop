@@ -1,0 +1,24 @@
+mutation InsertComment($insertCommentInput: InsertCommentInput!) {
+    insertComment(insertCommentInput: $insertCommentInput) {
+        message
+        success
+        comment {
+            text
+            user {
+                username
+                avatar
+            }
+            updatedDate
+            status
+            id
+            createdDate
+        }
+    }
+}
+
+mutation DeleteComment($deleteCommentId: String!) {
+    deleteComment(id: $deleteCommentId) {
+        message
+        success
+    }
+}

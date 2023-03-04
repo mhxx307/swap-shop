@@ -16,7 +16,9 @@ mutation Logout {
 
 mutation ForgotPassword($forgotPasswordInput: ForgotPasswordInput!) {
     forgotPassword(forgotPasswordInput: $forgotPasswordInput) {
-        ...mutationStatus
+        code
+        success
+        message
     }
 }
 
@@ -40,7 +42,9 @@ mutation ChangePasswordLogged(
     changePasswordLogged(
         changePasswordLoggedInput: $changePasswordLoggedInput
     ) {
-        ...mutationStatus
+        code
+        success
+        message
         errors {
             ...errors
         }

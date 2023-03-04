@@ -10,7 +10,7 @@ interface DropdownProps {
     className?: string;
 }
 
-const Dropdown = ({ dataList, className }: DropdownProps) => {
+const SettingsDropdown = ({ dataList, className }: DropdownProps) => {
     const [inputValue, setInputValue] = useState('');
     const [selected, setSelected] = useState('profile');
     const [open, setOpen] = useState(false);
@@ -103,4 +103,4 @@ const Dropdown = ({ dataList, className }: DropdownProps) => {
     );
 };
 
-export default Dropdown;
+export default SettingsDropdown;

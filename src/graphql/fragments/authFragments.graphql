@@ -13,7 +13,9 @@ fragment user on User {
 }
 
 fragment userMutationResponse on UserMutationResponse {
-    ...mutationStatus
+    code
+    success
+    message
     user {
         ...user
     }

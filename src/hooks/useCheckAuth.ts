@@ -1,16 +1,19 @@
-import { useUserInfoQuery } from '@/types/generated/graphql';
+import { useMeQuery } from '@/types/generated/graphql';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 const useCheckAuth = () => {
-    const { data, loading } = useUserInfoQuery();
+    const { data, loading } = useMeQuery();
     const router = useRouter();
 
     useEffect(() => {
         if (
             !loading &&
-            data?.userInfo &&
-            (router.route === '/login' || router.route === '/register')
+            data?.me &&
+            (router.route === '/login' ||
+                router.route === '/register' ||
+                router.route === '/forgot-password' ||
+                router.route === '/change-password')
         ) {
             router.replace('/');
         }

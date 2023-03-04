@@ -2,9 +2,3 @@ fragment errors on FieldError {
     field
     message
 }
-
-fragment mutationStatus on UserMutationResponse {
-    code
-    success
-    message
-}

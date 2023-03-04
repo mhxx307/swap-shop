@@ -19,10 +19,10 @@ import {
 } from '@/components/shared';
 import { useConstantsTranslation, useDevice } from '@/hooks';
 import {
-    UserInfoDocument,
-    UserInfoQuery,
+    MeDocument,
+    MeQuery,
     useLogoutMutation,
-    useUserInfoQuery,
+    useMeQuery,
 } from '@/types/generated/graphql';
 import { toast } from 'react-toastify';
 
@@ -38,9 +38,9 @@ const Header = () => {
     }: any = useConstantsTranslation();
     const { isMobile } = useDevice();
 
-    const { data } = useUserInfoQuery();
+    const { data } = useMeQuery();
     const [logout] = useLogoutMutation();
-    const currentUser = data?.userInfo;
+    const currentUser = data?.me;
 
     useEffect(() => {
         window.addEventListener('scroll', changeBackground);
@@ -64,9 +64,9 @@ const Header = () => {
                 update(cache, { data }) {
                     toast.success('Logout successfully');
                     if (data?.logout) {
-                        cache.writeQuery<UserInfoQuery>({
-                            query: UserInfoDocument,
-                            data: { userInfo: null },
+                        cache.writeQuery<MeQuery>({
+                            query: MeDocument,
+                            data: { me: null },
                         });
                     }
                 },

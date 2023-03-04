@@ -1,12 +1,12 @@
 import { AiFillCamera } from 'react-icons/ai';
 import { useEffect, useRef, useState } from 'react';
-import Image from './Image';
+import { Image } from '@/components/shared';
 
-export interface UploadAvatarProps {
+export interface AvatarUploadProps {
     picture?: string;
 }
 
-const UploadAvatar = ({ picture }: UploadAvatarProps) => {
+const AvatarUpload = ({ picture }: AvatarUploadProps) => {
     const [selectedFile, setSelectedFile] = useState<File | null>();
     const [preview, setPreview] = useState<string>();
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -83,4 +83,4 @@ const UploadAvatar = ({ picture }: UploadAvatarProps) => {
     );
 };
 
-export default UploadAvatar;
+export default AvatarUpload;

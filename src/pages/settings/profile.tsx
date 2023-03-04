@@ -1,24 +1,19 @@
 import { useForm } from 'react-hook-form';
 import { SettingsLayout } from '@/components/layouts';
-import {
-    Auth,
-    Button,
-    DateField,
-    InputField,
-    UploadAvatar,
-} from '@/components/shared';
-import { useUserInfoQuery } from '@/types/generated/graphql';
+import { Auth, Button, DateField, InputField } from '@/components/shared';
+import { useMeQuery } from '@/types/generated/graphql';
+import { AvatarUpload } from '@/components/features/uploads';
 
 const ProfilePage = () => {
-    const { data } = useUserInfoQuery();
+    const { data } = useMeQuery();
     const { control, handleSubmit } = useForm<any>({
         defaultValues: {
-            username: data?.userInfo?.username,
-            address: data?.userInfo?.address,
-            email: data?.userInfo?.email,
-            phoneNumber: data?.userInfo?.phoneNumber,
-            fullName: data?.userInfo?.fullName,
-            birthday: data?.userInfo?.birthday,
+            username: data?.me?.username,
+            address: data?.me?.address,
+            email: data?.me?.email,
+            phoneNumber: data?.me?.phoneNumber,
+            fullName: data?.me?.fullName,
+            birthday: data?.me?.birthday,
         },
     });
 
@@ -29,7 +24,7 @@ const ProfilePage = () => {
     return (
         <Auth>
             <div className="space-y-12 pb-[60px]">
-                <UploadAvatar picture={data?.userInfo?.avatar!} />
+                <AvatarUpload picture={data?.me?.avatar!} />
 
                 <form
                     method="POST"
@@ -75,7 +70,7 @@ const ProfilePage = () => {
                     <DateField
                         name="birthday"
                         control={control}
-                        placeholder={data?.userInfo?.birthday!}
+                        placeholder={data?.me?.birthday!}
                     />
 
                     <Button

@@ -1,9 +1,16 @@
-query FindArticles {
-    findArticles {
-        id
-        title
-        description
-        createdDate
-        updatedDate
+query Articles($limit: Int!, $cursor: String) {
+    articles(limit: $limit, cursor: $cursor) {
+        totalCount
+        cursor
+        hasMore
+        paginatedArticles {
+            ...article
+        }
+    }
+}
+
+query Article($findArticleInput: FindArticleInput!) {
+    article(findArticleInput: $findArticleInput) {
+        ...article
     }
 }

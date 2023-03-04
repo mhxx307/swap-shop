@@ -1,20 +1,19 @@
 import classNames from 'classnames';
 import ArticleCard from './ArticleCard';
 import { motion } from 'framer-motion';
-
-// interface ArticleProps {
-// }
+import { memo } from 'react';
+import { Article } from '@/types/generated/graphql';
 
 export interface ArticleListProps {
     title?: string;
-    articleList: any[];
     titleClassName?: string;
     className?: string;
+    articles?: Article[];
 }
 
 const ArticleList = ({
     title,
-    articleList,
+    articles,
     titleClassName,
     className,
 }: ArticleListProps) => {
@@ -29,31 +28,28 @@ const ArticleList = ({
             )}
 
             <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-5">
-                {articleList.map((article, index) => (
-                    <motion.div
-                        key={article.id}
-                        initial={{
-                            opacity: 0,
-                            translateX: index % 2 === 0 ? -50 : 50,
-                            translateY: -50,
-                        }}
-                        animate={{
-                            opacity: 1,
-                            translateX: 0,
-                            translateY: 0,
-                        }}
-                        transition={{ duration: 0.2, delay: index * 0.2 }}
-                    >
-                        <ArticleCard article={article} />
-                    </motion.div>
-                ))}
-            </div>
-
-            <div className="text-center">
-                <h4 className="text-blue-500 cursor-pointer">Xem thêm</h4>
+                {articles &&
+                    articles.map((article: any, index: number) => (
+                        <motion.div
+                            key={article.id}
+                            initial={{
+                                opacity: 0,
+                                translateX: index % 2 === 0 ? -50 : 50,
+                                translateY: -50,
+                            }}
+                            animate={{
+                                opacity: 1,
+                                translateX: 0,
+                                translateY: 0,
+                            }}
+                            transition={{ duration: 0.2, delay: index * 0.2 }}
+                        >
+                            <ArticleCard article={article} />
+                        </motion.div>
+                    ))}
             </div>
         </div>
     );
 };
 
-export default ArticleList;
+export default memo(ArticleList);

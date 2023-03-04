@@ -7,11 +7,11 @@ import { useRouter } from 'next/router';
 import NextNProgress from 'nextjs-progressbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import BaseLayout from '@/components/layouts/BaseLayout';
-import ThemeProvider from '@/contexts/ThemeContext';
-import { useApollo } from '@/libs/apolloClient';
 import { ApolloProvider } from '@apollo/client';
+import { useApollo } from '@/libs/apolloClient';
+
+import { ThemeProvider } from '@/contexts/ThemeContext';
+import BaseLayout from '@/components/layouts/BaseLayout';
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const Layout =

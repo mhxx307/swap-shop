@@ -1,7 +1,9 @@
 import * as yup from 'yup';
 
+type validateName = 'register' | 'login' | 'password';
+
 interface UseValidateSchemaProps {
-    name: 'register' | 'login' | 'password';
+    name: validateName;
 }
 
 const useValidateSchema = ({ name }: UseValidateSchemaProps) => {
@@ -95,10 +97,8 @@ const useValidateSchema = ({ name }: UseValidateSchemaProps) => {
         case 'password':
             return changePasswordSchema;
         default:
-            break;
+            return loginSchema;
     }
-
-    return loginSchema;
 };
 
 export default useValidateSchema;

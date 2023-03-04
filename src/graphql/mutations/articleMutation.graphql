@@ -1,0 +1,9 @@
+mutation InsertArticle($insertArticleInput: InsertArticleInput!) {
+    insertArticle(insertArticleInput: $insertArticleInput) {
+        article {
+            ...article
+        }
+        message
+        success
+    }
+}

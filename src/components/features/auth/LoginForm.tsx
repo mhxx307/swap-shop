@@ -9,8 +9,8 @@ import { Button, InputField } from '@/components/shared';
 import { useValidateSchema } from '@/hooks';
 import {
     LoginInput,
-    UserInfoDocument,
-    UserInfoQuery,
+    MeDocument,
+    MeQuery,
     useLoginMutation,
 } from '@/types/generated/graphql';
 import { toast } from 'react-toastify';
@@ -41,9 +41,9 @@ const LoginForm = () => {
             },
             update(cache, { data }) {
                 if (data?.login.success) {
-                    cache.writeQuery<UserInfoQuery>({
-                        query: UserInfoDocument,
-                        data: { userInfo: data.login.user },
+                    cache.writeQuery<MeQuery>({
+                        query: MeDocument,
+                        data: { me: data.login.user },
                     });
                 }
             },
