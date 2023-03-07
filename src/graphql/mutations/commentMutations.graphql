@@ -22,3 +22,21 @@ mutation DeleteComment($deleteCommentId: String!) {
         success
     }
 }
+
+mutation UpdateComment($updateCommentInput: UpdateCommentInput!) {
+    updateComment(updateCommentInput: $updateCommentInput) {
+        message
+        success
+        comment {
+            text
+            user {
+                username
+                avatar
+            }
+            updatedDate
+            status
+            id
+            createdDate
+        }
+    }
+}
