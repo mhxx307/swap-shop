@@ -1,10 +1,14 @@
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import CurrencyInput from 'react-currency-input-field';
+
 import { ImageUpload } from '@/components/features/uploads';
 import { Auth, Button, InputField, FormSelect } from '@/components/shared';
 import { limitArticlesPaginated } from '@/constants';
-import { useInsertArticleMutation } from '@/types/generated/graphql';
-import { useState } from 'react';
-import CurrencyInput from 'react-currency-input-field';
-import { useForm } from 'react-hook-form';
+import {
+    useInsertArticleMutation,
+    InsertArticleInput,
+} from '@/types/generated/graphql';
 
 const prices = [
     { id: 1, label: 'Free' },
@@ -18,7 +22,7 @@ const CreateArticle = () => {
             title: '',
             category: [''],
             brand: '',
-            product: '',
+            productName: '',
             description: '',
             thumbnail: 'fuck',
         },
@@ -33,7 +37,7 @@ const CreateArticle = () => {
                 insertArticleInput: {
                     title: payload.title,
                     description: payload.description,
-                    productName: payload.product,
+                    productName: payload.productName,
                     thumbnail: payload.thumbnail,
                 },
             },
@@ -108,7 +112,7 @@ const CreateArticle = () => {
                                 control={control}
                                 type="text"
                                 label="Product"
-                                name="product"
+                                name="productName"
                                 containerInputClassName="default-input"
                                 placeholder="Product name"
                             />
