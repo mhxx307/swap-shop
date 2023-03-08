@@ -47,7 +47,7 @@ const Image: React.FC<ImageProps> = ({ onLoadingComplete, src, ...props }) => {
             initial="hidden"
             variants={variants}
             animate={isLoaded ? 'visible' : 'hidden'}
-            className={containerclassname}
+            className={classNames("flex-shrink-0", containerclassname)}
         >
             <NextImage
                 src={fallback || src}

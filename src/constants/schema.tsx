@@ -1,13 +1,7 @@
 import * as yup from 'yup';
 
-type validateName = 'register' | 'login' | 'password';
-
-interface UseValidateSchemaProps {
-    name: validateName;
-}
-
-const useValidateSchema = ({ name }: UseValidateSchemaProps) => {
-    const registerSchema = yup
+const getSchema = () => {
+	const schema = yup
         .object({
             email: yup
                 .string()
@@ -52,53 +46,14 @@ const useValidateSchema = ({ name }: UseValidateSchemaProps) => {
                     'Incorrect format',
                 ),
             address: yup.string().required('Please enter your address'),
-        })
-        .required();
-
-    const loginSchema = yup
-        .object({
-            usernameOrEmail: yup
+			usernameOrEmail: yup
                 .string()
                 .min(2, 'Must be at least 2 characters long')
                 .required('Please enter your username or email'),
-            password: yup
-                .string()
-                .required('Please enter your password')
-                .min(8, 'Password must be at least 8 characters long')
-                .matches(
-                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
-                    'At least 8 characters must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number Can contain special characters.',
-                ),
         })
         .required();
 
-    const changePasswordSchema = yup
-        .object({
-            password: yup
-                .string()
-                .required('Please enter your password')
-                .min(8, 'Password must be at least 8 characters long')
-                .matches(
-                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
-                    'At least 8 characters must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number Can contain special characters.',
-                ),
-            confirmPassword: yup
-                .string()
-                .required('Please enter your confirm password')
-                .oneOf([yup.ref('password'), null], 'Passwords must match'),
-        })
-        .required();
+		return schema;
+}
 
-    switch (name) {
-        case 'register':
-            return registerSchema;
-        case 'login':
-            return loginSchema;
-        case 'password':
-            return changePasswordSchema;
-        default:
-            return loginSchema;
-    }
-};
-
-export default useValidateSchema;
+export default getSchema;

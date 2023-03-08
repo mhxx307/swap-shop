@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 import { Button, InputField } from '@/components/shared';
 import { useValidateSchema } from '@/hooks';
@@ -13,13 +15,11 @@ import {
     MeQuery,
     useLoginMutation,
 } from '@/types/generated/graphql';
-import { toast } from 'react-toastify';
-import { FcGoogle } from 'react-icons/fc';
 
 const LoginForm = () => {
     const { t } = useTranslation('login');
-    const schema = useValidateSchema({ name: 'login' });
-    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const schema = useValidateSchema('login');
+    const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
 
     const { control, handleSubmit, setError } = useForm<LoginInput>({

@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
+import {  GetStaticProps, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { BsFillStarFill, BsFillTelephoneFill } from 'react-icons/bs';
 import { FaFacebookF, FaLink, FaTwitter } from 'react-icons/fa';
@@ -24,12 +24,11 @@ import {
     useArticleQuery,
     useArticlesQuery,
 } from '@/types/generated/graphql';
+import { limitArticlesPaginated } from '@/constants';
 
 export interface ArticleDetailPageProps {
     article: Article;
 }
-
-const limit = 10;
 
 const ArticleDetailPage = () => {
     const router = useRouter();
@@ -42,7 +41,6 @@ const ArticleDetailPage = () => {
 
     const article = data?.article;
 
-    console.log(article);
 
     return (
         <>
@@ -147,7 +145,7 @@ export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
 
     const { data } = await apolloClient.query<ArticlesQuery>({
         query: ArticlesDocument,
-        variables: { limit },
+        variables: { limit: limitArticlesPaginated },
     });
 
     return {

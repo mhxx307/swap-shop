@@ -5,8 +5,7 @@ import { toast } from 'react-toastify';
 
 import { useMultiStepForm, useValidateSchema } from '@/hooks';
 import { Button } from '@/components/shared';
-import { RegisterPayload } from '@/types';
-import { REGISTER_INITIAL_DATA, PROGRESS_LIST } from '@/constants';
+import { PROGRESS_LIST } from '@/constants';
 import {
     AccountForm,
     AddressForm,
@@ -18,21 +17,38 @@ import {
     MeDocument,
     MeQuery,
     useRegisterMutation,
+	RegisterInput
 } from '@/types/generated/graphql';
 import { useRouter } from 'next/router';
 
+interface FormState extends RegisterInput {
+	password: string;
+	confirmPassword: string;
+}
+
+export const initialData: FormState = {
+    fullName: '',
+    birthday: '',
+    address: '',
+    email: '',
+    username: '',
+    password: '',
+    phoneNumber: '',
+    confirmPassword: '',
+};
+
 const RegisterForm = () => {
     const router = useRouter();
-    const schema = useValidateSchema({ name: 'register' });
+    const schema = useValidateSchema('register');
 
     const {
         control,
         handleSubmit,
         setError,
         formState: { errors },
-    } = useForm<RegisterPayload>({
+    } = useForm<FormState>({
         defaultValues: {
-            ...REGISTER_INITIAL_DATA,
+            ...initialData,
         },
         resolver: yupResolver(schema),
         mode: 'all',
@@ -57,10 +73,9 @@ const RegisterForm = () => {
 
     if (error) return <p>Submission error</p>;
 
-    const handleRegister = async (payload: RegisterPayload) => {
-        const { confirmPassword, date, ...rest } = payload;
-        const { startDate: birthday } = date;
-        const registerInput = { ...rest, birthday };
+    const handleRegister = async (payload: FormState) => {
+        const { confirmPassword, ...rest } = payload;
+        const registerInput = { ...rest };
 
         const response = await register({
             variables: {
