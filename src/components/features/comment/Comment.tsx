@@ -1,28 +1,35 @@
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import TimeAgo from 'timeago-react';
 import { NetworkStatus } from '@apollo/client';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
 
-import { Avatar, Button } from '@/components/shared';
+import { Button } from '@/components/shared';
 import { limitCommentsPaginated } from '@/constants';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import {
     CommentListByArticleIdDocument,
     CommentListByArticleIdQuery,
+    InsertCommentInput,
     PaginatedComments,
     QueryCommentListByArticleIdArgs,
+    UpdateCommentInput,
     useCommentListByArticleIdQuery,
     useDeleteCommentMutation,
     useInsertCommentMutation,
     useMeQuery,
+    useUpdateCommentMutation,
 } from '@/types/generated/graphql';
+import { useState } from 'react';
+import CommentItem from './CommentItem';
 
 function Comment() {
-    // TODO: remember fetch more comment
-    const { data } = useMeQuery();
+    const [updateMode, setUpdateMode] = useState<UpdateCommentInput | null>(
+        null,
+    );
     const { query } = useRouter();
     const articleId = query.articleId as string;
+
+    const { data } = useMeQuery();
     const me = data?.me;
 
     const {
@@ -36,12 +43,16 @@ function Comment() {
         },
         notifyOnNetworkStatusChange: true,
     });
+
     const [insertCommentMutation, { loading: insertLoading }] =
         useInsertCommentMutation();
     const [deleteCommentMutation, { loading: deleteLoading }] =
         useDeleteCommentMutation();
+    const [updateCommentMutation, { loading: updateLoading }] =
+        useUpdateCommentMutation();
 
-    const { register, handleSubmit, setValue } = useForm<{ text: string }>();
+    const { register, handleSubmit, setValue } =
+        useForm<Omit<InsertCommentInput, 'articleId'>>();
     const loadingMoreComment = networkStatus === NetworkStatus.fetchMore;
 
     const handleMoreComment = () => {
@@ -55,6 +66,7 @@ function Comment() {
                 { fetchMoreResult }: { fetchMoreResult: any },
             ) => {
                 if (!fetchMoreResult) return prev;
+
                 return {
                     commentListByArticleId: {
                         ...prev.commentListByArticleId,
@@ -71,7 +83,9 @@ function Comment() {
         });
     };
 
-    const handleComment = async ({ text }: { text: string }) => {
+    const handleComment = async ({
+        text,
+    }: Omit<InsertCommentInput, 'articleId'>) => {
         await insertCommentMutation({
             variables: {
                 insertCommentInput: {
@@ -148,12 +162,53 @@ function Comment() {
         });
     };
 
+    const handleUpdateComment = async (e: any) => {
+        e.preventDefault();
+        if (updateMode) {
+            await updateCommentMutation({
+                variables: {
+                    updateCommentInput: {
+                        id: updateMode.id,
+                        text: updateMode.text,
+                    },
+                },
+                update(cache, { data }) {
+                    if (
+                        data?.updateComment.success &&
+                        data.updateComment.comment
+                    ) {
+                        const updatedComment = data.updateComment.comment;
+                        const commentId = cache.identify(updatedComment);
+
+                        cache.modify({
+                            id: commentId,
+                            fields: {
+                                text() {
+                                    return updatedComment.text;
+                                },
+                            },
+                        });
+                    }
+                },
+            });
+        }
+        setUpdateMode(null);
+    };
+
     return (
         <div className="bg-white dark:bg-secondaryDark">
             <div className="-mt-1 rounded-b-sm p-5 space-y-4">
                 <p className="text-sm">
-                    Comment as{' '}
-                    <span className="text-red-500">{me?.username}</span>
+                    {data ? (
+                        <>
+                            Comment as{' '}
+                            <span className="text-red-500">
+                                {data.me?.username}
+                            </span>
+                        </>
+                    ) : (
+                        <p>Please sign in to comment!</p>
+                    )}
                 </p>
 
                 <form
@@ -184,45 +239,21 @@ function Comment() {
 
             <div className="-my-5 rounded-b-md py-8 px-10">
                 <hr className="py-2" />
-                {commentList &&
-                    commentList?.commentListByArticleId?.paginatedComments.map(
-                        (comment) => (
-                            <div
-                                key={comment.id}
-                                className="relative flex items-center space-x-2 space-y-5"
-                            >
-                                <hr className="absolute top-10 left-7 z-0 h-16 border" />
-                                <div className="z-50">
-                                    <Avatar
-                                        src={
-                                            comment.user.avatar ||
-                                            '/images/avatar-fallback.png'
-                                        }
-                                    />
-                                </div>
-                                <div className="flex flex-col">
-                                    <p className="py-2 text-xs text-gray-400">
-                                        <span className="font-semibold text-gray-600">
-                                            {comment.user.username}
-                                        </span>{' '}
-                                        <TimeAgo
-                                            datetime={comment.createdDate}
-                                        />
-                                    </p>
-                                    <p className="">{comment.text}</p>
-                                </div>
-                                {me?.id === comment.user.id && (
-                                    <Button
-                                        onClick={() =>
-                                            handleDeleteComment(comment.id)
-                                        }
-                                    >
-                                        Delete
-                                    </Button>
-                                )}
-                            </div>
-                        ),
-                    )}
+                {commentList?.commentListByArticleId?.paginatedComments.map(
+                    (comment) => (
+                        <CommentItem
+                            comment={comment}
+                            deleteLoading={deleteLoading}
+                            handleDeleteComment={handleDeleteComment}
+                            handleUpdateComment={handleUpdateComment}
+                            me={me}
+                            setUpdateMode={setUpdateMode}
+                            updateLoading={updateLoading}
+                            updateMode={updateMode}
+                            key={comment.id}
+                        />
+                    ),
+                )}
                 {commentList?.commentListByArticleId?.hasMore && (
                     <Button
                         onClick={handleMoreComment}
