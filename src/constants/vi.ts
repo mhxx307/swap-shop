@@ -1,35 +1,32 @@
-import { AiOutlineQuestionCircle, AiOutlineUser } from 'react-icons/ai';
-import { CgShortcut } from 'react-icons/cg';
-import { BsGear, BsPencilSquare } from 'react-icons/bs';
-import { VscSignOut } from 'react-icons/vsc';
 import { PopupMenuItemProps } from '@/types';
+import { path, icons } from '.';
 
 const HEADER_NAV_LIST: PopupMenuItemProps[] = [
-    { path: '/', label: 'Trang chủ' },
-    { path: '/articles', label: 'Giao dịch đồ cũ' },
-    { path: '/about', label: 'Giới thiệu' },
+    { path: path.home, label: 'Trang chủ' },
+    { path: path.articles, label: 'Giao dịch đồ cũ' },
+    { path: path.about, label: 'Giới thiệu' },
 ];
 
 const HEADER_MOBILE_NAV_LIST: PopupMenuItemProps[] = [...HEADER_NAV_LIST];
 
 const POPUP_MENU_LIST: PopupMenuItemProps[] = [
     {
-        icon: AiOutlineQuestionCircle,
+        icon: icons.AiOutlineQuestionCircle,
         label: 'Phản hồi và giúp đỡ',
-        path: '/contact',
+        path: path.contact,
     },
-    { icon: CgShortcut, label: 'Phím tắt', path: '/shortcuts' },
+    { icon: icons.CgShortcut, label: 'Phím tắt', path: path.shortcuts },
 ];
 
 const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     {
-        icon: BsPencilSquare,
+        icon: icons.BsPencilSquare,
         label: 'Thêm sản phẩm',
-        path: '/articles/create-article',
+        path: path.articlesCreate,
     },
     ...POPUP_MENU_LIST,
-    { icon: BsGear, label: 'Cài đặt', path: '/settings/profile' },
-    { icon: VscSignOut, label: 'Đăng xuất', separate: true },
+    { icon: icons.BsGear, label: 'Cài đặt', path: path.settingsProfile },
+    { icon: icons.VscSignOut, label: 'Đăng xuất', separate: true },
 ];
 
 const viTranslations = {

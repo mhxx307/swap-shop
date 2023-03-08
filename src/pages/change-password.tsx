@@ -2,26 +2,30 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import { BaseLayout } from '@/components/layouts';
 import { Button, InputField } from '@/components/shared';
 import { useCheckAuth, useValidateSchema } from '@/hooks';
-import { ChangePasswordPayload } from '@/types';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { useChangePasswordMutation } from '@/types/generated/graphql';
-import { toast } from 'react-toastify';
+import {  useChangePasswordMutation } from '@/types/generated/graphql';
+
+interface FormState {
+	password: string;
+	confirmPassword: string;
+}
 
 const ChangePassword = () => {
     const { data: authData, loading: authLoading } = useCheckAuth();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const schema = useValidateSchema({ name: 'password' });
+    const schema = useValidateSchema('changePassword');
     const router = useRouter();
     const {
         query: { userId, token },
     } = router;
 
-    const { control, handleSubmit } = useForm<ChangePasswordPayload>({
+    const { control, handleSubmit } = useForm<FormState>({
         defaultValues: {
             password: '',
             confirmPassword: '',
@@ -32,7 +36,7 @@ const ChangePassword = () => {
 
     const [changePassword, { loading, data }] = useChangePasswordMutation();
 
-    const handleChangePassword = async (payload: ChangePasswordPayload) => {
+    const handleChangePassword = async (payload: FormState) => {
         if (token && userId) {
             await changePassword({
                 variables: {

@@ -1,10 +1,9 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
-import ThemeSwitcher from './ThemeSwitcher';
 
 export interface NavMenuProps {
-    navList: any[];
+    navList: { path: string; label: string }[];
     className?: string;
     itemClassName?: string;
 }

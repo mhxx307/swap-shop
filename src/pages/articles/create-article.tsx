@@ -6,14 +6,12 @@ import { useState } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 import { useForm } from 'react-hook-form';
 
-export interface CreateArticleProps {}
-
 const prices = [
     { id: 1, label: 'Free' },
     { id: 2, label: 'Charges' },
 ];
 
-const CreateArticle = (props: CreateArticleProps) => {
+const CreateArticle = () => {
     const [checked, setChecked] = useState(1);
     const { control, handleSubmit, register } = useForm<any>({
         defaultValues: {

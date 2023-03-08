@@ -1,35 +1,33 @@
-import { AiOutlineQuestionCircle, AiOutlineUser } from 'react-icons/ai';
-import { CgShortcut } from 'react-icons/cg';
-import { BsGear, BsPencilSquare } from 'react-icons/bs';
-import { VscSignOut } from 'react-icons/vsc';
+
 import { PopupMenuItemProps } from '@/types';
+import { path, icons } from '.';
 
 const HEADER_NAV_LIST: PopupMenuItemProps[] = [
-    { path: '/', label: 'Home' },
-    { path: '/articles', label: 'Second hand transaction' },
-    { path: '/about', label: 'About' },
+    { path: path.home, label: 'Home' },
+    { path: path.articles, label: 'Second hand transaction' },
+    { path: path.about, label: 'About' },
 ];
 
 const HEADER_MOBILE_NAV_LIST: PopupMenuItemProps[] = [...HEADER_NAV_LIST];
 
 const POPUP_MENU_LIST: PopupMenuItemProps[] = [
     {
-        icon: AiOutlineQuestionCircle,
+        icon: icons.AiOutlineQuestionCircle,
         label: 'Feedback and Help',
-        path: '/contact',
+        path: path.contact,
     },
-    { icon: CgShortcut, label: 'Keyboard shortcuts', path: '/shortcuts' },
+    { icon: icons.CgShortcut, label: 'Keyboard shortcuts', path: path.shortcuts },
 ];
 
 const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     {
-        icon: BsPencilSquare,
+        icon: icons.BsPencilSquare,
         label: 'New product',
-        path: '/articles/create-article',
+        path: path.articlesCreate,
     },
     ...POPUP_MENU_LIST,
-    { icon: BsGear, label: 'Settings', path: '/settings/profile' },
-    { icon: VscSignOut, label: 'Log out', separate: true },
+    { icon: icons.BsGear, label: 'Settings', path: path.settingsProfile },
+    { icon: icons.VscSignOut, label: 'Log out', separate: true },
 ];
 
 const enTranslations = {

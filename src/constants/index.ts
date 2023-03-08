@@ -1,18 +1,11 @@
-import { ProgressItemProps, RegisterPayload } from '@/types';
-import { FieldError } from '@/types/generated/graphql';
+import { ProgressItemProps } from '@/types';
+import { CgShortcut } from 'react-icons/cg';
+import { BsGear, BsPencilSquare } from 'react-icons/bs';
+import { VscSignOut } from 'react-icons/vsc';
+import { AiOutlineQuestionCircle } from 'react-icons/ai';
+
 
 export const REVALIDATE_TIME = 86_400; // 24 hours
-
-export const REGISTER_INITIAL_DATA: RegisterPayload = {
-    fullName: '',
-    date: null,
-    address: '',
-    email: '',
-    username: '',
-    password: '',
-    phoneNumber: '',
-    confirmPassword: '',
-};
 
 export const PROGRESS_LIST: ProgressItemProps[] = [
     {
@@ -41,5 +34,23 @@ export const WEBSITE_URL = 'swap-shop-jq6a2utdi-mhxx307.vercel.app';
 
 export const supportedUploadImageFormats = ['jpg', 'jpeg', 'png'];
 
-export const limitArticlesPaginated = 2;
-export const limitCommentsPaginated = 3;
+export const limitArticlesPaginated = 10;
+export const limitCommentsPaginated = 10;
+
+export const path = {
+	home: '/',
+	articles: '/articles',
+	about: '/about',
+	contact: '/contact',
+	shortcuts: '/shortcuts',
+	articlesCreate: '/articles/create-article',
+	settingsProfile: '/settings/profile',
+}
+
+export const icons = {
+	CgShortcut,
+	BsGear,
+	BsPencilSquare,
+	VscSignOut,
+	AiOutlineQuestionCircle
+}

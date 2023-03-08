@@ -2,440 +2,753 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+    [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+    [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+    [SubKey in K]: Maybe<T[SubKey]>;
+};
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  DateTime: any;
+    ID: string;
+    String: string;
+    Boolean: boolean;
+    Int: number;
+    Float: number;
+    DateTime: any;
 };
 
 export type Article = {
-  __typename?: 'Article';
-  createdDate: Scalars['DateTime'];
-  description: Scalars['String'];
-  discount?: Maybe<Scalars['Float']>;
-  id: Scalars['ID'];
-  price?: Maybe<Scalars['Float']>;
-  productName: Scalars['String'];
-  thumbnail: Scalars['String'];
-  title: Scalars['String'];
-  updatedDate: Scalars['DateTime'];
-  user: User;
+    __typename?: 'Article';
+    createdDate: Scalars['DateTime'];
+    description: Scalars['String'];
+    discount?: Maybe<Scalars['Float']>;
+    id: Scalars['ID'];
+    price?: Maybe<Scalars['Float']>;
+    productName: Scalars['String'];
+    thumbnail: Scalars['String'];
+    title: Scalars['String'];
+    updatedDate: Scalars['DateTime'];
+    user: User;
 };
 
 export type ArticleMutationResponse = IMutationResponse & {
-  __typename?: 'ArticleMutationResponse';
-  article?: Maybe<Article>;
-  code: Scalars['Float'];
-  errors?: Maybe<Array<FieldError>>;
-  message?: Maybe<Scalars['String']>;
-  success: Scalars['Boolean'];
+    __typename?: 'ArticleMutationResponse';
+    article?: Maybe<Article>;
+    code: Scalars['Float'];
+    errors?: Maybe<Array<FieldError>>;
+    message?: Maybe<Scalars['String']>;
+    success: Scalars['Boolean'];
 };
 
 export type ChangePasswordInput = {
-  newPassword: Scalars['String'];
+    newPassword: Scalars['String'];
 };
 
 export type ChangePasswordLoggedInput = {
-  newPassword: Scalars['String'];
-  oldPassword: Scalars['String'];
+    newPassword: Scalars['String'];
+    oldPassword: Scalars['String'];
 };
 
 export type Comment = {
-  __typename?: 'Comment';
-  article: Article;
-  createdDate: Scalars['DateTime'];
-  id: Scalars['ID'];
-  status?: Maybe<Scalars['String']>;
-  text: Scalars['String'];
-  updatedDate: Scalars['DateTime'];
-  user: User;
+    __typename?: 'Comment';
+    article: Article;
+    createdDate: Scalars['DateTime'];
+    id: Scalars['ID'];
+    status?: Maybe<Scalars['String']>;
+    text: Scalars['String'];
+    updatedDate: Scalars['DateTime'];
+    user: User;
 };
 
 export type CommentMutationResponse = IMutationResponse & {
-  __typename?: 'CommentMutationResponse';
-  code: Scalars['Float'];
-  comment?: Maybe<Comment>;
-  errors?: Maybe<Array<FieldError>>;
-  message?: Maybe<Scalars['String']>;
-  success: Scalars['Boolean'];
+    __typename?: 'CommentMutationResponse';
+    code: Scalars['Float'];
+    comment?: Maybe<Comment>;
+    errors?: Maybe<Array<FieldError>>;
+    message?: Maybe<Scalars['String']>;
+    success: Scalars['Boolean'];
 };
 
 export type DeleteArticleInput = {
-  id: Scalars['String'];
+    id: Scalars['String'];
 };
 
 export type FieldError = {
-  __typename?: 'FieldError';
-  field: Scalars['String'];
-  message: Scalars['String'];
+    __typename?: 'FieldError';
+    field: Scalars['String'];
+    message: Scalars['String'];
 };
 
 export type FindArticleInput = {
-  id: Scalars['String'];
+    id: Scalars['String'];
 };
 
 export type ForgotPasswordInput = {
-  email: Scalars['String'];
+    email: Scalars['String'];
 };
 
 export type IMutationResponse = {
-  code: Scalars['Float'];
-  message?: Maybe<Scalars['String']>;
-  success: Scalars['Boolean'];
+    code: Scalars['Float'];
+    message?: Maybe<Scalars['String']>;
+    success: Scalars['Boolean'];
 };
 
 export type InsertArticleInput = {
-  description: Scalars['String'];
-  discount?: InputMaybe<Scalars['Float']>;
-  price?: InputMaybe<Scalars['Float']>;
-  productName: Scalars['String'];
-  thumbnail: Scalars['String'];
-  title: Scalars['String'];
+    description: Scalars['String'];
+    discount?: InputMaybe<Scalars['Float']>;
+    price?: InputMaybe<Scalars['Float']>;
+    productName: Scalars['String'];
+    thumbnail: Scalars['String'];
+    title: Scalars['String'];
 };
 
 export type InsertCommentInput = {
-  articleId: Scalars['String'];
-  text: Scalars['String'];
+    articleId: Scalars['String'];
+    text: Scalars['String'];
 };
 
 export type LoginInput = {
-  password: Scalars['String'];
-  usernameOrEmail: Scalars['String'];
+    password: Scalars['String'];
+    usernameOrEmail: Scalars['String'];
 };
 
 export type Mutation = {
-  __typename?: 'Mutation';
-  changePassword: UserMutationResponse;
-  changePasswordLogged: UserMutationResponse;
-  deleteArticle: ArticleMutationResponse;
-  deleteComment: CommentMutationResponse;
-  forgotPassword: UserMutationResponse;
-  insertArticle: ArticleMutationResponse;
-  insertComment: CommentMutationResponse;
-  login: UserMutationResponse;
-  logout: Scalars['Boolean'];
-  register: UserMutationResponse;
-  updateArticle: ArticleMutationResponse;
-  updateComment: CommentMutationResponse;
+    __typename?: 'Mutation';
+    changePassword: UserMutationResponse;
+    changePasswordLogged: UserMutationResponse;
+    deleteArticle: ArticleMutationResponse;
+    deleteComment: CommentMutationResponse;
+    forgotPassword: UserMutationResponse;
+    insertArticle: ArticleMutationResponse;
+    insertComment: CommentMutationResponse;
+    login: UserMutationResponse;
+    logout: Scalars['Boolean'];
+    register: UserMutationResponse;
+    updateArticle: ArticleMutationResponse;
+    updateComment: CommentMutationResponse;
 };
-
 
 export type MutationChangePasswordArgs = {
-  changePasswordInput: ChangePasswordInput;
-  token: Scalars['String'];
-  userId: Scalars['String'];
+    changePasswordInput: ChangePasswordInput;
+    token: Scalars['String'];
+    userId: Scalars['String'];
 };
-
 
 export type MutationChangePasswordLoggedArgs = {
-  changePasswordLoggedInput: ChangePasswordLoggedInput;
+    changePasswordLoggedInput: ChangePasswordLoggedInput;
 };
-
 
 export type MutationDeleteArticleArgs = {
-  deleteArticleInput: DeleteArticleInput;
+    deleteArticleInput: DeleteArticleInput;
 };
-
 
 export type MutationDeleteCommentArgs = {
-  id: Scalars['String'];
+    id: Scalars['String'];
 };
-
 
 export type MutationForgotPasswordArgs = {
-  forgotPasswordInput: ForgotPasswordInput;
+    forgotPasswordInput: ForgotPasswordInput;
 };
-
 
 export type MutationInsertArticleArgs = {
-  insertArticleInput: InsertArticleInput;
+    insertArticleInput: InsertArticleInput;
 };
-
 
 export type MutationInsertCommentArgs = {
-  insertCommentInput: InsertCommentInput;
+    insertCommentInput: InsertCommentInput;
 };
-
 
 export type MutationLoginArgs = {
-  loginInput: LoginInput;
+    loginInput: LoginInput;
 };
-
 
 export type MutationRegisterArgs = {
-  registerInput: RegisterInput;
+    registerInput: RegisterInput;
 };
-
 
 export type MutationUpdateArticleArgs = {
-  updateArticleInput: UpdateArticleInput;
+    updateArticleInput: UpdateArticleInput;
 };
 
-
 export type MutationUpdateCommentArgs = {
-  id: Scalars['String'];
-  updateCommentInput: UpdateCommentInput;
+    id: Scalars['String'];
+    updateCommentInput: UpdateCommentInput;
 };
 
 export type PaginatedArticles = {
-  __typename?: 'PaginatedArticles';
-  cursor: Scalars['DateTime'];
-  hasMore: Scalars['Boolean'];
-  paginatedArticles: Array<Article>;
-  totalCount?: Maybe<Scalars['Float']>;
+    __typename?: 'PaginatedArticles';
+    cursor: Scalars['DateTime'];
+    hasMore: Scalars['Boolean'];
+    paginatedArticles: Array<Article>;
+    totalCount?: Maybe<Scalars['Float']>;
 };
 
 export type PaginatedComments = {
-  __typename?: 'PaginatedComments';
-  cursor: Scalars['DateTime'];
-  hasMore: Scalars['Boolean'];
-  paginatedComments: Array<Comment>;
-  totalCount: Scalars['Float'];
+    __typename?: 'PaginatedComments';
+    cursor: Scalars['DateTime'];
+    hasMore: Scalars['Boolean'];
+    paginatedComments: Array<Comment>;
+    totalCount: Scalars['Float'];
 };
 
 export type Query = {
-  __typename?: 'Query';
-  article?: Maybe<Article>;
-  articles?: Maybe<PaginatedArticles>;
-  commentListByArticleId?: Maybe<PaginatedComments>;
-  me?: Maybe<User>;
+    __typename?: 'Query';
+    article?: Maybe<Article>;
+    articles?: Maybe<PaginatedArticles>;
+    commentListByArticleId?: Maybe<PaginatedComments>;
+    me?: Maybe<User>;
 };
-
 
 export type QueryArticleArgs = {
-  findArticleInput: FindArticleInput;
+    findArticleInput: FindArticleInput;
 };
-
 
 export type QueryArticlesArgs = {
-  cursor?: InputMaybe<Scalars['String']>;
-  limit: Scalars['Int'];
+    cursor?: InputMaybe<Scalars['String']>;
+    limit: Scalars['Int'];
 };
 
-
 export type QueryCommentListByArticleIdArgs = {
-  articleId: Scalars['String'];
-  cursor?: InputMaybe<Scalars['String']>;
-  limit: Scalars['Int'];
+    articleId: Scalars['String'];
+    cursor?: InputMaybe<Scalars['String']>;
+    limit: Scalars['Int'];
 };
 
 export type RegisterInput = {
-  address?: InputMaybe<Scalars['String']>;
-  avatar?: InputMaybe<Scalars['String']>;
-  birthday?: InputMaybe<Scalars['String']>;
-  email: Scalars['String'];
-  fullName: Scalars['String'];
-  password: Scalars['String'];
-  phoneNumber?: InputMaybe<Scalars['String']>;
-  username: Scalars['String'];
+    address?: InputMaybe<Scalars['String']>;
+    avatar?: InputMaybe<Scalars['String']>;
+    birthday?: InputMaybe<Scalars['String']>;
+    email: Scalars['String'];
+    fullName: Scalars['String'];
+    password: Scalars['String'];
+    phoneNumber?: InputMaybe<Scalars['String']>;
+    username: Scalars['String'];
 };
 
 export type UpdateArticleInput = {
-  description?: InputMaybe<Scalars['String']>;
-  id: Scalars['String'];
-  title?: InputMaybe<Scalars['String']>;
+    description?: InputMaybe<Scalars['String']>;
+    id: Scalars['String'];
+    title?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateCommentInput = {
-  status: Scalars['String'];
-  text: Scalars['String'];
+    status: Scalars['String'];
+    text: Scalars['String'];
 };
 
 export type User = {
-  __typename?: 'User';
-  address?: Maybe<Scalars['String']>;
-  avatar?: Maybe<Scalars['String']>;
-  birthday?: Maybe<Scalars['String']>;
-  createdDate: Scalars['DateTime'];
-  email: Scalars['String'];
-  fullName: Scalars['String'];
-  id: Scalars['ID'];
-  isOnline?: Maybe<Scalars['Boolean']>;
-  phoneNumber?: Maybe<Scalars['String']>;
-  updatedDate: Scalars['DateTime'];
-  username: Scalars['String'];
+    __typename?: 'User';
+    address?: Maybe<Scalars['String']>;
+    avatar?: Maybe<Scalars['String']>;
+    birthday?: Maybe<Scalars['String']>;
+    createdDate: Scalars['DateTime'];
+    email: Scalars['String'];
+    fullName: Scalars['String'];
+    id: Scalars['ID'];
+    isOnline?: Maybe<Scalars['Boolean']>;
+    phoneNumber?: Maybe<Scalars['String']>;
+    updatedDate: Scalars['DateTime'];
+    username: Scalars['String'];
 };
 
 export type UserMutationResponse = IMutationResponse & {
-  __typename?: 'UserMutationResponse';
-  code: Scalars['Float'];
-  errors?: Maybe<Array<FieldError>>;
-  message?: Maybe<Scalars['String']>;
-  success: Scalars['Boolean'];
-  user?: Maybe<User>;
+    __typename?: 'UserMutationResponse';
+    code: Scalars['Float'];
+    errors?: Maybe<Array<FieldError>>;
+    message?: Maybe<Scalars['String']>;
+    success: Scalars['Boolean'];
+    user?: Maybe<User>;
 };
 
-export type ArticleFragment = { __typename?: 'Article', id: string, title: string, description: string, price?: number | null, productName: string, thumbnail: string, discount?: number | null, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } };
+export type ArticleFragment = {
+    __typename?: 'Article';
+    id: string;
+    title: string;
+    description: string;
+    price?: number | null;
+    productName: string;
+    thumbnail: string;
+    discount?: number | null;
+    createdDate: any;
+    updatedDate: any;
+    user: {
+        __typename?: 'User';
+        id: string;
+        username: string;
+        email: string;
+        address?: string | null;
+        phoneNumber?: string | null;
+        fullName: string;
+        birthday?: string | null;
+        avatar?: string | null;
+        isOnline?: boolean | null;
+        createdDate: any;
+        updatedDate: any;
+    };
+};
 
-export type UserFragment = { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any };
+export type UserFragment = {
+    __typename?: 'User';
+    id: string;
+    username: string;
+    email: string;
+    address?: string | null;
+    phoneNumber?: string | null;
+    fullName: string;
+    birthday?: string | null;
+    avatar?: string | null;
+    isOnline?: boolean | null;
+    createdDate: any;
+    updatedDate: any;
+};
 
-export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null };
+export type UserMutationResponseFragment = {
+    __typename?: 'UserMutationResponse';
+    code: number;
+    success: boolean;
+    message?: string | null;
+    user?: {
+        __typename?: 'User';
+        id: string;
+        username: string;
+        email: string;
+        address?: string | null;
+        phoneNumber?: string | null;
+        fullName: string;
+        birthday?: string | null;
+        avatar?: string | null;
+        isOnline?: boolean | null;
+        createdDate: any;
+        updatedDate: any;
+    } | null;
+    errors?: Array<{
+        __typename?: 'FieldError';
+        field: string;
+        message: string;
+    }> | null;
+};
 
-export type ErrorsFragment = { __typename?: 'FieldError', field: string, message: string };
+export type ErrorsFragment = {
+    __typename?: 'FieldError';
+    field: string;
+    message: string;
+};
 
 export type InsertArticleMutationVariables = Exact<{
-  insertArticleInput: InsertArticleInput;
+    insertArticleInput: InsertArticleInput;
 }>;
 
-
-export type InsertArticleMutation = { __typename?: 'Mutation', insertArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price?: number | null, productName: string, thumbnail: string, discount?: number | null, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } } | null } };
+export type InsertArticleMutation = {
+    __typename?: 'Mutation';
+    insertArticle: {
+        __typename?: 'ArticleMutationResponse';
+        message?: string | null;
+        success: boolean;
+        article?: {
+            __typename?: 'Article';
+            id: string;
+            title: string;
+            description: string;
+            price?: number | null;
+            productName: string;
+            thumbnail: string;
+            discount?: number | null;
+            createdDate: any;
+            updatedDate: any;
+            user: {
+                __typename?: 'User';
+                id: string;
+                username: string;
+                email: string;
+                address?: string | null;
+                phoneNumber?: string | null;
+                fullName: string;
+                birthday?: string | null;
+                avatar?: string | null;
+                isOnline?: boolean | null;
+                createdDate: any;
+                updatedDate: any;
+            };
+        } | null;
+    };
+};
 
 export type RegisterMutationVariables = Exact<{
-  registerInput: RegisterInput;
+    registerInput: RegisterInput;
 }>;
 
-
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type RegisterMutation = {
+    __typename?: 'Mutation';
+    register: {
+        __typename?: 'UserMutationResponse';
+        code: number;
+        success: boolean;
+        message?: string | null;
+        user?: {
+            __typename?: 'User';
+            id: string;
+            username: string;
+            email: string;
+            address?: string | null;
+            phoneNumber?: string | null;
+            fullName: string;
+            birthday?: string | null;
+            avatar?: string | null;
+            isOnline?: boolean | null;
+            createdDate: any;
+            updatedDate: any;
+        } | null;
+        errors?: Array<{
+            __typename?: 'FieldError';
+            field: string;
+            message: string;
+        }> | null;
+    };
+};
 
 export type LoginMutationVariables = Exact<{
-  loginInput: LoginInput;
+    loginInput: LoginInput;
 }>;
 
+export type LoginMutation = {
+    __typename?: 'Mutation';
+    login: {
+        __typename?: 'UserMutationResponse';
+        code: number;
+        success: boolean;
+        message?: string | null;
+        user?: {
+            __typename?: 'User';
+            id: string;
+            username: string;
+            email: string;
+            address?: string | null;
+            phoneNumber?: string | null;
+            fullName: string;
+            birthday?: string | null;
+            avatar?: string | null;
+            isOnline?: boolean | null;
+            createdDate: any;
+            updatedDate: any;
+        } | null;
+        errors?: Array<{
+            __typename?: 'FieldError';
+            field: string;
+            message: string;
+        }> | null;
+    };
+};
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type LogoutMutationVariables = Exact<{ [key: string]: never }>;
 
-export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
+export type LogoutMutation = { __typename?: 'Mutation'; logout: boolean };
 
 export type ForgotPasswordMutationVariables = Exact<{
-  forgotPasswordInput: ForgotPasswordInput;
+    forgotPasswordInput: ForgotPasswordInput;
 }>;
 
-
-export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null } };
+export type ForgotPasswordMutation = {
+    __typename?: 'Mutation';
+    forgotPassword: {
+        __typename?: 'UserMutationResponse';
+        code: number;
+        success: boolean;
+        message?: string | null;
+    };
+};
 
 export type ChangePasswordMutationVariables = Exact<{
-  changePasswordInput: ChangePasswordInput;
-  userId: Scalars['String'];
-  token: Scalars['String'];
+    changePasswordInput: ChangePasswordInput;
+    userId: Scalars['String'];
+    token: Scalars['String'];
 }>;
 
-
-export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type ChangePasswordMutation = {
+    __typename?: 'Mutation';
+    changePassword: {
+        __typename?: 'UserMutationResponse';
+        code: number;
+        success: boolean;
+        message?: string | null;
+        user?: {
+            __typename?: 'User';
+            id: string;
+            username: string;
+            email: string;
+            address?: string | null;
+            phoneNumber?: string | null;
+            fullName: string;
+            birthday?: string | null;
+            avatar?: string | null;
+            isOnline?: boolean | null;
+            createdDate: any;
+            updatedDate: any;
+        } | null;
+        errors?: Array<{
+            __typename?: 'FieldError';
+            field: string;
+            message: string;
+        }> | null;
+    };
+};
 
 export type ChangePasswordLoggedMutationVariables = Exact<{
-  changePasswordLoggedInput: ChangePasswordLoggedInput;
+    changePasswordLoggedInput: ChangePasswordLoggedInput;
 }>;
 
-
-export type ChangePasswordLoggedMutation = { __typename?: 'Mutation', changePasswordLogged: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type ChangePasswordLoggedMutation = {
+    __typename?: 'Mutation';
+    changePasswordLogged: {
+        __typename?: 'UserMutationResponse';
+        code: number;
+        success: boolean;
+        message?: string | null;
+        errors?: Array<{
+            __typename?: 'FieldError';
+            field: string;
+            message: string;
+        }> | null;
+    };
+};
 
 export type InsertCommentMutationVariables = Exact<{
-  insertCommentInput: InsertCommentInput;
+    insertCommentInput: InsertCommentInput;
 }>;
 
-
-export type InsertCommentMutation = { __typename?: 'Mutation', insertComment: { __typename?: 'CommentMutationResponse', message?: string | null, success: boolean, comment?: { __typename?: 'Comment', text: string, updatedDate: any, status?: string | null, id: string, createdDate: any, user: { __typename?: 'User', username: string, avatar?: string | null } } | null } };
+export type InsertCommentMutation = {
+    __typename?: 'Mutation';
+    insertComment: {
+        __typename?: 'CommentMutationResponse';
+        message?: string | null;
+        success: boolean;
+        comment?: {
+            __typename?: 'Comment';
+            text: string;
+            updatedDate: any;
+            status?: string | null;
+            id: string;
+            createdDate: any;
+            user: {
+                __typename?: 'User';
+                username: string;
+                avatar?: string | null;
+            };
+        } | null;
+    };
+};
 
 export type DeleteCommentMutationVariables = Exact<{
-  deleteCommentId: Scalars['String'];
+    deleteCommentId: Scalars['String'];
 }>;
 
-
-export type DeleteCommentMutation = { __typename?: 'Mutation', deleteComment: { __typename?: 'CommentMutationResponse', message?: string | null, success: boolean } };
+export type DeleteCommentMutation = {
+    __typename?: 'Mutation';
+    deleteComment: {
+        __typename?: 'CommentMutationResponse';
+        message?: string | null;
+        success: boolean;
+    };
+};
 
 export type ArticlesQueryVariables = Exact<{
-  limit: Scalars['Int'];
-  cursor?: InputMaybe<Scalars['String']>;
+    limit: Scalars['Int'];
+    cursor?: InputMaybe<Scalars['String']>;
 }>;
 
-
-export type ArticlesQuery = { __typename?: 'Query', articles?: { __typename?: 'PaginatedArticles', totalCount?: number | null, cursor: any, hasMore: boolean, paginatedArticles: Array<{ __typename?: 'Article', id: string, title: string, description: string, price?: number | null, productName: string, thumbnail: string, discount?: number | null, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } }> } | null };
+export type ArticlesQuery = {
+    __typename?: 'Query';
+    articles?: {
+        __typename?: 'PaginatedArticles';
+        totalCount?: number | null;
+        cursor: any;
+        hasMore: boolean;
+        paginatedArticles: Array<{
+            __typename?: 'Article';
+            id: string;
+            title: string;
+            description: string;
+            price?: number | null;
+            productName: string;
+            thumbnail: string;
+            discount?: number | null;
+            createdDate: any;
+            updatedDate: any;
+            user: {
+                __typename?: 'User';
+                id: string;
+                username: string;
+                email: string;
+                address?: string | null;
+                phoneNumber?: string | null;
+                fullName: string;
+                birthday?: string | null;
+                avatar?: string | null;
+                isOnline?: boolean | null;
+                createdDate: any;
+                updatedDate: any;
+            };
+        }>;
+    } | null;
+};
 
 export type ArticleQueryVariables = Exact<{
-  findArticleInput: FindArticleInput;
+    findArticleInput: FindArticleInput;
 }>;
 
+export type ArticleQuery = {
+    __typename?: 'Query';
+    article?: {
+        __typename?: 'Article';
+        id: string;
+        title: string;
+        description: string;
+        price?: number | null;
+        productName: string;
+        thumbnail: string;
+        discount?: number | null;
+        createdDate: any;
+        updatedDate: any;
+        user: {
+            __typename?: 'User';
+            id: string;
+            username: string;
+            email: string;
+            address?: string | null;
+            phoneNumber?: string | null;
+            fullName: string;
+            birthday?: string | null;
+            avatar?: string | null;
+            isOnline?: boolean | null;
+            createdDate: any;
+            updatedDate: any;
+        };
+    } | null;
+};
 
-export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, title: string, description: string, price?: number | null, productName: string, thumbnail: string, discount?: number | null, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } } | null };
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, isOnline?: boolean | null, createdDate: any, updatedDate: any } | null };
+export type MeQuery = {
+    __typename?: 'Query';
+    me?: {
+        __typename?: 'User';
+        id: string;
+        username: string;
+        email: string;
+        address?: string | null;
+        phoneNumber?: string | null;
+        fullName: string;
+        birthday?: string | null;
+        avatar?: string | null;
+        isOnline?: boolean | null;
+        createdDate: any;
+        updatedDate: any;
+    } | null;
+};
 
 export type CommentListByArticleIdQueryVariables = Exact<{
-  limit: Scalars['Int'];
-  articleId: Scalars['String'];
-  cursor?: InputMaybe<Scalars['String']>;
+    limit: Scalars['Int'];
+    articleId: Scalars['String'];
+    cursor?: InputMaybe<Scalars['String']>;
 }>;
 
-
-export type CommentListByArticleIdQuery = { __typename?: 'Query', commentListByArticleId?: { __typename?: 'PaginatedComments', cursor: any, totalCount: number, hasMore: boolean, paginatedComments: Array<{ __typename?: 'Comment', text: string, updatedDate: any, status?: string | null, id: string, createdDate: any, user: { __typename?: 'User', id: string, username: string, avatar?: string | null } }> } | null };
+export type CommentListByArticleIdQuery = {
+    __typename?: 'Query';
+    commentListByArticleId?: {
+        __typename?: 'PaginatedComments';
+        cursor: any;
+        totalCount: number;
+        hasMore: boolean;
+        paginatedComments: Array<{
+            __typename?: 'Comment';
+            text: string;
+            updatedDate: any;
+            status?: string | null;
+            id: string;
+            createdDate: any;
+            user: {
+                __typename?: 'User';
+                id: string;
+                username: string;
+                avatar?: string | null;
+            };
+        }>;
+    } | null;
+};
 
 export const UserFragmentDoc = gql`
     fragment user on User {
-  id
-  username
-  email
-  address
-  phoneNumber
-  fullName
-  birthday
-  avatar
-  isOnline
-  createdDate
-  updatedDate
-}
-    `;
+        id
+        username
+        email
+        address
+        phoneNumber
+        fullName
+        birthday
+        avatar
+        isOnline
+        createdDate
+        updatedDate
+    }
+`;
 export const ArticleFragmentDoc = gql`
     fragment article on Article {
-  id
-  title
-  description
-  price
-  productName
-  thumbnail
-  discount
-  user {
-    ...user
-  }
-  createdDate
-  updatedDate
-}
-    ${UserFragmentDoc}`;
+        id
+        title
+        description
+        price
+        productName
+        thumbnail
+        discount
+        user {
+            ...user
+        }
+        createdDate
+        updatedDate
+    }
+    ${UserFragmentDoc}
+`;
 export const ErrorsFragmentDoc = gql`
     fragment errors on FieldError {
-  field
-  message
-}
-    `;
+        field
+        message
+    }
+`;
 export const UserMutationResponseFragmentDoc = gql`
     fragment userMutationResponse on UserMutationResponse {
-  code
-  success
-  message
-  user {
-    ...user
-  }
-  errors {
-    ...errors
-  }
-}
+        code
+        success
+        message
+        user {
+            ...user
+        }
+        errors {
+            ...errors
+        }
+    }
     ${UserFragmentDoc}
-${ErrorsFragmentDoc}`;
+    ${ErrorsFragmentDoc}
+`;
 export const InsertArticleDocument = gql`
     mutation InsertArticle($insertArticleInput: InsertArticleInput!) {
-  insertArticle(insertArticleInput: $insertArticleInput) {
-    article {
-      ...article
+        insertArticle(insertArticleInput: $insertArticleInput) {
+            article {
+                ...article
+            }
+            message
+            success
+        }
     }
-    message
-    success
-  }
-}
-    ${ArticleFragmentDoc}`;
-export type InsertArticleMutationFn = Apollo.MutationFunction<InsertArticleMutation, InsertArticleMutationVariables>;
+    ${ArticleFragmentDoc}
+`;
+export type InsertArticleMutationFn = Apollo.MutationFunction<
+    InsertArticleMutation,
+    InsertArticleMutationVariables
+>;
 
 /**
  * __useInsertArticleMutation__
@@ -454,21 +767,39 @@ export type InsertArticleMutationFn = Apollo.MutationFunction<InsertArticleMutat
  *   },
  * });
  */
-export function useInsertArticleMutation(baseOptions?: Apollo.MutationHookOptions<InsertArticleMutation, InsertArticleMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<InsertArticleMutation, InsertArticleMutationVariables>(InsertArticleDocument, options);
-      }
-export type InsertArticleMutationHookResult = ReturnType<typeof useInsertArticleMutation>;
-export type InsertArticleMutationResult = Apollo.MutationResult<InsertArticleMutation>;
-export type InsertArticleMutationOptions = Apollo.BaseMutationOptions<InsertArticleMutation, InsertArticleMutationVariables>;
+export function useInsertArticleMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        InsertArticleMutation,
+        InsertArticleMutationVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useMutation<
+        InsertArticleMutation,
+        InsertArticleMutationVariables
+    >(InsertArticleDocument, options);
+}
+export type InsertArticleMutationHookResult = ReturnType<
+    typeof useInsertArticleMutation
+>;
+export type InsertArticleMutationResult =
+    Apollo.MutationResult<InsertArticleMutation>;
+export type InsertArticleMutationOptions = Apollo.BaseMutationOptions<
+    InsertArticleMutation,
+    InsertArticleMutationVariables
+>;
 export const RegisterDocument = gql`
     mutation Register($registerInput: RegisterInput!) {
-  register(registerInput: $registerInput) {
-    ...userMutationResponse
-  }
-}
-    ${UserMutationResponseFragmentDoc}`;
-export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
+        register(registerInput: $registerInput) {
+            ...userMutationResponse
+        }
+    }
+    ${UserMutationResponseFragmentDoc}
+`;
+export type RegisterMutationFn = Apollo.MutationFunction<
+    RegisterMutation,
+    RegisterMutationVariables
+>;
 
 /**
  * __useRegisterMutation__
@@ -487,21 +818,36 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  *   },
  * });
  */
-export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
-      }
+export function useRegisterMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        RegisterMutation,
+        RegisterMutationVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(
+        RegisterDocument,
+        options,
+    );
+}
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<
+    RegisterMutation,
+    RegisterMutationVariables
+>;
 export const LoginDocument = gql`
     mutation Login($loginInput: LoginInput!) {
-  login(loginInput: $loginInput) {
-    ...userMutationResponse
-  }
-}
-    ${UserMutationResponseFragmentDoc}`;
-export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+        login(loginInput: $loginInput) {
+            ...userMutationResponse
+        }
+    }
+    ${UserMutationResponseFragmentDoc}
+`;
+export type LoginMutationFn = Apollo.MutationFunction<
+    LoginMutation,
+    LoginMutationVariables
+>;
 
 /**
  * __useLoginMutation__
@@ -520,19 +866,33 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  *   },
  * });
  */
-export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
-      }
+export function useLoginMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        LoginMutation,
+        LoginMutationVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
+        LoginDocument,
+        options,
+    );
+}
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<
+    LoginMutation,
+    LoginMutationVariables
+>;
 export const LogoutDocument = gql`
     mutation Logout {
-  logout
-}
-    `;
-export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+        logout
+    }
+`;
+export type LogoutMutationFn = Apollo.MutationFunction<
+    LogoutMutation,
+    LogoutMutationVariables
+>;
 
 /**
  * __useLogoutMutation__
@@ -550,23 +910,37 @@ export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMut
  *   },
  * });
  */
-export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
-      }
+export function useLogoutMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        LogoutMutation,
+        LogoutMutationVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(
+        LogoutDocument,
+        options,
+    );
+}
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
-export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<
+    LogoutMutation,
+    LogoutMutationVariables
+>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($forgotPasswordInput: ForgotPasswordInput!) {
-  forgotPassword(forgotPasswordInput: $forgotPasswordInput) {
-    code
-    success
-    message
-  }
-}
-    `;
-export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
+        forgotPassword(forgotPasswordInput: $forgotPasswordInput) {
+            code
+            success
+            message
+        }
+    }
+`;
+export type ForgotPasswordMutationFn = Apollo.MutationFunction<
+    ForgotPasswordMutation,
+    ForgotPasswordMutationVariables
+>;
 
 /**
  * __useForgotPasswordMutation__
@@ -585,25 +959,47 @@ export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMut
  *   },
  * });
  */
-export function useForgotPasswordMutation(baseOptions?: Apollo.MutationHookOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument, options);
-      }
-export type ForgotPasswordMutationHookResult = ReturnType<typeof useForgotPasswordMutation>;
-export type ForgotPasswordMutationResult = Apollo.MutationResult<ForgotPasswordMutation>;
-export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
-export const ChangePasswordDocument = gql`
-    mutation ChangePassword($changePasswordInput: ChangePasswordInput!, $userId: String!, $token: String!) {
-  changePassword(
-    changePasswordInput: $changePasswordInput
-    userId: $userId
-    token: $token
-  ) {
-    ...userMutationResponse
-  }
+export function useForgotPasswordMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        ForgotPasswordMutation,
+        ForgotPasswordMutationVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useMutation<
+        ForgotPasswordMutation,
+        ForgotPasswordMutationVariables
+    >(ForgotPasswordDocument, options);
 }
-    ${UserMutationResponseFragmentDoc}`;
-export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMutation, ChangePasswordMutationVariables>;
+export type ForgotPasswordMutationHookResult = ReturnType<
+    typeof useForgotPasswordMutation
+>;
+export type ForgotPasswordMutationResult =
+    Apollo.MutationResult<ForgotPasswordMutation>;
+export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<
+    ForgotPasswordMutation,
+    ForgotPasswordMutationVariables
+>;
+export const ChangePasswordDocument = gql`
+    mutation ChangePassword(
+        $changePasswordInput: ChangePasswordInput!
+        $userId: String!
+        $token: String!
+    ) {
+        changePassword(
+            changePasswordInput: $changePasswordInput
+            userId: $userId
+            token: $token
+        ) {
+            ...userMutationResponse
+        }
+    }
+    ${UserMutationResponseFragmentDoc}
+`;
+export type ChangePasswordMutationFn = Apollo.MutationFunction<
+    ChangePasswordMutation,
+    ChangePasswordMutationVariables
+>;
 
 /**
  * __useChangePasswordMutation__
@@ -624,26 +1020,48 @@ export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMut
  *   },
  * });
  */
-export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptions<ChangePasswordMutation, ChangePasswordMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument, options);
-      }
-export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
-export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
-export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
-export const ChangePasswordLoggedDocument = gql`
-    mutation ChangePasswordLogged($changePasswordLoggedInput: ChangePasswordLoggedInput!) {
-  changePasswordLogged(changePasswordLoggedInput: $changePasswordLoggedInput) {
-    code
-    success
-    message
-    errors {
-      ...errors
-    }
-  }
+export function useChangePasswordMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        ChangePasswordMutation,
+        ChangePasswordMutationVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useMutation<
+        ChangePasswordMutation,
+        ChangePasswordMutationVariables
+    >(ChangePasswordDocument, options);
 }
-    ${ErrorsFragmentDoc}`;
-export type ChangePasswordLoggedMutationFn = Apollo.MutationFunction<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>;
+export type ChangePasswordMutationHookResult = ReturnType<
+    typeof useChangePasswordMutation
+>;
+export type ChangePasswordMutationResult =
+    Apollo.MutationResult<ChangePasswordMutation>;
+export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<
+    ChangePasswordMutation,
+    ChangePasswordMutationVariables
+>;
+export const ChangePasswordLoggedDocument = gql`
+    mutation ChangePasswordLogged(
+        $changePasswordLoggedInput: ChangePasswordLoggedInput!
+    ) {
+        changePasswordLogged(
+            changePasswordLoggedInput: $changePasswordLoggedInput
+        ) {
+            code
+            success
+            message
+            errors {
+                ...errors
+            }
+        }
+    }
+    ${ErrorsFragmentDoc}
+`;
+export type ChangePasswordLoggedMutationFn = Apollo.MutationFunction<
+    ChangePasswordLoggedMutation,
+    ChangePasswordLoggedMutationVariables
+>;
 
 /**
  * __useChangePasswordLoggedMutation__
@@ -662,33 +1080,50 @@ export type ChangePasswordLoggedMutationFn = Apollo.MutationFunction<ChangePassw
  *   },
  * });
  */
-export function useChangePasswordLoggedMutation(baseOptions?: Apollo.MutationHookOptions<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>(ChangePasswordLoggedDocument, options);
-      }
-export type ChangePasswordLoggedMutationHookResult = ReturnType<typeof useChangePasswordLoggedMutation>;
-export type ChangePasswordLoggedMutationResult = Apollo.MutationResult<ChangePasswordLoggedMutation>;
-export type ChangePasswordLoggedMutationOptions = Apollo.BaseMutationOptions<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>;
+export function useChangePasswordLoggedMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        ChangePasswordLoggedMutation,
+        ChangePasswordLoggedMutationVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useMutation<
+        ChangePasswordLoggedMutation,
+        ChangePasswordLoggedMutationVariables
+    >(ChangePasswordLoggedDocument, options);
+}
+export type ChangePasswordLoggedMutationHookResult = ReturnType<
+    typeof useChangePasswordLoggedMutation
+>;
+export type ChangePasswordLoggedMutationResult =
+    Apollo.MutationResult<ChangePasswordLoggedMutation>;
+export type ChangePasswordLoggedMutationOptions = Apollo.BaseMutationOptions<
+    ChangePasswordLoggedMutation,
+    ChangePasswordLoggedMutationVariables
+>;
 export const InsertCommentDocument = gql`
     mutation InsertComment($insertCommentInput: InsertCommentInput!) {
-  insertComment(insertCommentInput: $insertCommentInput) {
-    message
-    success
-    comment {
-      text
-      user {
-        username
-        avatar
-      }
-      updatedDate
-      status
-      id
-      createdDate
+        insertComment(insertCommentInput: $insertCommentInput) {
+            message
+            success
+            comment {
+                text
+                user {
+                    username
+                    avatar
+                }
+                updatedDate
+                status
+                id
+                createdDate
+            }
+        }
     }
-  }
-}
-    `;
-export type InsertCommentMutationFn = Apollo.MutationFunction<InsertCommentMutation, InsertCommentMutationVariables>;
+`;
+export type InsertCommentMutationFn = Apollo.MutationFunction<
+    InsertCommentMutation,
+    InsertCommentMutationVariables
+>;
 
 /**
  * __useInsertCommentMutation__
@@ -707,22 +1142,39 @@ export type InsertCommentMutationFn = Apollo.MutationFunction<InsertCommentMutat
  *   },
  * });
  */
-export function useInsertCommentMutation(baseOptions?: Apollo.MutationHookOptions<InsertCommentMutation, InsertCommentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<InsertCommentMutation, InsertCommentMutationVariables>(InsertCommentDocument, options);
-      }
-export type InsertCommentMutationHookResult = ReturnType<typeof useInsertCommentMutation>;
-export type InsertCommentMutationResult = Apollo.MutationResult<InsertCommentMutation>;
-export type InsertCommentMutationOptions = Apollo.BaseMutationOptions<InsertCommentMutation, InsertCommentMutationVariables>;
+export function useInsertCommentMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        InsertCommentMutation,
+        InsertCommentMutationVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useMutation<
+        InsertCommentMutation,
+        InsertCommentMutationVariables
+    >(InsertCommentDocument, options);
+}
+export type InsertCommentMutationHookResult = ReturnType<
+    typeof useInsertCommentMutation
+>;
+export type InsertCommentMutationResult =
+    Apollo.MutationResult<InsertCommentMutation>;
+export type InsertCommentMutationOptions = Apollo.BaseMutationOptions<
+    InsertCommentMutation,
+    InsertCommentMutationVariables
+>;
 export const DeleteCommentDocument = gql`
     mutation DeleteComment($deleteCommentId: String!) {
-  deleteComment(id: $deleteCommentId) {
-    message
-    success
-  }
-}
-    `;
-export type DeleteCommentMutationFn = Apollo.MutationFunction<DeleteCommentMutation, DeleteCommentMutationVariables>;
+        deleteComment(id: $deleteCommentId) {
+            message
+            success
+        }
+    }
+`;
+export type DeleteCommentMutationFn = Apollo.MutationFunction<
+    DeleteCommentMutation,
+    DeleteCommentMutationVariables
+>;
 
 /**
  * __useDeleteCommentMutation__
@@ -741,25 +1193,40 @@ export type DeleteCommentMutationFn = Apollo.MutationFunction<DeleteCommentMutat
  *   },
  * });
  */
-export function useDeleteCommentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCommentMutation, DeleteCommentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCommentMutation, DeleteCommentMutationVariables>(DeleteCommentDocument, options);
-      }
-export type DeleteCommentMutationHookResult = ReturnType<typeof useDeleteCommentMutation>;
-export type DeleteCommentMutationResult = Apollo.MutationResult<DeleteCommentMutation>;
-export type DeleteCommentMutationOptions = Apollo.BaseMutationOptions<DeleteCommentMutation, DeleteCommentMutationVariables>;
+export function useDeleteCommentMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        DeleteCommentMutation,
+        DeleteCommentMutationVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useMutation<
+        DeleteCommentMutation,
+        DeleteCommentMutationVariables
+    >(DeleteCommentDocument, options);
+}
+export type DeleteCommentMutationHookResult = ReturnType<
+    typeof useDeleteCommentMutation
+>;
+export type DeleteCommentMutationResult =
+    Apollo.MutationResult<DeleteCommentMutation>;
+export type DeleteCommentMutationOptions = Apollo.BaseMutationOptions<
+    DeleteCommentMutation,
+    DeleteCommentMutationVariables
+>;
 export const ArticlesDocument = gql`
     query Articles($limit: Int!, $cursor: String) {
-  articles(limit: $limit, cursor: $cursor) {
-    totalCount
-    cursor
-    hasMore
-    paginatedArticles {
-      ...article
+        articles(limit: $limit, cursor: $cursor) {
+            totalCount
+            cursor
+            hasMore
+            paginatedArticles {
+                ...article
+            }
+        }
     }
-  }
-}
-    ${ArticleFragmentDoc}`;
+    ${ArticleFragmentDoc}
+`;
 
 /**
  * __useArticlesQuery__
@@ -778,24 +1245,43 @@ export const ArticlesDocument = gql`
  *   },
  * });
  */
-export function useArticlesQuery(baseOptions: Apollo.QueryHookOptions<ArticlesQuery, ArticlesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ArticlesQuery, ArticlesQueryVariables>(ArticlesDocument, options);
-      }
-export function useArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ArticlesQuery, ArticlesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ArticlesQuery, ArticlesQueryVariables>(ArticlesDocument, options);
-        }
+export function useArticlesQuery(
+    baseOptions: Apollo.QueryHookOptions<ArticlesQuery, ArticlesQueryVariables>,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useQuery<ArticlesQuery, ArticlesQueryVariables>(
+        ArticlesDocument,
+        options,
+    );
+}
+export function useArticlesLazyQuery(
+    baseOptions?: Apollo.LazyQueryHookOptions<
+        ArticlesQuery,
+        ArticlesQueryVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useLazyQuery<ArticlesQuery, ArticlesQueryVariables>(
+        ArticlesDocument,
+        options,
+    );
+}
 export type ArticlesQueryHookResult = ReturnType<typeof useArticlesQuery>;
-export type ArticlesLazyQueryHookResult = ReturnType<typeof useArticlesLazyQuery>;
-export type ArticlesQueryResult = Apollo.QueryResult<ArticlesQuery, ArticlesQueryVariables>;
+export type ArticlesLazyQueryHookResult = ReturnType<
+    typeof useArticlesLazyQuery
+>;
+export type ArticlesQueryResult = Apollo.QueryResult<
+    ArticlesQuery,
+    ArticlesQueryVariables
+>;
 export const ArticleDocument = gql`
     query Article($findArticleInput: FindArticleInput!) {
-  article(findArticleInput: $findArticleInput) {
-    ...article
-  }
-}
-    ${ArticleFragmentDoc}`;
+        article(findArticleInput: $findArticleInput) {
+            ...article
+        }
+    }
+    ${ArticleFragmentDoc}
+`;
 
 /**
  * __useArticleQuery__
@@ -813,24 +1299,41 @@ export const ArticleDocument = gql`
  *   },
  * });
  */
-export function useArticleQuery(baseOptions: Apollo.QueryHookOptions<ArticleQuery, ArticleQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ArticleQuery, ArticleQueryVariables>(ArticleDocument, options);
-      }
-export function useArticleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ArticleQuery, ArticleQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ArticleQuery, ArticleQueryVariables>(ArticleDocument, options);
-        }
+export function useArticleQuery(
+    baseOptions: Apollo.QueryHookOptions<ArticleQuery, ArticleQueryVariables>,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useQuery<ArticleQuery, ArticleQueryVariables>(
+        ArticleDocument,
+        options,
+    );
+}
+export function useArticleLazyQuery(
+    baseOptions?: Apollo.LazyQueryHookOptions<
+        ArticleQuery,
+        ArticleQueryVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useLazyQuery<ArticleQuery, ArticleQueryVariables>(
+        ArticleDocument,
+        options,
+    );
+}
 export type ArticleQueryHookResult = ReturnType<typeof useArticleQuery>;
 export type ArticleLazyQueryHookResult = ReturnType<typeof useArticleLazyQuery>;
-export type ArticleQueryResult = Apollo.QueryResult<ArticleQuery, ArticleQueryVariables>;
+export type ArticleQueryResult = Apollo.QueryResult<
+    ArticleQuery,
+    ArticleQueryVariables
+>;
 export const MeDocument = gql`
     query Me {
-  me {
-    ...user
-  }
-}
-    ${UserFragmentDoc}`;
+        me {
+            ...user
+        }
+    }
+    ${UserFragmentDoc}
+`;
 
 /**
  * __useMeQuery__
@@ -847,38 +1350,50 @@ export const MeDocument = gql`
  *   },
  * });
  */
-export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-      }
-export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-        }
+export function useMeQuery(
+    baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
+export function useMeLazyQuery(
+    baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const CommentListByArticleIdDocument = gql`
-    query CommentListByArticleId($limit: Int!, $articleId: String!, $cursor: String) {
-  commentListByArticleId(limit: $limit, articleId: $articleId, cursor: $cursor) {
-    paginatedComments {
-      text
-      user {
-        id
-        username
-        avatar
-      }
-      updatedDate
-      status
-      id
-      createdDate
+    query CommentListByArticleId(
+        $limit: Int!
+        $articleId: String!
+        $cursor: String
+    ) {
+        commentListByArticleId(
+            limit: $limit
+            articleId: $articleId
+            cursor: $cursor
+        ) {
+            paginatedComments {
+                text
+                user {
+                    id
+                    username
+                    avatar
+                }
+                updatedDate
+                status
+                id
+                createdDate
+            }
+            cursor
+            totalCount
+            hasMore
+        }
     }
-    cursor
-    totalCount
-    hasMore
-  }
-}
-    `;
+`;
 
 /**
  * __useCommentListByArticleIdQuery__
@@ -898,14 +1413,37 @@ export const CommentListByArticleIdDocument = gql`
  *   },
  * });
  */
-export function useCommentListByArticleIdQuery(baseOptions: Apollo.QueryHookOptions<CommentListByArticleIdQuery, CommentListByArticleIdQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CommentListByArticleIdQuery, CommentListByArticleIdQueryVariables>(CommentListByArticleIdDocument, options);
-      }
-export function useCommentListByArticleIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommentListByArticleIdQuery, CommentListByArticleIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CommentListByArticleIdQuery, CommentListByArticleIdQueryVariables>(CommentListByArticleIdDocument, options);
-        }
-export type CommentListByArticleIdQueryHookResult = ReturnType<typeof useCommentListByArticleIdQuery>;
-export type CommentListByArticleIdLazyQueryHookResult = ReturnType<typeof useCommentListByArticleIdLazyQuery>;
-export type CommentListByArticleIdQueryResult = Apollo.QueryResult<CommentListByArticleIdQuery, CommentListByArticleIdQueryVariables>;
+export function useCommentListByArticleIdQuery(
+    baseOptions: Apollo.QueryHookOptions<
+        CommentListByArticleIdQuery,
+        CommentListByArticleIdQueryVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useQuery<
+        CommentListByArticleIdQuery,
+        CommentListByArticleIdQueryVariables
+    >(CommentListByArticleIdDocument, options);
+}
+export function useCommentListByArticleIdLazyQuery(
+    baseOptions?: Apollo.LazyQueryHookOptions<
+        CommentListByArticleIdQuery,
+        CommentListByArticleIdQueryVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useLazyQuery<
+        CommentListByArticleIdQuery,
+        CommentListByArticleIdQueryVariables
+    >(CommentListByArticleIdDocument, options);
+}
+export type CommentListByArticleIdQueryHookResult = ReturnType<
+    typeof useCommentListByArticleIdQuery
+>;
+export type CommentListByArticleIdLazyQueryHookResult = ReturnType<
+    typeof useCommentListByArticleIdLazyQuery
+>;
+export type CommentListByArticleIdQueryResult = Apollo.QueryResult<
+    CommentListByArticleIdQuery,
+    CommentListByArticleIdQueryVariables
+>;
