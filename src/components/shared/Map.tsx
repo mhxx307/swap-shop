@@ -17,7 +17,7 @@ const Map = (props: MapProps) => {
     const [coords, setCoords] = useState<CoordsProps>();
 
     const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY!,
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string,
         libraries: ['places'],
     });
 
@@ -51,12 +51,12 @@ const Map = (props: MapProps) => {
         <GoogleMap
             center={coords}
             zoom={15}
-            mapcontainerClassName="w-full h-[400px]"
+            mapContainerClassName="w-full h-[400px]"
             onLoad={onLoad}
             onUnmount={unMount}
             {...props}
         >
-            <MarkerF position={coords!} />
+            {coords && <MarkerF position={coords} />}
         </GoogleMap>
     );
 };
