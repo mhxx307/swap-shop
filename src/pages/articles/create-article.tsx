@@ -8,7 +8,7 @@ import { limitArticlesPaginated } from '@/constants';
 import {
     useInsertArticleMutation,
     InsertArticleInput,
-} from '@/types/generated/graphql';
+} from '@/generated/graphql';
 
 const prices = [
     { id: 1, label: 'Free' },
@@ -86,8 +86,8 @@ const CreateArticle = () => {
 
     return (
         <Auth>
-            <section className="bg-white dark:bg-primaryDark pt-[200px]">
-                <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+            <section className="bg-white pt-[200px] dark:bg-primaryDark">
+                <div className="mx-auto max-w-2xl py-8 px-4 lg:py-16">
                     <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
                         Add a new product
                     </h2>
@@ -119,9 +119,7 @@ const CreateArticle = () => {
 
                             <div>
                                 <div className="flex justify-between">
-                                    <label htmlFor="" className="default-label">
-                                        Price
-                                    </label>
+                                    <span className="default-label">Price</span>
                                     <div className="flex space-x-2">
                                         {prices.map((item) => {
                                             return (
@@ -157,9 +155,9 @@ const CreateArticle = () => {
                                     }
                                     suffix="vnđ"
                                     disabled={checked === 1}
-                                    className={`default-input outline-none w-full ${
+                                    className={`default-input w-full outline-none ${
                                         checked === 1 &&
-                                        'opacity-70 cursor-not-allowed'
+                                        'cursor-not-allowed opacity-70'
                                     }`}
                                 />
                             </div>
@@ -193,7 +191,7 @@ const CreateArticle = () => {
                                 containerInputClassName="default-input"
                             />
 
-                            <div className="sm:col-span-2 space-y-2">
+                            <div className="space-y-2 sm:col-span-2">
                                 <p>Thumbnail:</p>
                                 <ImageUpload
                                     multiple={false}
@@ -201,12 +199,12 @@ const CreateArticle = () => {
                                 />
                             </div>
 
-                            <div className="sm:col-span-2 space-y-2">
+                            <div className="space-y-2 sm:col-span-2">
                                 <p>Images:</p>
                                 <ImageUpload initialFiles={[]} />
                             </div>
 
-                            <div className="sm:col-span-2 space-y-2">
+                            <div className="space-y-2 sm:col-span-2">
                                 <label htmlFor="description">Description</label>
                                 <InputField
                                     type="text"

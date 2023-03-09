@@ -1,22 +1,27 @@
-
-import { PopupMenuItemProps } from '@/types';
+import { NavItemProps, PopupMenuItemProps } from '@/types';
 import { path, icons } from '.';
 
-const HEADER_NAV_LIST: PopupMenuItemProps[] = [
+// header navigation
+const HEADER_NAV_LIST: NavItemProps[] = [
     { path: path.home, label: 'Home' },
     { path: path.articles, label: 'Second hand transaction' },
     { path: path.about, label: 'About' },
 ];
 
-const HEADER_MOBILE_NAV_LIST: PopupMenuItemProps[] = [...HEADER_NAV_LIST];
+const HEADER_MOBILE_NAV_LIST: NavItemProps[] = [...HEADER_NAV_LIST];
 
+// menu
 const POPUP_MENU_LIST: PopupMenuItemProps[] = [
     {
         icon: icons.AiOutlineQuestionCircle,
         label: 'Feedback and Help',
         path: path.contact,
     },
-    { icon: icons.CgShortcut, label: 'Keyboard shortcuts', path: path.shortcuts },
+    {
+        icon: icons.CgShortcut,
+        label: 'Keyboard shortcuts',
+        path: path.shortcuts,
+    },
 ];
 
 const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
@@ -27,7 +32,6 @@ const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     },
     ...POPUP_MENU_LIST,
     { icon: icons.BsGear, label: 'Settings', path: path.settingsProfile },
-    { icon: icons.VscSignOut, label: 'Log out', separate: true },
 ];
 
 const enTranslations = {

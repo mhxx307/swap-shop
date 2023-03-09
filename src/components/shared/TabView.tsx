@@ -1,11 +1,16 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
+
+interface TabProps {
+    label: string;
+    content: ReactNode;
+}
 
 export interface TabViewProps {
     title?: string;
-    tabs: any;
+    tabs: TabProps[];
 }
 
-const TabView = ({ title, tabs = {} }: TabViewProps) => {
+const TabView = ({ title, tabs = [] }: TabViewProps) => {
     const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
 
     return (
@@ -17,18 +22,18 @@ const TabView = ({ title, tabs = {} }: TabViewProps) => {
                 ) : (
                     <>
                         <div className="space-x-6">
-                            {tabs.map((tab: any, index: number) => (
-                                <label
+                            {tabs.map((tab, index) => (
+                                <button
                                     key={index}
-                                    className={`cursor-pointer inline-block p-4 rounded-t-lg transition-colors ${
+                                    className={`inline-block cursor-pointer rounded-t-lg p-4 transition-colors ${
                                         index === activeTabIndex
-                                            ? 'text-blue-500 bg-gray-300 dark:bg-gray-800'
-                                            : 'hover:text-gray-600 hover:bg-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-300'
+                                            ? 'bg-gray-300 text-blue-500 dark:bg-gray-800'
+                                            : 'hover:bg-gray-300 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-300'
                                     }`}
                                     onClick={() => setActiveTabIndex(index)}
                                 >
                                     {tab.label}
-                                </label>
+                                </button>
                             ))}
                         </div>
                         <div className="mt-[20px]">

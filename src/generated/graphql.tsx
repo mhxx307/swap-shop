@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -176,7 +177,7 @@ export type MutationUpdateArticleArgs = {
 };
 
 export type MutationUpdateCommentArgs = {
-  updateCommentInput: UpdateCommentInput;
+    updateCommentInput: UpdateCommentInput;
 };
 
 export type PaginatedArticles = {
@@ -236,8 +237,8 @@ export type UpdateArticleInput = {
 };
 
 export type UpdateCommentInput = {
-  id: Scalars['String'];
-  text: Scalars['String'];
+    id: Scalars['String'];
+    text: Scalars['String'];
 };
 
 export type User = {
@@ -555,11 +556,30 @@ export type DeleteCommentMutation = {
 };
 
 export type UpdateCommentMutationVariables = Exact<{
-  updateCommentInput: UpdateCommentInput;
+    updateCommentInput: UpdateCommentInput;
 }>;
 
-
-export type UpdateCommentMutation = { __typename?: 'Mutation', updateComment: { __typename?: 'CommentMutationResponse', message?: string | null, success: boolean, comment?: { __typename?: 'Comment', text: string, updatedDate: any, status?: string | null, id: string, createdDate: any, user: { __typename?: 'User', username: string, avatar?: string | null } } | null } };
+export type UpdateCommentMutation = {
+    __typename?: 'Mutation';
+    updateComment: {
+        __typename?: 'CommentMutationResponse';
+        message?: string | null;
+        success: boolean;
+        comment?: {
+            __typename?: 'Comment';
+            text: string;
+            updatedDate: any;
+            status?: string | null;
+            id: string;
+            createdDate: any;
+            user: {
+                __typename?: 'User';
+                username: string;
+                avatar?: string | null;
+            };
+        } | null;
+    };
+};
 
 export type ArticlesQueryVariables = Exact<{
     limit: Scalars['Int'];
@@ -1200,33 +1220,50 @@ export type DeleteCommentMutationFn = Apollo.MutationFunction<
  * });
  */
 
-export function useDeleteCommentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteCommentMutation, DeleteCommentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteCommentMutation, DeleteCommentMutationVariables>(DeleteCommentDocument, options);
-      }
-export type DeleteCommentMutationHookResult = ReturnType<typeof useDeleteCommentMutation>;
-export type DeleteCommentMutationResult = Apollo.MutationResult<DeleteCommentMutation>;
-export type DeleteCommentMutationOptions = Apollo.BaseMutationOptions<DeleteCommentMutation, DeleteCommentMutationVariables>;
+export function useDeleteCommentMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        DeleteCommentMutation,
+        DeleteCommentMutationVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useMutation<
+        DeleteCommentMutation,
+        DeleteCommentMutationVariables
+    >(DeleteCommentDocument, options);
+}
+export type DeleteCommentMutationHookResult = ReturnType<
+    typeof useDeleteCommentMutation
+>;
+export type DeleteCommentMutationResult =
+    Apollo.MutationResult<DeleteCommentMutation>;
+export type DeleteCommentMutationOptions = Apollo.BaseMutationOptions<
+    DeleteCommentMutation,
+    DeleteCommentMutationVariables
+>;
 export const UpdateCommentDocument = gql`
     mutation UpdateComment($updateCommentInput: UpdateCommentInput!) {
-  updateComment(updateCommentInput: $updateCommentInput) {
-    message
-    success
-    comment {
-      text
-      user {
-        username
-        avatar
-      }
-      updatedDate
-      status
-      id
-      createdDate
+        updateComment(updateCommentInput: $updateCommentInput) {
+            message
+            success
+            comment {
+                text
+                user {
+                    username
+                    avatar
+                }
+                updatedDate
+                status
+                id
+                createdDate
+            }
+        }
     }
-  }
-}
-    `;
-export type UpdateCommentMutationFn = Apollo.MutationFunction<UpdateCommentMutation, UpdateCommentMutationVariables>;
+`;
+export type UpdateCommentMutationFn = Apollo.MutationFunction<
+    UpdateCommentMutation,
+    UpdateCommentMutationVariables
+>;
 
 /**
  * __useUpdateCommentMutation__
@@ -1245,13 +1282,27 @@ export type UpdateCommentMutationFn = Apollo.MutationFunction<UpdateCommentMutat
  *   },
  * });
  */
-export function useUpdateCommentMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCommentMutation, UpdateCommentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateCommentMutation, UpdateCommentMutationVariables>(UpdateCommentDocument, options);
-      }
-export type UpdateCommentMutationHookResult = ReturnType<typeof useUpdateCommentMutation>;
-export type UpdateCommentMutationResult = Apollo.MutationResult<UpdateCommentMutation>;
-export type UpdateCommentMutationOptions = Apollo.BaseMutationOptions<UpdateCommentMutation, UpdateCommentMutationVariables>;
+export function useUpdateCommentMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        UpdateCommentMutation,
+        UpdateCommentMutationVariables
+    >,
+) {
+    const options = { ...defaultOptions, ...baseOptions };
+    return Apollo.useMutation<
+        UpdateCommentMutation,
+        UpdateCommentMutationVariables
+    >(UpdateCommentDocument, options);
+}
+export type UpdateCommentMutationHookResult = ReturnType<
+    typeof useUpdateCommentMutation
+>;
+export type UpdateCommentMutationResult =
+    Apollo.MutationResult<UpdateCommentMutation>;
+export type UpdateCommentMutationOptions = Apollo.BaseMutationOptions<
+    UpdateCommentMutation,
+    UpdateCommentMutationVariables
+>;
 
 export const ArticlesDocument = gql`
     query Articles($limit: Int!, $cursor: String) {

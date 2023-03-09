@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 const getSchema = () => {
-	const schema = yup
+    const schema = yup
         .object({
             email: yup
                 .string()
@@ -46,14 +46,14 @@ const getSchema = () => {
                     'Incorrect format',
                 ),
             address: yup.string().required('Please enter your address'),
-			usernameOrEmail: yup
+            usernameOrEmail: yup
                 .string()
                 .min(2, 'Must be at least 2 characters long')
                 .required('Please enter your username or email'),
         })
         .required();
 
-		return schema;
-}
+    return schema;
+};
 
 export default getSchema;

@@ -1,10 +1,12 @@
-/** @type {import('tailwindcss').Config} */
+const plugin = require('tailwindcss/plugin');
 const colors = require('tailwindcss/colors');
+
+/** @type {import('tailwindcss').Config} */
+
 module.exports = {
     content: [
         './src/pages/**/*.{js,ts,jsx,tsx}',
         './src/components/**/*.{js,ts,jsx,tsx}',
-        './node_modules/react-tailwindcss-datepicker/dist/index.esm.js',
     ],
     darkMode: 'class',
     theme: {
@@ -30,5 +32,26 @@ module.exports = {
             timeNewRoman: ['Times New Roman', 'serif'],
         },
     },
-    plugins: [require('@tailwindcss/line-clamp')],
+    plugins: [
+        plugin(function ({ addComponents, theme }) {
+            addComponents({
+                '.container': {
+                    maxWidth: theme('columns.7xl'),
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    paddingLeft: theme('spacing.4'),
+                    paddingRight: theme('spacing.4'),
+                },
+                '.flex-center': {
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                },
+                '.header-height': {
+                    marginTop: '200px',
+                },
+            });
+        }),
+        require('@tailwindcss/line-clamp'),
+    ],
 };

@@ -1,20 +1,18 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import Spinner from './Spinner';
-import { useMeQuery } from '@/types/generated/graphql';
-import { toast } from 'react-toastify';
+import { useCheckAuth } from '@/hooks';
 
 interface AuthProps {
-    children: any;
+    children: ReactNode;
 }
 
 const Auth = ({ children }: AuthProps) => {
-    const { data, loading } = useMeQuery();
+    const { data, loading } = useCheckAuth();
     const router = useRouter();
 
     useEffect(() => {
         if (!loading && !data?.me) {
-            toast.error('You need login first!', { toastId: 'success' });
             router.push('/login');
         }
     }, [loading, router, data]);

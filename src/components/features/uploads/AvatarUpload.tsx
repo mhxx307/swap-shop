@@ -1,9 +1,9 @@
 import { AiFillCamera } from 'react-icons/ai';
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Image } from '@/components/shared';
 
 export interface AvatarUploadProps {
-    picture?: string;
+    picture?: string | null;
 }
 
 const AvatarUpload = ({ picture }: AvatarUploadProps) => {
@@ -25,7 +25,7 @@ const AvatarUpload = ({ picture }: AvatarUploadProps) => {
         return () => URL.revokeObjectURL(objectUrl);
     }, [selectedFile]);
 
-    const onSelectFile = (e: any) => {
+    const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files || e.target.files.length === 0) {
             setSelectedFile(undefined);
             return;
@@ -46,11 +46,11 @@ const AvatarUpload = ({ picture }: AvatarUploadProps) => {
                             : '/images/avatar-fallback.png'
                     }
                     alt="Avatar"
-                    className="rounded-full w-[128px] h-[128px] object-cover border-[4px] border-white shadow-2xl"
+                    className="h-[128px] w-[128px] rounded-full border-[4px] border-white object-cover shadow-2xl"
                 />
                 <label
                     htmlFor="avatar"
-                    className="absolute flex-center w-12 h-12 bg-[#ecedf1] border-2 border-white dark:border-gray-800 rounded-full cursor-pointer hover:opacity-80 transition-opacity ml-[70px] -mt-[35px]"
+                    className="flex-center absolute ml-[70px] -mt-[35px] h-12 w-12 cursor-pointer rounded-full border-2 border-white bg-[#ecedf1] transition-opacity hover:opacity-80 dark:border-gray-800"
                 >
                     <AiFillCamera className="text-black" />
                 </label>

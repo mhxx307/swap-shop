@@ -6,11 +6,11 @@ const TosPage = () => {
     return (
         <>
             <Head
-                title={t('head_title')!}
-                description={t('head_description')!}
+                title={t('head_title') && 'Term of service'}
+                description={t('head_description') && 'Term of service'}
             />
 
-            <div className="wrapper py-[100px] space-y-9">
+            <div className="wrapper header-height space-y-9">
                 <h1 className="text-3xl font-bold">{t('title')}</h1>
 
                 <h4 className="text-xl font-semibold">1. {t('heading1')}</h4>

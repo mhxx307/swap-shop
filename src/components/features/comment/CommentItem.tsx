@@ -1,16 +1,18 @@
 import TimeAgo from 'timeago-react';
+import ReactTextareaAutosize from 'react-textarea-autosize';
+import { Dispatch, SetStateAction } from 'react';
 
 import { Avatar, Button } from '@/components/shared';
-import ReactTextareaAutosize from 'react-textarea-autosize';
+import { UpdateCommentInput } from '@/generated/graphql';
 
 interface CommentItemProps {
     comment: any;
-    updateMode: any;
-    setUpdateMode: any;
-    handleUpdateComment: any;
-    updateLoading: any;
-    deleteLoading: any;
-    handleDeleteComment: any;
+    updateMode: UpdateCommentInput | null;
+    setUpdateMode: Dispatch<SetStateAction<UpdateCommentInput | null>>;
+    handleUpdateComment: (e: any) => void;
+    updateLoading: boolean;
+    deleteLoading: boolean;
+    handleDeleteComment: (e: any) => void;
     me: any;
 }
 // nho dung debounce cho update comment
@@ -26,12 +28,10 @@ function CommentItem({
 }: CommentItemProps) {
     return (
         <div className="flex space-x-4">
-            <Avatar
-                src={comment.user.avatar || '/images/avatar-fallback.png'}
-            />
-            <div className="grid grid-cols-10 mb-4 flex-grow">
+            <Avatar src={comment.user.avatar as string} />
+            <div className="mb-4 grid flex-grow grid-cols-10">
                 {updateMode && updateMode.id === comment.id ? (
-                    <div className="flex flex-col space-x-2 col-span-10 ">
+                    <div className="col-span-10 flex flex-col space-x-2 ">
                         <ReactTextareaAutosize
                             onChange={(e) =>
                                 setUpdateMode((prev: any) => ({
@@ -43,7 +43,7 @@ function CommentItem({
                             maxRows={6}
                             defaultValue={comment.text}
                         />
-                        <div className="flex items-center justify-end mt-2 space-x-2">
+                        <div className="mt-2 flex items-center justify-end space-x-2">
                             <Button onClick={() => setUpdateMode(null)}>
                                 Cancel
                             </Button>
@@ -69,7 +69,7 @@ function CommentItem({
                             <p>{comment.text}</p>
                         </div>
                         {me?.id === comment.user.id && (
-                            <div className="col-span-8 flex-center justify-self-end space-x-2 ">
+                            <div className="flex-center col-span-8 space-x-2 justify-self-end ">
                                 <Button
                                     isLoading={deleteLoading}
                                     primary

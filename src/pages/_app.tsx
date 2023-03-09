@@ -1,17 +1,18 @@
-import '@/styles/globals.css';
 import { AppPropsWithLayout } from '@/types/layoutTypes';
+import nextI18nextConfig from 'next-i18next.config';
 import { AnimatePresence, motion } from 'framer-motion';
 import { appWithTranslation } from 'next-i18next';
-import nextI18nextConfig from 'next-i18next.config';
 import { useRouter } from 'next/router';
 import NextNProgress from 'nextjs-progressbar';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { ApolloProvider } from '@apollo/client';
-import { useApollo } from '@/libs/apolloClient';
 
+import { useApollo } from '@/libs/apolloClient';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import BaseLayout from '@/components/layouts/BaseLayout';
+
+import '@/styles/globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const Layout =
@@ -67,5 +68,4 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     );
 };
 
-// @ts-ignore
 export default appWithTranslation(App, nextI18nextConfig);

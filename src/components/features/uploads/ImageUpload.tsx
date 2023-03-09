@@ -29,7 +29,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, ...props }) => {
                 if (!props.fileList?.length) return <FileUploader {...props} />;
 
                 return (
-                    <div className="grid grid-cols-4 gap-4 bg-background-900 p-3">
+                    <div className="bg-background-900 grid grid-cols-4 gap-4 p-3">
                         {props.fileList.map((file, index) => {
                             const key = randomString(8);
 
@@ -73,7 +73,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, ...props }) => {
                         <BaseButton
                             LeftIcon={AiFillFileAdd}
                             onClick={props.onFileUpload}
-                            className="relative aspect-w-9 aspect-h-14 col-span-1 border border-dashed border-gray-300 hover:border-white bg-transparent"
+                            className="aspect-w-9 aspect-h-14 relative col-span-1 border border-dashed border-gray-300 bg-transparent hover:border-white"
                             iconClassName="w-16 h-16 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
                         />
                     </div>

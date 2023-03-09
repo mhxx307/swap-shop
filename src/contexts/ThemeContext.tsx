@@ -7,7 +7,7 @@ interface ContextProps {
 
 export const ThemeContext = createContext<ContextProps>({
     isOn: false,
-    setIsOn: () => {},
+    setIsOn: () => null,
 });
 
 export interface ThemeProviderProps {

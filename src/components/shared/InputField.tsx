@@ -3,6 +3,7 @@ import Input, { InputProps } from './Input';
 
 interface InputFieldProps extends InputProps {
     name: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     control: Control<any>;
 }
 
@@ -11,9 +12,9 @@ const InputField = ({
     control,
     // not using these props, but we don't want to pass them down to the Input component
     // onChange: externalOnChange,
-    onBlur: externalOnBlur,
-    value: externalValue,
-    ref: externalRef,
+    onBlur: _externalOnBlur,
+    value: _externalValue,
+    ref: _externalRef,
     // ********
     ...props
 }: InputFieldProps) => {

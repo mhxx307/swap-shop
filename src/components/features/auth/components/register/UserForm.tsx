@@ -1,4 +1,5 @@
-import {  FormWrapper, InputField } from '@/components/shared';
+import { InputField } from '@/components/shared';
+import FormWrapper from '../FormWrapper';
 import { FormProps } from './AccountForm';
 
 const UserForm = ({ control }: FormProps) => {
@@ -8,7 +9,6 @@ const UserForm = ({ control }: FormProps) => {
                 label="Full name:"
                 control={control}
                 name="fullName"
-                autoFocus
                 type="text"
             />
 
@@ -19,13 +19,12 @@ const UserForm = ({ control }: FormProps) => {
                 type="text"
             />
 
-			<InputField
+            <InputField
                 label="Date of birth:"
                 control={control}
                 name="birthday"
                 type="date"
             />
-
         </FormWrapper>
     );
 };

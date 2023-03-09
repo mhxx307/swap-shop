@@ -16,11 +16,11 @@ import {
     useCommentListByArticleIdQuery,
     useDeleteCommentMutation,
     useInsertCommentMutation,
-    useMeQuery,
     useUpdateCommentMutation,
-} from '@/types/generated/graphql';
+} from '@/generated/graphql';
 import { useState } from 'react';
 import CommentItem from './CommentItem';
+import { useCheckAuth } from '@/hooks';
 
 function Comment() {
     const [updateMode, setUpdateMode] = useState<UpdateCommentInput | null>(
@@ -29,7 +29,7 @@ function Comment() {
     const { query } = useRouter();
     const articleId = query.articleId as string;
 
-    const { data } = useMeQuery();
+    const { data } = useCheckAuth();
     const me = data?.me;
 
     const {
@@ -50,9 +50,9 @@ function Comment() {
         useDeleteCommentMutation();
     const [updateCommentMutation, { loading: updateLoading }] =
         useUpdateCommentMutation();
-
     const { register, handleSubmit, setValue } =
         useForm<Omit<InsertCommentInput, 'articleId'>>();
+
     const loadingMoreComment = networkStatus === NetworkStatus.fetchMore;
 
     const handleMoreComment = () => {
@@ -107,7 +107,7 @@ function Comment() {
                                     data.insertComment.comment,
                                 );
 
-                                let newTotalCount =
+                                const newTotalCount =
                                     existingComments.totalCount + 1;
 
                                 const newPaginatedComments = [
@@ -197,7 +197,7 @@ function Comment() {
 
     return (
         <div className="bg-white dark:bg-secondaryDark">
-            <div className="-mt-1 rounded-b-sm p-5 space-y-4">
+            <div className="-mt-1 space-y-4 rounded-b-sm p-5">
                 <p className="text-sm">
                     {data ? (
                         <>
@@ -242,15 +242,15 @@ function Comment() {
                 {commentList?.commentListByArticleId?.paginatedComments.map(
                     (comment) => (
                         <CommentItem
+                            key={comment.id}
                             comment={comment}
                             deleteLoading={deleteLoading}
                             handleDeleteComment={handleDeleteComment}
                             handleUpdateComment={handleUpdateComment}
-                            me={me}
                             setUpdateMode={setUpdateMode}
                             updateLoading={updateLoading}
                             updateMode={updateMode}
-                            key={comment.id}
+                            me={me}
                         />
                     ),
                 )}

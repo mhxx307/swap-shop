@@ -6,7 +6,7 @@ import {
 } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
 
-interface MapProps extends GoogleMapProps {}
+type MapProps = GoogleMapProps;
 
 export interface CoordsProps {
     lat: number;
@@ -51,7 +51,7 @@ const Map = (props: MapProps) => {
         <GoogleMap
             center={coords}
             zoom={15}
-            mapContainerClassName="w-full h-[400px]"
+            mapcontainerClassName="w-full h-[400px]"
             onLoad={onLoad}
             onUnmount={unMount}
             {...props}

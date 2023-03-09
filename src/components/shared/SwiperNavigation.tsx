@@ -30,7 +30,7 @@ const SwiperNavigation = ({
                 spaceBetween={10}
                 modules={[Navigation]}
                 className={classNames(
-                    'overflow-hidden rounded-2xl select-none',
+                    'select-none overflow-hidden rounded-2xl',
                     className,
                 )}
             >
@@ -39,7 +39,7 @@ const SwiperNavigation = ({
                         <Image
                             src={image}
                             alt="thumb"
-                            containerclassname={classNames(
+                            containerClassName={classNames(
                                 'w-full h-full shadow-3xl',
                                 imageClassName,
                             )}

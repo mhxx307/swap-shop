@@ -13,14 +13,13 @@ html {
 }
 
 body {
-    /* font-family: 'Lora', serif; */
     font-family: 'Public Sans', sans-serif;
     font-size: 16px;
     @apply w-full tracking-wide;
 }
 
 main {
-    @apply overflow-x-hidden flex flex-col min-h-screen bg-[#f5f6f8] dark:bg-primaryDark dark:text-[#d6d3d1];
+    @apply flex min-h-screen flex-col overflow-x-hidden bg-[#f5f6f8] dark:bg-primaryDark dark:text-[#d6d3d1];
 }
 
 .app {
@@ -31,16 +30,12 @@ main {
     @apply px-2 sm:px-4 md:px-8 lg:px-12 xl:px-16;
 }
 
-.flex-center {
-    @apply flex justify-center items-center;
-}
-
 .section {
-    @apply wrapper flex md:flex-row flex-col  py-16;
+    @apply wrapper flex flex-col py-16  md:flex-row;
 }
 
 .section-reverse {
-    @apply wrapper flex md:flex-row flex-col-reverse  py-16;
+    @apply wrapper flex flex-col-reverse py-16  md:flex-row;
 }
 
 @tailwind utilities;
@@ -48,11 +43,11 @@ main {
 @layer utilities {
     /* nav animation underline */
     .nav-item {
-        @apply capitalize font-bold hover:text-white transition-colors duration-300 relative tracking-[1px];
+        @apply relative font-bold capitalize tracking-[1px] transition-colors duration-300 hover:text-white;
     }
 
     .nav-item::after {
-        @apply content-[''] h-[3px] w-[0] bg-primary-500 absolute left-0 -bottom-[5px] rounded-xl duration-300;
+        @apply absolute left-0 -bottom-[5px] h-[3px] w-[0] rounded-xl bg-primary-500 duration-300 content-[''];
     }
 
     .nav-item:hover::after {
@@ -60,15 +55,15 @@ main {
     }
 
     .default-input {
-        @apply flex items-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus-within:ring-primary-500 dark:focus-within:border-primary-500 focus-within:ring-primary-500 focus-within:border-primary-500;
+        @apply flex items-center rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm  text-gray-900 focus-within:border-primary-500 focus-within:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus-within:border-primary-500 dark:focus-within:ring-primary-500;
     }
 
     .error-input {
-        @apply flex items-center bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 p-2.5 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500;
+        @apply flex items-center rounded-lg border border-red-500 bg-red-50 p-2.5 text-sm text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500 dark:border-red-500 dark:bg-gray-700 dark:text-red-500 dark:placeholder-red-500;
     }
 
     .default-label {
-        @apply block mb-2 text-sm font-medium;
+        @apply mb-2 block text-sm font-medium;
     }
 
     .error-label {
@@ -99,11 +94,11 @@ main {
 
     /* btn */
     .btn-contact {
-        @apply py-[10px] px-[20px] text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm text-center;
+        @apply rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 py-[10px] px-[20px] text-center text-sm font-medium text-white hover:bg-gradient-to-l focus:outline-none focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-800;
     }
 
     .btn-wishlist {
-        @apply py-[10px] px-[20px] text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700;
+        @apply rounded-lg border border-gray-200 bg-white py-[10px] px-[20px] text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700;
     }
 
     /* scrollbar */
@@ -122,7 +117,7 @@ main {
     /* swiper */
     .swiper-button-next,
     .swiper-button-prev {
-        @apply bg-gray-700 text-white hover:bg-gray-500 font-medium rounded-full text-2xl p-[24px] transition-colors;
+        @apply rounded-full bg-gray-700 p-[24px] text-2xl font-medium text-white transition-colors hover:bg-gray-500;
         height: 0 !important;
         width: 0 !important;
     }

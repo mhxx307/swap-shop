@@ -1,30 +1,31 @@
+import { PopupMenuItemProps } from '@/types';
 import classNames from 'classnames';
 import Hamburger from 'hamburger-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
 export interface HamburgerNavbarProps {
-    data: any;
+    data: PopupMenuItemProps[];
     className: string;
 }
 
 const HamburgerNavbar = ({ data, className }: HamburgerNavbarProps) => {
-    let [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
 
     return (
         <div className={classNames('', className)}>
             <Hamburger toggled={open} toggle={setOpen} />
 
             <ul
-                className={`pb-12 absolute bg-white z-[-1] left-0 w-full pl-9 transition-all duration-300 ease-in ${
+                className={`absolute left-0 z-[-1] w-full bg-white pb-12 pl-9 transition-all duration-300 ease-in ${
                     open ? 'top-[100%]' : 'top-[-490px]'
                 }`}
             >
-                {data.map((item: any, index: number) => (
-                    <li key={index} className="md:ml-8 text-xl md:my-0 my-7">
+                {data.map((item, index) => (
+                    <li key={index} className="my-7 text-xl md:my-0 md:ml-8">
                         <Link
-                            href={item.path}
-                            className="text-gray-800 hover:text-gray-400 duration-500"
+                            href={item.path as string}
+                            className="text-gray-800 duration-500 hover:text-gray-400"
                         >
                             {item.label}
                         </Link>

@@ -1,18 +1,18 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import { BaseLayout } from '@/components/layouts';
 import { Button, InputField } from '@/components/shared';
 import { useCheckAuth, useValidateSchema } from '@/hooks';
-import {  useChangePasswordMutation } from '@/types/generated/graphql';
+import { useChangePasswordMutation } from '@/generated/graphql';
 
 interface FormState {
-	password: string;
-	confirmPassword: string;
+    password: string;
+    confirmPassword: string;
 }
 
 const ChangePassword = () => {
@@ -67,20 +67,17 @@ const ChangePassword = () => {
 
     return (
         <section className="bg-gray-50 dark:bg-primaryDark">
-            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <a
-                    href="#"
-                    className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-                >
+            <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
+                <span className="mb-6 flex items-center text-2xl font-semibold text-gray-900 dark:text-white">
                     Change password
-                </a>
-                <div className="w-full p-6 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md dark:bg-gray-800 dark:border-gray-700 sm:p-8">
-                    <h2 className="mb-1 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                </span>
+                <div className="w-full rounded-lg bg-white p-6 shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md sm:p-8 md:mt-0">
+                    <h2 className="mb-1 text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
                         Change Password
                     </h2>
                     <form
                         method="POST"
-                        className="mt-4 space-y-4 lg:mt-5 md:space-y-5"
+                        className="mt-4 space-y-4 md:space-y-5 lg:mt-5"
                         onSubmit={handleSubmit(handleChangePassword)}
                     >
                         <InputField
@@ -112,12 +109,12 @@ const ChangePassword = () => {
                         />
 
                         <div className="flex items-start">
-                            <div className="flex items-center h-5">
+                            <div className="flex h-5 items-center">
                                 <input
                                     id="newsletter"
                                     aria-describedby="newsletter"
                                     type="checkbox"
-                                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                                    className="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:ring-primary-300 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
                                     required
                                 />
                             </div>
@@ -127,12 +124,9 @@ const ChangePassword = () => {
                                     className="font-light text-gray-500 dark:text-gray-300"
                                 >
                                     I accept the{' '}
-                                    <a
-                                        className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                                        href="#"
-                                    >
+                                    <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                                         Terms and Conditions
-                                    </a>
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -140,7 +134,7 @@ const ChangePassword = () => {
                             primary
                             isLoading={loading}
                             type="submit"
-                            className="w-full flex-center"
+                            className="flex-center w-full"
                         >
                             Submit
                         </Button>
@@ -154,7 +148,7 @@ const ChangePassword = () => {
 export default ChangePassword;
 
 // eslint-disable-next-line react/display-name
-ChangePassword.Layout = (page: any) => (
+ChangePassword.Layout = (page: ReactNode) => (
     <BaseLayout showFooter={false} showHeader={false}>
         {page}
     </BaseLayout>

@@ -17,13 +17,14 @@ import {
     MeDocument,
     MeQuery,
     useRegisterMutation,
-	RegisterInput
-} from '@/types/generated/graphql';
+    RegisterInput,
+} from '@/generated/graphql';
 import { useRouter } from 'next/router';
+import { omit } from 'lodash';
 
 interface FormState extends RegisterInput {
-	password: string;
-	confirmPassword: string;
+    password: string;
+    confirmPassword: string;
 }
 
 export const initialData: FormState = {
@@ -74,8 +75,7 @@ const RegisterForm = () => {
     if (error) return <p>Submission error</p>;
 
     const handleRegister = async (payload: FormState) => {
-        const { confirmPassword, ...rest } = payload;
-        const registerInput = { ...rest };
+        const registerInput = omit(payload, ['confirmPassword']);
 
         const response = await register({
             variables: {
@@ -128,8 +128,8 @@ const RegisterForm = () => {
 
     return (
         <>
-            <div className="min-h-screen w-[100%] md:w-[1084px] flex flex-col space-y-28 py-[80px] md:py-[20px] px-[20px] md:px-0">
-                <h3 className="text-5xl font-bold text-center">Registration</h3>
+            <div className="flex min-h-screen w-[100%] flex-col space-y-28 py-[80px] px-[20px] md:w-[1084px] md:py-[20px] md:px-0">
+                <h3 className="text-center text-5xl font-bold">Registration</h3>
 
                 <ProgressBar
                     progressList={PROGRESS_LIST}
@@ -137,13 +137,13 @@ const RegisterForm = () => {
                     goTo={goTo}
                 />
 
-                <div className="bg-white dark:bg-secondaryDark shadow-md p-[20px] mt-[30px] rounded-md w-full">
+                <div className="mt-[30px] w-full rounded-md bg-white p-[20px] shadow-md dark:bg-secondaryDark">
                     <form
                         onSubmit={handleSubmit(handleRegister)}
-                        className="min-h-[400px] flex flex-col justify-between"
+                        className="flex min-h-[400px] flex-col justify-between"
                     >
                         <div>{currentStep}</div>
-                        <div className="flex gap-2 justify-end mt-[40px]">
+                        <div className="mt-[40px] flex justify-end gap-2">
                             {!isFirstStep && (
                                 <Button
                                     type="button"

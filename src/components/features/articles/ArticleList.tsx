@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import ArticleCard from './ArticleCard';
 import { motion } from 'framer-motion';
 import { memo } from 'react';
-import { Article } from '@/types/generated/graphql';
+import { Article } from '@/generated/graphql';
 
 export interface ArticleListProps {
     title?: string;
@@ -27,9 +27,9 @@ const ArticleList = ({
                 </h3>
             )}
 
-            <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-5">
+            <div className="grid grid-cols-2 gap-5 md:grid-cols-4 xl:grid-cols-6">
                 {articles &&
-                    articles.map((article: any, index: number) => (
+                    articles.map((article, index) => (
                         <motion.div
                             key={article.id}
                             initial={{

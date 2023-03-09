@@ -1,13 +1,13 @@
-import { PopupMenuItemProps } from '@/types';
+import { NavItemProps, PopupMenuItemProps } from '@/types';
 import { path, icons } from '.';
 
-const HEADER_NAV_LIST: PopupMenuItemProps[] = [
+const HEADER_NAV_LIST: NavItemProps[] = [
     { path: path.home, label: 'Trang chủ' },
     { path: path.articles, label: 'Giao dịch đồ cũ' },
     { path: path.about, label: 'Giới thiệu' },
 ];
 
-const HEADER_MOBILE_NAV_LIST: PopupMenuItemProps[] = [...HEADER_NAV_LIST];
+const HEADER_MOBILE_NAV_LIST: NavItemProps[] = [...HEADER_NAV_LIST];
 
 const POPUP_MENU_LIST: PopupMenuItemProps[] = [
     {
@@ -26,7 +26,6 @@ const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     },
     ...POPUP_MENU_LIST,
     { icon: icons.BsGear, label: 'Cài đặt', path: path.settingsProfile },
-    { icon: icons.VscSignOut, label: 'Đăng xuất', separate: true },
 ];
 
 const viTranslations = {

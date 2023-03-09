@@ -6,6 +6,28 @@ const isDev = process.env.NODE_ENV === 'development';
 
 // all side optimize
 // https://locize.com/blog/next-i18next/
+/**
+ * @typedef {Object} BackendOptions
+ * @property {number} expirationTime
+ */
+
+/**
+ * @typedef {Object} NextI18NextConfig
+ * @property {Object} backend
+ * @property {BackendOptions[]} backend.backendOptions
+ * @property {any[]} backend.backends
+ * @property {Object} i18n
+ * @property {string[]} i18n.locales
+ * @property {string} i18n.defaultLocale
+ * @property {boolean} i18n.reloadOnPrerender
+ * @property {string} i18n.load
+ * @property {boolean} i18n.debug
+ * @property {string} i18n.keySeparator
+ * @property {boolean} serializeConfig
+ * @property {Function[]} use
+ */
+
+/** @type {NextI18NextConfig} */
 module.exports = {
     backend: {
         backendOptions: [

@@ -39,8 +39,8 @@ export const FileBox: React.FC<FileBoxProps> = ({
     onFileUpdate,
     index,
 }) => (
-    <div className="p-2 w-40 h-40 flex items-end relative bg-background-900 rounded-md">
-        <AiOutlineFile className="absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-16 h-16" />
+    <div className="bg-background-900 relative flex h-40 w-40 items-end rounded-md p-2">
+        <AiOutlineFile className="absolute left-1/2 top-1/2 h-16 w-16 -translate-y-1/2 -translate-x-1/2" />
 
         <p className="text-sm line-clamp-1">{file.name}</p>
 
@@ -78,12 +78,12 @@ export const FileUploader: React.FC<ExportInterface> = ({
     return (
         <div
             className={classNames(
-                'p-4 w-full rounded-md border border-dashed border-white/60 flex flex-col items-center justify-center transition duration-300',
+                'flex w-full flex-col items-center justify-center rounded-md border border-dashed border-white/60 p-4 transition duration-300',
                 isDragging ? 'bg-white/20' : 'bg-background-900',
             )}
             {...dragProps}
         >
-            <AiOutlineCloudUpload className="text-gray-300 w-24 h-24" />
+            <AiOutlineCloudUpload className="h-24 w-24 text-gray-300" />
 
             <p className="text-gray-300">
                 Drag and drop or
@@ -107,7 +107,7 @@ export const FileUploadedList: React.FC<FileUploadingUIProps> = ({
     onFileUpload,
 }) => {
     return (
-        <div className="flex gap-4 items-center flex-wrap">
+        <div className="flex flex-wrap items-center gap-4">
             {fileList.map((file, index) => (
                 <FileBox
                     file={file}
@@ -122,7 +122,7 @@ export const FileUploadedList: React.FC<FileUploadingUIProps> = ({
                 <BaseButton
                     LeftIcon={AiFillFileAdd}
                     onClick={onFileUpload}
-                    className="flex items-center justify-center w-40 h-40 border border-dashed border-gray-300 hover:border-white bg-transparent"
+                    className="flex h-40 w-40 items-center justify-center border border-dashed border-gray-300 bg-transparent hover:border-white"
                     iconClassName="w-16 h-16"
                 />
             )}
