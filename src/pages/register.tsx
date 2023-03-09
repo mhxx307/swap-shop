@@ -1,8 +1,12 @@
+import Link from 'next/link';
+import { AiOutlineHome } from 'react-icons/ai';
+
+import { useCheckAuth } from '@/hooks';
 import { RegisterForm } from '@/components/features/auth';
 import { BaseLayout } from '@/components/layouts';
-import { ButtonLink, Head, Spinner } from '@/components/shared';
-import { useCheckAuth } from '@/hooks';
-import { AiOutlineHome } from 'react-icons/ai';
+import { Head, Spinner } from '@/components/shared';
+import { path } from '@/constants';
+import { ReactNode } from 'react';
 
 const RegisterPage = () => {
     const { data, loading } = useCheckAuth();
@@ -15,22 +19,20 @@ const RegisterPage = () => {
                     <Spinner />
                 </div>
             ) : (
-                <div className="w-full min-h-screen flex-center bg-[#f0f0f0] dark:bg-primaryDark relative">
+                <div className="flex-center relative min-h-screen w-full bg-[#f0f0f0] dark:bg-primaryDark">
                     <div className="absolute top-2 left-2 flex space-x-4">
-                        <ButtonLink
-                            shortcutKey="enter"
-                            className="h-[35px] shadow-3xl bg-black text-white dark:hover:bg-gray-700 md:px-[25px] "
-                            href="/"
+                        <Link
+                            className="flex-center h-[35px] bg-black text-white shadow-3xl dark:hover:bg-gray-700 md:px-[25px]"
+                            href={path.home}
                         >
                             <AiOutlineHome />
-                        </ButtonLink>
-                        <ButtonLink
-                            shortcutKey="enter"
-                            className="h-[35px] shadow-md bg-black text-white dark:hover:bg-gray-700 md:px-[25px]"
-                            href="/login"
+                        </Link>
+                        <Link
+                            className="flex-center h-[35px] bg-black text-white shadow-md dark:hover:bg-gray-700 md:px-[25px]"
+                            href={path.login}
                         >
                             login
-                        </ButtonLink>
+                        </Link>
                     </div>
                     <RegisterForm />
                 </div>
@@ -40,7 +42,7 @@ const RegisterPage = () => {
 };
 
 // eslint-disable-next-line react/display-name
-RegisterPage.Layout = (page: any) => (
+RegisterPage.Layout = (page: ReactNode) => (
     <BaseLayout showFooter={false} showHeader={false}>
         {page}
     </BaseLayout>

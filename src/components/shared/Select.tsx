@@ -14,7 +14,7 @@ const MoreSelectedBadge = ({ items }: any) => {
     const label = `+${length}`;
 
     return (
-        <p title={title} className="p-1 text-sm bg-background-700 rounded-sm">
+        <p title={title} className="bg-background-700 rounded-sm p-1 text-sm">
             {label}
         </p>
     );
@@ -27,7 +27,6 @@ const MultiValue = ({ index, getValue, ...props }: any) => {
         .map((x: any) => x.label);
 
     return index < maxToShow ? (
-        // @ts-ignore
         <components.MultiValue {...props} />
     ) : index === maxToShow ? (
         <MoreSelectedBadge items={overflow} />
@@ -36,14 +35,20 @@ const MultiValue = ({ index, getValue, ...props }: any) => {
 
 const Option: React.ComponentType<
     OptionProps<unknown, boolean, GroupBase<unknown>>
-> = ({ innerRef, getValue, children, innerProps, ...props }) => {
+> = ({
+    innerRef,
+    getValue: _externalGetValue,
+    children,
+    innerProps,
+    ...props
+}) => {
     const { className, ...divProps } = innerProps;
 
     return (
         <div
             ref={innerRef}
             className={classNames(
-                'cursor-pointer relative px-3 py-2 transition duration-300',
+                'relative cursor-pointer px-3 py-2 transition duration-300',
                 props.isFocused && 'bg-white/20 text-primary-300',
                 className,
             )}
@@ -52,7 +57,7 @@ const Option: React.ComponentType<
             {children}
 
             {props.isSelected && (
-                <AiFillCheckCircle className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-600 rounded-full bg-white" />
+                <AiFillCheckCircle className="absolute right-5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white text-primary-600" />
             )}
         </div>
     );

@@ -52,7 +52,7 @@ const TextSpan = ({ text, className }: TextSpanProps) => {
             animate="visible"
             className={(classNames('relative inline-block'), className)}
         >
-            {sentence.map((letter: any, index: number) => (
+            {sentence.map((letter: string, index: number) => (
                 <motion.span
                     key={index}
                     variants={item}

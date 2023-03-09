@@ -1,7 +1,8 @@
-import { FormWrapper, InputField } from '@/components/shared';
+import { InputField } from '@/components/shared';
 import { useState } from 'react';
 import { Control } from 'react-hook-form';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import FormWrapper from '../FormWrapper';
 
 export interface FormProps {
     control: Control<any>;
@@ -22,7 +23,6 @@ const AccountForm = ({ control }: FormProps) => {
                 type="email"
                 name="email"
                 control={control}
-                autoFocus
                 placeholder="john@gmail.com"
             />
 

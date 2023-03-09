@@ -4,43 +4,40 @@ import { AiOutlineMore, AiOutlineDownload } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'next-i18next';
+import { toast } from 'react-toastify';
 
 import {
     Button,
     NavList,
     Logo,
-    PopupMenu,
     Image,
     LanguageSwitcher,
-    Notification,
     Search,
     ThemeSwitcher,
     HamburgerNavbar,
+    Popover,
 } from '@/components/shared';
-import { useConstantsTranslation, useDevice } from '@/hooks';
-import {
-    MeDocument,
-    MeQuery,
-    useLogoutMutation,
-    useMeQuery,
-} from '@/types/generated/graphql';
-import { toast } from 'react-toastify';
+import { useCheckAuth, useConstantsTranslation, useDevice } from '@/hooks';
+import { MeDocument, MeQuery, useLogoutMutation } from '@/generated/graphql';
+import { BsBellFill } from 'react-icons/bs';
+import { path } from '@/constants';
 
 const Header = () => {
     const [navbar, setNavbar] = useState<boolean>(false);
+    const { data } = useCheckAuth();
     const router = useRouter();
     const { t } = useTranslation('header');
     const {
         HEADER_NAV_LIST,
-        POPUP_MENU_LIST,
-        POPUP_USER_MENU_LIST,
         HEADER_MOBILE_NAV_LIST,
-    }: any = useConstantsTranslation();
+        POPUP_USER_MENU_LIST,
+        POPUP_MENU_LIST,
+    } = useConstantsTranslation();
     const { isMobile } = useDevice();
-
-    const { data } = useMeQuery();
     const [logout] = useLogoutMutation();
+
     const currentUser = data?.me;
+    const menuList = currentUser ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
 
     useEffect(() => {
         window.addEventListener('scroll', changeBackground);
@@ -58,19 +55,18 @@ const Header = () => {
         }
     };
 
-    const handleChangeMenu = async (item: any) => {
-        if (!item.path)
-            await logout({
-                update(cache, { data }) {
-                    toast.success('Logout successfully');
-                    if (data?.logout) {
-                        cache.writeQuery<MeQuery>({
-                            query: MeDocument,
-                            data: { me: null },
-                        });
-                    }
-                },
-            });
+    const handleLogout = async () => {
+        await logout({
+            update(cache, { data }) {
+                toast.success('Logout successfully');
+                if (data?.logout) {
+                    cache.writeQuery<MeQuery>({
+                        query: MeDocument,
+                        data: { me: null },
+                    });
+                }
+            },
+        });
     };
 
     return (
@@ -82,16 +78,14 @@ const Header = () => {
                 duration: 1,
                 delay: 0.3,
             }}
-            className="w-full flex flex-col [&>*:first-child]:ml-0 fixed z-[100] transition-colors shadow-md"
+            className="fixed z-20 flex w-full flex-col shadow-md transition-colors [&>*:first-child]:ml-0"
         >
             <div
                 className={`wrapper flex items-center justify-between bg-white ${
                     navbar && 'hidden'
                 }`}
             >
-                <Link href="/">
-                    <Logo />
-                </Link>
+                <Logo />
 
                 {/* language switcher, notification, login, bar */}
                 <div className="flex items-center space-x-4">
@@ -101,57 +95,73 @@ const Header = () => {
 
                     {isMobile && (
                         <Link href="/download">
-                            <AiOutlineDownload className="w-6 h-6" />
+                            <AiOutlineDownload className="h-6 w-6" />
                         </Link>
                     )}
 
-                    <Notification />
+                    <BsBellFill className="h-4 w-4 transition-colors hover:text-gray-500" />
 
                     {!currentUser && (
                         <Button
                             primary
                             shortcutKey="enter"
-                            onClick={() => router.push('/login')}
+                            onClick={() => router.push(path.login)}
                         >
                             <p className="line-clamp-1">{t('login_title')}</p>
                         </Button>
                     )}
 
-                    <PopupMenu
-                        items={
-                            currentUser ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST
+                    <Popover
+                        renderPopover={
+                            <div className="relative rounded-sm border border-gray-200 bg-white shadow-md">
+                                {menuList.map((item) => (
+                                    <Link
+                                        key={item.path}
+                                        href={item.path}
+                                        className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
+                                    >
+                                        {item.label}
+                                    </Link>
+                                ))}
+                                <button
+                                    className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
+                                    onClick={handleLogout}
+                                >
+                                    {t('logout')}
+                                </button>
+                            </div>
                         }
-                        onChange={handleChangeMenu}
-                        hideOnClick
                     >
                         {currentUser ? (
                             <Image
                                 src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
                                 alt="dog avatar"
-                                className="rounded-[50%] w-8 h-8 object-cover sm:cursor-pointer"
+                                className="h-8 w-8 rounded-[50%] object-cover sm:cursor-pointer"
                             />
                         ) : (
                             <AiOutlineMore
-                                className={`w-8 h-8 sm:cursor-pointer text-black`}
+                                className={`h-8 w-8 text-black sm:cursor-pointer`}
                             />
                         )}
-                    </PopupMenu>
+                    </Popover>
                 </div>
             </div>
 
             {/* ${
                     navbar && 'backdrop-blur-sm shadow-3xl bg-black/30'
                 } */}
-            <div className="wrapper bg-[#1b1b1b] flex items-center justify-between py-3">
+            <div className="wrapper flex items-center justify-between bg-[#1b1b1b] py-3">
                 <div className="flex items-center space-x-4">
                     <HamburgerNavbar
                         data={HEADER_MOBILE_NAV_LIST}
-                        className="block md:hidden text-white cursor-pointer"
+                        className="block cursor-pointer text-white md:hidden"
                     />
+
                     <NavList
                         navList={HEADER_NAV_LIST}
-                        className="items-center justify-between hidden md:flex"
+                        className="hidden items-center justify-between md:flex"
                     />
+
                     <Search className="block md:hidden" />
                 </div>
 

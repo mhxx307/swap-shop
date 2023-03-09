@@ -6,7 +6,7 @@ interface Icon {
 }
 
 export interface InputProps extends React.HTMLProps<HTMLInputElement> {
-    containerclassname?: string;
+    containerClassName?: string;
     containerInputClassName?: string;
     labelClassName?: string;
     iconClassName?: string;
@@ -23,7 +23,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     const {
         label,
         defaultLayout,
-        containerclassname,
+        containerClassName,
         containerInputClassName,
         labelClassName,
         iconClassName,
@@ -36,7 +36,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     } = props;
 
     return (
-        <div className={containerclassname}>
+        <div className={containerClassName}>
             {label && (
                 <p className={classNames('mb-2 font-semibold', labelClassName)}>
                     {label}
@@ -47,24 +47,24 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
                 className={classNames(
                     `${
                         defaultLayout &&
-                        'dark:border-white dark:border-[1px] flex items-center space-x-2 bg-background-800 focus:ring focus:ring-primary-500 focus:shadow-outline rounded px-3'
+                        'bg-background-800 focus:shadow-outline flex items-center space-x-2 rounded px-3 focus:ring focus:ring-primary-500 dark:border-[1px] dark:border-white'
                     }`,
                     LeftIcon || RightIcon ? 'py-2' : 'py-1',
                     containerInputClassName,
                 )}
             >
                 {LeftIcon && (
-                    <span onClick={leftIconOnClick}>
+                    <button onClick={leftIconOnClick}>
                         <LeftIcon
-                            className={classNames('w-6 h-6', iconClassName)}
+                            className={classNames('h-6 w-6', iconClassName)}
                         />
-                    </span>
+                    </button>
                 )}
 
                 <input
                     ref={ref}
                     className={classNames(
-                        'bg-transparent appearance-none w-full focus:outline-none leading-tight',
+                        'w-full appearance-none bg-transparent leading-tight focus:outline-none',
                         className,
                     )}
                     spellCheck={false}
@@ -72,11 +72,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
                 />
 
                 {RightIcon && (
-                    <span onClick={rightIconOnClick}>
+                    <button onClick={rightIconOnClick}>
                         <RightIcon
-                            className={classNames('w-6 h-6', iconClassName)}
+                            className={classNames('h-6 w-6', iconClassName)}
                         />
-                    </span>
+                    </button>
                 )}
             </div>
         </div>

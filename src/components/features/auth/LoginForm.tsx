@@ -14,7 +14,7 @@ import {
     MeDocument,
     MeQuery,
     useLoginMutation,
-} from '@/types/generated/graphql';
+} from '@/generated/graphql';
 
 const LoginForm = () => {
     const { t } = useTranslation('login');
@@ -77,14 +77,14 @@ const LoginForm = () => {
         <form
             method="POST"
             onSubmit={handleSubmit(handleLogin)}
-            className="min-w-[260px] w-full space-y-4"
+            className="w-full min-w-[260px] space-y-4"
         >
             <InputField
                 type="text"
                 name="usernameOrEmail"
                 control={control}
                 containerInputClassName="default-input"
-                label={t('username_label')!}
+                label={t('username_label') as string}
             />
 
             <InputField
@@ -92,7 +92,7 @@ const LoginForm = () => {
                 name="password"
                 control={control}
                 containerInputClassName="default-input"
-                label={t('password_label')!}
+                label={t('password_label') as string}
                 iconClassName="w-4 h-4 cursor-pointer hover:text-gray-500"
                 rightIconOnClick={() => setShowPassword(!showPassword)}
                 RightIcon={showPassword ? FaEye : FaEyeSlash}
@@ -102,16 +102,16 @@ const LoginForm = () => {
                 <Button
                     type="submit"
                     primary
-                    className="mt-[20px] w-full justify-center items-center select-none"
+                    className="mt-[20px] w-full select-none items-center justify-center"
                     isLoading={loading}
                 >
-                    {t('button_login')!}
+                    {t('button_login') as string}
                 </Button>
 
                 <Button
                     type="button"
                     outline
-                    className="w-full justify-center py-2 pr-6 pl-4 select-none hover:bg-blue-500 hover:text-white"
+                    className="w-full select-none justify-center py-2 pr-6 pl-4 hover:bg-blue-500 hover:text-white"
                     LeftIcon={FcGoogle}
                     iconClassName="w-5 h-5"
                 >

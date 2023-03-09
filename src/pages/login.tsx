@@ -1,5 +1,4 @@
-import { useMemo } from 'react';
-import { AiOutlineLeft } from 'react-icons/ai';
+import { ReactNode, useMemo } from 'react';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
 
@@ -7,8 +6,8 @@ import { LoginForm } from '@/components/features/auth';
 import { BaseLayout } from '@/components/layouts';
 import { randomElement } from '@/utils';
 import quotes from '@/quotes.json';
-import { ButtonLink, Head, Spinner } from '@/components/shared';
-import { REVALIDATE_TIME } from '@/constants';
+import { Head, Spinner } from '@/components/shared';
+import { path, REVALIDATE_TIME } from '@/constants';
 import { useTranslation } from 'react-i18next';
 import { useCheckAuth } from '@/hooks';
 
@@ -34,18 +33,15 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                     <Spinner />
                 </div>
             ) : (
-                <div className="w-full min-h-screen grid grid-cols-1 md:grid-cols-5 relative">
-                    <ButtonLink
-                        secondary
-                        containerclassname="absolute right-2 top-0 shadow-3xl mt-4 bg-black dark:bg-white"
-                        className="py-2 pr-6 pl-4 select-none text-white dark:text-black hover:opacity-80 transition-opacity"
-                        LeftIcon={AiOutlineLeft}
-                        href="/"
+                <div className="relative grid min-h-screen w-full grid-cols-1 md:grid-cols-5">
+                    <Link
+                        className="absolute right-2 top-0 mt-4 bg-black shadow-3xl dark:bg-white"
+                        href={path.home}
                     >
                         {t('back_btn')}
-                    </ButtonLink>
+                    </Link>
                     <div
-                        className="hidden md:block relative col-span-2 after:absolute after:inset-0 after:bg-[#000000]/30 after:z-10"
+                        className="relative col-span-2 hidden after:absolute after:inset-0 after:z-10 after:bg-[#000000]/30 md:block"
                         style={{
                             backgroundImage:
                                 "url('/images/login-background.avif')",
@@ -53,48 +49,48 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                             backgroundSize: 'cover',
                         }}
                     >
-                        <div className="relative flex flex-col justify-center items-center w-full h-full z-20">
+                        <div className="flex-center relative z-20 h-full w-full flex-col">
                             <div className="w-full px-8">
-                                <p className="italic text-3xl text-white font-semibold line-clamp-6">
+                                <p className="text-3xl font-semibold italic text-white line-clamp-6">
                                     &quot;{randomQuote.text}&quot;
                                 </p>
-                                <p className="text-4xl italic mt-2 text-white font-semibold text-right">
+                                <p className="mt-2 text-right text-4xl font-semibold italic text-white">
                                     {randomQuote.author}
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="col-span-3 flex-center">
-                        <div className="w-full p-6 bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md dark:bg-gray-800 dark:border-gray-700 sm:p-8 space-y-6">
+                    <div className="flex-center col-span-3">
+                        <div className="w-full space-y-6 rounded-lg bg-white p-6 shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md sm:p-8 md:mt-0">
                             <div className="text-2xl font-semibold">
                                 {t('welcome_heading')}{' '}
-                                <span className="text-primary-500 capitalize">
+                                <span className="capitalize text-primary-500">
                                     second chance
                                 </span>
-                                <p className="text-xl mt-2">
+                                <p className="mt-2 text-xl">
                                     {t('please_heading')}
                                 </p>
                             </div>
 
                             <LoginForm />
 
-                            <div className="space-y-2 flex flex-col">
+                            <div className="flex flex-col space-y-2">
                                 <div className="flex items-center">
-                                    <p className="font-thin text-gray-500 dark:text-white mr-2">
+                                    <p className="mr-2 font-thin text-gray-500 dark:text-white">
                                         {t('dont_have_account')}
                                     </p>
                                     <Link
-                                        href="/register"
-                                        className="text-black dark:text-white font-bold hover:text-gray-500 dark:hover:text-opacity-80"
+                                        href={path.register}
+                                        className="font-bold text-black hover:text-gray-500 dark:text-white dark:hover:text-opacity-80"
                                     >
                                         {t('sign_up_free')}
                                     </Link>
                                 </div>
 
                                 <Link
-                                    href="/forgot-password"
-                                    className="text-blue-500 hover:text-blue-400 transition-colors"
+                                    href={path.forgotPassword}
+                                    className="text-blue-500 transition-colors hover:text-blue-400"
                                 >
                                     Forgot password ?
                                 </Link>
@@ -108,7 +104,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
 };
 
 // eslint-disable-next-line react/display-name
-LoginPage.Layout = (page: any) => (
+LoginPage.Layout = (page: ReactNode) => (
     <BaseLayout showFooter={false} showHeader={false}>
         {page}
     </BaseLayout>

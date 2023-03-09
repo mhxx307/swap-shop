@@ -1,7 +1,19 @@
 module.exports = {
-    breakingChangePrefix: '🧨 ',
-    closedIssuePrefix: '✅ ',
-    enableWritingScopes: true,
+    disableEmoji: false,
+    format: '{type}{scope}: {emoji}{subject}',
+    list: [
+        'test',
+        'feat',
+        'fix',
+        'chore',
+        'docs',
+        'refactor',
+        'style',
+        'ci',
+        'perf',
+        'initial',
+        'translation',
+    ],
     maxMessageLength: 64,
     minMessageLength: 3,
     questions: [
@@ -67,10 +79,25 @@ module.exports = {
             emoji: '💍',
             value: 'test',
         },
+        initial: {
+            description: 'Initial commit',
+            emoji: '🎉',
+            value: 'initial',
+        },
         translation: {
             description: 'Translation',
             emoji: '👽',
             value: 'translation',
+        },
+        messages: {
+            type: "Select the type of change that you're committing:",
+            customScope: 'Select the scope this component affects:',
+            subject:
+                'Write a short, imperative mood description of the change:\n',
+            body: 'Provide a longer description of the change:\n ',
+            breaking: 'List any breaking changes:\n',
+            footer: 'Issues this commit closes, e.g #123:',
+            confirmCommit: 'The packages that this commit has affected\n',
         },
     },
 };

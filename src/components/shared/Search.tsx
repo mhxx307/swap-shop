@@ -13,8 +13,8 @@ const Search = ({ className }: SearchProps) => {
     const router = useRouter();
 
     useEffect(() => {
-        const handleClickOutside = (event: any) => {
-            if (ref.current && !ref.current.contains(event.target)) {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (ref.current && !ref.current.contains(event.target as Node)) {
                 setToggle(false);
             }
         };
@@ -28,17 +28,20 @@ const Search = ({ className }: SearchProps) => {
         <div
             ref={ref}
             className={classNames(
-                'bg-white h-[30px] rounded-[30px] py-[10px] px-[20px] flex items-center transition-all shadow-md cursor-pointer',
+                'flex h-[30px] cursor-pointer items-center rounded-[30px] bg-white py-[10px] px-[20px] shadow-md transition-all',
                 className,
             )}
             onClick={() => setToggle(true)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={() => setToggle(true)}
         >
             <input
                 type="text"
                 placeholder="Search"
                 className={`${
                     toggle ? 'w-[200px]' : 'w-0'
-                } font-medium text-base transition-all outline-none text-black caret-primary-500 pr-[5px]`}
+                } pr-[5px] text-base font-medium text-black caret-primary-500 outline-none transition-all`}
             />
             {toggle ? (
                 <button onClick={() => router.push('/articles')}>

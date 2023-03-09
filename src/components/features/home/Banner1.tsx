@@ -3,8 +3,8 @@ import { BANNER_IMAGE_LIST } from '@/constants';
 
 const Banner1 = () => {
     return (
-        <div className="section bg-[#FBF7F2] dark:bg-primaryDark min-h-screen">
-            <div className="flex-center flex-1 flex-col mb-8">
+        <div className="section min-h-screen bg-[#FBF7F2] dark:bg-primaryDark">
+            <div className="flex-center mb-8 flex-1 flex-col">
                 <div className="space-y-6">
                     <h3 className="text-4xl text-primary-500">
                         Tìm kiếm dễ dàng

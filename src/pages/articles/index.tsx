@@ -9,7 +9,7 @@ import {
     ArticlesQuery,
     QueryArticlesArgs,
     useArticlesQuery,
-} from '@/types/generated/graphql';
+} from '@/generated/graphql';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import { limitArticlesPaginated } from '@/constants';
 
@@ -38,7 +38,7 @@ const Articles = () => {
         <>
             <Head />
             <ClientOnly>
-                <div className="mt-[200px] wrapper space-y-20 pb-[20px]">
+                <div className="wrapper header-height space-y-20 pb-[20px]">
                     <ArticleList articles={data?.articles?.paginatedArticles} />
 
                     {data?.articles?.hasMore && (

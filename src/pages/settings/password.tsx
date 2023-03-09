@@ -1,15 +1,23 @@
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import { SettingsLayout } from '@/components/layouts';
 import { Auth, Button, InputField } from '@/components/shared';
-import { ChangePasswordLoggedPayload } from '@/types';
-import { useChangePasswordLoggedMutation } from '@/types/generated/graphql';
+import {
+    ChangePasswordInput,
+    useChangePasswordLoggedMutation,
+} from '@/generated/graphql';
+import { omit } from 'lodash';
+
+interface FormState extends ChangePasswordInput {
+    oldPassword: string;
+    confirmNewPassword: string;
+}
 
 const PasswordPage = () => {
-    const { control, handleSubmit } = useForm<ChangePasswordLoggedPayload>({
+    const { control, handleSubmit } = useForm<FormState>({
         defaultValues: {
             oldPassword: '',
             newPassword: '',
@@ -24,20 +32,13 @@ const PasswordPage = () => {
     const [changePassword, { data, loading }] =
         useChangePasswordLoggedMutation();
 
-    const handleChangePassword = async (
-        payload: ChangePasswordLoggedPayload,
-    ) => {
-        console.log(payload);
-        const { oldPassword, newPassword } = payload;
-        if (oldPassword && newPassword) {
-            const response = await changePassword({
-                variables: {
-                    changePasswordLoggedInput: { oldPassword, newPassword },
-                },
-            });
-
-            console.log(response);
-        }
+    const handleChangePassword = async (payload: FormState) => {
+        const changePasswordInput = omit(payload, 'confirmNewPassword');
+        await changePassword({
+            variables: {
+                changePasswordLoggedInput: changePasswordInput,
+            },
+        });
     };
 
     useEffect(() => {
@@ -49,7 +50,7 @@ const PasswordPage = () => {
 
         if (!loading && !data?.changePasswordLogged.success) {
             toast.error(data?.changePasswordLogged.message, {
-                toastId: data?.changePasswordLogged.message!,
+                toastId: 'error',
             });
         }
     }, [data, loading]);
@@ -108,7 +109,7 @@ const PasswordPage = () => {
                     <Button
                         primary
                         type="submit"
-                        className="text-right font-semibold border-[2px] border-transparent"
+                        className="border-[2px] border-transparent text-right font-semibold"
                         isLoading={loading}
                     >
                         Save
@@ -119,7 +120,9 @@ const PasswordPage = () => {
     );
 };
 
-// eslint-disable-next-line react/display-name
-PasswordPage.Layout = (page: any) => <SettingsLayout>{page}</SettingsLayout>;
-
 export default PasswordPage;
+
+// eslint-disable-next-line react/display-name
+PasswordPage.Layout = (page: ReactNode) => (
+    <SettingsLayout>{page}</SettingsLayout>
+);

@@ -15,7 +15,7 @@ const SettingsLayout = ({ children }: BaseLayoutProps) => {
         <main>
             <Header />
             <div className="app">
-                <div className="wrapper pt-[200px] space-y-12">
+                <div className="wrapper header-height space-y-12">
                     <h3 className="text-4xl font-bold">Settings</h3>
                     <div className="border-bottom"></div>
                     <SettingsDropdown
@@ -23,10 +23,10 @@ const SettingsLayout = ({ children }: BaseLayoutProps) => {
                         dataList={settings}
                     />
                     <div className="grid grid-cols-10">
-                        <div className="hidden ss:block col-span-2 space-y-8 pr-10">
+                        <div className="col-span-2 hidden space-y-8 pr-10 ss:block">
                             <NavList navList={settings} />
                             <div className="border-bottom"></div>
-                            <p className="text-primary-500 font-medium cursor-pointer mt-[20px]">
+                            <p className="mt-[20px] cursor-pointer font-medium text-primary-500">
                                 Delete Account
                             </p>
                         </div>
@@ -50,15 +50,15 @@ const NavList = ({ navList }: { navList: SettingProps[] }) => {
     const router = useRouter();
 
     return (
-        <nav className="flex flex-col w-[130px] space-y-8">
+        <nav className="flex w-[130px] flex-col space-y-8">
             {navList.map(({ path, label }) => (
                 <Link
                     href={path}
                     key={label}
-                    className={`capitalize hover:opacity-70 transition-opacity
+                    className={`capitalize transition-opacity hover:opacity-70
                 ${
                     router.pathname === path &&
-                    'text-black dark:text-white font-bold'
+                    'font-bold text-black dark:text-white'
                 }`}
                 >
                     {label}

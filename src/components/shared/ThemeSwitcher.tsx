@@ -16,7 +16,7 @@ const ThemeSwitcher = () => {
 
     return (
         <ClientOnly>
-            <div
+            <button
                 onClick={() => setIsOn(!isOn)}
                 className={`flex-start flex h-[30px] w-[60px] rounded-[50px] bg-zinc-100 shadow-inner hover:cursor-pointer dark:bg-zinc-700 ${
                     isOn && 'place-content-end'
@@ -36,7 +36,7 @@ const ThemeSwitcher = () => {
                         )}
                     </motion.div>
                 </motion.div>
-            </div>
+            </button>
         </ClientOnly>
     );
 };

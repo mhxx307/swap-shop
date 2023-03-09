@@ -3,8 +3,8 @@ import { BANNER_IMAGE_LIST } from '@/constants';
 
 const Banner2 = () => {
     return (
-        <div className="section-reverse bg-[#e6f3e6] dark:bg-secondaryDark min-h-screen">
-            <div className="flex-center flex-1 mt-[100px] md:mt-0">
+        <div className="section-reverse min-h-screen bg-[#e6f3e6] dark:bg-secondaryDark">
+            <div className="flex-center mt-[100px] flex-1 md:mt-0">
                 <SwiperEffectCard
                     images={BANNER_IMAGE_LIST}
                     swiperClassName="w-[400px] h-[550px]"
@@ -24,7 +24,7 @@ const Banner2 = () => {
 
                     <div className="flex">
                         <Button
-                            className="py-[14px] mr-[16px] font-medium"
+                            className="mr-[16px] py-[14px] font-medium"
                             primary
                         >
                             Xem các mặt hàng phổ biến

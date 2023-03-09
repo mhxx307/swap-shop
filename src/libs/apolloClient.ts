@@ -9,7 +9,7 @@ import {
 import { onError } from '@apollo/client/link/error';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
-import { Article, Comment } from '@/types/generated/graphql';
+import { Article } from '@/generated/graphql';
 import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
@@ -64,32 +64,6 @@ function createApolloClient() {
                             return { ...incoming, paginatedArticles };
                         },
                     },
-                    // commentListByArticleId: {
-                    //     merge(existing, incoming) {
-                    //         let paginatedComments: Comment[] = [];
-                    //         console.log('EXISTING', existing);
-                    //         console.log('INCOMING', incoming);
-
-                    //         if (existing && existing.paginatedComments) {
-                    //             paginatedComments = paginatedComments.concat(
-                    //                 existing.paginatedComments,
-                    //             );
-                    //         }
-
-                    //         if (incoming && incoming.paginatedComments) {
-                    //             paginatedComments = paginatedComments.concat(
-                    //                 incoming.paginatedComments,
-                    //             );
-                    //         }
-
-                    //         console.log('merge', {
-                    //             ...incoming,
-                    //             paginatedComments,
-                    //         });
-
-                    //         return { ...incoming, paginatedComments };
-                    //     },
-                    // },
                 },
             },
         },

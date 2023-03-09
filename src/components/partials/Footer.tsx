@@ -1,4 +1,4 @@
-import { YOUTUBE_URL, FACEBOOK_URL } from '@/constants';
+import { YOUTUBE_URL, FACEBOOK_URL, path } from '@/constants';
 import { AiFillFacebook, AiFillYoutube } from 'react-icons/ai';
 import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
@@ -15,37 +15,35 @@ const Footer = () => {
         'font-bold hover:text-primary-300 transition duration-300';
 
     return (
-        <div className="w-full flex flex-col items-center justify-center px-4 md:px-12 py-16 space-y-4 border-t-[1px] border-black/10 dark:border-[#282828]">
+        <div className="flex w-full flex-col items-center justify-center space-y-4 border-t-[1px] border-black/10 px-4 py-16 dark:border-[#282828] md:px-12">
             <div className="flex items-center space-x-4">
                 <ContactItem href={YOUTUBE_URL} Icon={AiFillYoutube} />
                 <ContactItem href={FACEBOOK_URL} Icon={AiFillFacebook} />
             </div>
 
             <div className="flex items-center space-x-8 text-center">
-                <Link href="/tos" className={footerLink}>
-                    <p className="text-responsive-xl">
-                        {t('term_of_services')}
-                    </p>
+                <Link href={path.tos} className={footerLink}>
+                    {t('term_of_services')}
                 </Link>
 
-                <Link href="/dmca" className={footerLink}>
-                    <p className="text-responsive-xl">{t('dmca')}</p>
+                <Link href={path.dmca} className={footerLink}>
+                    {t('dmca')}
                 </Link>
 
-                <Link href="/contact" className={footerLink}>
-                    <p className="text-responsive-xl">{t('contact')}</p>
+                <Link href={path.contact} className={footerLink}>
+                    {t('contact')}
                 </Link>
 
-                <Link href="/privacy" className={footerLink}>
-                    <p className="text-responsive-xl">{t('privacy_policy')}</p>
+                <Link href={path.privacy} className={footerLink}>
+                    {t('privacy_policy')}
                 </Link>
             </div>
 
-            <p className="text-responsive-sm dark:text-gray-300 text-center">
+            <p className="text-responsive-sm text-center dark:text-gray-300">
                 {t('disclaimer')}
             </p>
 
-            <p className="text-xs dark:text-gray-300 text-center">
+            <p className="text-center text-xs dark:text-gray-300">
                 © 2023 SecondChance
             </p>
         </div>
@@ -55,7 +53,7 @@ const Footer = () => {
 const ContactItem: React.FC<ContactItemProps> = ({ Icon, href }) => {
     return (
         <a href={href} target="_blank" rel="noreferrer">
-            <Icon className="w-[30px] h-[30px] hover:text-primary-500 transition duration-300" />
+            <Icon className="h-[30px] w-[30px] transition duration-300 hover:text-primary-500" />
         </a>
     );
 };

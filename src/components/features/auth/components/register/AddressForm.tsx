@@ -1,11 +1,12 @@
 import { Autocomplete, useJsApiLoader } from '@react-google-maps/api';
 
-import { FormWrapper, InputField } from '@/components/shared';
+import { InputField } from '@/components/shared';
 import { FormProps } from './AccountForm';
+import FormWrapper from '../FormWrapper';
 
 const AddressForm = ({ control }: FormProps) => {
     const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY!,
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string,
         libraries: ['places'],
     });
 
@@ -15,9 +16,8 @@ const AddressForm = ({ control }: FormProps) => {
 
     return (
         <FormWrapper title="Address" description="Address">
-            <Autocomplete key={process.env.NEXT_PUBLIC_GOOGLE_API_KEY!}>
+            <Autocomplete key={process.env.NEXT_PUBLIC_GOOGLE_API_KEY}>
                 <InputField
-                    autoFocus
                     label="Your address:"
                     type="text"
                     name="address"

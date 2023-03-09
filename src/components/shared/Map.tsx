@@ -6,7 +6,7 @@ import {
 } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
 
-interface MapProps extends GoogleMapProps {}
+type MapProps = GoogleMapProps;
 
 export interface CoordsProps {
     lat: number;
@@ -17,7 +17,7 @@ const Map = (props: MapProps) => {
     const [coords, setCoords] = useState<CoordsProps>();
 
     const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY!,
+        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string,
         libraries: ['places'],
     });
 
@@ -56,7 +56,7 @@ const Map = (props: MapProps) => {
             onUnmount={unMount}
             {...props}
         >
-            <MarkerF position={coords!} />
+            {coords && <MarkerF position={coords} />}
         </GoogleMap>
     );
 };

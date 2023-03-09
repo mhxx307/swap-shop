@@ -1,74 +1,53 @@
 import locales from '@/locales.json';
-import Tippy from '@tippyjs/react';
-import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import nookies from 'nookies';
-import { forwardRef, memo, useMemo } from 'react';
-import { AiOutlineGlobal } from 'react-icons/ai';
-
-interface LanguageSwitcherProps {
-    className?: string;
-}
+import { memo, useMemo } from 'react';
+// import { AiOutlineGlobal } from 'react-icons/ai';
+import Popover from './Popover';
 
 // eslint-disable-next-line react/display-name
-const LanguageSwitcher = forwardRef<HTMLDivElement, LanguageSwitcherProps>(
-    ({ className }, ref) => {
-        const router = useRouter();
+const LanguageSwitcher = () => {
+    const router = useRouter();
 
-        const handleChangeLanguage = (lang: string) => () => {
-            if (router.locale === lang) return;
+    const handleChangeLanguage = (lang: string) => () => {
+        if (router.locale === lang) return;
 
-            const { pathname, asPath, query } = router;
+        const { pathname, asPath, query } = router;
 
-            router.replace({ pathname, query }, asPath, {
-                locale: lang,
-                shallow: true,
-            });
+        router.replace({ pathname, query }, asPath, {
+            locale: lang,
+            shallow: true,
+        });
 
-            nookies.set(null, 'NEXT_LOCALE', lang, { path: '/' });
-        };
+        nookies.set(null, 'NEXT_LOCALE', lang, { path: '/' });
+    };
 
-        const currentLocale = useMemo(
-            () => locales.find(({ locale }) => router.locale === locale),
-            [router.locale],
-        );
+    const currentLocale = useMemo(
+        () => locales.find(({ locale }) => router.locale === locale),
+        [router.locale],
+    );
 
-        return (
-            <div>
-                <Tippy
-                    interactive={true}
-                    render={(attrs) => (
-                        <div className="shadow-3xl">
-                            {locales.map(({ locale, name }) => (
-                                <div
-                                    key={locale}
-                                    onClick={handleChangeLanguage(locale)}
-                                    className="cursor-pointer px-6 py-2 select-none text-responsive-sm bg-white dark:bg-primaryDark hover:bg-gray-300 dark:hover:bg-gray-800 transition-colors"
-                                >
-                                    {name}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                    trigger="click"
-                    animation={false}
-                    zIndex={99999}
-                    offset={[14, 10]}
-                    hideOnClick={true}
-                >
-                    <div
-                        ref={ref}
-                        className={classNames('text-black', className)}
-                    >
-                        <AiOutlineGlobal className="block sm:hidden w-[22px] h-[22px]" />
-                        <p className="hidden sm:block font-medium cursor-pointer hover:text-primary-500 transition-colors">
-                            {currentLocale?.name}
-                        </p>
-                    </div>
-                </Tippy>
+    return (
+        <Popover
+            renderPopover={
+                <div className="rounded-sm border border-gray-200 bg-white shadow-3xl">
+                    {locales.map(({ locale, name }) => (
+                        <button
+                            key={locale}
+                            onClick={handleChangeLanguage(locale)}
+                            className="flex flex-col py-2 pr-28 pl-3 hover:text-primary-500"
+                        >
+                            {name}
+                        </button>
+                    ))}
+                </div>
+            }
+        >
+            <div className="cursor-pointer text-black">
+                {currentLocale?.name}
             </div>
-        );
-    },
-);
+        </Popover>
+    );
+};
 
 export default memo(LanguageSwitcher);

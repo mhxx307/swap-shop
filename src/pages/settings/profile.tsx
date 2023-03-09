@@ -1,11 +1,13 @@
 import { useForm } from 'react-hook-form';
+import { ReactNode } from 'react';
+
 import { SettingsLayout } from '@/components/layouts';
-import { Auth, Button, DateField, InputField } from '@/components/shared';
-import { useMeQuery } from '@/types/generated/graphql';
+import { Auth, Button, InputField } from '@/components/shared';
 import { AvatarUpload } from '@/components/features/uploads';
+import { useCheckAuth } from '@/hooks';
 
 const ProfilePage = () => {
-    const { data } = useMeQuery();
+    const { data } = useCheckAuth();
     const { control, handleSubmit } = useForm<any>({
         defaultValues: {
             username: data?.me?.username,
@@ -24,7 +26,7 @@ const ProfilePage = () => {
     return (
         <Auth>
             <div className="space-y-12 pb-[60px]">
-                <AvatarUpload picture={data?.me?.avatar!} />
+                <AvatarUpload picture={data?.me?.avatar} />
 
                 <form
                     method="POST"
@@ -34,7 +36,6 @@ const ProfilePage = () => {
                     <InputField
                         name="username"
                         control={control}
-                        autoFocus
                         label="Username"
                         containerInputClassName="default-input"
                     />
@@ -67,15 +68,16 @@ const ProfilePage = () => {
                         containerInputClassName="default-input"
                     />
 
-                    <DateField
+                    <InputField
                         name="birthday"
                         control={control}
-                        placeholder={data?.me?.birthday!}
+                        label="Birthday"
+                        containerInputClassName="default-input"
                     />
 
                     <Button
                         primary
-                        className="font-semibold border-[2px] border-transparent"
+                        className="border-[2px] border-transparent font-semibold"
                     >
                         Save
                     </Button>
@@ -85,7 +87,9 @@ const ProfilePage = () => {
     );
 };
 
-// eslint-disable-next-line react/display-name
-ProfilePage.Layout = (page: any) => <SettingsLayout>{page}</SettingsLayout>;
-
 export default ProfilePage;
+
+// eslint-disable-next-line react/display-name
+ProfilePage.Layout = (page: ReactNode) => (
+    <SettingsLayout>{page}</SettingsLayout>
+);

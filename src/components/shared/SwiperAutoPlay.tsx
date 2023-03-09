@@ -38,14 +38,14 @@ const SwiperAutoplay = ({
                 navigation={true}
                 spaceBetween={10}
                 modules={[Autoplay, Pagination, Navigation]}
-                className={classNames('overflow-hidden select-none', className)}
+                className={classNames('select-none overflow-hidden', className)}
             >
                 {images.map((image) => (
                     <SwiperSlide className={swiperSlideClassName} key={image}>
                         <Image
                             src={image}
                             alt="thumb"
-                            containerclassname={classNames(
+                            containerClassName={classNames(
                                 'w-full h-full shadow-3xl',
                                 imageClassName,
                             )}

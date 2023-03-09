@@ -1,10 +1,5 @@
-import { GetStaticProps } from 'next';
-
 import { Banner1, Banner2, HeroSection } from '@/components/features/home';
 import { ClientOnly, Head } from '@/components/shared';
-import { ArticlesSwiperInfinite } from '@/components/features/articles';
-import { addApolloState, initializeApollo } from '@/libs/apolloClient';
-import { ArticlesDocument, useArticlesQuery } from '@/types/generated/graphql';
 
 const Home = () => {
     return (
@@ -14,9 +9,9 @@ const Home = () => {
                 <HeroSection />
                 <Banner1 />
                 <Banner2 />
-                <div className="wrapper mb-[60px] bg-[#FBF7F2] dark:bg-primaryDark py-8">
+                <div className="wrapper header-height bg-[#FBF7F2] dark:bg-primaryDark">
                     <div className="space-y-3">
-                        <h3 className="text-4xl font-extrabold text-primary-500 italic">
+                        <h3 className="text-4xl font-extrabold italic text-primary-500">
                             New articles
                         </h3>
                         {/* <ArticlesSwiperInfinite

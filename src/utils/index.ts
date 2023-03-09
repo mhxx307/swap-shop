@@ -23,8 +23,7 @@ export const humanFileSize = (size: number) => {
 
     const i = Math.floor(Math.log(size) / Math.log(1024));
 
-    // @ts-ignore
-    const convertedNumber = (size / Math.pow(1024, i)).toFixed(2) * 1;
+    const convertedNumber = Number((size / Math.pow(1024, i)).toFixed(2));
     const units = ['B', 'KB', 'MB', 'GB', 'TB'];
     const unit = units[i];
 
@@ -44,7 +43,7 @@ export const randomString = (length: number) => {
 
     let str = '';
 
-    for (var i = 0; i < length; i++) {
+    for (let i = 0; i < length; i++) {
         str += chars[Math.floor(Math.random() * chars.length)];
     }
     return str;
@@ -56,6 +55,7 @@ export const createFileFromUrl = async (url: string, filename: string) => {
     const extension = url.split('.').pop();
 
     const metadata = {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         type: mime.getType(extension!) || 'text/plain',
     };
 
