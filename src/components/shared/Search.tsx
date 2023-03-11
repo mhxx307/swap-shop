@@ -34,7 +34,7 @@ const Search = ({ className }: SearchProps) => {
             onClick={() => setToggle(true)}
             role="button"
             tabIndex={0}
-            onKeyDown={() => setToggle(true)}
+            aria-hidden="true"
         >
             <input
                 type="text"

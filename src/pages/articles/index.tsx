@@ -5,8 +5,10 @@ import { NetworkStatus, useApolloClient } from '@apollo/client';
 import { ArticleList } from '@/components/features/articles';
 import { Button, ClientOnly, Head } from '@/components/shared';
 import {
+    Article,
     ArticlesDocument,
     ArticlesQuery,
+    PaginatedArticles,
     QueryArticlesArgs,
     useArticlesQuery,
 } from '@/generated/graphql';
@@ -14,17 +16,20 @@ import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import { limitArticlesPaginated } from '@/constants';
 
 const Articles = () => {
-    const { data, fetchMore, networkStatus } = useArticlesQuery({
+    const {
+        data: articlesData,
+        fetchMore,
+        networkStatus,
+    } = useArticlesQuery({
         variables: { limit: limitArticlesPaginated },
         notifyOnNetworkStatusChange: true,
     });
 
-    const loadingMoreArticles = networkStatus === NetworkStatus.fetchMore;
-
-    const handleMoreArticles = () =>
-        fetchMore({ variables: { cursor: data?.articles?.cursor as string } });
-
     const client = useApolloClient();
+
+    const articles = articlesData?.articles;
+
+    const loadingMoreArticles = networkStatus === NetworkStatus.fetchMore;
 
     useEffect(() => {
         return () => {
@@ -34,14 +39,27 @@ const Articles = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const handleMoreArticles = () =>
+        fetchMore({
+            variables: {
+                cursor: (articles as PaginatedArticles).cursor as string,
+            },
+        });
+
+    if (!articles?.paginatedArticles) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <>
             <Head />
             <ClientOnly>
-                <div className="wrapper header-height space-y-20 pb-[20px]">
-                    <ArticleList articles={data?.articles?.paginatedArticles} />
+                <div className="container header-height space-y-20 pb-[20px]">
+                    <ArticleList
+                        articles={articles.paginatedArticles as Article[]}
+                    />
 
-                    {data?.articles?.hasMore && (
+                    {articles.hasMore && (
                         <Button
                             primary
                             isLoading={loadingMoreArticles}

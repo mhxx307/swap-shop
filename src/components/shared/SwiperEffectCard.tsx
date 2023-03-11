@@ -35,7 +35,7 @@ const SwiperEffectCard = ({
                         <Image
                             src={image}
                             alt="Banner"
-                            containerClassName={classNames(
+                            containerclassname={classNames(
                                 'w-full h-full rounded-lg shadow-lg',
                                 className,
                             )}

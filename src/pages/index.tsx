@@ -9,7 +9,7 @@ const Home = () => {
                 <HeroSection />
                 <Banner1 />
                 <Banner2 />
-                <div className="wrapper header-height bg-[#FBF7F2] dark:bg-primaryDark">
+                <div className="container header-height bg-[#FBF7F2] dark:bg-primaryDark">
                     <div className="space-y-3">
                         <h3 className="text-4xl font-extrabold italic text-primary-500">
                             New articles

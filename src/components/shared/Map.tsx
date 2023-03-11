@@ -51,7 +51,6 @@ const Map = (props: MapProps) => {
         <GoogleMap
             center={coords}
             zoom={15}
-            mapContainerClassName="w-full h-[400px]"
             onLoad={onLoad}
             onUnmount={unMount}
             {...props}
