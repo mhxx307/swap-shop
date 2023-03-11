@@ -5,22 +5,34 @@ import { SettingsLayout } from '@/components/layouts';
 import { Auth, Button, InputField } from '@/components/shared';
 import { AvatarUpload } from '@/components/features/uploads';
 import { useCheckAuth } from '@/hooks';
+import {
+    useUpdateProfileMutation,
+    UpdateProfileInput,
+} from '@/generated/graphql';
+import { toast } from 'react-toastify';
 
 const ProfilePage = () => {
     const { data } = useCheckAuth();
-    const { control, handleSubmit } = useForm<any>({
+    const { control, handleSubmit } = useForm<UpdateProfileInput>({
         defaultValues: {
             username: data?.me?.username,
             address: data?.me?.address,
-            email: data?.me?.email,
             phoneNumber: data?.me?.phoneNumber,
             fullName: data?.me?.fullName,
             birthday: data?.me?.birthday,
         },
     });
 
-    const handleUpdate = (payload: any) => {
+    const [profileMutation, { loading }] = useUpdateProfileMutation();
+    //*! chua cap nhat cache
+    const handleUpdate = async (payload: UpdateProfileInput) => {
         console.log(payload);
+        await profileMutation({
+            variables: {
+                updateProfileInput: payload,
+            },
+        });
+        toast.success('Update Sucessfully', { toastId: 'updatedProfile' });
     };
 
     return (
@@ -47,12 +59,7 @@ const ProfilePage = () => {
                         containerInputClassName="default-input"
                     />
 
-                    <InputField
-                        name="email"
-                        control={control}
-                        label="Email"
-                        containerInputClassName="default-input"
-                    />
+                    <p>{data?.me?.email}</p>
 
                     <InputField
                         name="phoneNumber"
@@ -73,11 +80,14 @@ const ProfilePage = () => {
                         control={control}
                         label="Birthday"
                         containerInputClassName="default-input"
+                        type="date"
                     />
 
                     <Button
                         primary
+                        isLoading={loading}
                         className="border-[2px] border-transparent font-semibold"
+                        type="submit"
                     >
                         Save
                     </Button>
