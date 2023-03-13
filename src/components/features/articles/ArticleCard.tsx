@@ -4,8 +4,9 @@ import { BsFillChatDotsFill, BsShareFill } from 'react-icons/bs';
 import { motion } from 'framer-motion';
 import { Article } from '@/generated/graphql';
 import TimeAgo from 'timeago-react';
+import { generateNameId } from '@/utils';
 
-export interface ArticleCardProps {
+interface ArticleCardProps {
     article: Article;
 }
 
@@ -24,7 +25,14 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 scale: 0.95,
             }}
             className="relative z-0 col-span-1 m-[5px] cursor-pointer overflow-hidden bg-white text-[#212b36] shadow-3xl transition-shadow"
-            onClick={() => router.push(`/articles/${article.id}`)}
+            onClick={() =>
+                router.push(
+                    `/articles/${generateNameId({
+                        id: article.id,
+                        name: article.title,
+                    })}`,
+                )
+            }
             role="button"
             tabIndex={0}
             aria-hidden="true"

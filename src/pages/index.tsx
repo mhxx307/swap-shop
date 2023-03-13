@@ -14,9 +14,6 @@ const Home = () => {
                         <h3 className="text-4xl font-extrabold italic text-primary-500">
                             New articles
                         </h3>
-                        {/* <ArticlesSwiperInfinite
-                            articleList={data?.articles?.paginatedArticles}
-                        /> */}
                     </div>
                 </div>
             </ClientOnly>

@@ -38,9 +38,11 @@ export default function Popover({
     const showPopover = () => {
         setOpen(true);
     };
+
     const hidePopover = () => {
         setOpen(false);
     };
+
     return (
         <Element
             className={className}

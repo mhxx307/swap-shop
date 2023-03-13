@@ -17,14 +17,19 @@ import {
     HamburgerNavbar,
     Popover,
 } from '@/components/shared';
-import { useCheckAuth, useConstantsTranslation, useDevice } from '@/hooks';
-import { MeDocument, MeQuery, useLogoutMutation } from '@/generated/graphql';
+import { useConstantsTranslation, useDevice } from '@/hooks';
+import {
+    MeDocument,
+    MeQuery,
+    useLogoutMutation,
+    useMeQuery,
+} from '@/generated/graphql';
 import { BsBellFill } from 'react-icons/bs';
 import { path } from '@/constants';
 
 const Header = () => {
     const [navbar, setNavbar] = useState<boolean>(false);
-    const { data } = useCheckAuth();
+    const { data } = useMeQuery();
     const router = useRouter();
     const { t } = useTranslation('header');
     const {
@@ -36,8 +41,8 @@ const Header = () => {
     const { isMobile } = useDevice();
     const [logout] = useLogoutMutation();
 
-    const currentUser = data?.me;
-    const menuList = currentUser ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
+    const me = data?.me;
+    const menuList = me ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
 
     useEffect(() => {
         window.addEventListener('scroll', changeBackground);
@@ -98,7 +103,7 @@ const Header = () => {
 
                         <BsBellFill className="h-4 w-4 transition-colors hover:text-gray-500" />
 
-                        {!currentUser && (
+                        {!me && (
                             <Button
                                 primary
                                 shortcutKey="enter"
@@ -122,16 +127,18 @@ const Header = () => {
                                             {item.label}
                                         </Link>
                                     ))}
-                                    <button
-                                        className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
-                                        onClick={handleLogout}
-                                    >
-                                        {t('logout')}
-                                    </button>
+                                    {me && (
+                                        <button
+                                            className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
+                                            onClick={handleLogout}
+                                        >
+                                            {t('logout')}
+                                        </button>
+                                    )}
                                 </div>
                             }
                         >
-                            {currentUser ? (
+                            {me ? (
                                 <Image
                                     src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
                                     alt="dog avatar"

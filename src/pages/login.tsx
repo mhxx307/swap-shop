@@ -6,10 +6,9 @@ import { LoginForm } from '@/components/features/auth';
 import { BaseLayout } from '@/components/layouts';
 import { randomElement } from '@/utils';
 import quotes from '@/quotes.json';
-import { Head, Spinner } from '@/components/shared';
+import { Head, Rejected } from '@/components/shared';
 import { path, REVALIDATE_TIME } from '@/constants';
 import { useTranslation } from 'react-i18next';
-import { useCheckAuth } from '@/hooks';
 
 interface Quote {
     text: string;
@@ -23,83 +22,75 @@ interface LoginPageProps {
 const LoginPage = ({ quotes }: LoginPageProps) => {
     const randomQuote = useMemo(() => randomElement(quotes), [quotes]);
     const { t } = useTranslation('login');
-    const { data, loading } = useCheckAuth();
 
     return (
-        <>
+        <Rejected>
             <Head />
-            {loading || (!loading && data?.me) ? (
-                <div className="flex-center h-screen">
-                    <Spinner />
-                </div>
-            ) : (
-                <div className="relative grid min-h-screen w-full grid-cols-1 md:grid-cols-5">
-                    <Link
-                        className="absolute right-2 top-0 mt-4 bg-black shadow-3xl dark:bg-white"
-                        href={path.home}
-                    >
-                        {t('back_btn')}
-                    </Link>
-                    <div
-                        className="relative col-span-2 hidden after:absolute after:inset-0 after:z-10 after:bg-[#000000]/30 md:block"
-                        style={{
-                            backgroundImage:
-                                "url('/images/login-background.avif')",
-                            backgroundPosition: 'center center',
-                            backgroundSize: 'cover',
-                        }}
-                    >
-                        <div className="flex-center relative z-20 h-full w-full flex-col">
-                            <div className="w-full px-8">
-                                <p className="text-3xl font-semibold italic text-white line-clamp-6">
-                                    &quot;{randomQuote.text}&quot;
-                                </p>
-                                <p className="mt-2 text-right text-4xl font-semibold italic text-white">
-                                    {randomQuote.author}
-                                </p>
-                            </div>
+            <div className="relative grid min-h-screen w-full grid-cols-1 md:grid-cols-5">
+                <Link
+                    className="absolute right-2 top-0 mt-4 bg-black shadow-3xl dark:bg-white"
+                    href={path.home}
+                >
+                    {t('back_btn')}
+                </Link>
+                <div
+                    className="relative col-span-2 hidden after:absolute after:inset-0 after:z-10 after:bg-[#000000]/30 md:block"
+                    style={{
+                        backgroundImage: "url('/images/login-background.avif')",
+                        backgroundPosition: 'center center',
+                        backgroundSize: 'cover',
+                    }}
+                >
+                    <div className="flex-center relative z-20 h-full w-full flex-col">
+                        <div className="w-full px-8">
+                            <p className="text-3xl font-semibold italic text-white line-clamp-6">
+                                &quot;{randomQuote.text}&quot;
+                            </p>
+                            <p className="mt-2 text-right text-4xl font-semibold italic text-white">
+                                {randomQuote.author}
+                            </p>
                         </div>
                     </div>
+                </div>
 
-                    <div className="flex-center col-span-3">
-                        <div className="w-full space-y-6 rounded-lg bg-white p-6 shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md sm:p-8 md:mt-0">
-                            <div className="text-2xl font-semibold">
-                                {t('welcome_heading')}{' '}
-                                <span className="capitalize text-primary-500">
-                                    second chance
-                                </span>
-                                <p className="mt-2 text-xl">
-                                    {t('please_heading')}
+                <div className="flex-center col-span-3">
+                    <div className="w-full space-y-6 rounded-lg bg-white p-6 shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md sm:p-8 md:mt-0">
+                        <div className="text-2xl font-semibold">
+                            {t('welcome_heading')}{' '}
+                            <span className="capitalize text-primary-500">
+                                second chance
+                            </span>
+                            <p className="mt-2 text-xl">
+                                {t('please_heading')}
+                            </p>
+                        </div>
+
+                        <LoginForm />
+
+                        <div className="flex flex-col space-y-2">
+                            <div className="flex items-center">
+                                <p className="mr-2 font-thin text-gray-500 dark:text-white">
+                                    {t('dont_have_account')}
                                 </p>
-                            </div>
-
-                            <LoginForm />
-
-                            <div className="flex flex-col space-y-2">
-                                <div className="flex items-center">
-                                    <p className="mr-2 font-thin text-gray-500 dark:text-white">
-                                        {t('dont_have_account')}
-                                    </p>
-                                    <Link
-                                        href={path.register}
-                                        className="font-bold text-black hover:text-gray-500 dark:text-white dark:hover:text-opacity-80"
-                                    >
-                                        {t('sign_up_free')}
-                                    </Link>
-                                </div>
-
                                 <Link
-                                    href={path.forgotPassword}
-                                    className="text-blue-500 transition-colors hover:text-blue-400"
+                                    href={path.register}
+                                    className="font-bold text-black hover:text-gray-500 dark:text-white dark:hover:text-opacity-80"
                                 >
-                                    Forgot password ?
+                                    {t('sign_up_free')}
                                 </Link>
                             </div>
+
+                            <Link
+                                href={path.forgotPassword}
+                                className="text-blue-500 transition-colors hover:text-blue-400"
+                            >
+                                Forgot password ?
+                            </Link>
                         </div>
                     </div>
                 </div>
-            )}
-        </>
+            </div>
+        </Rejected>
     );
 };
 

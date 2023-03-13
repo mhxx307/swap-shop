@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { BiSearchAlt2 } from 'react-icons/bi';
 
-export interface SearchProps {
+interface SearchProps {
     className?: string;
 }
 

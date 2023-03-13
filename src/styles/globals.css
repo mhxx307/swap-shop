@@ -5,7 +5,9 @@
 
 * {
     scroll-behavior: smooth;
-    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html {
@@ -26,16 +28,12 @@ main {
     @apply flex-grow;
 }
 
-.wrapper {
-    @apply px-2 sm:px-4 md:px-8 lg:px-12 xl:px-16;
-}
-
 .section {
-    @apply wrapper flex flex-col py-16  md:flex-row;
+    @apply container flex flex-col py-16  md:flex-row;
 }
 
 .section-reverse {
-    @apply wrapper flex flex-col-reverse py-16  md:flex-row;
+    @apply container flex flex-col-reverse py-16  md:flex-row;
 }
 
 @tailwind utilities;

@@ -4,13 +4,13 @@ import classNames from 'classnames';
 
 import { NavItemProps } from '@/types';
 
-export interface NavMenuProps {
+interface NavListProps {
     navList: NavItemProps[];
     className?: string;
     itemClassName?: string;
 }
 
-const NavList = ({ navList, className, itemClassName }: NavMenuProps) => {
+const NavList = ({ navList, className, itemClassName }: NavListProps) => {
     const router = useRouter();
 
     return (

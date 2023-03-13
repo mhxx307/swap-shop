@@ -9,8 +9,9 @@ import {
 import { onError } from '@apollo/client/link/error';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
-import { Article } from '@/generated/graphql';
 import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
+
+import { PaginatedArticles } from '@/generated/graphql';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -43,24 +44,18 @@ function createApolloClient() {
                     articles: {
                         keyArgs: false,
                         merge(existing, incoming) {
-                            let paginatedArticles: Article[] = [];
-                            console.log('EXISTING', existing);
-                            console.log('INCOMING', incoming);
-
+                            let paginatedArticles: PaginatedArticles[] = [];
                             if (existing && existing.paginatedArticles) {
                                 paginatedArticles = paginatedArticles.concat(
                                     existing.paginatedArticles,
                                 );
                             }
-
                             if (incoming && incoming.paginatedArticles) {
                                 paginatedArticles = paginatedArticles.concat(
                                     incoming.paginatedArticles,
                                 );
                             }
-
                             console.log({ ...incoming, paginatedArticles });
-
                             return { ...incoming, paginatedArticles };
                         },
                     },

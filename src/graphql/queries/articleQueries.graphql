@@ -1,5 +1,5 @@
-query Articles($limit: Int!, $cursor: String) {
-    articles(limit: $limit, cursor: $cursor) {
+query Articles($queryConfig: QueryConfig!, $cursor: String) {
+    articles(queryConfig: $queryConfig, cursor: $cursor) {
         totalCount
         cursor
         hasMore
@@ -9,8 +9,8 @@ query Articles($limit: Int!, $cursor: String) {
     }
 }
 
-query Article($findArticleInput: FindArticleInput!) {
-    article(findArticleInput: $findArticleInput) {
+query Article($articleId: String!) {
+    article(id: $articleId) {
         ...article
     }
 }

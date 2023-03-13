@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 
 type MapProps = GoogleMapProps;
 
-export interface CoordsProps {
+interface CoordsProps {
     lat: number;
     lng: number;
 }

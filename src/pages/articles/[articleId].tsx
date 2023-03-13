@@ -9,6 +9,7 @@ import {
 import { FaFacebookF, FaLink, FaTwitter } from 'react-icons/fa';
 import { MdReportProblem } from 'react-icons/md';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import DOMPurify from 'dompurify';
 
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import { Comment } from '@/components/features/comment';
@@ -21,26 +22,19 @@ import {
     ArticlesQuery,
     useArticleQuery,
 } from '@/generated/graphql';
-import { limitArticlesPaginated } from '@/constants';
-
-export interface ArticleDetailPageProps {
-    article: Article;
-}
+import { getIdFromNameId, formatCurrency } from '@/utils';
 
 const ArticleDetailPage = () => {
     const router = useRouter();
+    const [id, setId] = useState('');
 
-    const { data, loading } = useArticleQuery({
+    const { data: articleData, loading } = useArticleQuery({
         variables: {
-            findArticleInput: { id: router.query.articleId as string },
+            articleId: id,
         },
     });
 
-    if (!loading && !data?.article) {
-        router.push('/404');
-    }
-
-    const article = data?.article;
+    const article = articleData?.article;
     const imageRef = useRef<HTMLImageElement>(null);
 
     // lấy 5 ảnh từ 0 1 2 3 4 => cắt qua slice sẽ không lấy số cuối nên phải để 5
@@ -56,6 +50,11 @@ const ArticleDetailPage = () => {
             setActiveImage(article.images[0]);
         }
     }, [article]);
+
+    useEffect(() => {
+        setId(getIdFromNameId(router.query.articleId as string));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const prev = () => {
         if (currentImagesIndex[0] > 0) {
@@ -77,9 +76,14 @@ const ArticleDetailPage = () => {
         const image = imageRef.current as HTMLImageElement;
         const rect = e.currentTarget.getBoundingClientRect();
 
-        const { naturalHeight, naturalWidth } = image;
-        const width = naturalHeight;
-        const height = naturalWidth;
+        // const { naturalHeight, naturalWidth } = image;
+        // const width = naturalHeight;
+        // const height = naturalWidth;
+
+        const naturalWidth = 800;
+        const naturalHeight = 800;
+        const width = naturalWidth;
+        const height = naturalHeight;
 
         const { offsetX, offsetY } = e.nativeEvent;
 
@@ -106,110 +110,125 @@ const ArticleDetailPage = () => {
         return <div>Loading...</div>;
     }
 
+    if (!loading && !article) {
+        return <div>Not have data to render</div>;
+    }
+
     return (
         <>
             <Head title={article.title} description={article.description} />
             <ClientOnly>
                 <div className="container header-height">
-                    <div className="grid grid-cols-10 gap-6 bg-white p-4 shadow-3xl">
-                        {/* images slider */}
-                        <div className="col-span-10 md:col-span-4">
-                            <div
-                                className="relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow"
-                                onMouseMove={handleZoom}
-                                onMouseLeave={handleRemoveZoom}
-                            >
-                                <img
-                                    src={activeImage}
-                                    alt={article.title}
-                                    ref={imageRef}
-                                    className="pointer-events-none absolute top-0 left-0 h-full w-full bg-white object-cover"
-                                />
-                            </div>
-                            <div className="relative mt-4 grid grid-cols-5 gap-1">
-                                <button
-                                    className="absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white"
-                                    onClick={prev}
+                    <div className="bg-white p-4 shadow">
+                        <div className="grid grid-cols-12 gap-9">
+                            {/* images slider */}
+                            <div className="col-span-full md:col-span-5">
+                                <div
+                                    className="relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow"
+                                    onMouseMove={handleZoom}
+                                    onMouseLeave={handleRemoveZoom}
                                 >
-                                    <BsChevronLeft />
-                                </button>
-                                {currentImages.map((img) => {
-                                    const isActive = img === activeImage;
-                                    return (
-                                        <div
-                                            className="relative w-full pt-[100%]"
-                                            key={img}
-                                            onMouseEnter={() =>
-                                                handleChooseImage(img)
-                                            }
-                                            aria-hidden="true"
-                                            role="button"
-                                            tabIndex={0}
-                                        >
-                                            <img
-                                                src={img}
-                                                alt={article.title}
-                                                className="absolute top-0 left-0 h-full w-full cursor-pointer bg-white object-cover"
-                                            />
-                                            {isActive && (
-                                                <div className="border-primary absolute inset-0 border-2" />
-                                            )}
-                                        </div>
-                                    );
-                                })}
-                                <button
-                                    className="absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white"
-                                    onClick={next}
-                                >
-                                    <BsChevronRight />
-                                </button>
+                                    <img
+                                        src={activeImage}
+                                        alt={article.title}
+                                        ref={imageRef}
+                                        className="pointer-events-none absolute top-0 left-0 h-full w-full bg-white object-cover"
+                                    />
+                                </div>
+                                <div className="relative mt-4 grid grid-cols-5 gap-1">
+                                    <button
+                                        className="absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white"
+                                        onClick={prev}
+                                    >
+                                        <BsChevronLeft />
+                                    </button>
+                                    {currentImages.map((img) => {
+                                        const isActive = img === activeImage;
+                                        return (
+                                            <div
+                                                className="relative w-full pt-[100%]"
+                                                key={img}
+                                                onMouseEnter={() =>
+                                                    handleChooseImage(img)
+                                                }
+                                                aria-hidden="true"
+                                                role="button"
+                                                tabIndex={0}
+                                            >
+                                                <img
+                                                    src={img}
+                                                    alt={article.title}
+                                                    className="absolute top-0 left-0 h-full w-full cursor-pointer bg-white object-cover"
+                                                />
+                                                {isActive && (
+                                                    <div className="border-primary absolute inset-0 border-2" />
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                    <button
+                                        className="absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white"
+                                        onClick={next}
+                                    >
+                                        <BsChevronRight />
+                                    </button>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* article detail */}
-                        <div className="col-span-10 space-y-6 md:col-span-6">
-                            <p className="break-words text-4xl">
-                                {article.title}
-                            </p>
-
-                            <div className="flex justify-between">
-                                <p className="text-2xl text-primary-400 ">
-                                    {article.price ? article.price : 'Miễn phí'}
+                            {/* article detail */}
+                            <div className="col-span-full space-y-6 md:col-span-7">
+                                <p className="break-words text-4xl">
+                                    {article.title}
                                 </p>
+
+                                <div className="flex justify-between">
+                                    <p className="text-2xl text-primary-400 ">
+                                        {article.price
+                                            ? formatCurrency(article.price)
+                                            : 'Miễn phí'}
+                                    </p>
+                                    <Button
+                                        primary
+                                        LeftIcon={MdReportProblem}
+                                        iconClassName="w-4 h-4"
+                                    >
+                                        Tố cáo
+                                    </Button>
+                                </div>
+
+                                <div className="border-bottom" />
+
+                                <p>
+                                    Category:{' '}
+                                    {article.categories.map((category) => (
+                                        <span key={category.id}>
+                                            {category.name}
+                                        </span>
+                                    ))}
+                                </p>
+
                                 <Button
+                                    className="btn-contact"
                                     primary
-                                    LeftIcon={MdReportProblem}
+                                    LeftIcon={BsFillTelephoneFill}
                                     iconClassName="w-4 h-4"
                                 >
-                                    Tố cáo
+                                    Liên hệ
                                 </Button>
-                            </div>
 
-                            <div className="border-bottom" />
-
-                            <p>Category: {article.category.name}</p>
-
-                            <Button
-                                className="btn-contact"
-                                primary
-                                LeftIcon={BsFillTelephoneFill}
-                                iconClassName="w-4 h-4"
-                            >
-                                Liên hệ
-                            </Button>
-
-                            <Button
-                                className="btn-wishlist"
-                                LeftIcon={BsFillStarFill}
-                                iconClassName="w-4 h-4"
-                            >
-                                Add to wishlist
-                            </Button>
-                            <div className="flex items-center space-x-6">
-                                <span>Share:</span>
-                                <FaFacebookF />
-                                <FaTwitter />
-                                <FaLink />
+                                <Button
+                                    className="btn-wishlist"
+                                    LeftIcon={BsFillStarFill}
+                                    iconClassName="w-4 h-4"
+                                >
+                                    Add to wishlist
+                                </Button>
+                                <div className="flex items-center space-x-6">
+                                    <span>Share:</span>
+                                    <FaFacebookF />
+                                    <FaTwitter />
+                                    <FaLink />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -236,8 +255,21 @@ const ArticleDetailPage = () => {
                             {
                                 label: 'Description',
                                 content: (
-                                    <div className="min-h-[400px] bg-white p-2 shadow-3xl">
-                                        {article.description}
+                                    <div className="mt-8">
+                                        <div className=" bg-white p-4 shadow">
+                                            <div className="rounded bg-gray-50 p-4 text-lg capitalize text-slate-700">
+                                                Mô tả sản phẩm
+                                            </div>
+                                            <div className="mx-4 mt-12 mb-4 text-sm leading-loose">
+                                                <div
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: DOMPurify.sanitize(
+                                                            article.description,
+                                                        ),
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                 ),
                             },
@@ -264,7 +296,7 @@ export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
 
     const { data } = await apolloClient.query<ArticlesQuery>({
         query: ArticlesDocument,
-        variables: { limit: limitArticlesPaginated },
+        variables: { queryConfig: { limit: '30' } },
     });
 
     return {
@@ -291,7 +323,7 @@ export const getStaticProps: GetStaticProps = async (
 
     await apolloClient.query<ArticleQuery>({
         query: ArticleDocument,
-        variables: { findArticleInput: { id: context.params?.articleId } },
+        variables: { articleId: context.params?.articleId },
     });
 
     return addApolloState(apolloClient, { props: {} });

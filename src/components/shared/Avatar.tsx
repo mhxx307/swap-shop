@@ -1,7 +1,7 @@
 import Image from './Image';
 import classNames from 'classnames';
 
-export interface AvatarProps {
+interface AvatarProps {
     className?: string;
     src: string;
 }

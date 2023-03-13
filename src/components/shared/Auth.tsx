@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
 import Spinner from './Spinner';
-import { useCheckAuth } from '@/hooks';
+import { useMeQuery } from '@/generated/graphql';
 
 interface AuthProps {
     children: ReactNode;
 }
 
 const Auth = ({ children }: AuthProps) => {
-    const { data, loading } = useCheckAuth();
+    const { data, loading } = useMeQuery();
     const router = useRouter();
 
     useEffect(() => {
