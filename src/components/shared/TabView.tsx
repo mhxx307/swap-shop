@@ -5,7 +5,7 @@ interface TabProps {
     content: ReactNode;
 }
 
-export interface TabViewProps {
+interface TabViewProps {
     title?: string;
     tabs: TabProps[];
 }

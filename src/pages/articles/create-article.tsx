@@ -1,13 +1,16 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import CurrencyInput from 'react-currency-input-field';
+import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
+import ReactQuill from 'react-quill';
+// import ReactCurrentcyInput from "react-currency-input-field"
+import 'react-quill/dist/quill.snow.css';
 
 import { ImageUpload } from '@/components/features/uploads';
 import { Auth, Button, InputField, FormSelect } from '@/components/shared';
-import { limitArticlesPaginated } from '@/constants';
 import {
-    useInsertArticleMutation,
     InsertArticleInput,
+    useCategoriesQuery,
+    useInsertArticleMutation,
 } from '@/generated/graphql';
 
 const prices = [
@@ -15,73 +18,71 @@ const prices = [
     { id: 2, label: 'Charges' },
 ];
 
+const modules = {
+    toolbar: [
+        [{ header: [1, 2, false] }],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [
+            { list: 'ordered' },
+            { list: 'bullet' },
+            { indent: '-1' },
+            { indent: '+1' },
+        ],
+        ['link', 'image'],
+        ['clean'],
+    ],
+};
+
+const formats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'list',
+    'bullet',
+    'indent',
+    'link',
+    'image',
+];
+
 const CreateArticle = () => {
+    const router = useRouter();
+    // const [file, setFile] = useState<File | null>(null);
     const [checked, setChecked] = useState(1);
-    const { control, handleSubmit, register } = useForm<any>({
+    const { control, handleSubmit } = useForm<InsertArticleInput>({
         defaultValues: {
             title: '',
-            category: [''],
-            brand: '',
-            productName: '',
             description: '',
-            thumbnail: 'fuck',
+            productName: '',
+            images: [
+                'https://images.unsplash.com/photo-1574539602047-548bf9557352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2V4eSUyMGdpcmx8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60',
+            ],
+            categoryIds: [''],
+            price: 0,
         },
     });
 
     const [createArticle, { loading }] = useInsertArticleMutation();
+    const { data: categoriesData } = useCategoriesQuery();
+    const categories = categoriesData?.categories;
 
-    const handleAddProduct = async (payload: any) => {
-        console.log(payload);
+    const handleAddProduct = async (payload: InsertArticleInput) => {
         await createArticle({
             variables: {
                 insertArticleInput: {
                     title: payload.title,
                     description: payload.description,
                     productName: payload.productName,
-                    thumbnail: payload.thumbnail,
+                    images: payload.images,
+                    categoryIds: payload.categoryIds,
+                    price: payload.price,
                 },
             },
-            update(cache, { data }) {
-                cache.modify({
-                    fields: {
-                        articles(existingArticles) {
-                            if (
-                                data?.insertArticle.success &&
-                                data.insertArticle.article
-                            ) {
-                                const newArticleRef = cache.identify(
-                                    data.insertArticle.article,
-                                );
-
-                                const newTotalCount =
-                                    existingArticles.totalCount + 1;
-
-                                const newPaginatedArticles = [
-                                    { __ref: newArticleRef },
-                                    ...existingArticles.paginatedArticles,
-                                ];
-
-                                // Remove final article from paginatedArticles array using splice()
-                                if (
-                                    newPaginatedArticles.length >
-                                    limitArticlesPaginated
-                                ) {
-                                    newPaginatedArticles.splice(-1, 1);
-                                }
-
-                                const newArticlesAfterCreation = {
-                                    ...existingArticles,
-                                    totalCount: newTotalCount,
-                                    paginatedArticles: newPaginatedArticles,
-                                };
-
-                                return newArticlesAfterCreation;
-                            }
-                        },
-                    },
-                });
-            },
         });
+
+        router.push('/articles');
     };
 
     return (
@@ -117,87 +118,57 @@ const CreateArticle = () => {
                                 placeholder="Product name"
                             />
 
+                            {/* price or free, should split to component */}
                             <div>
-                                <div className="flex justify-between">
-                                    <span className="default-label">Price</span>
-                                    <div className="flex space-x-2">
-                                        {prices.map((item) => {
-                                            return (
-                                                <div key={item.id}>
-                                                    <label htmlFor="">
-                                                        {item.label}
-                                                    </label>
-                                                    <input
-                                                        type="radio"
-                                                        checked={
-                                                            checked === item.id
-                                                        }
-                                                        onChange={() =>
-                                                            setChecked(item.id)
-                                                        }
-                                                    />
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
+                                <div className="flex space-x-2">
+                                    {prices.map((item) => {
+                                        return (
+                                            <div key={item.id}>
+                                                <label htmlFor="">
+                                                    {item.label}
+                                                </label>
+                                                <input
+                                                    type="radio"
+                                                    checked={
+                                                        checked === item.id
+                                                    }
+                                                    onChange={() =>
+                                                        setChecked(item.id)
+                                                    }
+                                                />
+                                            </div>
+                                        );
+                                    })}
                                 </div>
-                                <CurrencyInput
-                                    // name="price"
-                                    {...register('price')}
-                                    placeholder={
-                                        checked === 1
-                                            ? 'Free'
-                                            : 'Please enter a number'
-                                    }
-                                    decimalsLimit={2}
-                                    onValueChange={(value, name) =>
-                                        console.log(value, name)
-                                    }
-                                    suffix="vnđ"
+                                <InputField
+                                    control={control}
+                                    type="number"
+                                    label="Price"
+                                    name="price"
+                                    containerInputClassName="default-input"
+                                    placeholder="Price"
                                     disabled={checked === 1}
-                                    className={`default-input w-full outline-none ${
-                                        checked === 1 &&
-                                        'cursor-not-allowed opacity-70'
-                                    }`}
                                 />
                             </div>
 
                             <FormSelect
-                                control={control}
+                                control={
+                                    control as unknown as Control<FieldValues>
+                                }
                                 defaultValue={''}
-                                name="category"
+                                name="categoryIds"
                                 selectProps={{
                                     placeholder: 'Category',
-                                    options: [
-                                        {
-                                            value: 'Category 1',
-                                            label: 'Category 1',
-                                        },
-                                        {
-                                            value: 'Category 2',
-                                            label: 'Category 2',
-                                        },
-                                    ],
+                                    options: categories
+                                        ? categories.map((category) => ({
+                                              value: category.id,
+                                              label: category.name,
+                                          }))
+                                        : [],
                                     isMulti: true,
                                 }}
                                 label="Category"
                             />
-
-                            <InputField
-                                label="Brand"
-                                type="text"
-                                name="brand"
-                                control={control}
-                                containerInputClassName="default-input"
-                            />
-
-                            <div className="space-y-2 sm:col-span-2">
-                                <p>Thumbnail:</p>
-                                <ImageUpload
-                                    multiple={false}
-                                    initialFiles={[]}
-                                />
-                            </div>
 
                             <div className="space-y-2 sm:col-span-2">
                                 <p>Images:</p>
@@ -206,20 +177,27 @@ const CreateArticle = () => {
 
                             <div className="space-y-2 sm:col-span-2">
                                 <label htmlFor="description">Description</label>
-                                <InputField
-                                    type="text"
-                                    name="description"
+
+                                <Controller
                                     control={control}
-                                    containerInputClassName="default-input"
+                                    name="description"
+                                    render={({
+                                        field: { onChange, onBlur, value, ref },
+                                    }) => (
+                                        <ReactQuill
+                                            theme="snow"
+                                            value={value}
+                                            onChange={onChange}
+                                            onBlur={onBlur}
+                                            ref={ref}
+                                            modules={modules}
+                                            formats={formats}
+                                        />
+                                    )}
                                 />
-                                {/* <textarea
-                                    id="description"
-                                    rows={8}
-                                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="Your description here"
-                                /> */}
                             </div>
                         </div>
+
                         <Button primary isLoading={loading} type="submit">
                             Add product
                         </Button>

@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 
 type MapProps = GoogleMapProps;
 
-export interface CoordsProps {
+interface CoordsProps {
     lat: number;
     lng: number;
 }
@@ -51,7 +51,6 @@ const Map = (props: MapProps) => {
         <GoogleMap
             center={coords}
             zoom={15}
-            mapContainerClassName="w-full h-[400px]"
             onLoad={onLoad}
             onUnmount={unMount}
             {...props}

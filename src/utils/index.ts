@@ -63,3 +63,33 @@ export const createFileFromUrl = async (url: string, filename: string) => {
 
     return file;
 };
+
+export function formatCurrency(value: number) {
+    return new Intl.NumberFormat('de-DE').format(value);
+}
+
+export function formatNumberToSocialStyle(value: number) {
+    return new Intl.NumberFormat('en', {
+        notation: 'compact',
+        maximumFractionDigits: 1,
+    })
+        .format(value)
+        .replace('.', ',')
+        .toLowerCase();
+}
+
+export const removeSpecialCharacter = (str: string) =>
+    str.replace(
+        // eslint-disable-next-line no-useless-escape
+        /!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g,
+        '',
+    );
+
+export const generateNameId = ({ name, id }: { name: string; id: string }) => {
+    return removeSpecialCharacter(name).replace(/\s/g, '-') + `-i,${id}`;
+};
+
+export const getIdFromNameId = (nameId: string) => {
+    const arr = nameId.split('-i,');
+    return arr[arr.length - 1];
+};

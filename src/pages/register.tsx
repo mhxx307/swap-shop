@@ -1,43 +1,34 @@
 import Link from 'next/link';
 import { AiOutlineHome } from 'react-icons/ai';
 
-import { useCheckAuth } from '@/hooks';
 import { RegisterForm } from '@/components/features/auth';
 import { BaseLayout } from '@/components/layouts';
-import { Head, Spinner } from '@/components/shared';
+import { Head, Rejected } from '@/components/shared';
 import { path } from '@/constants';
 import { ReactNode } from 'react';
 
 const RegisterPage = () => {
-    const { data, loading } = useCheckAuth();
-
     return (
-        <>
+        <Rejected>
             <Head />
-            {loading || (!loading && data?.me) ? (
-                <div className="flex-center h-screen">
-                    <Spinner />
+            <div className="flex-center relative min-h-screen w-full bg-[#f0f0f0] dark:bg-primaryDark">
+                <div className="absolute top-2 left-2 flex space-x-4">
+                    <Link
+                        className="flex-center h-[35px] bg-black text-white shadow-3xl dark:hover:bg-gray-700 md:px-[25px]"
+                        href={path.home}
+                    >
+                        <AiOutlineHome />
+                    </Link>
+                    <Link
+                        className="flex-center h-[35px] bg-black text-white shadow-md dark:hover:bg-gray-700 md:px-[25px]"
+                        href={path.login}
+                    >
+                        login
+                    </Link>
                 </div>
-            ) : (
-                <div className="flex-center relative min-h-screen w-full bg-[#f0f0f0] dark:bg-primaryDark">
-                    <div className="absolute top-2 left-2 flex space-x-4">
-                        <Link
-                            className="flex-center h-[35px] bg-black text-white shadow-3xl dark:hover:bg-gray-700 md:px-[25px]"
-                            href={path.home}
-                        >
-                            <AiOutlineHome />
-                        </Link>
-                        <Link
-                            className="flex-center h-[35px] bg-black text-white shadow-md dark:hover:bg-gray-700 md:px-[25px]"
-                            href={path.login}
-                        >
-                            login
-                        </Link>
-                    </div>
-                    <RegisterForm />
-                </div>
-            )}
-        </>
+                <RegisterForm />
+            </div>
+        </Rejected>
     );
 };
 

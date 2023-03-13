@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { BiSearchAlt2 } from 'react-icons/bi';
 
-export interface SearchProps {
+interface SearchProps {
     className?: string;
 }
 
@@ -34,7 +34,7 @@ const Search = ({ className }: SearchProps) => {
             onClick={() => setToggle(true)}
             role="button"
             tabIndex={0}
-            onKeyDown={() => setToggle(true)}
+            aria-hidden="true"
         >
             <input
                 type="text"

@@ -1,8 +1,13 @@
-import { useMeQuery } from '@/generated/graphql';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
+import Spinner from './Spinner';
+import { useMeQuery } from '@/generated/graphql';
 
-const useCheckAuth = () => {
+interface RejectedProps {
+    children: ReactNode;
+}
+
+const Rejected = ({ children }: RejectedProps) => {
     const { data, loading } = useMeQuery();
     const router = useRouter();
 
@@ -19,10 +24,11 @@ const useCheckAuth = () => {
         }
     }, [loading, router, data]);
 
-    return {
-        data,
-        loading,
-    };
+    if (data?.me) {
+        return <Spinner />;
+    }
+
+    return <>{children}</>;
 };
 
-export default useCheckAuth;
+export default Rejected;

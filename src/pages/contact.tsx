@@ -59,7 +59,7 @@ const ContactPage = () => {
                         Icon={AiFillFacebook}
                         name="Facebook"
                         href={FACEBOOK_URL}
-                        iconcontainerClassName="bg-[#007bff]"
+                        iconcontainerclassname="bg-[#007bff]"
                     />
                 </div>
 
@@ -118,14 +118,14 @@ const ContactPage = () => {
 interface ContactItemProps {
     Icon: IconType;
     name: string;
-    iconcontainerClassName?: string;
+    iconcontainerclassname?: string;
     href: string;
 }
 
 const ContactItem = ({
     Icon,
     name,
-    iconcontainerClassName,
+    iconcontainerclassname,
     href,
 }: ContactItemProps) => {
     return (
@@ -134,7 +134,7 @@ const ContactItem = ({
                 <div
                     className={classNames(
                         'rounded-full p-[16px]',
-                        iconcontainerClassName,
+                        iconcontainerclassname,
                     )}
                 >
                     <Icon className="h-[24px] w-[24px] text-white" />

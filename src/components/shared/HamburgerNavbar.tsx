@@ -4,7 +4,7 @@ import Hamburger from 'hamburger-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
-export interface HamburgerNavbarProps {
+interface HamburgerNavbarProps {
     data: PopupMenuItemProps[];
     className: string;
 }

@@ -39,7 +39,7 @@ const SwiperNavigation = ({
                         <Image
                             src={image}
                             alt="thumb"
-                            containerClassName={classNames(
+                            containerclassname={classNames(
                                 'w-full h-full shadow-3xl',
                                 imageClassName,
                             )}

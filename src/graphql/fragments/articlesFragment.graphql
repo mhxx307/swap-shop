@@ -6,6 +6,11 @@ fragment article on Article {
     productName
     thumbnail
     discount
+    images
+    categories {
+        id
+        name
+    }
     user {
         ...user
     }

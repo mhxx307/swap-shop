@@ -17,14 +17,19 @@ import {
     HamburgerNavbar,
     Popover,
 } from '@/components/shared';
-import { useCheckAuth, useConstantsTranslation, useDevice } from '@/hooks';
-import { MeDocument, MeQuery, useLogoutMutation } from '@/generated/graphql';
+import { useConstantsTranslation, useDevice } from '@/hooks';
+import {
+    MeDocument,
+    MeQuery,
+    useLogoutMutation,
+    useMeQuery,
+} from '@/generated/graphql';
 import { BsBellFill } from 'react-icons/bs';
 import { path } from '@/constants';
 
 const Header = () => {
     const [navbar, setNavbar] = useState<boolean>(false);
-    const { data } = useCheckAuth();
+    const { data } = useMeQuery();
     const router = useRouter();
     const { t } = useTranslation('header');
     const {
@@ -36,8 +41,8 @@ const Header = () => {
     const { isMobile } = useDevice();
     const [logout] = useLogoutMutation();
 
-    const currentUser = data?.me;
-    const menuList = currentUser ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
+    const me = data?.me;
+    const menuList = me ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
 
     useEffect(() => {
         window.addEventListener('scroll', changeBackground);
@@ -80,92 +85,96 @@ const Header = () => {
             }}
             className="fixed z-20 flex w-full flex-col shadow-md transition-colors [&>*:first-child]:ml-0"
         >
-            <div
-                className={`wrapper flex items-center justify-between bg-white ${
-                    navbar && 'hidden'
-                }`}
-            >
-                <Logo />
+            <div className={` bg-white ${navbar && 'hidden'}`}>
+                <div className="container flex items-center justify-between">
+                    <Logo />
 
-                {/* language switcher, notification, login, bar */}
-                <div className="flex items-center space-x-4">
-                    <Search className="hidden md:flex" />
+                    {/* language switcher, notification, login, bar */}
+                    <div className="flex items-center space-x-4">
+                        <Search className="hidden md:flex" />
 
-                    <LanguageSwitcher />
+                        <LanguageSwitcher />
 
-                    {isMobile && (
-                        <Link href="/download">
-                            <AiOutlineDownload className="h-6 w-6" />
-                        </Link>
-                    )}
-
-                    <BsBellFill className="h-4 w-4 transition-colors hover:text-gray-500" />
-
-                    {!currentUser && (
-                        <Button
-                            primary
-                            shortcutKey="enter"
-                            onClick={() => router.push(path.login)}
-                        >
-                            <p className="line-clamp-1">{t('login_title')}</p>
-                        </Button>
-                    )}
-
-                    <Popover
-                        renderPopover={
-                            <div className="relative rounded-sm border border-gray-200 bg-white shadow-md">
-                                {menuList.map((item) => (
-                                    <Link
-                                        key={item.path}
-                                        href={item.path}
-                                        className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
-                                    >
-                                        {item.label}
-                                    </Link>
-                                ))}
-                                <button
-                                    className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
-                                    onClick={handleLogout}
-                                >
-                                    {t('logout')}
-                                </button>
-                            </div>
-                        }
-                    >
-                        {currentUser ? (
-                            <Image
-                                src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
-                                alt="dog avatar"
-                                className="h-8 w-8 rounded-[50%] object-cover sm:cursor-pointer"
-                            />
-                        ) : (
-                            <AiOutlineMore
-                                className={`h-8 w-8 text-black sm:cursor-pointer`}
-                            />
+                        {isMobile && (
+                            <Link href="/download">
+                                <AiOutlineDownload className="h-6 w-6" />
+                            </Link>
                         )}
-                    </Popover>
+
+                        <BsBellFill className="h-4 w-4 transition-colors hover:text-gray-500" />
+
+                        {!me && (
+                            <Button
+                                primary
+                                shortcutKey="enter"
+                                onClick={() => router.push(path.login)}
+                            >
+                                <p className="line-clamp-1">
+                                    {t('login_title')}
+                                </p>
+                            </Button>
+                        )}
+
+                        <Popover
+                            renderPopover={
+                                <div className="relative rounded-sm border border-gray-200 bg-white shadow-md">
+                                    {menuList.map((item) => (
+                                        <Link
+                                            key={item.path}
+                                            href={item.path}
+                                            className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    ))}
+                                    {me && (
+                                        <button
+                                            className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
+                                            onClick={handleLogout}
+                                        >
+                                            {t('logout')}
+                                        </button>
+                                    )}
+                                </div>
+                            }
+                        >
+                            {me ? (
+                                <Image
+                                    src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
+                                    alt="dog avatar"
+                                    className="h-8 w-8 rounded-[50%] object-cover sm:cursor-pointer"
+                                />
+                            ) : (
+                                <AiOutlineMore
+                                    className={`h-8 w-8 text-black sm:cursor-pointer`}
+                                />
+                            )}
+                        </Popover>
+                    </div>
                 </div>
             </div>
 
             {/* ${
                     navbar && 'backdrop-blur-sm shadow-3xl bg-black/30'
                 } */}
-            <div className="wrapper flex items-center justify-between bg-[#1b1b1b] py-3">
-                <div className="flex items-center space-x-4">
-                    <HamburgerNavbar
-                        data={HEADER_MOBILE_NAV_LIST}
-                        className="block cursor-pointer text-white md:hidden"
-                    />
+            <div className="bg-[#1b1b1b] py-3">
+                <div className="container flex items-center justify-between">
+                    <div className="flex-center">
+                        <HamburgerNavbar
+                            data={HEADER_MOBILE_NAV_LIST}
+                            className="block cursor-pointer text-white md:hidden"
+                        />
 
-                    <NavList
-                        navList={HEADER_NAV_LIST}
-                        className="hidden items-center justify-between md:flex"
-                    />
+                        <NavList
+                            navList={HEADER_NAV_LIST}
+                            className="hidden items-center justify-between md:flex"
+                        />
 
-                    <Search className="block md:hidden" />
+                        <Search className="block md:hidden" />
+                    </div>
+
+                    <ThemeSwitcher />
                 </div>
-
-                <ThemeSwitcher />
             </div>
         </motion.header>
     );

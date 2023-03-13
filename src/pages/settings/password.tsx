@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import { SettingsLayout } from '@/components/layouts';
-import { Auth, Button, InputField } from '@/components/shared';
+import { Button, InputField } from '@/components/shared';
 import {
     ChangePasswordInput,
     useChangePasswordLoggedMutation,
@@ -56,67 +56,65 @@ const PasswordPage = () => {
     }, [data, loading]);
 
     return (
-        <Auth>
-            <div className="space-y-14">
-                <h3 className="text-4xl">Password</h3>
-                <form
-                    className="space-y-12 pb-4"
-                    method="POST"
-                    onSubmit={handleSubmit(handleChangePassword)}
+        <div className="space-y-14">
+            <h3 className="text-4xl">Password</h3>
+            <form
+                className="space-y-12 pb-4"
+                method="POST"
+                onSubmit={handleSubmit(handleChangePassword)}
+            >
+                <InputField
+                    type={showOldPassword ? 'text' : 'password'}
+                    name="oldPassword"
+                    placeholder="........"
+                    control={control}
+                    className="px-3 py-2"
+                    label="Old password"
+                    iconClassName="w-5 h-5 cursor-pointer hover:text-gray-500"
+                    rightIconOnClick={() =>
+                        setShowOldPassword(!showOldPassword)
+                    }
+                    RightIcon={showOldPassword ? FaEye : FaEyeSlash}
+                />
+
+                <InputField
+                    type={showNewPassword ? 'text' : 'password'}
+                    name="newPassword"
+                    placeholder="........"
+                    control={control}
+                    className="px-3 py-2"
+                    label="New password"
+                    iconClassName="w-5 h-5 cursor-pointer hover:text-gray-500"
+                    rightIconOnClick={() =>
+                        setShowNewPassword(!showNewPassword)
+                    }
+                    RightIcon={showNewPassword ? FaEye : FaEyeSlash}
+                />
+
+                <InputField
+                    type={showConfirmNewPassword ? 'text' : 'password'}
+                    name="confirmNewPassword"
+                    placeholder="........"
+                    control={control}
+                    className="px-3 py-2"
+                    label="Confirm new password"
+                    iconClassName="w-5 h-5 cursor-pointer hover:text-gray-500"
+                    rightIconOnClick={() =>
+                        setShowConfirmNewPassword(!showConfirmNewPassword)
+                    }
+                    RightIcon={showConfirmNewPassword ? FaEye : FaEyeSlash}
+                />
+
+                <Button
+                    primary
+                    type="submit"
+                    className="border-[2px] border-transparent text-right font-semibold"
+                    isLoading={loading}
                 >
-                    <InputField
-                        type={showOldPassword ? 'text' : 'password'}
-                        name="oldPassword"
-                        placeholder="........"
-                        control={control}
-                        className="px-3 py-2"
-                        label="Old password"
-                        iconClassName="w-5 h-5 cursor-pointer hover:text-gray-500"
-                        rightIconOnClick={() =>
-                            setShowOldPassword(!showOldPassword)
-                        }
-                        RightIcon={showOldPassword ? FaEye : FaEyeSlash}
-                    />
-
-                    <InputField
-                        type={showNewPassword ? 'text' : 'password'}
-                        name="newPassword"
-                        placeholder="........"
-                        control={control}
-                        className="px-3 py-2"
-                        label="New password"
-                        iconClassName="w-5 h-5 cursor-pointer hover:text-gray-500"
-                        rightIconOnClick={() =>
-                            setShowNewPassword(!showNewPassword)
-                        }
-                        RightIcon={showNewPassword ? FaEye : FaEyeSlash}
-                    />
-
-                    <InputField
-                        type={showConfirmNewPassword ? 'text' : 'password'}
-                        name="confirmNewPassword"
-                        placeholder="........"
-                        control={control}
-                        className="px-3 py-2"
-                        label="Confirm new password"
-                        iconClassName="w-5 h-5 cursor-pointer hover:text-gray-500"
-                        rightIconOnClick={() =>
-                            setShowConfirmNewPassword(!showConfirmNewPassword)
-                        }
-                        RightIcon={showConfirmNewPassword ? FaEye : FaEyeSlash}
-                    />
-
-                    <Button
-                        primary
-                        type="submit"
-                        className="border-[2px] border-transparent text-right font-semibold"
-                        isLoading={loading}
-                    >
-                        Save
-                    </Button>
-                </form>
-            </div>
-        </Auth>
+                    Save
+                </Button>
+            </form>
+        </div>
     );
 };
 

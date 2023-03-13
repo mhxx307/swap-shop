@@ -4,22 +4,19 @@ import { ReactNode } from 'react';
 import { SettingsLayout } from '@/components/layouts';
 import { Auth, Button, InputField } from '@/components/shared';
 import { AvatarUpload } from '@/components/features/uploads';
-import { useCheckAuth } from '@/hooks';
-import {
-    useUpdateProfileMutation,
-    UpdateProfileInput,
-} from '@/generated/graphql';
-import { toast } from 'react-toastify';
+import { useMeQuery } from '@/generated/graphql';
 
 const ProfilePage = () => {
-    const { data } = useCheckAuth();
-    const { control, handleSubmit } = useForm<UpdateProfileInput>({
+    const { data: meData } = useMeQuery();
+    const me = meData?.me;
+    const { control, handleSubmit } = useForm<any>({
         defaultValues: {
-            username: data?.me?.username,
-            address: data?.me?.address,
-            phoneNumber: data?.me?.phoneNumber,
-            fullName: data?.me?.fullName,
-            birthday: data?.me?.birthday,
+            username: me?.username,
+            address: me?.address,
+            email: me?.email,
+            phoneNumber: me?.phoneNumber,
+            fullName: me?.fullName,
+            birthday: me?.birthday,
         },
     });
 
@@ -38,7 +35,7 @@ const ProfilePage = () => {
     return (
         <Auth>
             <div className="space-y-12 pb-[60px]">
-                <AvatarUpload picture={data?.me?.avatar} />
+                <AvatarUpload picture={me?.avatar} />
 
                 <form
                     method="POST"

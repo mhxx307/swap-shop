@@ -16,11 +16,11 @@ import {
     useCommentListByArticleIdQuery,
     useDeleteCommentMutation,
     useInsertCommentMutation,
+    useMeQuery,
     useUpdateCommentMutation,
 } from '@/generated/graphql';
-import { useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import CommentItem from './CommentItem';
-import { useCheckAuth } from '@/hooks';
 
 function Comment() {
     const [updateMode, setUpdateMode] = useState<UpdateCommentInput | null>(
@@ -29,8 +29,8 @@ function Comment() {
     const { query } = useRouter();
     const articleId = query.articleId as string;
 
-    const { data } = useCheckAuth();
-    const me = data?.me;
+    const { data: meData } = useMeQuery();
+    const me = meData?.me;
 
     const {
         data: commentList,
@@ -162,7 +162,9 @@ function Comment() {
         });
     };
 
-    const handleUpdateComment = async (e: any) => {
+    const handleUpdateComment = async (
+        e: MouseEvent<HTMLButtonElement, MouseEvent>,
+    ) => {
         e.preventDefault();
         if (updateMode) {
             await updateCommentMutation({
@@ -199,11 +201,11 @@ function Comment() {
         <div className="bg-white dark:bg-secondaryDark">
             <div className="-mt-1 space-y-4 rounded-b-sm p-5">
                 <p className="text-sm">
-                    {data ? (
+                    {meData?.me ? (
                         <>
                             Comment as{' '}
                             <span className="text-red-500">
-                                {data.me?.username}
+                                {meData.me.username}
                             </span>
                         </>
                     ) : (
