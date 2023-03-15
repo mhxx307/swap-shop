@@ -4,16 +4,20 @@ import { ReactNode } from 'react';
 import { SettingsLayout } from '@/components/layouts';
 import { Auth, Button, InputField } from '@/components/shared';
 import { AvatarUpload } from '@/components/features/uploads';
-import { useMeQuery } from '@/generated/graphql';
+import {
+    UpdateProfileInput,
+    useMeQuery,
+    useUpdateProfileMutation,
+} from '@/generated/graphql';
+import { toast } from 'react-toastify';
 
 const ProfilePage = () => {
     const { data: meData } = useMeQuery();
     const me = meData?.me;
-    const { control, handleSubmit } = useForm<any>({
+    const { control, handleSubmit } = useForm<UpdateProfileInput>({
         defaultValues: {
             username: me?.username,
             address: me?.address,
-            email: me?.email,
             phoneNumber: me?.phoneNumber,
             fullName: me?.fullName,
             birthday: me?.birthday,
@@ -56,7 +60,7 @@ const ProfilePage = () => {
                         containerInputClassName="default-input"
                     />
 
-                    <p>{data?.me?.email}</p>
+                    <p>{me?.email}</p>
 
                     <InputField
                         name="phoneNumber"

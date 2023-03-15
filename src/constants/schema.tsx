@@ -50,6 +50,7 @@ const getSchema = () => {
                 .string()
                 .min(2, 'Must be at least 2 characters long')
                 .required('Please enter your username or email'),
+            title: yup.string().required('Please enter your title'),
         })
         .required();
 
@@ -57,3 +58,6 @@ const getSchema = () => {
 };
 
 export default getSchema;
+const schema = getSchema();
+
+export type Schema = yup.InferType<typeof schema>;

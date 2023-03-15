@@ -273,7 +273,7 @@ const ArticleDetailPage = () => {
                                     </div>
                                 ),
                             },
-                            { label: 'Comments', content: <Comment /> },
+                            { label: 'Comments', content: <Comment id={id} /> },
                             {
                                 label: 'MinhQuan articles',
                                 content: <div>Article</div>,
