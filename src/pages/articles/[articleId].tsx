@@ -20,9 +20,12 @@ import {
     ArticleQuery,
     ArticlesDocument,
     ArticlesQuery,
+    QueryConfig,
     useArticleQuery,
+    useArticlesQuery,
 } from '@/generated/graphql';
 import { getIdFromNameId, formatCurrency } from '@/utils';
+import { ArticleList } from '@/components/features/articles';
 
 const ArticleDetailPage = () => {
     const router = useRouter();
@@ -33,6 +36,20 @@ const ArticleDetailPage = () => {
             articleId: id,
         },
     });
+
+    const queryConfig: QueryConfig = {
+        page: '1',
+        limit: '20',
+        categories: articleData?.article?.categories.map((c) => c.id),
+    };
+
+    const { data: articlesData } = useArticlesQuery({
+        variables: {
+            queryConfig: queryConfig,
+        },
+        skip: !articleData,
+    });
+    const articles = articlesData?.articles.data?.articles;
 
     const article = articleData?.article;
     const imageRef = useRef<HTMLImageElement>(null);
@@ -284,6 +301,9 @@ const ArticleDetailPage = () => {
                     {/* related articles */}
                     <div className="my-8">
                         <h3 className="text-4xl font-bold">Related articles</h3>
+                        {articles && (
+                            <ArticleList articles={articles as Article[]} />
+                        )}
                     </div>
                 </div>
             </ClientOnly>
@@ -302,7 +322,7 @@ export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
     return {
         paths:
             data &&
-            data.articles?.paginatedArticles
+            data.articles?.data?.articles
                 .map((article) => {
                     return locales.map((locale) => {
                         return {

@@ -6,7 +6,8 @@ function useQueryConfig() {
     const { query } = useRouter();
     const queryConfig: QueryConfig = omitBy(
         {
-            limit: query.limit || '3',
+            page: query.page || '1',
+            limit: query.limit || '20',
             sort_by: query.sort_by,
             order_by: query.order_by,
             title: query.title,

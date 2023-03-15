@@ -1,4 +1,4 @@
-import { FormSelect, Select } from '@/components/shared';
+import { Select } from '@/components/shared';
 import { path } from '@/constants';
 import { QueryConfig, useCategoriesQuery } from '@/generated/graphql';
 import { useRouter } from 'next/router';
