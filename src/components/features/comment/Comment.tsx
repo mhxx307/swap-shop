@@ -22,12 +22,17 @@ import {
 import { MouseEvent, useState } from 'react';
 import CommentItem from './CommentItem';
 
-function Comment() {
+interface CommentProps {
+    id: string;
+}
+
+// ! ApolloError: Cannot read properties of null (reading 'totalCount')
+function Comment({ id }: CommentProps) {
     const [updateMode, setUpdateMode] = useState<UpdateCommentInput | null>(
         null,
     );
-    const { query } = useRouter();
-    const articleId = query.articleId as string;
+    // const { query } = useRouter();
+    const articleId = id;
 
     const { data: meData } = useMeQuery();
     const me = meData?.me;
