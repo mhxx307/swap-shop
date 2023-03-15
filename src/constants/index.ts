@@ -32,7 +32,6 @@ export const WEBSITE_URL = 'swap-shop-jq6a2utdi-mhxx307.vercel.app';
 
 export const supportedUploadImageFormats = ['jpg', 'jpeg', 'png'];
 
-export const limitArticlesPaginated = 10 as const;
 export const limitCommentsPaginated = 10 as const;
 
 export const path = {

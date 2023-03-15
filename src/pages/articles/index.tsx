@@ -1,15 +1,14 @@
 import { useEffect } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { NetworkStatus, useApolloClient } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { isUndefined, omitBy } from 'lodash';
 
 import { ArticleFilter, ArticleList } from '@/components/features/articles';
-import { Button, ClientOnly, Head } from '@/components/shared';
+import { ClientOnly, Head, Pagination } from '@/components/shared';
 import {
     Article,
     ArticlesDocument,
     ArticlesQuery,
-    PaginatedArticles,
     QueryArticlesArgs,
     QueryConfig,
     useArticlesQuery,
@@ -20,22 +19,15 @@ import { useQueryConfig } from '@/hooks';
 const Articles = () => {
     const queryConfig = useQueryConfig();
 
-    const {
-        data: articlesData,
-        fetchMore,
-        networkStatus,
-        refetch,
-    } = useArticlesQuery({
+    const { data: articlesData } = useArticlesQuery({
         variables: {
             queryConfig: queryConfig,
-            cursor: null, // first fetch, no cursor provided
         },
-        notifyOnNetworkStatusChange: true,
     });
 
+    const articles = articlesData?.articles.data?.articles;
+
     const client = useApolloClient();
-    const articles = articlesData?.articles;
-    const loadingMoreArticles = networkStatus === NetworkStatus.fetchMore;
 
     useEffect(() => {
         return () => {
@@ -45,22 +37,7 @@ const Articles = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // useEffect(() => {
-    //     refetch();
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [queryConfig]);
-
-    const handleMoreArticles = () => {
-        fetchMore({
-            variables: {
-                cursor: (articles as PaginatedArticles).paginatedArticles[
-                    (articles as PaginatedArticles).paginatedArticles.length - 1
-                ].createdDate,
-            },
-        });
-    };
-
-    if (!articles?.paginatedArticles) {
+    if (!articles) {
         return <div>Loading...</div>;
     }
 
@@ -71,19 +48,15 @@ const Articles = () => {
                 <div className="container header-height space-y-20 pb-[20px]">
                     <ArticleFilter queryConfig={queryConfig} />
 
-                    <ArticleList
-                        articles={articles.paginatedArticles as Article[]}
-                    />
+                    <ArticleList articles={articles as Article[]} />
 
-                    {articles.hasMore && (
-                        <Button
-                            primary
-                            isLoading={loadingMoreArticles}
-                            onClick={handleMoreArticles}
-                        >
-                            {loadingMoreArticles ? 'Loading' : 'Show more'}
-                        </Button>
-                    )}
+                    <Pagination
+                        pageSize={
+                            articlesData.articles.data?.pagination
+                                .page_size as number
+                        }
+                        queryConfig={queryConfig}
+                    />
                 </div>
             </ClientOnly>
         </>
@@ -98,6 +71,7 @@ export const getServerSideProps: GetServerSideProps = async (
     const { query } = context;
     const queryConfig: QueryConfig = omitBy(
         {
+            page: query.page || '1',
             limit: query.limit || '20',
             sort_by: query.sort_by,
             order_by: query.order_by,
@@ -118,9 +92,7 @@ export const getServerSideProps: GetServerSideProps = async (
         query: ArticlesDocument,
         variables: {
             queryConfig: queryConfig,
-            cursor: null, // first fetch, no cursor provided
         },
-
         //Rerender component when networkStatus change
         notifyOnNetworkStatusChange: true,
     });

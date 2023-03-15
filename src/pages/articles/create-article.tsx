@@ -56,13 +56,13 @@ const CreateArticle = () => {
             title: '',
             description: '',
             productName: '',
-            images: [
-                'https://images.unsplash.com/photo-1574539602047-548bf9557352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2V4eSUyMGdpcmx8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60',
-            ],
+            images: [''],
             categoryIds: [''],
             price: 0,
         },
     });
+
+    // https://images.unsplash.com/photo-1574539602047-548bf9557352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2V4eSUyMGdpcmx8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60
 
     const [createArticle, { loading }] = useInsertArticleMutation();
     const { data: categoriesData } = useCategoriesQuery();
@@ -177,8 +177,15 @@ const CreateArticle = () => {
 
                             <div className="space-y-2 sm:col-span-2">
                                 <label htmlFor="description">Description</label>
-
-                                <Controller
+                                <InputField
+                                    control={control}
+                                    type="text"
+                                    label="Description"
+                                    name="description"
+                                    containerInputClassName="default-input"
+                                    placeholder="Description"
+                                />
+                                {/* <Controller
                                     control={control}
                                     name="description"
                                     render={({
@@ -194,7 +201,7 @@ const CreateArticle = () => {
                                             formats={formats}
                                         />
                                     )}
-                                />
+                                /> */}
                             </div>
                         </div>
 
