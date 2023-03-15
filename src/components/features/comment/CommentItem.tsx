@@ -2,9 +2,10 @@ import TimeAgo from 'timeago-react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 import { Dispatch, SetStateAction } from 'react';
 
-import { Avatar, Button } from '@/components/shared';
-import { UpdateCommentInput } from '@/generated/graphql';
+import { Avatar, Button, Popover } from '@/components/shared';
+import { UpdateCommentInput, PaginatedComments } from '@/generated/graphql';
 
+// ! comment fix any type
 interface CommentItemProps {
     comment: any;
     updateMode: UpdateCommentInput | null;
@@ -28,7 +29,64 @@ function CommentItem({
 }: CommentItemProps) {
     return (
         <div className="flex space-x-4">
-            <Avatar src={comment.user.avatar as string} />
+            <Popover
+                renderPopover={
+                    <div className=" absolute z-10 inline-block w-64 rounded-lg border border-gray-200 bg-white text-sm font-light text-gray-500  shadow-sm transition-opacity duration-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400">
+                        <div className="p-3">
+                            <div className="mb-2 flex items-center justify-between">
+                                <span>
+                                    <Avatar
+                                        src={comment.user.avatar as string}
+                                    />
+                                </span>
+                                <div>
+                                    <button
+                                        type="button"
+                                        className="rounded-lg bg-blue-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    >
+                                        Follow
+                                    </button>
+                                </div>
+                            </div>
+                            <p className="text-base font-semibold leading-none text-gray-900 dark:text-white">
+                                <span>{comment.user.username}</span>
+                            </p>
+                            <p className="mb-3 text-sm font-normal">
+                                <span className="hover:underline">@Hoang</span>
+                            </p>
+                            <p className="mb-4 text-sm font-light">
+                                Open-source contributor. Building{' '}
+                                <span className="text-blue-600 hover:underline dark:text-blue-500">
+                                    flowbite.com
+                                </span>
+                                .
+                            </p>
+                            <ul className="flex text-sm font-light">
+                                <li className="mr-2">
+                                    <span className="hover:underline">
+                                        <span className="font-semibold text-gray-900 dark:text-white">
+                                            799
+                                        </span>
+                                        <span>Following</span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span className="hover:underline">
+                                        <span className="font-semibold text-gray-900 dark:text-white">
+                                            3,758
+                                        </span>
+                                        <span>Followers</span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div data-popper-arrow></div>
+                    </div>
+                }
+            >
+                <Avatar src={comment.user.avatar as string} />
+            </Popover>
             <div className="mb-4 grid flex-grow grid-cols-10">
                 {updateMode && updateMode.id === comment.id ? (
                     <div className="col-span-10 flex flex-col space-x-2 ">
