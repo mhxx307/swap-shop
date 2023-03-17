@@ -18,35 +18,34 @@ const ArticleList = ({
     className,
 }: ArticleListProps) => {
     return (
-        <div className={classNames('mb-4 p-2', className)}>
+        <div className={classNames('mb-4', className)}>
             {title && (
-                <h3
-                    className={classNames('text-2xl font-bold', titleClassName)}
-                >
+                <h3 className={classNames('text-xl font-bold', titleClassName)}>
                     {title}
                 </h3>
             )}
 
-            <div className="grid grid-cols-2 gap-5 md:grid-cols-4 lg:grid-cols-5  xl:grid-cols-6">
-                {articles.map((article, index) => (
-                    <motion.div
-                        key={article.id}
-                        initial={{
-                            opacity: 0,
-                            translateX: index % 2 === 0 ? -50 : 50,
-                            translateY: -50,
-                        }}
-                        animate={{
-                            opacity: 1,
-                            translateX: 0,
-                            translateY: 0,
-                        }}
-                        transition={{ duration: 0.2, delay: index * 0.2 }}
-                        className="col-span-1"
-                    >
-                        <ArticleCard article={article} />
-                    </motion.div>
-                ))}
+            <div className="grid grid-cols-2 gap-1 md:grid-cols-4 lg:grid-cols-5  xl:grid-cols-6">
+                {articles &&
+                    articles.map((article, index) => (
+                        <motion.div
+                            key={article.id}
+                            initial={{
+                                opacity: 0,
+                                translateX: index % 2 === 0 ? -50 : 50,
+                                translateY: -50,
+                            }}
+                            animate={{
+                                opacity: 1,
+                                translateX: 0,
+                                translateY: 0,
+                            }}
+                            transition={{ duration: 0.2, delay: index * 0.2 }}
+                            className="col-span-1"
+                        >
+                            <ArticleCard article={article} />
+                        </motion.div>
+                    ))}
             </div>
         </div>
     );

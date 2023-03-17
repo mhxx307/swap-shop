@@ -4,7 +4,6 @@ import { path, icons } from '.';
 // header navigation
 const HEADER_NAV_LIST: NavItemProps[] = [
     { path: path.home, label: 'Home' },
-    { path: path.articles, label: 'Second hand transaction' },
     { path: path.about, label: 'About' },
 ];
 
