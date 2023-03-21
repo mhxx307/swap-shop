@@ -10,8 +10,6 @@ export { default as Popover } from './Popover';
 export { default as InputField } from './InputField';
 export { default as LanguageSwitcher } from './LanguageSwitcher';
 export { default as ThemeSwitcher } from './ThemeSwitcher';
-export { default as SwiperEffectCard } from './SwiperEffectCard';
-export { default as SwiperNavigation } from './SwiperNavigation';
 export { default as Map } from './Map';
 export { default as SettingsDropdown } from './SettingsDropdown';
 export { default as SwiperAutoPlay } from './SwiperAutoPlay';

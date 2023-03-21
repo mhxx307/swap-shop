@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router';
 import { Image } from '@/components/shared';
-import { BsFillChatDotsFill, BsShareFill } from 'react-icons/bs';
 import { motion } from 'framer-motion';
 import { Article } from '@/generated/graphql';
 import TimeAgo from 'timeago-react';
 import { generateNameId } from '@/utils';
-
 interface ArticleCardProps {
     article: Article;
 }
@@ -52,14 +50,14 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                     src={article.user.avatar || '/images/avatar-fallback.png'}
                     alt="Avatar"
                     className="h-full w-full object-cover text-center ss:mx-[24px]"
-                    containerclassname="flex-center text-sm z-50 w-8 h-8 rounded-[50%] overflow-hidden absolute left-[24px] bottom-[-16px]"
+                    classNameWrapper="flex-center text-sm z-50 w-8 h-8 rounded-[50%] overflow-hidden absolute left-[24px] bottom-[-16px]"
                 />
 
                 {/* article image */}
                 <Image
                     src={article.thumbnail}
                     alt="article"
-                    containerclassname="absolute top-0 w-full h-full"
+                    classNameWrapper="absolute top-0 w-full h-full"
                 />
             </div>
 
@@ -78,14 +76,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 </div>
 
                 <div className="flex flex-wrap justify-end space-x-2 text-[#919eab]">
-                    <div className="flex-center">
-                        <BsFillChatDotsFill className="mr-1 h-3 w-3" />
-                        <span className="text-xs font-normal">30.10k</span>
-                    </div>
-                    <div className="flex-center">
-                        <BsShareFill className="mr-1 h-3 w-3" />
-                        <span className="text-xs font-normal">1.66k</span>
-                    </div>
+                    <span className="text-xs font-normal">TP.HCM</span>
                 </div>
             </div>
         </motion.div>

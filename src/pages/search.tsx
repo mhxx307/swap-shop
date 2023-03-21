@@ -1,6 +1,4 @@
-import { useEffect } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { useApolloClient } from '@apollo/client';
 import { isUndefined, omitBy } from 'lodash';
 
 import { ArticleFilter, ArticleList } from '@/components/features/articles';
@@ -16,7 +14,7 @@ import {
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import { useQueryConfig } from '@/hooks';
 
-const Articles = () => {
+const SearchPage = () => {
     const queryConfig = useQueryConfig();
 
     const { data: articlesData } = useArticlesQuery({
@@ -26,16 +24,6 @@ const Articles = () => {
     });
 
     const articles = articlesData?.articles.data?.articles;
-
-    const client = useApolloClient();
-
-    useEffect(() => {
-        return () => {
-            // Clear the cache when the user navigates away from the page
-            client.resetStore();
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     if (!articles) {
         return <div>Loading...</div>;
@@ -63,7 +51,7 @@ const Articles = () => {
     );
 };
 
-export default Articles;
+export default SearchPage;
 
 export const getServerSideProps: GetServerSideProps = async (
     context: GetServerSidePropsContext,
