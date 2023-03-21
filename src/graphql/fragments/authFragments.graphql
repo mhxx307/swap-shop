@@ -7,7 +7,6 @@ fragment user on User {
     fullName
     birthday
     avatar
-    isOnline
     createdDate
     updatedDate
 }
