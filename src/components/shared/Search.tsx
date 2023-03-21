@@ -3,8 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BiSearchAlt2 } from 'react-icons/bi';
-import getSchema, { Schema } from '@/constants/schema';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { Schema } from '@/constants/schema';
 import { path } from '@/constants';
 import { useQueryConfig } from '@/hooks';
 
@@ -19,7 +18,7 @@ const Search = ({ className }: SearchProps) => {
     const [toggle, setToggle] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     const router = useRouter();
-    const { register, watch, handleSubmit } = useForm<FormData>({
+    const { register, watch, handleSubmit, setValue } = useForm<FormData>({
         defaultValues: {
             title: '',
         },
@@ -40,12 +39,13 @@ const Search = ({ className }: SearchProps) => {
 
     const handleSearch = (data: FormData) => {
         router.push({
-            pathname: path.articles,
+            pathname: path.search,
             query: {
                 ...queryConfig,
                 title: data.title,
             },
         });
+        setValue('title', '');
     };
 
     return (

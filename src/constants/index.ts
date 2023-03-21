@@ -49,6 +49,8 @@ export const path = {
     tos: '/tos',
     dmca: '/dmca',
     privacy: '/privacy',
+    categories: '/categories',
+    search: '/search',
 } as const;
 
 export const icons = {

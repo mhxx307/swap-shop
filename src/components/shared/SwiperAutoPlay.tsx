@@ -45,7 +45,7 @@ const SwiperAutoplay = ({
                         <Image
                             src={image}
                             alt="thumb"
-                            containerclassname={classNames(
+                            classNameWrapper={classNames(
                                 'w-full h-full shadow-3xl',
                                 imageClassName,
                             )}

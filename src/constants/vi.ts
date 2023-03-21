@@ -3,7 +3,6 @@ import { path, icons } from '.';
 
 const HEADER_NAV_LIST: NavItemProps[] = [
     { path: path.home, label: 'Trang chủ' },
-    { path: path.articles, label: 'Giao dịch đồ cũ' },
     { path: path.about, label: 'Giới thiệu' },
 ];
 

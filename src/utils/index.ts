@@ -82,7 +82,7 @@ export const removeSpecialCharacter = (str: string) =>
     str.replace(
         // eslint-disable-next-line no-useless-escape
         /!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g,
-        '',
+        ' ',
     );
 
 export const generateNameId = ({ name, id }: { name: string; id: string }) => {
@@ -92,4 +92,9 @@ export const generateNameId = ({ name, id }: { name: string; id: string }) => {
 export const getIdFromNameId = (nameId: string) => {
     const arr = nameId.split('-i,');
     return arr[arr.length - 1];
+};
+
+export const getNameFromNameId = (nameId: string) => {
+    const arr = nameId.split('-i,');
+    return arr[0];
 };

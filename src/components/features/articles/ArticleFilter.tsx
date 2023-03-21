@@ -19,7 +19,7 @@ function ArticleFilter({ queryConfig }: Props) {
         );
 
         router.push({
-            pathname: path.articles,
+            pathname: path.search,
             query: {
                 ...queryConfig,
                 categories: selectedCategoryIds,
