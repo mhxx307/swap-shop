@@ -9,7 +9,9 @@ import {
 import { onError } from '@apollo/client/link/error';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
-import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
+import { setContext } from '@apollo/client/link/context';
+
+import JWTManager from '@/utils/jwt';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -34,6 +36,18 @@ const httpLink = new HttpLink({
     credentials: 'include', // Additional fetch() options like `credentials` or `headers`
 });
 
+const authLink = setContext((_, { headers }) => {
+    // get the authentication token from local storage if it exists
+    const token = JWTManager.getToken();
+    // return the headers to the context so httpLink can read them
+    return {
+        headers: {
+            ...headers,
+            authorization: token ? `Bearer ${token}` : '',
+        },
+    };
+});
+
 function createApolloClient() {
     const cache = new InMemoryCache({
         typePolicies: {
@@ -43,19 +57,9 @@ function createApolloClient() {
         },
     });
 
-    // await before instantiating ApolloClient, else queries might run before the cache is persisted
-    (async function () {
-        if (typeof window !== 'undefined') {
-            await persistCache({
-                cache,
-                storage: new LocalStorageWrapper(window.localStorage),
-            });
-        }
-    })();
-
     return new ApolloClient({
         ssrMode: typeof window === 'undefined',
-        link: from([errorLink, httpLink]),
+        link: from([errorLink, authLink.concat(httpLink)]),
         cache: cache,
     });
 }

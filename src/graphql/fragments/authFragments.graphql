@@ -7,7 +7,6 @@ fragment user on User {
     fullName
     birthday
     avatar
-    isOnline
     createdDate
     updatedDate
 }
@@ -16,6 +15,7 @@ fragment userMutationResponse on UserMutationResponse {
     code
     success
     message
+    accessToken
     user {
         ...user
     }

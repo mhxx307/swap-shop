@@ -26,10 +26,15 @@ import {
 } from '@/generated/graphql';
 import { BsBellFill } from 'react-icons/bs';
 import { path } from '@/constants';
+import { useAuthContext } from '@/contexts/AuthContext';
+import JWTManager from '@/utils/jwt';
 
 const Header = () => {
     const [navbar, setNavbar] = useState<boolean>(false);
     const { data } = useMeQuery();
+    /*{
+        fetchPolicy: 'no-cache', // only fetch new data from server
+    }*/
     const router = useRouter();
     const { t } = useTranslation('header');
     const {
@@ -40,8 +45,10 @@ const Header = () => {
     } = useConstantsTranslation();
     const { isMobile } = useDevice();
     const [logout] = useLogoutMutation();
+    const { logoutClient } = useAuthContext();
 
     const me = data?.me;
+    console.log(me);
     const menuList = me ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
 
     useEffect(() => {
@@ -62,6 +69,7 @@ const Header = () => {
 
     const handleLogout = async () => {
         await logout({
+            variables: { userId: JWTManager.getUserId() as string },
             update(cache, { data }) {
                 toast.success('Logout successfully');
                 if (data?.logout) {
@@ -72,6 +80,7 @@ const Header = () => {
                 }
             },
         });
+        logoutClient();
     };
 
     return (

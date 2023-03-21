@@ -12,7 +12,7 @@ import {
 import { toast } from 'react-toastify';
 
 const ProfilePage = () => {
-    const { data: meData } = useMeQuery();
+    const { data: meData, error, loading: meLoading } = useMeQuery();
     const me = meData?.me;
     const { control, handleSubmit } = useForm<UpdateProfileInput>({
         defaultValues: {
@@ -23,7 +23,6 @@ const ProfilePage = () => {
             birthday: me?.birthday,
         },
     });
-
     const [profileMutation, { loading }] = useUpdateProfileMutation();
     //*! chua cap nhat cache
     const handleUpdate = async (payload: UpdateProfileInput) => {
@@ -35,6 +34,13 @@ const ProfilePage = () => {
         });
         toast.success('Update Sucessfully', { toastId: 'updatedProfile' });
     };
+
+    if (!me) return <h1>Loading...</h1>;
+
+    if (meLoading) return <h3>Loading ....</h3>;
+
+    if (error)
+        return <h3 style={{ color: 'red' }}>Error: {JSON.stringify(error)}</h3>;
 
     return (
         <Auth>

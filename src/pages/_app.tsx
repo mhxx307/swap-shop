@@ -9,10 +9,12 @@ import { ApolloProvider } from '@apollo/client';
 
 import { useApollo } from '@/libs/apolloClient';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { AuthProvider, useAuthContext } from '@/contexts/AuthContext';
 import BaseLayout from '@/components/layouts/BaseLayout';
 
 import '@/styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { useEffect, useState } from 'react';
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const Layout =
@@ -21,8 +23,22 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
     const apolloClient = useApollo(pageProps);
 
+    const [loading, setLoading] = useState(true);
+    const { checkAuth } = useAuthContext();
+
+    useEffect(() => {
+        const authenticate = async () => {
+            await checkAuth();
+            setLoading(false);
+        };
+
+        authenticate();
+    }, [checkAuth]);
+
+    if (loading) return <h1>LOADING....</h1>;
+
     return (
-        <>
+        <AuthProvider>
             <ToastContainer
                 position="bottom-left"
                 autoClose={5000}
@@ -64,7 +80,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
                     )}
                 </ApolloProvider>
             </ThemeProvider>
-        </>
+        </AuthProvider>
     );
 };
 

@@ -10,8 +10,8 @@ mutation Login($loginInput: LoginInput!) {
     }
 }
 
-mutation Logout {
-    logout
+mutation Logout($userId: ID!) {
+    logout(userId: $userId)
 }
 
 mutation ForgotPassword($forgotPasswordInput: ForgotPasswordInput!) {

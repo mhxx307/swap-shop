@@ -15,11 +15,14 @@ import {
     MeQuery,
     useLoginMutation,
 } from '@/generated/graphql';
+import JWTManager from '@/utils/jwt';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 const LoginForm = () => {
     const { t } = useTranslation('login');
     const schema = useValidateSchema('login');
     const [showPassword, setShowPassword] = useState(false);
+    const { setIsAuthenticated } = useAuthContext();
     const router = useRouter();
 
     const { control, handleSubmit, setError } = useForm<LoginInput>({
@@ -66,6 +69,9 @@ const LoginForm = () => {
                 }
             });
         } else if (response.data?.login.success) {
+            // Save token to JWTManager
+            JWTManager.setToken(response.data?.login.accessToken as string);
+            setIsAuthenticated(true);
             toast.success(
                 `Login successfully! WELCOME ${response.data?.login.user?.username}`,
             );
