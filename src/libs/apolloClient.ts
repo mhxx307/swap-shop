@@ -9,7 +9,6 @@ import {
 import { onError } from '@apollo/client/link/error';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
-import { LocalStorageWrapper, persistCache } from 'apollo3-cache-persist';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -42,16 +41,6 @@ function createApolloClient() {
             },
         },
     });
-
-    // await before instantiating ApolloClient, else queries might run before the cache is persisted
-    (async function () {
-        if (typeof window !== 'undefined') {
-            await persistCache({
-                cache,
-                storage: new LocalStorageWrapper(window.localStorage),
-            });
-        }
-    })();
 
     return new ApolloClient({
         ssrMode: typeof window === 'undefined',
