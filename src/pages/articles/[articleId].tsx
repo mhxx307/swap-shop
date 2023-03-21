@@ -26,6 +26,7 @@ import {
 } from '@/generated/graphql';
 import { getIdFromNameId, formatCurrency } from '@/utils';
 import { ArticleList } from '@/components/features/articles';
+import TimeAgo from 'timeago-react';
 
 const ArticleDetailPage = () => {
     const router = useRouter();
@@ -97,8 +98,8 @@ const ArticleDetailPage = () => {
         // const width = naturalHeight;
         // const height = naturalWidth;
 
-        const naturalWidth = 800;
-        const naturalHeight = 800;
+        const naturalWidth = 2000;
+        const naturalHeight = 2000;
         const width = naturalWidth;
         const height = naturalHeight;
 
@@ -136,10 +137,10 @@ const ArticleDetailPage = () => {
             <Head title={article.title} description={article.description} />
             <ClientOnly>
                 <div className="container header-height">
-                    <div className="bg-white p-4 shadow">
-                        <div className="grid grid-cols-12 gap-9">
+                    <div className="grid grid-cols-12 shadow">
+                        <div className=" col-span-8 rounded-sm bg-white p-6">
                             {/* images slider */}
-                            <div className="col-span-full md:col-span-5">
+                            <div>
                                 <div
                                     className="relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow"
                                     onMouseMove={handleZoom}
@@ -178,7 +179,7 @@ const ArticleDetailPage = () => {
                                                     className="absolute top-0 left-0 h-full w-full cursor-pointer bg-white object-cover"
                                                 />
                                                 {isActive && (
-                                                    <div className="border-primary absolute inset-0 border-2" />
+                                                    <div className="absolute inset-0 border-2 border-primary-300" />
                                                 )}
                                             </div>
                                         );
@@ -190,15 +191,11 @@ const ArticleDetailPage = () => {
                                         <BsChevronRight />
                                     </button>
                                 </div>
-                            </div>
-
-                            {/* article detail */}
-                            <div className="col-span-full space-y-6 md:col-span-7">
-                                <p className="break-words text-4xl">
+                                <p className="mt-4 break-words text-4xl">
                                     {article.title}
                                 </p>
 
-                                <div className="flex justify-between">
+                                <div className="mt-2 flex justify-between">
                                     <p className="text-2xl text-primary-400 ">
                                         {article.price
                                             ? formatCurrency(article.price)
@@ -212,9 +209,6 @@ const ArticleDetailPage = () => {
                                         Tố cáo
                                     </Button>
                                 </div>
-
-                                <div className="border-bottom" />
-
                                 <p>
                                     Category:{' '}
                                     {article.categories.map((category) => (
@@ -223,73 +217,94 @@ const ArticleDetailPage = () => {
                                         </span>
                                     ))}
                                 </p>
+                            </div>
+                        </div>
+                        {/* article detail */}
+                        <div className="col-span-4 ml-4">
+                            <div className={` rounded-sm bg-white p-4`}>
+                                <div className="flex justify-between ">
+                                    <div className="flex">
+                                        <Avatar
+                                            src={article.user.avatar as string}
+                                        />
+                                        <p className="ml-2 py-1 text-xs text-gray-400">
+                                            <div className="font-semibold text-gray-600">
+                                                {article.user.username}
+                                            </div>{' '}
+                                            <TimeAgo
+                                                datetime={article.createdDate}
+                                            />
+                                        </p>
+                                    </div>
+                                    <Button
+                                        className="btn-wishlist h-4 "
+                                        LeftIcon={BsFillStarFill}
+                                        iconClassName="w-4 h-4"
+                                    >
+                                        Xem cửa hàng
+                                    </Button>
+                                </div>
 
+                                <div className="mt-2 flex items-center space-x-6">
+                                    <span>Contact:</span>
+                                    <FaFacebookF />
+                                    <FaTwitter />
+                                    <FaLink />
+                                </div>
+                            </div>
+
+                            <div className=" mt-2 rounded-sm bg-white p-4">
+                                <h3 className="mb-2 font-bold text-black">
+                                    Liên hệ với người bán
+                                </h3>
+                                <ul className="overflow-y-hidden whitespace-nowrap p-2">
+                                    <li className="dark:bg-blac mr-2 inline-block rounded-full  bg-slate-300 p-2 hover:cursor-pointer dark:bg-black">
+                                        Còn hàng không ạ
+                                    </li>
+                                    <li className="mr-2 inline-block rounded-full bg-slate-300 p-2 hover:cursor-pointer dark:bg-black">
+                                        Mặt hàng ở đâu
+                                    </li>
+                                    <li className="mr-2 inline-block rounded-full  bg-slate-300 p-2 hover:cursor-pointer dark:bg-black">
+                                        Làm thế nào để biết địa chỉ
+                                    </li>
+                                </ul>
                                 <Button
-                                    className="btn-contact"
+                                    className="btn-contact mt-2 w-full"
                                     primary
                                     LeftIcon={BsFillTelephoneFill}
                                     iconClassName="w-4 h-4"
                                 >
                                     Liên hệ
                                 </Button>
-
                                 <Button
-                                    className="btn-wishlist"
+                                    className="btn-wishlist mt-2 w-full"
                                     LeftIcon={BsFillStarFill}
                                     iconClassName="w-4 h-4"
                                 >
-                                    Add to wishlist
+                                    Chat với người bán
                                 </Button>
-                                <div className="flex items-center space-x-6">
-                                    <span>Share:</span>
-                                    <FaFacebookF />
-                                    <FaTwitter />
-                                    <FaLink />
-                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* user */}
-                    <div className="my-5 flex items-center justify-between border border-gray-400 p-5">
-                        <div className="flex items-center space-x-4">
-                            <Avatar
-                                src={
-                                    article.user.avatar ||
-                                    '/images/avatar-fallback.png'
-                                }
-                            />
-                            <p>{article.user.username}</p>
-                        </div>
-                        <div>
-                            <p>Do something</p>
+                        <div className="col-span-8 mt-8 mb-4 border-t-4 bg-white p-4 shadow">
+                            <div className="rounded bg-gray-50 p-4 text-lg capitalize text-slate-700">
+                                Mô tả sản phẩm
+                            </div>
+                            <div className="mx-4 mt-12 mb-4 text-sm leading-loose">
+                                <div
+                                    dangerouslySetInnerHTML={{
+                                        __html: DOMPurify.sanitize(
+                                            article.description,
+                                        ),
+                                    }}
+                                />
+                            </div>
                         </div>
                     </div>
 
                     {/* description, comment */}
                     <TabView
                         tabs={[
-                            {
-                                label: 'Description',
-                                content: (
-                                    <div className="mt-8">
-                                        <div className=" bg-white p-4 shadow">
-                                            <div className="rounded bg-gray-50 p-4 text-lg capitalize text-slate-700">
-                                                Mô tả sản phẩm
-                                            </div>
-                                            <div className="mx-4 mt-12 mb-4 text-sm leading-loose">
-                                                <div
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: DOMPurify.sanitize(
-                                                            article.description,
-                                                        ),
-                                                    }}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                ),
-                            },
                             { label: 'Comments', content: <Comment id={id} /> },
                             {
                                 label: 'MinhQuan articles',
