@@ -335,7 +335,7 @@ export type MutationRegisterArgs = {
 
 
 export type MutationRemoveFromFavoriteArgs = {
-  articleId: Array<Scalars['String']>;
+  articleIds: Array<Scalars['String']>;
 };
 
 
@@ -626,7 +626,7 @@ export type AddToFavoriteMutationVariables = Exact<{
 export type AddToFavoriteMutation = { __typename?: 'Mutation', addToFavorite: { __typename?: 'FavoriteMutationResponse', code: number, success: boolean, message?: string | null, favorite?: { __typename?: 'Favorite', id: string } | null } };
 
 export type RemoveFromFavoriteMutationVariables = Exact<{
-  articleId: Array<Scalars['String']> | Scalars['String'];
+  articleIds: Array<Scalars['String']> | Scalars['String'];
 }>;
 
 
@@ -678,6 +678,11 @@ export type IsFavoriteQueryVariables = Exact<{
 
 
 export type IsFavoriteQuery = { __typename?: 'Query', isFavorite: boolean };
+
+export type FavoritesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FavoritesQuery = { __typename?: 'Query', favorites?: Array<{ __typename?: 'Favorite', id: string, article: { __typename?: 'Article', id: string, title: string, description: string, price?: number | null, productName: string, thumbnail: string, images: Array<string>, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any } } }> | null };
 
 export const UserFragmentDoc = gql`
     fragment user on User {
@@ -1141,8 +1146,8 @@ export type AddToFavoriteMutationHookResult = ReturnType<typeof useAddToFavorite
 export type AddToFavoriteMutationResult = Apollo.MutationResult<AddToFavoriteMutation>;
 export type AddToFavoriteMutationOptions = Apollo.BaseMutationOptions<AddToFavoriteMutation, AddToFavoriteMutationVariables>;
 export const RemoveFromFavoriteDocument = gql`
-    mutation RemoveFromFavorite($articleId: [String!]!) {
-  removeFromFavorite(articleId: $articleId) {
+    mutation RemoveFromFavorite($articleIds: [String!]!) {
+  removeFromFavorite(articleIds: $articleIds) {
     message
     code
     success
@@ -1167,7 +1172,7 @@ export type RemoveFromFavoriteMutationFn = Apollo.MutationFunction<RemoveFromFav
  * @example
  * const [removeFromFavoriteMutation, { data, loading, error }] = useRemoveFromFavoriteMutation({
  *   variables: {
- *      articleId: // value for 'articleId'
+ *      articleIds: // value for 'articleIds'
  *   },
  * });
  */
@@ -1451,3 +1456,40 @@ export function useIsFavoriteLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type IsFavoriteQueryHookResult = ReturnType<typeof useIsFavoriteQuery>;
 export type IsFavoriteLazyQueryHookResult = ReturnType<typeof useIsFavoriteLazyQuery>;
 export type IsFavoriteQueryResult = Apollo.QueryResult<IsFavoriteQuery, IsFavoriteQueryVariables>;
+export const FavoritesDocument = gql`
+    query Favorites {
+  favorites {
+    id
+    article {
+      ...article
+    }
+  }
+}
+    ${ArticleFragmentDoc}`;
+
+/**
+ * __useFavoritesQuery__
+ *
+ * To run a query within a React component, call `useFavoritesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFavoritesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFavoritesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFavoritesQuery(baseOptions?: Apollo.QueryHookOptions<FavoritesQuery, FavoritesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options);
+      }
+export function useFavoritesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FavoritesQuery, FavoritesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FavoritesQuery, FavoritesQueryVariables>(FavoritesDocument, options);
+        }
+export type FavoritesQueryHookResult = ReturnType<typeof useFavoritesQuery>;
+export type FavoritesLazyQueryHookResult = ReturnType<typeof useFavoritesLazyQuery>;
+export type FavoritesQueryResult = Apollo.QueryResult<FavoritesQuery, FavoritesQueryVariables>;

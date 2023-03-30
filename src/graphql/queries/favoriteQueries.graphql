@@ -1,3 +1,12 @@
 query IsFavorite($articleId: String!) {
     isFavorite(articleId: $articleId)
 }
+
+query Favorites {
+    favorites {
+        id
+        article {
+            ...article
+        }
+    }
+}

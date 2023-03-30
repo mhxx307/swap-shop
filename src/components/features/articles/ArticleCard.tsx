@@ -39,7 +39,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
         if (data?.isFavorite) {
             await removeFromFavorite({
                 variables: {
-                    articleId: article.id,
+                    articleIds: [article.id],
                 },
                 onCompleted: () => {
                     refetch();

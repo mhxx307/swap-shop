@@ -29,6 +29,11 @@ const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
         label: 'New product',
         path: path.articlesCreate,
     },
+    {
+        icon: icons.BsPencilSquare,
+        label: 'Favorites article',
+        path: path.favorites,
+    },
     ...POPUP_MENU_LIST,
     { icon: icons.BsGear, label: 'Settings', path: path.settingsProfile },
 ];

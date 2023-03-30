@@ -23,6 +23,11 @@ const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
         label: 'Thêm sản phẩm',
         path: path.articlesCreate,
     },
+    {
+        icon: icons.BsPencilSquare,
+        label: 'Bài viết yêu thích',
+        path: path.favorites,
+    },
     ...POPUP_MENU_LIST,
     { icon: icons.BsGear, label: 'Cài đặt', path: path.settingsProfile },
 ];

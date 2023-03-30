@@ -51,6 +51,7 @@ export const path = {
     privacy: '/privacy',
     categories: '/categories',
     search: '/search',
+    favorites: '/favorites',
 } as const;
 
 export const icons = {

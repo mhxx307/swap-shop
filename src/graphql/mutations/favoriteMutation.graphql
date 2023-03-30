@@ -9,8 +9,8 @@ mutation AddToFavorite($articleId: String!) {
     }
 }
 
-mutation RemoveFromFavorite($articleId: [String!]!) {
-    removeFromFavorite(articleId: $articleId) {
+mutation RemoveFromFavorite($articleIds: [String!]!) {
+    removeFromFavorite(articleIds: $articleIds) {
         message
         code
         success
