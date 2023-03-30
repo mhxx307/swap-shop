@@ -4,3 +4,4 @@ export { default as useDevice } from './useDevice';
 export { default as useDebounce } from './useDebounce';
 export { default as useValidateSchema } from './useValidateSchema';
 export { default as useQueryConfig } from './useQueryConfig';
+export { default as useSearchArticles } from './useSearchArticles';

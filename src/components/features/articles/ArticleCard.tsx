@@ -1,15 +1,61 @@
-import { useRouter } from 'next/router';
 import { Image } from '@/components/shared';
-import { motion } from 'framer-motion';
-import { Article } from '@/generated/graphql';
-import TimeAgo from 'timeago-react';
+import {
+    Article,
+    useAddToFavoriteMutation,
+    useIsFavoriteQuery,
+    useMeQuery,
+    useRemoveFromFavoriteMutation,
+} from '@/generated/graphql';
 import { generateNameId } from '@/utils';
+import classNames from 'classnames';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import TimeAgo from 'timeago-react';
 interface ArticleCardProps {
     article: Article;
 }
 
 const ArticleCard = ({ article }: ArticleCardProps) => {
     const router = useRouter();
+    const { data: me, loading } = useMeQuery();
+
+    const [addToFavorite] = useAddToFavoriteMutation();
+    const [removeFromFavorite] = useRemoveFromFavoriteMutation();
+    const { data, refetch } = useIsFavoriteQuery({
+        variables: {
+            articleId: article.id,
+        },
+        skip: !me?.me,
+    });
+
+    const handleAddToFavorite = async (e: any) => {
+        e.stopPropagation();
+        if (!loading && !me?.me) {
+            router.push('/login');
+            return;
+        }
+
+        if (data?.isFavorite) {
+            await removeFromFavorite({
+                variables: {
+                    articleId: article.id,
+                },
+                onCompleted: () => {
+                    refetch();
+                },
+            });
+        } else {
+            await addToFavorite({
+                variables: {
+                    articleId: article.id,
+                },
+                onCompleted: () => {
+                    refetch();
+                },
+            });
+        }
+    };
 
     return (
         <motion.div
@@ -18,9 +64,6 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 transition: {
                     duration: 0.2,
                 },
-            }}
-            whileTap={{
-                scale: 0.95,
             }}
             className="relative z-0 col-span-1 m-[5px] cursor-pointer overflow-hidden bg-white text-[#212b36] shadow-3xl transition-shadow"
             onClick={() =>
@@ -50,14 +93,28 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                     src={article.user.avatar || '/images/avatar-fallback.png'}
                     alt="Avatar"
                     className="h-full w-full object-cover text-center ss:mx-[24px]"
-                    classNameWrapper="flex-center text-sm z-50 w-8 h-8 rounded-[50%] overflow-hidden absolute left-[24px] bottom-[-16px]"
+                    classnamewrapper="flex-center text-sm z-50 w-8 h-8 rounded-[50%] overflow-hidden absolute left-[24px] bottom-[-16px]"
                 />
 
                 {/* article image */}
                 <Image
                     src={article.thumbnail}
                     alt="article"
-                    classNameWrapper="absolute top-0 w-full h-full"
+                    classnamewrapper="absolute top-0 w-full h-full"
+                />
+
+                <AiOutlineHeart
+                    className="absolute bottom-0 right-0 z-50 h-8 w-8 fill-primary-500"
+                    onClick={handleAddToFavorite}
+                />
+                <AiFillHeart
+                    className={classNames(
+                        'z-49 absolute bottom-0 right-0 h-8 w-8',
+                        {
+                            'fill-primary-500': data?.isFavorite,
+                            'fill-white/70': !data?.isFavorite,
+                        },
+                    )}
                 />
             </div>
 

@@ -1,0 +1,3 @@
+query IsFavorite($articleId: String!) {
+    isFavorite(articleId: $articleId)
+}

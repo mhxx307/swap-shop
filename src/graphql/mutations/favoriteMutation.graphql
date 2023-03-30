@@ -1,0 +1,21 @@
+mutation AddToFavorite($articleId: String!) {
+    addToFavorite(articleId: $articleId) {
+        code
+        success
+        message
+        favorite {
+            id
+        }
+    }
+}
+
+mutation RemoveFromFavorite($articleId: [String!]!) {
+    removeFromFavorite(articleId: $articleId) {
+        message
+        code
+        success
+        favorite {
+            id
+        }
+    }
+}
