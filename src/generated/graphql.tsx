@@ -25,6 +25,7 @@ export type Article = {
   images: Array<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
   productName: Scalars['String'];
+  status: Scalars['String'];
   thumbnail: Scalars['String'];
   title: Scalars['String'];
   updatedDate: Scalars['DateTime'];
@@ -93,8 +94,43 @@ export type CommentMutationResponse = IMutationResponse & {
   success: Scalars['Boolean'];
 };
 
+export type Conversation = {
+  __typename?: 'Conversation';
+  createdDate: Scalars['DateTime'];
+  id: Scalars['ID'];
+  members: Array<User>;
+  updatedDate: Scalars['DateTime'];
+};
+
+export type ConversationMutationResponse = IMutationResponse & {
+  __typename?: 'ConversationMutationResponse';
+  code: Scalars['Float'];
+  conversation?: Maybe<Conversation>;
+  errors?: Maybe<Array<FieldError>>;
+  message?: Maybe<Scalars['String']>;
+  success: Scalars['Boolean'];
+};
+
 export type DeleteArticleInput = {
   id: Scalars['String'];
+};
+
+export type Favorite = {
+  __typename?: 'Favorite';
+  article: Article;
+  createdDate: Scalars['DateTime'];
+  id: Scalars['ID'];
+  updatedDate: Scalars['DateTime'];
+  user: User;
+};
+
+export type FavoriteMutationResponse = IMutationResponse & {
+  __typename?: 'FavoriteMutationResponse';
+  code: Scalars['Float'];
+  errors?: Maybe<Array<FieldError>>;
+  favorite?: Maybe<Favorite>;
+  message?: Maybe<Scalars['String']>;
+  success: Scalars['Boolean'];
 };
 
 export type FieldError = {
@@ -127,17 +163,47 @@ export type InsertCommentInput = {
   text: Scalars['String'];
 };
 
+export type InsertMessageInput = {
+  conversationId: Scalars['String'];
+  senderId: Scalars['String'];
+  text: Scalars['String'];
+};
+
 export type LoginInput = {
   password: Scalars['String'];
   usernameOrEmail: Scalars['String'];
 };
 
+export type Message = {
+  __typename?: 'Message';
+  conversationId: Scalars['String'];
+  createdDate: Scalars['DateTime'];
+  id: Scalars['ID'];
+  sender: User;
+  status: Scalars['String'];
+  text: Scalars['String'];
+  updatedDate: Scalars['DateTime'];
+};
+
+export type MessageMutationResponse = IMutationResponse & {
+  __typename?: 'MessageMutationResponse';
+  code: Scalars['Float'];
+  createdMessage?: Maybe<Message>;
+  errors?: Maybe<Array<FieldError>>;
+  message?: Maybe<Scalars['String']>;
+  success: Scalars['Boolean'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  addToFavorite: FavoriteMutationResponse;
   changePassword: UserMutationResponse;
   changePasswordLogged: UserMutationResponse;
+  changeStatusArticle: ArticleMutationResponse;
+  changeStatusUser: UserMutationResponse;
   deleteArticle: ArticleMutationResponse;
   deleteComment: CommentMutationResponse;
+  deleteUser: UserMutationResponse;
   forgotPassword: UserMutationResponse;
   insertArticle: ArticleMutationResponse;
   insertCategory: CategoryMutationResponse;
@@ -145,11 +211,24 @@ export type Mutation = {
   insertRole: RoleMutationResponse;
   insertUserRole: UserMutationResponse;
   login: UserMutationResponse;
+  loginDashboardAdmin: UserMutationResponse;
   logout: Scalars['Boolean'];
+  newConversation: ConversationMutationResponse;
+  newMessage: MessageMutationResponse;
+  ratingUser: UserMutationResponse;
   register: UserMutationResponse;
+  removeFromFavorite: FavoriteMutationResponse;
+  removeMessage: MessageMutationResponse;
   updateArticle: ArticleMutationResponse;
+  updateCategory: CategoryMutationResponse;
   updateComment: CommentMutationResponse;
+  updateMessage: MessageMutationResponse;
   updateProfile: UserMutationResponse;
+};
+
+
+export type MutationAddToFavoriteArgs = {
+  articleId: Scalars['String'];
 };
 
 
@@ -165,6 +244,18 @@ export type MutationChangePasswordLoggedArgs = {
 };
 
 
+export type MutationChangeStatusArticleArgs = {
+  articleId: Scalars['String'];
+  status: Scalars['String'];
+};
+
+
+export type MutationChangeStatusUserArgs = {
+  status: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+
 export type MutationDeleteArticleArgs = {
   deleteArticleInput: DeleteArticleInput;
 };
@@ -172,6 +263,11 @@ export type MutationDeleteArticleArgs = {
 
 export type MutationDeleteCommentArgs = {
   id: Scalars['String'];
+};
+
+
+export type MutationDeleteUserArgs = {
+  userId: Scalars['String'];
 };
 
 
@@ -212,8 +308,39 @@ export type MutationLoginArgs = {
 };
 
 
+export type MutationLoginDashboardAdminArgs = {
+  loginInput: LoginInput;
+};
+
+
+export type MutationNewConversationArgs = {
+  userId: Scalars['String'];
+};
+
+
+export type MutationNewMessageArgs = {
+  insertMessageInput: InsertMessageInput;
+};
+
+
+export type MutationRatingUserArgs = {
+  ratingNumber: Scalars['Float'];
+  userId: Scalars['String'];
+};
+
+
 export type MutationRegisterArgs = {
   registerInput: RegisterInput;
+};
+
+
+export type MutationRemoveFromFavoriteArgs = {
+  articleId: Array<Scalars['String']>;
+};
+
+
+export type MutationRemoveMessageArgs = {
+  messageId: Scalars['String'];
 };
 
 
@@ -222,8 +349,19 @@ export type MutationUpdateArticleArgs = {
 };
 
 
+export type MutationUpdateCategoryArgs = {
+  updateCategoryInput: UpdateCategoryInput;
+};
+
+
 export type MutationUpdateCommentArgs = {
   updateCommentInput: UpdateCommentInput;
+};
+
+
+export type MutationUpdateMessageArgs = {
+  messageId: Scalars['String'];
+  text: Scalars['String'];
 };
 
 
@@ -246,23 +384,21 @@ export type Pagination = {
   page_size: Scalars['Float'];
 };
 
-export type Permission = {
-  __typename?: 'Permission';
-  createdDate: Scalars['DateTime'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  updatedDate: Scalars['DateTime'];
-};
-
 export type Query = {
   __typename?: 'Query';
   article?: Maybe<Article>;
   articles: ResponseSuccess;
   categories?: Maybe<Array<Category>>;
   commentListByArticleId?: Maybe<PaginatedComments>;
+  favorites?: Maybe<Array<Favorite>>;
+  getAllUser: Array<User>;
+  getConversation?: Maybe<Conversation>;
+  getConversations: Array<Conversation>;
+  getUserById: User;
   getUserRoles: Array<UserRole>;
   me?: Maybe<User>;
-  roles?: Maybe<Array<Permission>>;
+  messages?: Maybe<Array<Message>>;
+  roles?: Maybe<Array<Role>>;
 };
 
 
@@ -282,6 +418,21 @@ export type QueryCommentListByArticleIdArgs = {
   limit: Scalars['Int'];
 };
 
+
+export type QueryGetConversationArgs = {
+  userId: Scalars['String'];
+};
+
+
+export type QueryGetUserByIdArgs = {
+  userId: Scalars['String'];
+};
+
+
+export type QueryMessagesArgs = {
+  conversationId: Scalars['String'];
+};
+
 export type QueryConfig = {
   categories?: InputMaybe<Array<Scalars['String']>>;
   isFree?: InputMaybe<Scalars['String']>;
@@ -292,11 +443,11 @@ export type QueryConfig = {
   price_min?: InputMaybe<Scalars['String']>;
   sort_by?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 export type RegisterInput = {
   address?: InputMaybe<Scalars['String']>;
-  avatar?: InputMaybe<Scalars['String']>;
   birthday?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   fullName: Scalars['String'];
@@ -311,12 +462,20 @@ export type ResponseSuccess = {
   message: Scalars['String'];
 };
 
+export type Role = {
+  __typename?: 'Role';
+  createdDate: Scalars['DateTime'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  updatedDate: Scalars['DateTime'];
+};
+
 export type RoleMutationResponse = IMutationResponse & {
   __typename?: 'RoleMutationResponse';
   code: Scalars['Float'];
   errors?: Maybe<Array<FieldError>>;
   message?: Maybe<Scalars['String']>;
-  role?: Maybe<Permission>;
+  role?: Maybe<Role>;
   success: Scalars['Boolean'];
 };
 
@@ -324,6 +483,12 @@ export type UpdateArticleInput = {
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
   title?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateCategoryInput = {
+  id: Scalars['ID'];
+  image: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type UpdateCommentInput = {
@@ -350,6 +515,8 @@ export type User = {
   id: Scalars['ID'];
   phoneNumber?: Maybe<Scalars['String']>;
   rating?: Maybe<Scalars['Float']>;
+  roles: Array<UserRole>;
+  status: Scalars['String'];
   updatedDate: Scalars['DateTime'];
   username: Scalars['String'];
 };
@@ -366,7 +533,7 @@ export type UserMutationResponse = IMutationResponse & {
 export type UserRole = {
   __typename?: 'UserRole';
   createdDate: Scalars['DateTime'];
-  role: Permission;
+  role: Role;
   roleId: Scalars['ID'];
   updatedDate: Scalars['DateTime'];
   user: User;
@@ -476,6 +643,13 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any } | null };
+
+export type UserByIdQueryVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type UserByIdQuery = { __typename?: 'Query', getUserById: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, rating?: number | null, status: string, createdDate: any, updatedDate: any } };
 
 export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1068,6 +1242,52 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const UserByIdDocument = gql`
+    query UserById($userId: String!) {
+  getUserById(userId: $userId) {
+    id
+    username
+    email
+    address
+    phoneNumber
+    fullName
+    birthday
+    avatar
+    rating
+    status
+    createdDate
+    updatedDate
+  }
+}
+    `;
+
+/**
+ * __useUserByIdQuery__
+ *
+ * To run a query within a React component, call `useUserByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserByIdQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUserByIdQuery(baseOptions: Apollo.QueryHookOptions<UserByIdQuery, UserByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserByIdQuery, UserByIdQueryVariables>(UserByIdDocument, options);
+      }
+export function useUserByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserByIdQuery, UserByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserByIdQuery, UserByIdQueryVariables>(UserByIdDocument, options);
+        }
+export type UserByIdQueryHookResult = ReturnType<typeof useUserByIdQuery>;
+export type UserByIdLazyQueryHookResult = ReturnType<typeof useUserByIdLazyQuery>;
+export type UserByIdQueryResult = Apollo.QueryResult<UserByIdQuery, UserByIdQueryVariables>;
 export const CategoriesDocument = gql`
     query Categories {
   categories {

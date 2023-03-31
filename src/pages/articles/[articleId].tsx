@@ -24,7 +24,7 @@ import {
     useArticleQuery,
     useArticlesQuery,
 } from '@/generated/graphql';
-import { getIdFromNameId, formatCurrency } from '@/utils';
+import { getIdFromNameId, formatCurrency, generateNameId } from '@/utils';
 import { ArticleList } from '@/components/features/articles';
 import TimeAgo from 'timeago-react';
 
@@ -227,19 +227,27 @@ const ArticleDetailPage = () => {
                                         <Avatar
                                             src={article.user.avatar as string}
                                         />
-                                        <p className="ml-2 py-1 text-xs text-gray-400">
+                                        <div className="ml-2 py-1 text-xs text-gray-400">
                                             <div className="font-semibold text-gray-600">
                                                 {article.user.username}
                                             </div>{' '}
                                             <TimeAgo
                                                 datetime={article.createdDate}
                                             />
-                                        </p>
+                                        </div>
                                     </div>
                                     <Button
                                         className="btn-wishlist h-4 "
                                         LeftIcon={BsFillStarFill}
                                         iconClassName="w-4 h-4"
+                                        onClick={() =>
+                                            router.push(
+                                                `/personal/${generateNameId({
+                                                    id: article.user.id,
+                                                    name: article.user.username,
+                                                })}`,
+                                            )
+                                        }
                                     >
                                         Xem cửa hàng
                                     </Button>
