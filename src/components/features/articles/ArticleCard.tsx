@@ -2,6 +2,7 @@ import { Image } from '@/components/shared';
 import {
     Article,
     useAddToFavoriteMutation,
+    useFavoritesQuery,
     useIsFavoriteQuery,
     useMeQuery,
     useRemoveFromFavoriteMutation,
@@ -28,8 +29,9 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
         },
         skip: !me?.me,
     });
+    const { refetch: refetchFavorites } = useFavoritesQuery();
 
-    const handleAddToFavorite = async (e: any) => {
+    const handleAddToFavorite = async (e: React.MouseEvent) => {
         e.stopPropagation();
         if (!loading && !me?.me) {
             router.push('/login');
@@ -43,6 +45,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 },
                 onCompleted: () => {
                     refetch();
+                    refetchFavorites();
                 },
             });
         } else {
@@ -52,6 +55,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 },
                 onCompleted: () => {
                     refetch();
+                    refetchFavorites();
                 },
             });
         }
@@ -103,10 +107,9 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                     classnamewrapper="absolute top-0 w-full h-full"
                 />
 
-                <AiOutlineHeart
-                    className="absolute bottom-0 right-0 z-50 h-8 w-8 fill-primary-500"
-                    onClick={handleAddToFavorite}
-                />
+                <button onClick={handleAddToFavorite}>
+                    <AiOutlineHeart className="absolute bottom-0 right-0 z-50 h-8 w-8 fill-primary-500" />
+                </button>
                 <AiFillHeart
                     className={classNames(
                         'z-49 absolute bottom-0 right-0 h-8 w-8',

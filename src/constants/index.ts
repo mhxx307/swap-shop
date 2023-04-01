@@ -52,6 +52,7 @@ export const path = {
     categories: '/categories',
     search: '/search',
     favorites: '/favorites',
+    chat: '/chat',
 } as const;
 
 export const icons = {

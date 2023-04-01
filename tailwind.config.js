@@ -48,7 +48,7 @@ module.exports = {
                     alignItems: 'center',
                 },
                 '.header-height': {
-                    marginTop: '200px',
+                    paddingTop: '160px',
                 },
             });
         }),

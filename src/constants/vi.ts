@@ -4,6 +4,7 @@ import { path, icons } from '.';
 const HEADER_NAV_LIST: NavItemProps[] = [
     { path: path.home, label: 'Trang chủ' },
     { path: path.about, label: 'Giới thiệu' },
+    { path: path.chat, label: 'Chat' },
 ];
 
 const HEADER_MOBILE_NAV_LIST: NavItemProps[] = [...HEADER_NAV_LIST];
