@@ -1,17 +1,24 @@
-import { useState } from 'react';
-import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import ReactQuill from 'react-quill';
+import { useState } from 'react';
+import { Control, FieldValues, useForm } from 'react-hook-form';
 // import ReactCurrentcyInput from "react-currency-input-field"
 import 'react-quill/dist/quill.snow.css';
 
 import { ImageUpload } from '@/components/features/uploads';
-import { Auth, Button, InputField, FormSelect } from '@/components/shared';
+import { Auth, Button, FormSelect, InputField } from '@/components/shared';
 import {
     InsertArticleInput,
+    useArticlesQuery,
     useCategoriesQuery,
     useInsertArticleMutation,
 } from '@/generated/graphql';
+import { storage } from '@/libs/firebase';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { v4 } from 'uuid';
+import { path } from '@/constants';
+import { useQueryConfig } from '@/hooks';
+import { log } from 'console';
+import { toast } from 'react-toastify';
 
 const prices = [
     { id: 1, label: 'Free' },
@@ -49,18 +56,25 @@ const formats = [
 
 const CreateArticle = () => {
     const router = useRouter();
-    // const [file, setFile] = useState<File | null>(null);
+    const [files, setFiles] = useState<File[]>([]);
+    const queryConfig = useQueryConfig();
+
     const [checked, setChecked] = useState(1);
-    const { control, handleSubmit } = useForm<InsertArticleInput>({
+    const { control, handleSubmit } = useForm<
+        Omit<InsertArticleInput, 'images'>
+    >({
         defaultValues: {
             title: '',
             description: '',
             productName: '',
-            images: [
-                'https://images.unsplash.com/photo-1574539602047-548bf9557352?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2V4eSUyMGdpcmx8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60',
-            ],
             categoryIds: [''],
             price: 0,
+        },
+    });
+
+    const { refetch } = useArticlesQuery({
+        variables: {
+            queryConfig: queryConfig,
         },
     });
 
@@ -68,21 +82,36 @@ const CreateArticle = () => {
     const { data: categoriesData } = useCategoriesQuery();
     const categories = categoriesData?.categories;
 
-    const handleAddProduct = async (payload: InsertArticleInput) => {
-        await createArticle({
-            variables: {
-                insertArticleInput: {
-                    title: payload.title,
-                    description: payload.description,
-                    productName: payload.productName,
-                    images: payload.images,
-                    categoryIds: payload.categoryIds,
-                    price: payload.price,
-                },
-            },
-        });
+    const handleAddProduct = async (
+        payload: Omit<InsertArticleInput, 'images'>,
+    ) => {
+        const urlArticles: string[] = [];
+        for (const file of files) {
+            const fileRef = ref(storage, `articles/${file.name + v4()}`);
+            const upload = await uploadBytes(fileRef, file);
+            const url = await getDownloadURL(upload.ref);
+            urlArticles.push(url);
+        }
 
-        router.push('/articles');
+        if (urlArticles.length > 0) {
+            await createArticle({
+                variables: {
+                    insertArticleInput: {
+                        title: payload.title,
+                        description: payload.description,
+                        productName: payload.productName,
+                        images: urlArticles,
+                        categoryIds: payload.categoryIds,
+                        price: payload.price,
+                    },
+                },
+            });
+        } else {
+            toast.error('Please upload an image article');
+            return;
+        }
+
+        router.push(path.home);
     };
 
     return (
@@ -172,7 +201,11 @@ const CreateArticle = () => {
 
                             <div className="space-y-2 sm:col-span-2">
                                 <p>Images:</p>
-                                <ImageUpload initialFiles={[]} />
+                                <ImageUpload
+                                    initialFiles={[]}
+                                    onChange={setFiles}
+                                    multiple
+                                />
                             </div>
 
                             <div className="space-y-2 sm:col-span-2">

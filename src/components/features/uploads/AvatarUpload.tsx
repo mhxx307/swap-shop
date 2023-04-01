@@ -1,6 +1,19 @@
 import { AiFillCamera } from 'react-icons/ai';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Image } from '@/components/shared';
+import { storage } from '@/libs/firebase';
+import {
+    deleteObject,
+    getDownloadURL,
+    ref,
+    uploadBytes,
+} from 'firebase/storage';
+import { v4 } from 'uuid';
+import { toast } from 'react-toastify';
+import {
+    useMeQuery,
+    useUploadAvatarProfileMutation,
+} from '@/generated/graphql';
 
 export interface AvatarUploadProps {
     picture?: string | null;
@@ -10,6 +23,7 @@ const AvatarUpload = ({ picture }: AvatarUploadProps) => {
     const [selectedFile, setSelectedFile] = useState<File | null>();
     const [preview, setPreview] = useState<string>();
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const { refetch } = useMeQuery();
 
     // create a preview as a side effect, whenever selected file is changed
     useEffect(() => {
@@ -32,6 +46,31 @@ const AvatarUpload = ({ picture }: AvatarUploadProps) => {
         }
 
         setSelectedFile(e.target.files[0]);
+    };
+
+    const [uploadAvatarProfileMutation] = useUploadAvatarProfileMutation();
+
+    const upLoadImageProfile = async () => {
+        if (selectedFile === undefined || selectedFile === null) return;
+        const imageRef = ref(storage, `profiles/${selectedFile?.name + v4()}`);
+
+        if (picture) {
+            const oldImageRef = ref(
+                storage,
+                `profiles/${picture.split('%2F')[1].split('?')[0]}`,
+            );
+            await deleteObject(oldImageRef);
+        }
+
+        const respose = await uploadBytes(imageRef, selectedFile);
+        const url = await getDownloadURL(respose.ref);
+        await uploadAvatarProfileMutation({
+            variables: { imageUrl: url },
+            onCompleted: () => {
+                refetch();
+                toast.success('Uploaded successfully');
+            },
+        });
     };
 
     return (
@@ -66,7 +105,7 @@ const AvatarUpload = ({ picture }: AvatarUploadProps) => {
 
             {selectedFile && (
                 <div>
-                    <button>Save</button>
+                    <button onClick={upLoadImageProfile}>Save</button>
                     <button
                         onClick={() => {
                             setSelectedFile(null);

@@ -224,6 +224,7 @@ export type Mutation = {
   updateComment: CommentMutationResponse;
   updateMessage: MessageMutationResponse;
   updateProfile: UserMutationResponse;
+  uploadAvatarProfile: UserMutationResponse;
 };
 
 
@@ -367,6 +368,11 @@ export type MutationUpdateMessageArgs = {
 
 export type MutationUpdateProfileArgs = {
   updateProfileInput: UpdateProfileInput;
+};
+
+
+export type MutationUploadAvatarProfileArgs = {
+  imageUrl: Scalars['String'];
 };
 
 export type PaginatedComments = {
@@ -596,6 +602,13 @@ export type ChangePasswordLoggedMutationVariables = Exact<{
 
 
 export type ChangePasswordLoggedMutation = { __typename?: 'Mutation', changePasswordLogged: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+
+export type UploadAvatarProfileMutationVariables = Exact<{
+  imageUrl: Scalars['String'];
+}>;
+
+
+export type UploadAvatarProfileMutation = { __typename?: 'Mutation', uploadAvatarProfile: { __typename?: 'UserMutationResponse', success: boolean, message?: string | null, code: number } };
 
 export type InsertCommentMutationVariables = Exact<{
   insertCommentInput: InsertCommentInput;
@@ -964,6 +977,41 @@ export function useChangePasswordLoggedMutation(baseOptions?: Apollo.MutationHoo
 export type ChangePasswordLoggedMutationHookResult = ReturnType<typeof useChangePasswordLoggedMutation>;
 export type ChangePasswordLoggedMutationResult = Apollo.MutationResult<ChangePasswordLoggedMutation>;
 export type ChangePasswordLoggedMutationOptions = Apollo.BaseMutationOptions<ChangePasswordLoggedMutation, ChangePasswordLoggedMutationVariables>;
+export const UploadAvatarProfileDocument = gql`
+    mutation UploadAvatarProfile($imageUrl: String!) {
+  uploadAvatarProfile(imageUrl: $imageUrl) {
+    success
+    message
+    code
+  }
+}
+    `;
+export type UploadAvatarProfileMutationFn = Apollo.MutationFunction<UploadAvatarProfileMutation, UploadAvatarProfileMutationVariables>;
+
+/**
+ * __useUploadAvatarProfileMutation__
+ *
+ * To run a mutation, you first call `useUploadAvatarProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadAvatarProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadAvatarProfileMutation, { data, loading, error }] = useUploadAvatarProfileMutation({
+ *   variables: {
+ *      imageUrl: // value for 'imageUrl'
+ *   },
+ * });
+ */
+export function useUploadAvatarProfileMutation(baseOptions?: Apollo.MutationHookOptions<UploadAvatarProfileMutation, UploadAvatarProfileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UploadAvatarProfileMutation, UploadAvatarProfileMutationVariables>(UploadAvatarProfileDocument, options);
+      }
+export type UploadAvatarProfileMutationHookResult = ReturnType<typeof useUploadAvatarProfileMutation>;
+export type UploadAvatarProfileMutationResult = Apollo.MutationResult<UploadAvatarProfileMutation>;
+export type UploadAvatarProfileMutationOptions = Apollo.BaseMutationOptions<UploadAvatarProfileMutation, UploadAvatarProfileMutationVariables>;
 export const InsertCommentDocument = gql`
     mutation InsertComment($insertCommentInput: InsertCommentInput!) {
   insertComment(insertCommentInput: $insertCommentInput) {

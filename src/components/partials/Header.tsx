@@ -140,7 +140,10 @@ const Header = () => {
                         >
                             {me ? (
                                 <Image
-                                    src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
+                                    src={
+                                        me?.avatar ||
+                                        'https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium'
+                                    }
                                     alt="dog avatar"
                                     className="h-8 w-8 rounded-[50%] object-cover sm:cursor-pointer"
                                 />
