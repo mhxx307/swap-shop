@@ -15,6 +15,7 @@ function useQueryConfig() {
             price_min: query.price_min,
             categories: query.categories,
             isFree: query.isFree,
+            userId: query.userId,
         },
         isUndefined,
     );

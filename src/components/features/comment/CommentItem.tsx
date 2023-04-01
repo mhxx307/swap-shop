@@ -118,12 +118,12 @@ function CommentItem({
                 ) : (
                     <>
                         <div className="col-span-2">
-                            <p className="py-1 text-xs text-gray-400">
+                            <div className="py-1 text-xs text-gray-400">
                                 <span className="font-semibold text-gray-600">
                                     {comment.user.username}
                                 </span>{' '}
                                 <TimeAgo datetime={comment.createdDate} />
-                            </p>
+                            </div>
                             <p>{comment.text}</p>
                         </div>
                         {me?.id === comment.user.id && (
