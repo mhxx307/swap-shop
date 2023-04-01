@@ -1,5 +1,8 @@
+import { storage } from '@/libs/firebase';
 import axios from 'axios';
+import { UploadResult, ref, uploadBytes } from 'firebase/storage';
 import mime from 'mime';
+import { v4 } from 'uuid';
 
 export const randomElement = <T>(array: T[]): T => {
     const index = Math.floor(Math.random() * array.length);
@@ -97,4 +100,11 @@ export const getIdFromNameId = (nameId: string) => {
 export const getNameFromNameId = (nameId: string) => {
     const arr = nameId.split('-i,');
     return arr[0];
+};
+
+export const uploadMultipleImages = (files: File[]) => {
+    for (const file of files) {
+        const fileRef = ref(storage, `articles/${file.name + v4()}`);
+        uploadBytes(fileRef, file);
+    }
 };
