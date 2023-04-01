@@ -16,7 +16,7 @@ const SettingsLayout = ({ children }: BaseLayoutProps) => {
             <main>
                 <Header />
                 <div className="app">
-                    <div className="wrapper header-height space-y-12">
+                    <div className="container header-height space-y-12">
                         <h3 className="text-4xl font-bold">Settings</h3>
                         <div className="border-bottom"></div>
                         <SettingsDropdown

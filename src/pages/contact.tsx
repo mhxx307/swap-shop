@@ -49,7 +49,7 @@ const ContactPage = () => {
                 description={t('head_description') && 'Contact'}
             />
 
-            <div className="wrapper header-height space-y-6">
+            <div className="container header-height space-y-6">
                 <h1 className="text-xl font-bold">{t('contact')}</h1>
 
                 <p className="text-lg">{t('heading1')}</p>

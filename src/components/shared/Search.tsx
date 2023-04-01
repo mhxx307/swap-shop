@@ -1,29 +1,16 @@
+import { useSearchArticles } from '@/hooks';
 import classNames from 'classnames';
-import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { BiSearchAlt2 } from 'react-icons/bi';
-import { Schema } from '@/constants/schema';
-import { path } from '@/constants';
-import { useQueryConfig } from '@/hooks';
 
 interface SearchProps {
     className?: string;
 }
 
-type FormData = Pick<Schema, 'title'>;
-
 const Search = ({ className }: SearchProps) => {
-    const queryConfig = useQueryConfig();
     const [toggle, setToggle] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
-    const router = useRouter();
-    const { register, watch, handleSubmit, setValue } = useForm<FormData>({
-        defaultValues: {
-            title: '',
-        },
-    });
-    const watchTitle = watch('title');
+    const { watchTitle, handleSearch, register } = useSearchArticles();
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -37,17 +24,6 @@ const Search = ({ className }: SearchProps) => {
         };
     }, []);
 
-    const handleSearch = (data: FormData) => {
-        router.push({
-            pathname: path.search,
-            query: {
-                ...queryConfig,
-                title: data.title,
-            },
-        });
-        setValue('title', '');
-    };
-
     return (
         <div
             ref={ref}
@@ -58,7 +34,7 @@ const Search = ({ className }: SearchProps) => {
         >
             <form
                 action=""
-                onSubmit={handleSubmit(handleSearch)}
+                onSubmit={handleSearch}
                 className={classNames(
                     'flex h-[30px] cursor-pointer items-center rounded-[30px] bg-white py-[10px] px-[20px] shadow-md transition-all',
                     className,

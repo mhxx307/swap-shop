@@ -33,7 +33,7 @@ const ArticleListByCategory = ({ articles, className }: ArticleListProps) => {
                             <Image
                                 src={article.thumbnail}
                                 alt="article"
-                                classNameWrapper="flex-shrink-0 w-[150px] h-[150px] object-cover"
+                                classnamewrapper="flex-shrink-0 w-[150px] h-[150px] object-cover"
                             />
                             <div className="flex flex-1 flex-col justify-between bg-white p-4">
                                 <div>

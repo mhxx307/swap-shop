@@ -15,7 +15,7 @@ const Footer = () => {
         'font-bold hover:text-primary-300 transition duration-300';
 
     return (
-        <div className="flex w-full flex-col items-center justify-center space-y-4 border-t-[1px] border-black/10 px-4 py-16 dark:border-[#282828] md:px-12">
+        <footer className="flex w-full flex-col items-center justify-center space-y-4 border-t-[1px] border-black/10 px-4 py-16 dark:border-[#282828] md:px-12">
             <div className="flex items-center space-x-4">
                 <ContactItem href={YOUTUBE_URL} Icon={AiFillYoutube} />
                 <ContactItem href={FACEBOOK_URL} Icon={AiFillFacebook} />
@@ -46,7 +46,7 @@ const Footer = () => {
             <p className="text-center text-xs dark:text-gray-300">
                 © 2023 SecondChance
             </p>
-        </div>
+        </footer>
     );
 };
 

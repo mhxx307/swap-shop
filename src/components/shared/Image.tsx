@@ -14,14 +14,14 @@ const variants = {
 };
 
 export interface ImageProps extends NextImageProps {
-    classNameWrapper?: string;
+    classnamewrapper?: string;
     className?: string;
     fallbackImg?: string;
 }
 
 const Image: React.FC<ImageProps> = ({ onLoadingComplete, src, ...props }) => {
     const {
-        classNameWrapper,
+        classnamewrapper,
         className,
         fallbackImg = '/images/avatar-fallback.png',
     } = props;
@@ -47,7 +47,7 @@ const Image: React.FC<ImageProps> = ({ onLoadingComplete, src, ...props }) => {
             initial="hidden"
             variants={variants}
             animate={isLoaded ? 'visible' : 'hidden'}
-            className={classNames('flex-shrink-0', classNameWrapper)}
+            className={classNames('flex-shrink-0', classnamewrapper)}
         >
             <NextImage
                 src={fallback || src}
