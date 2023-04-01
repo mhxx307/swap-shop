@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { ReactNode } from 'react';
 
 import { SettingsLayout } from '@/components/layouts';
-import { Auth, Button, InputField } from '@/components/shared';
+import { Button, InputField } from '@/components/shared';
 import { AvatarUpload } from '@/components/features/uploads';
 import {
     UpdateProfileInput,
@@ -37,64 +37,62 @@ const ProfilePage = () => {
     };
 
     return (
-        <Auth>
-            <div className="space-y-12 pb-[60px]">
-                <AvatarUpload picture={me?.avatar} />
+        <div className="space-y-12 pb-[60px]">
+            <AvatarUpload picture={me?.avatar} />
 
-                <form
-                    method="POST"
-                    onSubmit={handleSubmit(handleUpdate)}
-                    className="space-y-8"
+            <form
+                method="POST"
+                onSubmit={handleSubmit(handleUpdate)}
+                className="space-y-8"
+            >
+                <InputField
+                    name="username"
+                    control={control}
+                    label="Username"
+                    containerInputClassName="default-input"
+                />
+
+                <InputField
+                    name="address"
+                    control={control}
+                    label="Address"
+                    containerInputClassName="default-input"
+                />
+
+                <p>{me?.email}</p>
+
+                <InputField
+                    name="phoneNumber"
+                    control={control}
+                    label="Phone number"
+                    containerInputClassName="default-input"
+                />
+
+                <InputField
+                    name="fullName"
+                    control={control}
+                    label="Full name"
+                    containerInputClassName="default-input"
+                />
+
+                <InputField
+                    name="birthday"
+                    control={control}
+                    label="Birthday"
+                    containerInputClassName="default-input"
+                    type="date"
+                />
+
+                <Button
+                    primary
+                    isLoading={loading}
+                    className="border-[2px] border-transparent font-semibold"
+                    type="submit"
                 >
-                    <InputField
-                        name="username"
-                        control={control}
-                        label="Username"
-                        containerInputClassName="default-input"
-                    />
-
-                    <InputField
-                        name="address"
-                        control={control}
-                        label="Address"
-                        containerInputClassName="default-input"
-                    />
-
-                    <p>{me?.email}</p>
-
-                    <InputField
-                        name="phoneNumber"
-                        control={control}
-                        label="Phone number"
-                        containerInputClassName="default-input"
-                    />
-
-                    <InputField
-                        name="fullName"
-                        control={control}
-                        label="Full name"
-                        containerInputClassName="default-input"
-                    />
-
-                    <InputField
-                        name="birthday"
-                        control={control}
-                        label="Birthday"
-                        containerInputClassName="default-input"
-                        type="date"
-                    />
-
-                    <Button
-                        primary
-                        isLoading={loading}
-                        className="border-[2px] border-transparent font-semibold"
-                        type="submit"
-                    >
-                        Save
-                    </Button>
-                </form>
-            </div>
-        </Auth>
+                    Save
+                </Button>
+            </form>
+        </div>
     );
 };
 

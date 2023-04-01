@@ -52,7 +52,7 @@ const SwiperCategories = ({
                                 'https://lighthouse.chotot.com/_next/image?url=https%3A%2F%2Fstatic.chotot.com%2Fstorage%2Fchapy-pro%2Fnewcats%2Fv8%2F1000.png&w=256&q=95'
                             }
                             alt="thumb"
-                            classNameWrapper={classNames(
+                            classnamewrapper={classNames(
                                 'w-24 h-24',
                                 imageClassName,
                             )}

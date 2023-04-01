@@ -9,7 +9,7 @@ const DmcaPage = () => {
                 title="DMCA - SecondChance"
                 description="DMCA for seconde chance"
             />
-            <div className="wrapper header-height space-y-8">
+            <div className="container header-height space-y-8">
                 <h1 className="text-3xl font-bold">{t('heading1')}</h1>
                 <p>{t('description')}</p>
 

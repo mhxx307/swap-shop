@@ -6,7 +6,7 @@ interface Icon {
 }
 
 export interface InputProps extends React.HTMLProps<HTMLInputElement> {
-    classNameWrapper?: string;
+    classnamewrapper?: string;
     containerInputClassName?: string;
     labelClassName?: string;
     iconClassName?: string;
@@ -23,7 +23,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     const {
         label,
         defaultLayout,
-        classNameWrapper,
+        classnamewrapper,
         containerInputClassName,
         labelClassName,
         iconClassName,
@@ -36,7 +36,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     } = props;
 
     return (
-        <div className={classNameWrapper}>
+        <div className={classnamewrapper}>
             {label && (
                 <p className={classNames('mb-2 font-semibold', labelClassName)}>
                     {label}

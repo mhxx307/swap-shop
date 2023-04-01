@@ -5,6 +5,7 @@ import { path, icons } from '.';
 const HEADER_NAV_LIST: NavItemProps[] = [
     { path: path.home, label: 'Home' },
     { path: path.about, label: 'About' },
+    { path: path.chat, label: 'Chat' },
 ];
 
 const HEADER_MOBILE_NAV_LIST: NavItemProps[] = [...HEADER_NAV_LIST];
@@ -28,6 +29,11 @@ const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
         icon: icons.BsPencilSquare,
         label: 'New product',
         path: path.articlesCreate,
+    },
+    {
+        icon: icons.BsPencilSquare,
+        label: 'Favorites article',
+        path: path.favorites,
     },
     ...POPUP_MENU_LIST,
     { icon: icons.BsGear, label: 'Settings', path: path.settingsProfile },
