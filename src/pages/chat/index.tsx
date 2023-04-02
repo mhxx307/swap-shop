@@ -1,30 +1,54 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, ReactNode, useEffect, useRef, useState } from 'react';
 import { BsFillGearFill, BsTrash } from 'react-icons/bs';
 import { MdSend } from 'react-icons/md';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 import { io, Socket } from 'socket.io-client';
+import HeadlessTippy from '@tippyjs/react/headless'; // different import path!
 
-import { Conversations, Message } from '@/components/features/chat';
-import { BaseLayout } from '@/components/layouts';
-import { Auth, Button } from '@/components/shared';
 import {
     Conversation,
+    Message,
+    SearchResultList,
+} from '@/components/features/chat';
+import { BaseLayout } from '@/components/layouts';
+import { Auth, Button, Spinner } from '@/components/shared';
+import {
+    Conversation as ConversationType,
     Message as MessageType,
+    User,
     useGetConversationsQuery,
+    useGetUsersByNameQuery,
     useMeQuery,
     useMessagesQuery,
     useNewMessageMutation,
 } from '@/generated/graphql';
+import { useDebounce } from '@/hooks';
+
+interface UserSocket {
+    userId: string;
+    socketId: string;
+}
+
+interface ArrivalMessage {
+    senderId: string;
+    text: string;
+}
+
+type UserType = Pick<User, 'id' | 'username' | 'avatar' | '__typename'>;
 
 function Chat() {
     const socket = useRef<Socket | null>();
+    const inputRef = useRef<HTMLInputElement | null>(null);
     const scrollRef = useRef<HTMLDivElement | null>(null);
-    const [currentChat, setCurrentChat] = useState<Conversation | null>(null);
+    const [searchValue, setSearchValue] = useState('');
+    const [searchResult, setSearchResult] = useState<UserType[]>([]);
+    const [showResult, setShowResult] = useState(false);
+    const [currentChat, setCurrentChat] = useState<ConversationType | null>(
+        null,
+    );
     const [newMessage, setNewMessage] = useState('');
-    const [arrivalMessage, setArrivalMessage] = useState<{
-        senderId: string;
-        text: string;
-    }>();
+    const [arrivalMessage, setArrivalMessage] = useState<ArrivalMessage>();
+    const [onlineUsers, setOnlineUsers] = useState<UserSocket[]>([]);
     const { data: meData } = useMeQuery();
     const { data: conversationsData } = useGetConversationsQuery();
     const { data: messagesData, refetch } = useMessagesQuery({
@@ -33,41 +57,52 @@ function Chat() {
         },
         skip: !currentChat,
     });
+    const debounceValue = useDebounce(searchValue, 500);
+    const { data: usersData, loading: findUserLoading } =
+        useGetUsersByNameQuery({
+            variables: {
+                name: debounceValue,
+            },
+            skip: !debounceValue,
+        });
     const [sendMessageMutation, { loading: sendMessageLoading }] =
         useNewMessageMutation();
+
     const me = meData?.me;
     const conversations = conversationsData?.getConversations;
     const messages = messagesData?.messages;
+
+    useEffect(() => {
+        if (!debounceValue.trim()) {
+            setSearchResult([]);
+            return;
+        }
+
+        if (usersData?.getUsersByName) {
+            setSearchResult(usersData.getUsersByName);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [debounceValue]);
 
     // connect to socket
     useEffect(() => {
         socket.current = io('ws://localhost:8900');
 
-        socket.current?.on(
-            'getMessage',
-            (data: { senderId: string; text: string }) => {
-                setArrivalMessage({
-                    senderId: data.senderId,
-                    text: data.text,
-                });
-            },
-        );
+        socket.current?.on('getMessage', (data: ArrivalMessage) => {
+            setArrivalMessage({
+                senderId: data.senderId,
+                text: data.text,
+            });
+        });
     }, []);
 
     // add user and getUsers to socket
     useEffect(() => {
         socket.current?.emit('addUser', me?.id);
-        socket.current?.on(
-            'getUsers',
-            (
-                users: {
-                    userId: string;
-                    socketId: string;
-                }[],
-            ) => {
-                console.log('users', users);
-            },
-        );
+        socket.current?.on('getUsers', (users: UserSocket[]) => {
+            setOnlineUsers(users);
+        });
     }, [me]);
 
     // get message from socket
@@ -114,6 +149,14 @@ function Chat() {
         }
     };
 
+    const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+        const searchValue = e.target.value;
+
+        if (!searchValue.startsWith(' ')) {
+            setSearchValue(searchValue);
+        }
+    };
+
     return (
         <Auth>
             <div className="container header-height items-stretch bg-white">
@@ -141,28 +184,62 @@ function Chat() {
                                 </ul>
                             </div>
                             {/* search */}
-                            <input
-                                placeholder="Search for friends"
-                                className="w-full border-b-[1px] border-b-slate-500 p-2 outline-none"
-                            />
+                            <HeadlessTippy
+                                visible={showResult && searchResult.length > 0}
+                                interactive={true}
+                                appendTo={() => document.body}
+                                render={(attrs) => (
+                                    <div
+                                        tabIndex={-1}
+                                        {...attrs}
+                                        className="z-50 w-[400px] shadow"
+                                    >
+                                        <SearchResultList
+                                            searchResult={searchResult}
+                                            currentChat={
+                                                currentChat as ConversationType
+                                            }
+                                            setCurrentChat={setCurrentChat}
+                                        />
+                                    </div>
+                                )}
+                                placement="bottom-end"
+                                onClickOutside={() => {
+                                    setShowResult(false);
+                                }}
+                            >
+                                <div className="flex">
+                                    <input
+                                        ref={inputRef}
+                                        placeholder="Search..."
+                                        className="w-full border-b-[1px] border-b-slate-500 p-2 outline-none"
+                                        value={searchValue}
+                                        spellCheck={false}
+                                        onChange={handleSearch}
+                                        onFocus={() => setShowResult(true)}
+                                    />
+                                    {findUserLoading && <Spinner />}
+                                </div>
+                            </HeadlessTippy>
+
                             {/* list */}
                             <div className="h-full overflow-y-scroll">
                                 {conversations &&
                                     conversations.map((conversation) => (
                                         <div
                                             key={conversation.id}
-                                            onClick={() =>
+                                            onClick={() => {
                                                 setCurrentChat(
-                                                    conversation as Conversation,
-                                                )
-                                            }
+                                                    conversation as ConversationType,
+                                                );
+                                            }}
                                             role="button"
                                             tabIndex={0}
                                             aria-hidden="true"
                                         >
-                                            <Conversations
+                                            <Conversation
                                                 conversation={
-                                                    conversation as Conversation
+                                                    conversation as ConversationType
                                                 }
                                             />
                                         </div>

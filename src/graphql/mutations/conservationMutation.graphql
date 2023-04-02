@@ -2,6 +2,21 @@ mutation NewConversation($userId: String!) {
     newConversation(userId: $userId) {
         success
         message
+        conversation {
+            id
+            member1 {
+                username
+                id
+                avatar
+            }
+            member2 {
+                username
+                id
+                avatar
+            }
+            createdDate
+            updatedDate
+        }
     }
 }
 

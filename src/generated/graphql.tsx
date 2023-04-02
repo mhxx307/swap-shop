@@ -398,11 +398,12 @@ export type Query = {
   categories?: Maybe<Array<Category>>;
   commentListByArticleId?: Maybe<PaginatedComments>;
   favorites?: Maybe<Array<Favorite>>;
-  getAllUser: Array<User>;
+  getAllUser?: Maybe<Array<User>>;
   getConversation?: Maybe<Conversation>;
   getConversations?: Maybe<Array<Conversation>>;
-  getUserById: User;
+  getUserById?: Maybe<User>;
   getUserRoles: Array<UserRole>;
+  getUsersByName?: Maybe<Array<User>>;
   isFavorite: Scalars['Boolean'];
   me?: Maybe<User>;
   messages?: Maybe<Array<Message>>;
@@ -434,6 +435,11 @@ export type QueryGetConversationArgs = {
 
 export type QueryGetUserByIdArgs = {
   userId: Scalars['String'];
+};
+
+
+export type QueryGetUsersByNameArgs = {
+  name: Scalars['String'];
 };
 
 
@@ -643,7 +649,7 @@ export type NewConversationMutationVariables = Exact<{
 }>;
 
 
-export type NewConversationMutation = { __typename?: 'Mutation', newConversation: { __typename?: 'ConversationMutationResponse', success: boolean, message?: string | null } };
+export type NewConversationMutation = { __typename?: 'Mutation', newConversation: { __typename?: 'ConversationMutationResponse', success: boolean, message?: string | null, conversation?: { __typename?: 'Conversation', id: string, createdDate: any, updatedDate: any, member1: { __typename?: 'User', username: string, id: string, avatar?: string | null }, member2: { __typename?: 'User', username: string, id: string, avatar?: string | null } } | null } };
 
 export type NewMessageMutationVariables = Exact<{
   insertMessageInput: InsertMessageInput;
@@ -704,7 +710,14 @@ export type UserByIdQueryVariables = Exact<{
 }>;
 
 
-export type UserByIdQuery = { __typename?: 'Query', getUserById: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, rating?: number | null, status: string, createdDate: any, updatedDate: any } };
+export type UserByIdQuery = { __typename?: 'Query', getUserById?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, rating?: number | null, status: string, createdDate: any, updatedDate: any } | null };
+
+export type GetUsersByNameQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type GetUsersByNameQuery = { __typename?: 'Query', getUsersByName?: Array<{ __typename?: 'User', id: string, username: string, avatar?: string | null }> | null };
 
 export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1214,6 +1227,21 @@ export const NewConversationDocument = gql`
   newConversation(userId: $userId) {
     success
     message
+    conversation {
+      id
+      member1 {
+        username
+        id
+        avatar
+      }
+      member2 {
+        username
+        id
+        avatar
+      }
+      createdDate
+      updatedDate
+    }
   }
 }
     `;
@@ -1587,6 +1615,43 @@ export function useUserByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<U
 export type UserByIdQueryHookResult = ReturnType<typeof useUserByIdQuery>;
 export type UserByIdLazyQueryHookResult = ReturnType<typeof useUserByIdLazyQuery>;
 export type UserByIdQueryResult = Apollo.QueryResult<UserByIdQuery, UserByIdQueryVariables>;
+export const GetUsersByNameDocument = gql`
+    query GetUsersByName($name: String!) {
+  getUsersByName(name: $name) {
+    id
+    username
+    avatar
+  }
+}
+    `;
+
+/**
+ * __useGetUsersByNameQuery__
+ *
+ * To run a query within a React component, call `useGetUsersByNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUsersByNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUsersByNameQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGetUsersByNameQuery(baseOptions: Apollo.QueryHookOptions<GetUsersByNameQuery, GetUsersByNameQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUsersByNameQuery, GetUsersByNameQueryVariables>(GetUsersByNameDocument, options);
+      }
+export function useGetUsersByNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersByNameQuery, GetUsersByNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUsersByNameQuery, GetUsersByNameQueryVariables>(GetUsersByNameDocument, options);
+        }
+export type GetUsersByNameQueryHookResult = ReturnType<typeof useGetUsersByNameQuery>;
+export type GetUsersByNameLazyQueryHookResult = ReturnType<typeof useGetUsersByNameLazyQuery>;
+export type GetUsersByNameQueryResult = Apollo.QueryResult<GetUsersByNameQuery, GetUsersByNameQueryVariables>;
 export const CategoriesDocument = gql`
     query Categories {
   categories {

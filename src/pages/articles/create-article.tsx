@@ -204,14 +204,6 @@ const CreateArticle = () => {
                             </div>
 
                             <div className="space-y-2 sm:col-span-2">
-                                {/* <InputField
-                                    control={control}
-                                    type="text"
-                                    label="Description"
-                                    name="description"
-                                    containerInputClassName="default-input"
-                                    placeholder="Description"
-                                /> */}
                                 <label htmlFor="description">Description</label>
                                 <Controller
                                     control={control}
