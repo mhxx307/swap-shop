@@ -14,15 +14,19 @@ import { BaseLayout } from '@/components/layouts';
 import { Auth, Button, Spinner } from '@/components/shared';
 import {
     Conversation as ConversationType,
+    GetUsersByNameDocument,
+    GetUsersByNameQuery,
     Message as MessageType,
+    QueryGetUsersByNameArgs,
     User,
     useGetConversationsQuery,
-    useGetUsersByNameQuery,
     useMeQuery,
     useMessagesQuery,
     useNewMessageMutation,
 } from '@/generated/graphql';
 import { useDebounce } from '@/hooks';
+import { initializeApollo } from '@/libs/apolloClient';
+import classNames from 'classnames';
 
 interface UserSocket {
     userId: string;
@@ -37,7 +41,7 @@ interface ArrivalMessage {
 type UserType = Pick<User, 'id' | 'username' | 'avatar' | '__typename'>;
 
 function Chat() {
-    const socket = useRef<Socket | null>();
+    const socket = useRef<Socket>();
     const inputRef = useRef<HTMLInputElement | null>(null);
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const [searchValue, setSearchValue] = useState('');
@@ -49,6 +53,7 @@ function Chat() {
     const [newMessage, setNewMessage] = useState('');
     const [arrivalMessage, setArrivalMessage] = useState<ArrivalMessage>();
     const [onlineUsers, setOnlineUsers] = useState<UserSocket[]>([]);
+    const [searchLoading, setSearchLoading] = useState(false);
     const { data: meData } = useMeQuery();
     const { data: conversationsData } = useGetConversationsQuery();
     const { data: messagesData, refetch } = useMessagesQuery({
@@ -58,13 +63,7 @@ function Chat() {
         skip: !currentChat,
     });
     const debounceValue = useDebounce(searchValue, 500);
-    const { data: usersData, loading: findUserLoading } =
-        useGetUsersByNameQuery({
-            variables: {
-                name: debounceValue,
-            },
-            skip: !debounceValue,
-        });
+    const apolloClient = initializeApollo();
     const [sendMessageMutation, { loading: sendMessageLoading }] =
         useNewMessageMutation();
 
@@ -78,10 +77,25 @@ function Chat() {
             return;
         }
 
-        if (usersData?.getUsersByName) {
-            setSearchResult(usersData.getUsersByName);
+        async function fetchSearchResult() {
+            setSearchLoading(true);
+            const { data: usersData } = await apolloClient.query<
+                GetUsersByNameQuery,
+                QueryGetUsersByNameArgs
+            >({
+                query: GetUsersByNameDocument,
+                variables: {
+                    name: debounceValue,
+                },
+            });
+
+            if (usersData?.getUsersByName) {
+                setSearchLoading(false);
+                setSearchResult(usersData.getUsersByName);
+            }
         }
 
+        fetchSearchResult();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounceValue]);
 
@@ -89,7 +103,7 @@ function Chat() {
     useEffect(() => {
         socket.current = io('ws://localhost:8900');
 
-        socket.current?.on('getMessage', (data: ArrivalMessage) => {
+        socket.current.on('getMessage', (data: ArrivalMessage) => {
             setArrivalMessage({
                 senderId: data.senderId,
                 text: data.text,
@@ -99,10 +113,12 @@ function Chat() {
 
     // add user and getUsers to socket
     useEffect(() => {
-        socket.current?.emit('addUser', me?.id);
-        socket.current?.on('getUsers', (users: UserSocket[]) => {
-            setOnlineUsers(users);
-        });
+        if (me) {
+            socket.current?.emit('addUser', me.id); // emit the addUser event with the me.id as the argument
+            socket.current?.on('getUsers', (users: UserSocket[]) => {
+                setOnlineUsers(users);
+            });
+        }
     }, [me]);
 
     // get message from socket
@@ -127,11 +143,13 @@ function Chat() {
                     ? currentChat.member2.id
                     : currentChat.member1.id;
 
-            socket.current?.emit('sendMessage', {
-                senderId: me.id,
-                receiverId: receiverId,
-                text: newMessage,
-            });
+            if (receiverId) {
+                socket.current?.emit('sendMessage', {
+                    senderId: me.id,
+                    receiverId: receiverId,
+                    text: newMessage,
+                });
+            }
 
             await sendMessageMutation({
                 variables: {
@@ -156,6 +174,8 @@ function Chat() {
             setSearchValue(searchValue);
         }
     };
+
+    console.log(onlineUsers);
 
     return (
         <Auth>
@@ -196,9 +216,6 @@ function Chat() {
                                     >
                                         <SearchResultList
                                             searchResult={searchResult}
-                                            currentChat={
-                                                currentChat as ConversationType
-                                            }
                                             setCurrentChat={setCurrentChat}
                                         />
                                     </div>
@@ -218,7 +235,7 @@ function Chat() {
                                         onChange={handleSearch}
                                         onFocus={() => setShowResult(true)}
                                     />
-                                    {findUserLoading && <Spinner />}
+                                    {searchLoading && <Spinner />}
                                 </div>
                             </HeadlessTippy>
 
@@ -236,6 +253,11 @@ function Chat() {
                                             role="button"
                                             tabIndex={0}
                                             aria-hidden="true"
+                                            className={classNames({
+                                                'bg-gray-200':
+                                                    currentChat?.id ===
+                                                    conversation.id,
+                                            })}
                                         >
                                             <Conversation
                                                 conversation={

@@ -14,13 +14,11 @@ type UserType = Pick<User, 'id' | 'username' | 'avatar' | '__typename'>;
 
 interface SearchResultListProps {
     searchResult: UserType[];
-    currentChat: Conversation | null;
     setCurrentChat: (conversation: Conversation) => void;
 }
 
 function SearchResultList({
     searchResult,
-    currentChat,
     setCurrentChat,
 }: SearchResultListProps) {
     const [newConversationMutation] = useNewConversationMutation();
@@ -40,24 +38,27 @@ function SearchResultList({
                     userId: item.id,
                 },
             });
-            const isAlreadyExistConversation =
-                currentChat?.id === conversationData.getConversation?.id;
-            if (isAlreadyExistConversation) {
+
+            // If the conversation already exists, set it as current chat
+            if (conversationData) {
                 setCurrentChat(
                     conversationData.getConversation as Conversation,
                 );
+                refetch();
                 return;
             }
 
+            // If the conversation doesn't exist, create a new one
             await newConversationMutation({
                 variables: {
                     userId: item.id,
                 },
-                onCompleted: () => {
+                onCompleted: (data) => {
                     refetch();
                     setCurrentChat(
-                        conversationData.getConversation as Conversation,
+                        data.newConversation.conversation as Conversation,
                     );
+                    console.log('tao thanh cong');
                 },
             });
         };
