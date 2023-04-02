@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { Control, FieldValues, useForm } from 'react-hook-form';
+import { useMemo, useState } from 'react';
+import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
 // import ReactCurrentcyInput from "react-currency-input-field"
 import 'react-quill/dist/quill.snow.css';
+import dynamic from 'next/dynamic';
 
 import { ImageUpload } from '@/components/features/uploads';
 import { Auth, Button, FormSelect, InputField } from '@/components/shared';
 import {
     InsertArticleInput,
-    useArticlesQuery,
     useCategoriesQuery,
     useInsertArticleMutation,
 } from '@/generated/graphql';
@@ -16,8 +16,6 @@ import { storage } from '@/libs/firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { path } from '@/constants';
-import { useQueryConfig } from '@/hooks';
-import { log } from 'console';
 import { toast } from 'react-toastify';
 
 const prices = [
@@ -55,9 +53,12 @@ const formats = [
 ];
 
 const CreateArticle = () => {
+    const ReactQuill = useMemo(
+        () => dynamic(() => import('react-quill'), { ssr: false }),
+        [],
+    );
     const router = useRouter();
     const [files, setFiles] = useState<File[]>([]);
-    const queryConfig = useQueryConfig();
 
     const [checked, setChecked] = useState(1);
     const { control, handleSubmit } = useForm<
@@ -69,12 +70,6 @@ const CreateArticle = () => {
             productName: '',
             categoryIds: [''],
             price: 0,
-        },
-    });
-
-    const { refetch } = useArticlesQuery({
-        variables: {
-            queryConfig: queryConfig,
         },
     });
 
@@ -102,7 +97,7 @@ const CreateArticle = () => {
                         productName: payload.productName,
                         images: urlArticles,
                         categoryIds: payload.categoryIds,
-                        price: payload.price,
+                        price: Number(payload.price),
                     },
                 },
             });
@@ -116,7 +111,7 @@ const CreateArticle = () => {
 
     return (
         <Auth>
-            <section className="bg-white pt-[200px] dark:bg-primaryDark">
+            <section className="container header-height bg-white dark:bg-primaryDark">
                 <div className="mx-auto max-w-2xl py-8 px-4 lg:py-16">
                     <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
                         Add a new product
@@ -209,32 +204,31 @@ const CreateArticle = () => {
                             </div>
 
                             <div className="space-y-2 sm:col-span-2">
-                                <label htmlFor="description">Description</label>
-                                <InputField
+                                {/* <InputField
                                     control={control}
                                     type="text"
                                     label="Description"
                                     name="description"
                                     containerInputClassName="default-input"
                                     placeholder="Description"
-                                />
-                                {/* <Controller
+                                /> */}
+                                <label htmlFor="description">Description</label>
+                                <Controller
                                     control={control}
                                     name="description"
                                     render={({
-                                        field: { onChange, onBlur, value, ref },
+                                        field: { onChange, onBlur, value },
                                     }) => (
                                         <ReactQuill
                                             theme="snow"
                                             value={value}
                                             onChange={onChange}
                                             onBlur={onBlur}
-                                            ref={ref}
                                             modules={modules}
                                             formats={formats}
                                         />
                                     )}
-                                /> */}
+                                />
                             </div>
                         </div>
 

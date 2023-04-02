@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 'use strict';
 
 // Workbox RuntimeCaching config: https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.RuntimeCachingEntry

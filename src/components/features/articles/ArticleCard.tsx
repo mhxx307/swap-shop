@@ -1,4 +1,5 @@
 import { Image } from '@/components/shared';
+import { path } from '@/constants';
 import {
     Article,
     useAddToFavoriteMutation,
@@ -7,7 +8,7 @@ import {
     useMeQuery,
     useRemoveFromFavoriteMutation,
 } from '@/generated/graphql';
-import { generateNameId } from '@/utils';
+import { formatCurrency, generateNameId } from '@/utils';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -34,7 +35,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
     const handleAddToFavorite = async (e: React.MouseEvent) => {
         e.stopPropagation();
         if (!loading && !me?.me) {
-            router.push('/login');
+            router.push(path.login);
             return;
         }
 
@@ -131,7 +132,9 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                         {article.title}
                     </h3>
                     <p className="text-sm font-bold text-red-600">
-                        {article.price ? `${article.price} ETH` : 'Free'}
+                        {article.price
+                            ? `đ ${formatCurrency(article.price)}`
+                            : 'Free'}
                     </p>
                 </div>
 

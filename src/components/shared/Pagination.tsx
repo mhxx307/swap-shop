@@ -106,7 +106,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
                             },
                         )}
                         href={{
-                            pathname: path.articles,
+                            pathname: path.home,
                             query: {
                                 ...queryConfig,
                                 page: pageNumber.toString(),
@@ -128,7 +128,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
             ) : (
                 <Link
                     href={{
-                        pathname: path.articles,
+                        pathname: path.home,
                         query: {
                             ...queryConfig,
                             page: (page - 1).toString(),
@@ -149,7 +149,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
             ) : (
                 <Link
                     href={{
-                        pathname: path.articles,
+                        pathname: path.home,
                         query: {
                             ...queryConfig,
                             page: (page + 1).toString(),

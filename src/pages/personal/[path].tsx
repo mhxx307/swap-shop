@@ -12,14 +12,14 @@ import { generateNameId, getIdFromNameId } from '@/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { AiFillHeart } from 'react-icons/ai';
 import { BsFillStarFill } from 'react-icons/bs';
 
 function StoreDetail() {
     const router = useRouter();
     const [id, setId] = useState('');
 
-    const { data: userData, loading } = useUserByIdQuery({
+    const { data: userData } = useUserByIdQuery({
         variables: {
             userId: id,
         },
@@ -56,14 +56,14 @@ function StoreDetail() {
                                     src={'/images/avatar-fallback.png'}
                                     alt="Avatar"
                                     className="h-full w-full rounded-[50%] object-cover text-center ss:mx-[24px]"
-                                    classNameWrapper="flex-center text-sm z-50 w-24 h-24 absolute left-[20px] bottom-[-40px]"
+                                    classnamewrapper="flex-center text-sm z-50 w-24 h-24 absolute left-[20px] bottom-[-40px]"
                                 />
 
                                 {/* article image */}
                                 <Image
                                     src={'/images/login-background.avif'}
                                     alt="article"
-                                    classNameWrapper="absolute top-0 w-full h-full"
+                                    classnamewrapper="absolute top-0 w-full h-full"
                                 />
                             </div>
                             <div className=" mt-12 rounded-sm bg-white">
@@ -123,7 +123,7 @@ function StoreDetail() {
                                                                         .images[0]
                                                                 }
                                                                 alt="article"
-                                                                classNameWrapper="flex-shrink-0 w-[150px] h-[150px] object-cover rounded-lg"
+                                                                classnamewrapper="flex-shrink-0 w-[150px] h-[150px] object-cover rounded-lg"
                                                             />
 
                                                             <div className="relative ml-4 w-full ">

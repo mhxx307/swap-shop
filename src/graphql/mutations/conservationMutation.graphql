@@ -1,0 +1,20 @@
+mutation NewConversation($userId: String!) {
+    newConversation(userId: $userId) {
+        success
+        message
+    }
+}
+
+mutation NewMessage($insertMessageInput: InsertMessageInput!) {
+    newMessage(insertMessageInput: $insertMessageInput) {
+        message
+        success
+    }
+}
+
+mutation RemoveMessage($messageId: String!) {
+    removeMessage(messageId: $messageId) {
+        message
+        success
+    }
+}
