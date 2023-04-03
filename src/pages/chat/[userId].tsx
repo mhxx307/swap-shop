@@ -65,7 +65,7 @@ function ChatBox() {
 
     // connect to socket
     useEffect(() => {
-        socket.current = io('ws://localhost:8900');
+        socket.current = io(`ws://${process.env.NEXT_PUBLIC_SOCKET_URL}`);
 
         socket.current.on('getMessage', (data: ArrivalMessage) => {
             setArrivalMessage({
