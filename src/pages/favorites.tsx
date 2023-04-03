@@ -1,20 +1,21 @@
+import FavoriteCard from '@/components/features/articles/FavoriteCard';
 import { Auth } from '@/components/shared';
-import { useFavoritesQuery } from '@/generated/graphql';
+import { Favorite, useFavoritesQuery } from '@/generated/graphql';
 
 function Favorites() {
     const { data } = useFavoritesQuery();
     return (
         <Auth>
             <div className="container header-height">
-                <div className="flex flex-col items-center">
+                <h3 className="text-xl font-bold">Bài viết yêu thích</h3>
+                <div className="mt-2 flex flex-col">
                     {data?.favorites &&
-                        data?.favorites.map((favorite) => (
-                            <div
+                        data?.favorites.map((favorite, index) => (
+                            <FavoriteCard
+                                favorite={favorite as Favorite}
+                                index={index}
                                 key={favorite.id}
-                                className="h-[300px] w-[300px]"
-                            >
-                                {favorite.article.title}
-                            </div>
+                            />
                         ))}
                 </div>
             </div>

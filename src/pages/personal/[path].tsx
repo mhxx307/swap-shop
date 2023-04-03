@@ -38,9 +38,11 @@ function StoreDetail() {
     const articles = articlesData?.articles.data?.articles;
 
     useEffect(() => {
-        setId(getIdFromNameId(router.query.path as string));
+        if (router.query.path) {
+            setId(getIdFromNameId(router.query.path as string));
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [router.query.path]);
 
     return (
         <>

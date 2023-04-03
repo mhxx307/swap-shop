@@ -1,14 +1,7 @@
 import { Image } from '@/components/shared';
-import { path } from '@/constants';
-import {
-    Article,
-    useAddToFavoriteMutation,
-    useFavoritesQuery,
-    useIsFavoriteQuery,
-    useMeQuery,
-    useRemoveFromFavoriteMutation,
-} from '@/generated/graphql';
-import { formatCurrency, generateNameId } from '@/utils';
+import { Article } from '@/generated/graphql';
+import useFavorites from '@/hooks/useFavorites';
+import { generateNameId } from '@/utils';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
@@ -20,47 +13,9 @@ interface ArticleCardProps {
 
 const ArticleCard = ({ article }: ArticleCardProps) => {
     const router = useRouter();
-    const { data: me, loading } = useMeQuery();
-
-    const [addToFavorite] = useAddToFavoriteMutation();
-    const [removeFromFavorite] = useRemoveFromFavoriteMutation();
-    const { data, refetch } = useIsFavoriteQuery({
-        variables: {
-            articleId: article.id,
-        },
-        skip: !me?.me,
+    const { handleAddToFavorite, isFavorite } = useFavorites({
+        articleId: article.id,
     });
-    const { refetch: refetchFavorites } = useFavoritesQuery();
-
-    const handleAddToFavorite = async (e: React.MouseEvent) => {
-        e.stopPropagation();
-        if (!loading && !me?.me) {
-            router.push(path.login);
-            return;
-        }
-
-        if (data?.isFavorite) {
-            await removeFromFavorite({
-                variables: {
-                    articleIds: [article.id],
-                },
-                onCompleted: () => {
-                    refetch();
-                    refetchFavorites();
-                },
-            });
-        } else {
-            await addToFavorite({
-                variables: {
-                    articleId: article.id,
-                },
-                onCompleted: () => {
-                    refetch();
-                    refetchFavorites();
-                },
-            });
-        }
-    };
 
     return (
         <motion.div
@@ -115,8 +70,8 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                     className={classNames(
                         'z-49 absolute bottom-0 right-0 h-8 w-8',
                         {
-                            'fill-primary-500': data?.isFavorite,
-                            'fill-white/70': !data?.isFavorite,
+                            'fill-primary-500': isFavorite,
+                            'fill-white/70': !isFavorite,
                         },
                     )}
                 />
