@@ -43,7 +43,7 @@ function SearchResultList({
             });
 
             // If the conversation already exists, set it as current chat
-            if (conversationData) {
+            if (conversationData.getConversation) {
                 setCurrentChat(
                     conversationData.getConversation as Conversation,
                 );

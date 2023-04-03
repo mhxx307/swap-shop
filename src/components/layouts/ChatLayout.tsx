@@ -1,7 +1,6 @@
 import HeadlessTippy from '@tippyjs/react/headless'; // different import path!
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { BsFillGearFill, BsTrash } from 'react-icons/bs';
-import { Socket, io } from 'socket.io-client';
 
 import { Conversation, SearchResultList } from '@/components/features/chat';
 import { Auth, Button, Spinner } from '@/components/shared';
@@ -12,53 +11,28 @@ import {
     QueryGetUsersByNameArgs,
     User,
     useGetConversationsQuery,
-    useMeQuery,
-    useMessagesQuery,
 } from '@/generated/graphql';
 import { useDebounce } from '@/hooks';
 import { initializeApollo } from '@/libs/apolloClient';
 import classNames from 'classnames';
 import { Header } from '@/components/partials';
 
-interface UserSocket {
-    userId: string;
-    socketId: string;
-}
-
-interface ArrivalMessage {
-    senderId: string;
-    text: string;
-}
-
 type UserType = Pick<User, 'id' | 'username' | 'avatar' | '__typename'>;
 
 function ChatLayout({ children }: { children: React.ReactNode }) {
-    const socket = useRef<Socket>();
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const scrollRef = useRef<HTMLDivElement | null>(null);
     const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState<UserType[]>([]);
     const [showResult, setShowResult] = useState(false);
     const [currentChat, setCurrentChat] = useState<ConversationType | null>(
         null,
     );
-    const [arrivalMessage, setArrivalMessage] = useState<ArrivalMessage>();
-    const [onlineUsers, setOnlineUsers] = useState<UserSocket[]>([]);
     const [searchLoading, setSearchLoading] = useState(false);
-    const { data: meData } = useMeQuery();
     const { data: conversationsData } = useGetConversationsQuery();
-    const { data: messagesData, refetch } = useMessagesQuery({
-        variables: {
-            conversationId: currentChat?.id as string,
-        },
-        skip: !currentChat,
-    });
     const debounceValue = useDebounce(searchValue, 500);
     const apolloClient = initializeApollo();
 
-    const me = meData?.me;
     const conversations = conversationsData?.getConversations;
-    const messages = messagesData?.messages;
 
     useEffect(() => {
         if (!debounceValue.trim()) {
@@ -88,40 +62,6 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounceValue]);
 
-    // connect to socket
-    useEffect(() => {
-        socket.current = io('ws://localhost:8900');
-
-        socket.current.on('getMessage', (data: ArrivalMessage) => {
-            setArrivalMessage({
-                senderId: data.senderId,
-                text: data.text,
-            });
-        });
-    }, []);
-
-    // add user and getUsers to socket
-    useEffect(() => {
-        if (me) {
-            socket.current?.emit('addUser', me.id); // emit the addUser event with the me.id as the argument
-            socket.current?.on('getUsers', (users: UserSocket[]) => {
-                setOnlineUsers(users);
-            });
-        }
-    }, [me]);
-
-    // get message from socket
-    useEffect(() => {
-        arrivalMessage &&
-            (currentChat?.member1.id === arrivalMessage.senderId ||
-                currentChat?.member2.id === arrivalMessage.senderId) &&
-            refetch();
-    }, [arrivalMessage, currentChat, refetch]);
-
-    useEffect(() => {
-        scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages]);
-
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
         const searchValue = e.target.value;
 
@@ -130,7 +70,6 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
         }
     };
 
-    console.log(onlineUsers);
     return (
         <Auth>
             <main>

@@ -12,18 +12,12 @@ import ReactTextareaAutosize from 'react-textarea-autosize';
 
 import { Message } from '@/components/features/chat';
 import { Button } from '@/components/shared';
-import { Message as MessageType, User } from '@/generated/graphql';
+import { Message as MessageType } from '@/generated/graphql';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { ChatLayout } from '@/components/layouts';
-
 interface UserSocket {
     userId: string;
     socketId: string;
-}
-
-interface ArrivalMessage {
-    senderId: string;
-    text: string;
 }
 
 function ChatBox() {
@@ -33,8 +27,8 @@ function ChatBox() {
     const socket = useRef<Socket>();
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const [newMessage, setNewMessage] = useState('');
-    const [arrivalMessage, setArrivalMessage] = useState<ArrivalMessage>();
     const [onlineUsers, setOnlineUsers] = useState<UserSocket[]>([]);
+    console.log(onlineUsers);
 
     const { data: meData } = useMeQuery();
 
@@ -65,14 +59,24 @@ function ChatBox() {
 
     // connect to socket
     useEffect(() => {
-        socket.current = io(`ws://${process.env.NEXT_PUBLIC_SOCKET_URL}`);
+        socket.current = io(`ws://localhost:8900`);
+        console.log('Socket ID:', socket.current.id);
+        console.log('socket', socket.current);
 
-        socket.current.on('getMessage', (data: ArrivalMessage) => {
-            setArrivalMessage({
-                senderId: data.senderId,
-                text: data.text,
+        // Listen for incoming messages
+        if (socket.current) {
+            console.log(socket.current);
+            socket.current.on('getMessage', (data) => {
+                console.log('Received message:', data);
+                // Do something with the message
+                refetch();
             });
-        });
+        }
+
+        return () => {
+            socket.current?.disconnect();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // add user and getUsers to socket
@@ -85,14 +89,6 @@ function ChatBox() {
         }
     }, [me]);
 
-    // get message from socket
-    useEffect(() => {
-        arrivalMessage &&
-            (conversation?.member1.id === arrivalMessage.senderId ||
-                conversation?.member2.id === arrivalMessage.senderId) &&
-            refetch();
-    }, [arrivalMessage, conversation, refetch]);
-
     const handleSendMessage = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
     ) => {
@@ -102,14 +98,6 @@ function ChatBox() {
                 conversation.member1.id === me.id
                     ? conversation.member2.id
                     : conversation.member1.id;
-
-            if (receiverId) {
-                socket.current?.emit('sendMessage', {
-                    senderId: me.id,
-                    receiverId: receiverId,
-                    text: newMessage,
-                });
-            }
 
             await sendMessageMutation({
                 variables: {
@@ -122,6 +110,11 @@ function ChatBox() {
                 onCompleted() {
                     refetch();
                     setNewMessage('');
+                    socket.current?.emit('sendMessage', {
+                        senderId: me.id,
+                        receiverId: receiverId,
+                        text: newMessage,
+                    });
                 },
             });
         }
