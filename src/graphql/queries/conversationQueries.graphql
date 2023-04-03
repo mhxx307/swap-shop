@@ -1,0 +1,35 @@
+query GetConversations {
+    getConversations {
+        id
+        createdDate
+        updatedDate
+        member1 {
+            username
+            id
+            avatar
+        }
+        member2 {
+            username
+            id
+            avatar
+        }
+    }
+}
+
+query GetConversation($userId: String!) {
+    getConversation(userId: $userId) {
+        id
+        member1 {
+            username
+            id
+            avatar
+        }
+        member2 {
+            username
+            id
+            avatar
+        }
+        createdDate
+        updatedDate
+    }
+}
