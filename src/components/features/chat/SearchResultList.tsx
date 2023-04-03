@@ -1,4 +1,5 @@
 import { Avatar } from '@/components/shared';
+import { path } from '@/constants';
 import {
     Conversation,
     GetConversationDocument,
@@ -9,6 +10,7 @@ import {
     useNewConversationMutation,
 } from '@/generated/graphql';
 import { initializeApollo } from '@/libs/apolloClient';
+import { useRouter } from 'next/router';
 
 type UserType = Pick<User, 'id' | 'username' | 'avatar' | '__typename'>;
 
@@ -24,6 +26,7 @@ function SearchResultList({
     const [newConversationMutation] = useNewConversationMutation();
     const { refetch } = useGetConversationsQuery();
     const apolloClient = initializeApollo();
+    const router = useRouter();
 
     const handleNewConversation =
         (item: UserType) =>
@@ -44,6 +47,7 @@ function SearchResultList({
                 setCurrentChat(
                     conversationData.getConversation as Conversation,
                 );
+                router.push(`${path.chat}/${item.id}`);
                 refetch();
                 return;
             }
@@ -58,6 +62,7 @@ function SearchResultList({
                     setCurrentChat(
                         data.newConversation.conversation as Conversation,
                     );
+                    router.push(`${path.chat}/${item.id}`);
                     console.log('tao thanh cong');
                 },
             });

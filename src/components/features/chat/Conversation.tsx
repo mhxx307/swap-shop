@@ -1,11 +1,14 @@
+import { path } from '@/constants';
 import {
     Conversation,
     useMeQuery,
     useUserByIdQuery,
 } from '@/generated/graphql';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 function Conversations({ conversation }: { conversation: Conversation }) {
+    const router = useRouter();
     const [friendId, setFriendId] = useState('');
     const { data: meData } = useMeQuery();
     const { data: friendData } = useUserByIdQuery({
@@ -30,7 +33,10 @@ function Conversations({ conversation }: { conversation: Conversation }) {
     }, []);
 
     return (
-        <div className="flex cursor-pointer items-center p-[10px] hover:bg-gray-200">
+        <button
+            className="flex w-full cursor-pointer items-center p-[10px] hover:bg-gray-200"
+            onClick={() => router.push(`${path.chat}/${friendId}`)}
+        >
             {friend && (
                 <>
                     <img
@@ -45,7 +51,7 @@ function Conversations({ conversation }: { conversation: Conversation }) {
                     <span className="font-medium">{friend.username}</span>
                 </>
             )}
-        </div>
+        </button>
     );
 }
 
