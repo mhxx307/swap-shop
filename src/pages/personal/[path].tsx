@@ -12,14 +12,14 @@ import { generateNameId, getIdFromNameId } from '@/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { AiFillHeart } from 'react-icons/ai';
 import { BsFillStarFill } from 'react-icons/bs';
 
 function StoreDetail() {
     const router = useRouter();
     const [id, setId] = useState('');
 
-    const { data: userData, loading } = useUserByIdQuery({
+    const { data: userData } = useUserByIdQuery({
         variables: {
             userId: id,
         },

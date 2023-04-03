@@ -1,0 +1,13 @@
+mutation NewMessage($insertMessageInput: InsertMessageInput!) {
+    newMessage(insertMessageInput: $insertMessageInput) {
+        message
+        success
+    }
+}
+
+mutation RemoveMessage($messageId: String!) {
+    removeMessage(messageId: $messageId) {
+        message
+        success
+    }
+}

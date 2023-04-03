@@ -20,3 +20,11 @@ query UserById($userId: String!) {
         updatedDate
     }
 }
+
+query GetUsersByName($name: String!) {
+    getUsersByName(name: $name) {
+        id
+        username
+        avatar
+    }
+}

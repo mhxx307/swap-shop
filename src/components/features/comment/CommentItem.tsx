@@ -3,7 +3,7 @@ import ReactTextareaAutosize from 'react-textarea-autosize';
 import { Dispatch, SetStateAction } from 'react';
 
 import { Avatar, Button, Popover } from '@/components/shared';
-import { UpdateCommentInput, PaginatedComments } from '@/generated/graphql';
+import { UpdateCommentInput } from '@/generated/graphql';
 
 // ! comment fix any type
 interface CommentItemProps {

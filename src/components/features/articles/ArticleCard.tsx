@@ -87,7 +87,9 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                         {article.title}
                     </h3>
                     <p className="text-sm font-bold text-red-600">
-                        {article.price ? `${article.price} ETH` : 'Free'}
+                        {article.price
+                            ? `đ ${formatCurrency(article.price)}`
+                            : 'Free'}
                     </p>
                 </div>
 

@@ -281,6 +281,7 @@ const ArticleDetailPage = () => {
                                     primary
                                     LeftIcon={BsFillTelephoneFill}
                                     iconClassName="w-4 h-4"
+                                    // onClick={handleContact}
                                 >
                                     Liên hệ
                                 </Button>
