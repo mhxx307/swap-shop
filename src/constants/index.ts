@@ -40,7 +40,8 @@ export const path = {
     about: '/about',
     contact: '/contact',
     shortcuts: '/shortcuts',
-    articlesCreate: '/articles/create-article',
+    articlesCreate: '/articles/edit/create-article',
+    articlesEdit: '/articles/edit',
     settingsProfile: '/settings/profile',
     login: '/login',
     logout: '/logout',
@@ -53,6 +54,7 @@ export const path = {
     search: '/search',
     favorites: '/favorites',
     chat: '/chat',
+    dashboardPulished: '/dashboard/published',
 } as const;
 
 export const icons = {
@@ -61,4 +63,11 @@ export const icons = {
     BsPencilSquare,
     VscSignOut,
     AiOutlineQuestionCircle,
+} as const;
+
+export const STATUS_ARTICLE = {
+    BLOCKED: 'blocked',
+    PENDING: 'pending',
+    REJECTED: 'rejected',
+    APPROVED: 'approved',
 } as const;
