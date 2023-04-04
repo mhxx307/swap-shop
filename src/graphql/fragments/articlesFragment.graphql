@@ -13,6 +13,7 @@ fragment article on Article {
     user {
         ...user
     }
+    status
     createdDate
     updatedDate
 }

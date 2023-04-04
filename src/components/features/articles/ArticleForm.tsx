@@ -1,12 +1,6 @@
-import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
-import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
-// import ReactCurrentcyInput from "react-currency-input-field"
-import 'react-quill/dist/quill.snow.css';
-import dynamic from 'next/dynamic';
-
 import { ImageUpload } from '@/components/features/uploads';
 import { Auth, Button, FormSelect, InputField } from '@/components/shared';
+import { path } from '@/constants';
 import {
     InsertArticleInput,
     useCategoriesQuery,
@@ -14,9 +8,12 @@ import {
 } from '@/generated/graphql';
 import { storage } from '@/libs/firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { v4 } from 'uuid';
-import { path } from '@/constants';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import { useMemo, useState } from 'react';
+import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { v4 } from 'uuid';
 
 const prices = [
     { id: 1, label: 'Free' },
@@ -52,7 +49,7 @@ const formats = [
     'image',
 ];
 
-const CreateArticle = () => {
+function ArticleForm() {
     const ReactQuill = useMemo(
         () => dynamic(() => import('react-quill'), { ssr: false }),
         [],
@@ -108,7 +105,6 @@ const CreateArticle = () => {
 
         router.push(path.home);
     };
-
     return (
         <Auth>
             <section className="container header-height bg-white dark:bg-primaryDark">
@@ -232,6 +228,6 @@ const CreateArticle = () => {
             </section>
         </Auth>
     );
-};
+}
 
-export default CreateArticle;
+export default ArticleForm;

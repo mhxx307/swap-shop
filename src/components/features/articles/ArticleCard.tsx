@@ -1,7 +1,7 @@
 import { Image } from '@/components/shared';
 import { Article } from '@/generated/graphql';
 import useFavorites from '@/hooks/useFavorites';
-import { generateNameId } from '@/utils';
+import { formatCurrency, generateNameId } from '@/utils';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
