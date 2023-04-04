@@ -58,7 +58,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
 
                 {/* article image */}
                 <Image
-                    src={article.thumbnail}
+                    src={article.images[0]}
                     alt="article"
                     classnamewrapper="absolute top-0 w-full h-full"
                 />

@@ -30,12 +30,7 @@ function PublishedCard({ article }: { article: Article }) {
                         />
                         <button
                             onClick={() =>
-                                router.push(
-                                    `/articles/edit/${generateNameId({
-                                        id: article.id,
-                                        name: article.title,
-                                    })}`,
-                                )
+                                router.push(`/articles/edit/${article.id}`)
                             }
                         >
                             Edit
