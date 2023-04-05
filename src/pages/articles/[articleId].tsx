@@ -36,7 +36,10 @@ const ArticleDetailPage = () => {
         variables: {
             articleId: id,
         },
+        skip: !(id.length > 0),
     });
+
+    console.log(articleData);
 
     const queryConfig: QueryConfig = {
         page: '1',

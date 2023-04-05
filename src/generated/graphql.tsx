@@ -412,7 +412,7 @@ export type Query = {
 
 
 export type QueryArticleArgs = {
-  id: Scalars['String'];
+  articleId: Scalars['String'];
 };
 
 
@@ -499,9 +499,14 @@ export type RoleMutationResponse = IMutationResponse & {
 };
 
 export type UpdateArticleInput = {
-  description?: InputMaybe<Scalars['String']>;
+  categoryIds: Array<Scalars['String']>;
+  description: Scalars['String'];
   id: Scalars['String'];
-  title?: InputMaybe<Scalars['String']>;
+  images: Array<Scalars['String']>;
+  price?: InputMaybe<Scalars['Float']>;
+  productName: Scalars['String'];
+  status: Scalars['String'];
+  title: Scalars['String'];
 };
 
 export type UpdateCategoryInput = {
@@ -573,6 +578,13 @@ export type InsertArticleMutationVariables = Exact<{
 
 
 export type InsertArticleMutation = { __typename?: 'Mutation', insertArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price?: number | null, productName: string, thumbnail: string, images: Array<string>, status: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any } } | null } };
+
+export type UpdateArticleMutationVariables = Exact<{
+  updateArticleInput: UpdateArticleInput;
+}>;
+
+
+export type UpdateArticleMutation = { __typename?: 'Mutation', updateArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price?: number | null, productName: string, thumbnail: string, images: Array<string>, status: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any } } | null } };
 
 export type RegisterMutationVariables = Exact<{
   registerInput: RegisterInput;
@@ -856,6 +868,43 @@ export function useInsertArticleMutation(baseOptions?: Apollo.MutationHookOption
 export type InsertArticleMutationHookResult = ReturnType<typeof useInsertArticleMutation>;
 export type InsertArticleMutationResult = Apollo.MutationResult<InsertArticleMutation>;
 export type InsertArticleMutationOptions = Apollo.BaseMutationOptions<InsertArticleMutation, InsertArticleMutationVariables>;
+export const UpdateArticleDocument = gql`
+    mutation UpdateArticle($updateArticleInput: UpdateArticleInput!) {
+  updateArticle(updateArticleInput: $updateArticleInput) {
+    article {
+      ...article
+    }
+    message
+    success
+  }
+}
+    ${ArticleFragmentDoc}`;
+export type UpdateArticleMutationFn = Apollo.MutationFunction<UpdateArticleMutation, UpdateArticleMutationVariables>;
+
+/**
+ * __useUpdateArticleMutation__
+ *
+ * To run a mutation, you first call `useUpdateArticleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateArticleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateArticleMutation, { data, loading, error }] = useUpdateArticleMutation({
+ *   variables: {
+ *      updateArticleInput: // value for 'updateArticleInput'
+ *   },
+ * });
+ */
+export function useUpdateArticleMutation(baseOptions?: Apollo.MutationHookOptions<UpdateArticleMutation, UpdateArticleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateArticleMutation, UpdateArticleMutationVariables>(UpdateArticleDocument, options);
+      }
+export type UpdateArticleMutationHookResult = ReturnType<typeof useUpdateArticleMutation>;
+export type UpdateArticleMutationResult = Apollo.MutationResult<UpdateArticleMutation>;
+export type UpdateArticleMutationOptions = Apollo.BaseMutationOptions<UpdateArticleMutation, UpdateArticleMutationVariables>;
 export const RegisterDocument = gql`
     mutation Register($registerInput: RegisterInput!) {
   register(registerInput: $registerInput) {
@@ -1503,7 +1552,7 @@ export type ArticlesLazyQueryHookResult = ReturnType<typeof useArticlesLazyQuery
 export type ArticlesQueryResult = Apollo.QueryResult<ArticlesQuery, ArticlesQueryVariables>;
 export const ArticleDocument = gql`
     query Article($articleId: String!) {
-  article(id: $articleId) {
+  article(articleId: $articleId) {
     ...article
   }
 }

@@ -108,3 +108,7 @@ export const uploadMultipleImages = (files: File[]) => {
         uploadBytes(fileRef, file);
     }
 };
+
+export const createAttachmentUrl = (url: string, folderName: string) => {
+    return `${folderName}/${url.split('%2F')[1].split('?')[0]}`;
+};
