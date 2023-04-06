@@ -4,6 +4,7 @@ import { path, icons } from '.';
 // header navigation
 const HEADER_NAV_LIST: NavItemProps[] = [
     { path: path.home, label: 'Home' },
+    { path: path.market, label: 'Market' },
     { path: path.about, label: 'About' },
     { path: path.chat, label: 'Chat' },
 ];
@@ -28,7 +29,7 @@ const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     {
         icon: icons.BsPencilSquare,
         label: 'New product',
-        path: path.articlesCreate,
+        path: path.createArticle,
     },
     {
         icon: icons.BsPencilSquare,

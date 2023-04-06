@@ -26,6 +26,7 @@ import {
 } from '@/generated/graphql';
 import { BsBellFill } from 'react-icons/bs';
 import { path } from '@/constants';
+import { getTextColorByPath } from '@/utils';
 
 const Header = () => {
     const [navbar, setNavbar] = useState<boolean>(false);
@@ -43,6 +44,7 @@ const Header = () => {
 
     const me = data?.me;
     const menuList = me ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
+    const textColor = getTextColorByPath(router.pathname);
 
     useEffect(() => {
         window.addEventListener('scroll', changeBackground);
@@ -83,14 +85,14 @@ const Header = () => {
                 duration: 1,
                 delay: 0.3,
             }}
-            className="fixed z-20 flex w-full flex-col shadow-md transition-colors [&>*:first-child]:ml-0"
+            className="fixed z-20 flex w-full flex-col [&>*:first-child]:ml-0"
         >
-            <div className={` bg-white ${navbar && 'hidden'}`}>
+            <div className={`bg-transparent ${navbar && 'hidden'}`}>
                 <div className="container flex items-center justify-between">
                     <Logo />
 
                     {/* language switcher, notification, login, bar */}
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-6">
                         <Search className="hidden md:flex" />
 
                         <LanguageSwitcher />
@@ -101,13 +103,17 @@ const Header = () => {
                             </Link>
                         )}
 
-                        <BsBellFill className="h-4 w-4 transition-colors hover:text-gray-500" />
+                        <BsBellFill
+                            className={`h-4 w-4 transition-colors hover:text-gray-500 ${textColor}`}
+                        />
 
                         {!me && (
                             <Button
                                 primary
+                                outline
                                 shortcutKey="enter"
                                 onClick={() => router.push(path.login)}
+                                className="rounded-full"
                             >
                                 <p className="line-clamp-1">
                                     {t('login_title')}
@@ -122,14 +128,14 @@ const Header = () => {
                                         <Link
                                             key={item.path}
                                             href={item.path}
-                                            className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
+                                            className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-primary-500"
                                         >
                                             {item.label}
                                         </Link>
                                     ))}
                                     {me && (
                                         <button
-                                            className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
+                                            className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-primary-500"
                                             onClick={handleLogout}
                                         >
                                             {t('logout')}
@@ -142,14 +148,14 @@ const Header = () => {
                                 <Image
                                     src={
                                         me?.avatar ||
-                                        'https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium'
+                                        '/images/avatar-fallback.png'
                                     }
-                                    alt="dog avatar"
+                                    alt={me.username}
                                     className="h-8 w-8 rounded-[50%] object-cover sm:cursor-pointer"
                                 />
                             ) : (
                                 <AiOutlineMore
-                                    className={`h-8 w-8 text-black sm:cursor-pointer`}
+                                    className={`h-8 w-8 sm:cursor-pointer ${textColor}`}
                                 />
                             )}
                         </Popover>
@@ -157,10 +163,14 @@ const Header = () => {
                 </div>
             </div>
 
-            {/* ${
-                    navbar && 'backdrop-blur-sm shadow-3xl bg-black/30'
-                } */}
-            <div className="bg-[#1b1b1b] py-3">
+            <div
+                className={` py-3  ${
+                    navbar ? 'bg-white dark:bg-primaryDark' : 'bg-transparent'
+                } ${
+                    navbar &&
+                    ' shadow-headerLight backdrop-blur-3xl dark:shadow-headerDark'
+                }`}
+            >
                 <div className="container flex items-center justify-between">
                     <div className="flex-center">
                         <HamburgerNavbar
@@ -171,6 +181,11 @@ const Header = () => {
                         <NavList
                             navList={HEADER_NAV_LIST}
                             className="hidden items-center justify-between md:flex"
+                            itemClassName={`${
+                                navbar
+                                    ? 'text-black dark:text-white'
+                                    : textColor
+                            }`}
                         />
 
                         <Search className="block md:hidden" />

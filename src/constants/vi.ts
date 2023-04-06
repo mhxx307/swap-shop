@@ -3,6 +3,7 @@ import { path, icons } from '.';
 
 const HEADER_NAV_LIST: NavItemProps[] = [
     { path: path.home, label: 'Trang chủ' },
+    { path: path.market, label: 'Đồ cũ' },
     { path: path.about, label: 'Giới thiệu' },
     { path: path.chat, label: 'Chat' },
 ];
@@ -22,7 +23,7 @@ const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     {
         icon: icons.BsPencilSquare,
         label: 'Thêm sản phẩm',
-        path: path.articlesCreate,
+        path: path.createArticle,
     },
     {
         icon: icons.BsPencilSquare,

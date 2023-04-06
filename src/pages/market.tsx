@@ -2,7 +2,12 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { isUndefined, omitBy } from 'lodash';
 
 import { ArticleFilter, ArticleList } from '@/components/features/articles';
-import { ClientOnly, Head, Pagination } from '@/components/shared';
+import {
+    ClientOnly,
+    CommonSection,
+    Head,
+    Pagination,
+} from '@/components/shared';
 import {
     Article,
     ArticlesDocument,
@@ -14,7 +19,7 @@ import {
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import { useQueryConfig } from '@/hooks';
 
-const SearchPage = () => {
+const MarketPage = () => {
     const queryConfig = useQueryConfig();
 
     const { data: articlesData } = useArticlesQuery({
@@ -33,25 +38,28 @@ const SearchPage = () => {
         <>
             <Head />
             <ClientOnly>
-                <div className="container header-height space-y-20 pb-[20px]">
-                    <ArticleFilter queryConfig={queryConfig} />
+                <div className="flex w-full flex-col">
+                    <CommonSection title="Market" />
+                    <div className="container mt-14 space-y-12 pb-[20px]">
+                        <ArticleFilter queryConfig={queryConfig} />
 
-                    <ArticleList articles={articles as Article[]} />
+                        <ArticleList articles={articles as Article[]} />
 
-                    <Pagination
-                        pageSize={
-                            articlesData.articles.data?.pagination
-                                .page_size as number
-                        }
-                        queryConfig={queryConfig}
-                    />
+                        <Pagination
+                            pageSize={
+                                articlesData.articles.data?.pagination
+                                    .page_size as number
+                            }
+                            queryConfig={queryConfig}
+                        />
+                    </div>
                 </div>
             </ClientOnly>
         </>
     );
 };
 
-export default SearchPage;
+export default MarketPage;
 
 export const getServerSideProps: GetServerSideProps = async (
     context: GetServerSidePropsContext,

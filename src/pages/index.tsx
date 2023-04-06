@@ -1,5 +1,6 @@
 import { ArticleList } from '@/components/features/articles';
 import { SwiperCategories } from '@/components/features/categories';
+import { HeroSection } from '@/components/features/home';
 import { ClientOnly, Head, Pagination } from '@/components/shared';
 import {
     useArticlesQuery,
@@ -31,9 +32,13 @@ const Home = () => {
         <ClientOnly>
             <Head />
             <div className="container header-height">
+                <HeroSection />
+
                 {/* categories */}
                 <div>
-                    <h3 className="text-xl font-bold">Khám phá danh mục</h3>
+                    <h3 className="mb-6 text-xl font-bold">
+                        Khám phá danh mục
+                    </h3>
 
                     {categories && (
                         <SwiperCategories
@@ -43,7 +48,7 @@ const Home = () => {
                 </div>
 
                 {/* articles */}
-                <div className="mt-6">
+                <div className="my-6">
                     <ArticleList
                         articles={articles as Article[]}
                         title="Tin đăng mới"

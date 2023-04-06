@@ -1,19 +1,24 @@
+import DOMPurify from 'dompurify';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
-import {
-    BsChevronLeft,
-    BsChevronRight,
-    BsFillStarFill,
-    BsFillTelephoneFill,
-} from 'react-icons/bs';
-import { FaFacebookF, FaLink, FaTwitter } from 'react-icons/fa';
-import { MdReportProblem } from 'react-icons/md';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import DOMPurify from 'dompurify';
+import { BsBag, BsChevronLeft, BsChevronRight } from 'react-icons/bs';
+import { AiOutlineEye, AiOutlineHeart, AiOutlineMore } from 'react-icons/ai';
+import { RiSendPlaneLine } from 'react-icons/ri';
+import Tippy from '@tippyjs/react';
+import TimeAgo from 'timeago-react';
+import { VscReport } from 'react-icons/vsc';
 
-import { addApolloState, initializeApollo } from '@/libs/apolloClient';
+import { ArticleList } from '@/components/features/articles';
 import { Comment } from '@/components/features/comment';
-import { Avatar, Button, ClientOnly, Head, TabView } from '@/components/shared';
+import {
+    Button,
+    ClientOnly,
+    CommonSection,
+    Head,
+    Popover,
+    TabView,
+} from '@/components/shared';
 import {
     Article,
     ArticleDocument,
@@ -23,20 +28,33 @@ import {
     QueryConfig,
     useArticleQuery,
     useArticlesQuery,
+    useCountFavoritesForArticleQuery,
 } from '@/generated/graphql';
-import { getIdFromNameId, formatCurrency, generateNameId } from '@/utils';
-import { ArticleList } from '@/components/features/articles';
-import TimeAgo from 'timeago-react';
+import { addApolloState, initializeApollo } from '@/libs/apolloClient';
+import { formatNumberToSocialStyle, getIdFromNameId } from '@/utils';
+
+import 'tippy.js/dist/tippy.css';
+import { path } from '@/constants';
+import Link from 'next/link';
 
 const ArticleDetailPage = () => {
     const router = useRouter();
     const [id, setId] = useState('');
 
+    const { data: countFavoritesData } = useCountFavoritesForArticleQuery({
+        variables: {
+            articleId: id,
+        },
+        skip: !id,
+        fetchPolicy: 'no-cache',
+    });
+
     const { data: articleData, loading } = useArticleQuery({
         variables: {
             articleId: id,
         },
-        skip: !(id.length > 0),
+        skip: !id,
+        fetchPolicy: 'no-cache',
     });
 
     console.log(articleData);
@@ -46,6 +64,7 @@ const ArticleDetailPage = () => {
         limit: '20',
         categories: articleData?.article?.categories.map((c) => c.id),
     };
+    const countFavorites = countFavoritesData?.countFavoritesForArticle;
 
     const { data: articlesData } = useArticlesQuery({
         variables: {
@@ -139,198 +158,198 @@ const ArticleDetailPage = () => {
         <>
             <Head title={article.title} description={article.description} />
             <ClientOnly>
-                <div className="container header-height">
-                    <div className="grid grid-cols-12 shadow">
-                        <div className=" col-span-8 rounded-sm bg-white p-6">
-                            {/* images slider */}
-                            <div>
-                                <div
-                                    className="relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow"
-                                    onMouseMove={handleZoom}
-                                    onMouseLeave={handleRemoveZoom}
-                                >
-                                    <img
-                                        src={activeImage}
-                                        alt={article.title}
-                                        ref={imageRef}
-                                        className="pointer-events-none absolute top-0 left-0 h-full w-full bg-white object-cover"
-                                    />
-                                </div>
-                                <div className="relative mt-4 grid grid-cols-5 gap-1">
-                                    <button
-                                        className="absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white"
-                                        onClick={prev}
+                <div className="flex w-full flex-col">
+                    <CommonSection title={article.title} />
+                    <div className="container mt-[30px]">
+                        <div className="grid grid-cols-12">
+                            {/* image */}
+                            <div className="col-span-6">
+                                {/* images slider */}
+                                <div>
+                                    <div
+                                        className="relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow"
+                                        onMouseMove={handleZoom}
+                                        onMouseLeave={handleRemoveZoom}
                                     >
-                                        <BsChevronLeft />
-                                    </button>
-                                    {currentImages.map((img) => {
-                                        const isActive = img === activeImage;
-                                        return (
-                                            <div
-                                                className="relative w-full pt-[100%]"
-                                                key={img}
-                                                onMouseEnter={() =>
-                                                    handleChooseImage(img)
-                                                }
-                                                aria-hidden="true"
-                                                role="button"
-                                                tabIndex={0}
-                                            >
-                                                <img
-                                                    src={img}
-                                                    alt={article.title}
-                                                    className="absolute top-0 left-0 h-full w-full cursor-pointer bg-white object-cover"
-                                                />
-                                                {isActive && (
-                                                    <div className="absolute inset-0 border-2 border-primary-300" />
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                    <button
-                                        className="absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white"
-                                        onClick={next}
-                                    >
-                                        <BsChevronRight />
-                                    </button>
-                                </div>
-                                <p className="mt-4 break-words text-4xl">
-                                    {article.title}
-                                </p>
-
-                                <div className="mt-2 flex justify-between">
-                                    <p className="text-2xl text-primary-400 ">
-                                        {article.price
-                                            ? formatCurrency(article.price)
-                                            : 'Miễn phí'}
-                                    </p>
-                                    <Button
-                                        primary
-                                        LeftIcon={MdReportProblem}
-                                        iconClassName="w-4 h-4"
-                                    >
-                                        Tố cáo
-                                    </Button>
-                                </div>
-                                <p>
-                                    Category:{' '}
-                                    {article.categories.map((category) => (
-                                        <span key={category.id}>
-                                            {category.name}
-                                        </span>
-                                    ))}
-                                </p>
-                            </div>
-                        </div>
-                        {/* article detail */}
-                        <div className="col-span-4 ml-4">
-                            <div className={` rounded-sm bg-white p-4`}>
-                                <div className="flex justify-between ">
-                                    <div className="flex">
-                                        <Avatar
-                                            src={article.user.avatar as string}
+                                        <img
+                                            src={activeImage}
+                                            alt={article.title}
+                                            ref={imageRef}
+                                            className="pointer-events-none absolute top-0 left-0 h-full w-full rounded-md bg-white object-cover"
                                         />
-                                        <div className="ml-2 py-1 text-xs text-gray-400">
-                                            <div className="font-semibold text-gray-600">
-                                                {article.user.username}
-                                            </div>{' '}
-                                            <TimeAgo
-                                                datetime={article.createdDate}
-                                            />
+                                    </div>
+                                    <div className="relative mt-4 grid grid-cols-5 gap-1">
+                                        <button
+                                            className="absolute left-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white"
+                                            onClick={prev}
+                                        >
+                                            <BsChevronLeft />
+                                        </button>
+                                        {currentImages.map((img) => {
+                                            const isActive =
+                                                img === activeImage;
+                                            return (
+                                                <div
+                                                    className="relative w-full pt-[100%]"
+                                                    key={img}
+                                                    onMouseEnter={() =>
+                                                        handleChooseImage(img)
+                                                    }
+                                                    aria-hidden="true"
+                                                    role="button"
+                                                    tabIndex={0}
+                                                >
+                                                    <img
+                                                        src={img}
+                                                        alt={article.title}
+                                                        className="absolute top-0 left-0 h-full w-full cursor-pointer bg-white object-cover"
+                                                    />
+                                                    {isActive && (
+                                                        <div className="absolute inset-0 border-2 border-primary-300" />
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
+                                        <button
+                                            className="absolute right-0 top-1/2 z-10 h-9 w-5 -translate-y-1/2 bg-black/20 text-white"
+                                            onClick={next}
+                                        >
+                                            <BsChevronRight />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* article detail */}
+                            <div className="col-span-6 ml-4">
+                                <div>
+                                    <h2 className="text-xl">{article.title}</h2>
+                                    <span className="text-xs text-[#919eab]">
+                                        <TimeAgo
+                                            datetime={article.createdDate}
+                                        />
+                                    </span>
+
+                                    <div className="mt-4 mb-4 flex items-center justify-between">
+                                        <div className="flex items-center gap-4">
+                                            <span className="flex items-center">
+                                                <AiOutlineEye className="mr-2" />{' '}
+                                                {formatNumberToSocialStyle(
+                                                    article.views,
+                                                )}
+                                            </span>
+                                            <span className="flex items-center">
+                                                <AiOutlineHeart className="mr-2" />{' '}
+                                                {countFavorites
+                                                    ? formatNumberToSocialStyle(
+                                                          countFavorites,
+                                                      )
+                                                    : 0}
+                                            </span>
+                                        </div>
+
+                                        <div className="flex items-center gap-2">
+                                            <Tippy
+                                                content={`Contact with ${article.user.username}`}
+                                            >
+                                                <span>
+                                                    <RiSendPlaneLine className="h-6 w-6 cursor-pointer transition-opacity hover:opacity-80" />
+                                                </span>
+                                            </Tippy>
+                                            <Popover
+                                                renderPopover={<MoreAction />}
+                                            >
+                                                <AiOutlineMore className="h-6 w-6 cursor-pointer transition-opacity hover:opacity-80" />
+                                            </Popover>
                                         </div>
                                     </div>
+
+                                    <div className="flex w-[50%] items-center gap-3 rounded-[7px]  bg-white p-[15px] shadow dark:bg-[#343434]">
+                                        <Tippy
+                                            content={
+                                                <UserInfo
+                                                    article={article as Article}
+                                                />
+                                            }
+                                            placement="top-start"
+                                        >
+                                            <Link
+                                                href={`${path.personal}/${article.user.id}`}
+                                            >
+                                                <div className="h-[40px] w-[40px] flex-shrink-0 cursor-pointer object-cover">
+                                                    <img
+                                                        src={
+                                                            article.user
+                                                                .avatar ||
+                                                            '/images/avatar-fallback.png'
+                                                        }
+                                                        alt=""
+                                                        className="w-full rounded-full"
+                                                    />
+                                                </div>
+                                            </Link>
+                                        </Tippy>
+
+                                        <div>
+                                            <p className="mb-0 mt-0 text-xs font-light">
+                                                Created By
+                                            </p>
+                                            <h6 className="text-sm font-medium text-black dark:text-white">
+                                                {article.user.username}
+                                            </h6>
+                                        </div>
+                                    </div>
+
+                                    <div className="mx-4 mt-12 mb-4 text-sm leading-loose">
+                                        <h3 className="text-2xl">
+                                            Description:
+                                        </h3>
+                                        <div
+                                            dangerouslySetInnerHTML={{
+                                                __html: DOMPurify.sanitize(
+                                                    article.description,
+                                                ),
+                                            }}
+                                        />
+                                    </div>
+
                                     <Button
-                                        className="btn-wishlist h-4 "
-                                        LeftIcon={BsFillStarFill}
-                                        iconClassName="w-4 h-4"
-                                        onClick={() =>
-                                            router.push(
-                                                `/personal/${generateNameId({
-                                                    id: article.user.id,
-                                                    name: article.user.username,
-                                                })}`,
-                                            )
-                                        }
+                                        secondary
+                                        className="flex-center w-full rounded-full py-3 text-white"
+                                        LeftIcon={BsBag}
+                                        iconClassName="mr-2"
                                     >
-                                        Xem cửa hàng
+                                        Put to your bag
                                     </Button>
                                 </div>
-
-                                <div className="mt-2 flex items-center space-x-6">
-                                    <span>Contact:</span>
-                                    <FaFacebookF />
-                                    <FaTwitter />
-                                    <FaLink />
-                                </div>
-                            </div>
-
-                            <div className=" mt-2 rounded-sm bg-white p-4">
-                                <h3 className="mb-2 font-bold text-black">
-                                    Liên hệ với người bán
-                                </h3>
-                                <ul className="overflow-y-hidden whitespace-nowrap p-2">
-                                    <li className="dark:bg-blac mr-2 inline-block rounded-full  bg-slate-300 p-2 hover:cursor-pointer dark:bg-black">
-                                        Còn hàng không ạ
-                                    </li>
-                                    <li className="mr-2 inline-block rounded-full bg-slate-300 p-2 hover:cursor-pointer dark:bg-black">
-                                        Mặt hàng ở đâu
-                                    </li>
-                                    <li className="mr-2 inline-block rounded-full  bg-slate-300 p-2 hover:cursor-pointer dark:bg-black">
-                                        Làm thế nào để biết địa chỉ
-                                    </li>
-                                </ul>
-                                <Button
-                                    className="btn-contact mt-2 w-full"
-                                    primary
-                                    LeftIcon={BsFillTelephoneFill}
-                                    iconClassName="w-4 h-4"
-                                    // onClick={handleContact}
-                                >
-                                    Liên hệ
-                                </Button>
-                                <Button
-                                    className="btn-wishlist mt-2 w-full"
-                                    LeftIcon={BsFillStarFill}
-                                    iconClassName="w-4 h-4"
-                                >
-                                    Chat với người bán
-                                </Button>
                             </div>
                         </div>
 
-                        <div className="col-span-8 mt-8 mb-4 border-t-4 bg-white p-4 shadow">
-                            <div className="rounded bg-gray-50 p-4 text-lg capitalize text-slate-700">
-                                Mô tả sản phẩm
-                            </div>
-                            <div className="mx-4 mt-12 mb-4 text-sm leading-loose">
-                                <div
-                                    dangerouslySetInnerHTML={{
-                                        __html: DOMPurify.sanitize(
-                                            article.description,
-                                        ),
-                                    }}
-                                />
-                            </div>
+                        {/* description, comment */}
+                        <div className="mt-12">
+                            <TabView
+                                tabs={[
+                                    {
+                                        label: 'Comments',
+                                        content: <Comment id={id} />,
+                                    },
+                                    {
+                                        label: 'MinhQuan articles',
+                                        content: <div>Article</div>,
+                                    },
+                                ]}
+                            />
                         </div>
-                    </div>
 
-                    {/* description, comment */}
-                    <TabView
-                        tabs={[
-                            { label: 'Comments', content: <Comment id={id} /> },
-                            {
-                                label: 'MinhQuan articles',
-                                content: <div>Article</div>,
-                            },
-                        ]}
-                    />
-
-                    {/* related articles */}
-                    <div className="my-8">
-                        <h3 className="text-4xl font-bold">Related articles</h3>
-                        {articles && (
-                            <ArticleList articles={articles as Article[]} />
-                        )}
+                        {/* related articles */}
+                        <div className="mt-20">
+                            <h3 className="mb-6 text-4xl font-bold">
+                                Related articles
+                            </h3>
+                            {articles && (
+                                <ArticleList articles={articles as Article[]} />
+                            )}
+                        </div>
                     </div>
                 </div>
             </ClientOnly>
@@ -377,3 +396,50 @@ export const getStaticProps: GetStaticProps = async (
 };
 
 export default ArticleDetailPage;
+
+const UserInfo = ({ article }: { article: Article }) => {
+    return (
+        <div className="flex flex-col gap-3 rounded-[7px]  bg-white p-[15px] shadow dark:bg-[#343434]">
+            <div className="flex items-center">
+                <p className="mr-2 text-black dark:text-white">Username: </p>
+                <p className="text-[#919eab]">{article.user.username}</p>
+            </div>
+            <div className="flex items-center">
+                <p className="mr-2 text-black dark:text-white">
+                    Phone number:{' '}
+                </p>
+                <p className="text-[#919eab]">{article.user.phoneNumber}</p>
+            </div>
+            <div className="flex items-center">
+                <p className="mr-2 text-black dark:text-white">Address: </p>
+                <p className="text-[#919eab]">{article.user.address}</p>
+            </div>
+            <div className="flex items-center">
+                <p className="mr-2 text-black dark:text-white">Full name: </p>
+                <p className="text-[#919eab]">{article.user.fullName}</p>
+            </div>
+            <div className="flex items-center">
+                <p className="mr-2 text-black dark:text-white">
+                    Participation date:{' '}
+                </p>
+                <span className="text-[#919eab]">
+                    <TimeAgo datetime={article.user.createdDate} />
+                </span>
+            </div>
+        </div>
+    );
+};
+
+const MoreAction = () => {
+    return (
+        <div className="bg-white">
+            <Button
+                LeftIcon={VscReport}
+                className="flex-center bg-white px-6 py-3 hover:bg-gray-200"
+                iconClassName="mr-2"
+            >
+                Report
+            </Button>
+        </div>
+    );
+};

@@ -41,7 +41,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
                 return (
                     <span
                         key={index}
-                        className="flex-center mx-2 cursor-pointer rounded bg-white px-3 py-2 shadow-sm"
+                        className="flex-center mx-2 cursor-pointer rounded bg-white px-3 py-2 text-black shadow-sm"
                     >
                         ...
                     </span>
@@ -56,7 +56,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
                 return (
                     <span
                         key={index}
-                        className="flex-center mx-2 cursor-pointer rounded bg-white px-3 py-2 shadow-sm"
+                        className="flex-center mx-2 cursor-pointer rounded bg-white px-3 py-2 text-black shadow-sm"
                     >
                         ...
                     </span>
@@ -99,9 +99,9 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
                     <Link
                         key={index}
                         className={classNames(
-                            'flex-center mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm',
+                            'flex-center mx-2 cursor-pointer rounded border bg-white px-3 py-2 text-black shadow-sm',
                             {
-                                'border-cyan-500': pageNumber === page,
+                                'border-primary-500': pageNumber === page,
                                 'border-transparent': pageNumber !== page,
                             },
                         )}
@@ -122,7 +122,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
     return (
         <div className="mt-6 flex flex-wrap justify-center">
             {page === 1 ? (
-                <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 shadow-sm">
+                <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 text-black shadow-sm">
                     Prev
                 </span>
             ) : (
@@ -143,7 +143,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
             {renderPagination()}
 
             {page === pageSize ? (
-                <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 shadow-sm">
+                <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 text-black shadow-sm">
                     Next
                 </span>
             ) : (

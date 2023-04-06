@@ -13,7 +13,7 @@ export interface InputProps extends React.HTMLProps<HTMLInputElement> {
     LeftIcon?: React.ComponentType<Icon>;
     RightIcon?: React.ComponentType<Icon>;
     leftIconOnClick?: () => void;
-    rightIconOnClick?: () => void;
+    rightIconOnClick?: (e: any) => void;
     label?: string;
     defaultLayout?: boolean;
 }

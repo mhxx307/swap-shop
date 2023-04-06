@@ -94,14 +94,17 @@ const LoginForm = () => {
                 containerInputClassName="default-input"
                 label={t('password_label') as string}
                 iconClassName="w-4 h-4 cursor-pointer hover:text-gray-500"
-                rightIconOnClick={() => setShowPassword(!showPassword)}
+                rightIconOnClick={(e) => {
+                    e.preventDefault();
+                    setShowPassword(!showPassword);
+                }}
                 RightIcon={showPassword ? FaEye : FaEyeSlash}
             />
 
             <div className="flex flex-col space-y-3">
                 <Button
                     type="submit"
-                    primary
+                    secondary
                     className="mt-[20px] w-full select-none items-center justify-center"
                     isLoading={loading}
                 >
@@ -111,7 +114,7 @@ const LoginForm = () => {
                 <Button
                     type="button"
                     outline
-                    className="w-full select-none justify-center py-2 pr-6 pl-4 hover:bg-blue-500 hover:text-white"
+                    className="w-full select-none justify-center py-2 pr-6 pl-4 hover:bg-gray-200 hover:text-black"
                     LeftIcon={FcGoogle}
                     iconClassName="w-5 h-5"
                 >

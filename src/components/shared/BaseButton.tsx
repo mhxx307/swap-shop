@@ -56,7 +56,7 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
         if (primary) {
             if (outline) {
                 buttonClassName =
-                    'text-primary-500 border-[1px] border-primary-500';
+                    'text-secondary dark:text-white border-[1px] border-secondary hover:bg-secondary hover:text-white';
             } else {
                 buttonClassName = 'bg-primary-500';
             }
@@ -82,7 +82,7 @@ const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
                         'cursor-not-allowed text-gray-300',
                     buttonClassName,
                     className,
-                    (LeftIcon || RightIcon || isLoading) && 'gap-x-2',
+                    (LeftIcon || RightIcon || isLoading) && 'gap-x-1',
                 )}
                 {...rest}
                 ref={ref}

@@ -59,7 +59,7 @@ const Search = ({ className }: SearchProps) => {
                         />
                     </button>
                 ) : (
-                    <BiSearchAlt2 className="text-primary-500" />
+                    <BiSearchAlt2 className="text-black" />
                 )}
             </form>
         </div>
