@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 interface ContextProps {
     isOn: boolean;
@@ -58,3 +58,5 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
         </ThemeContext.Provider>
     );
 };
+
+export const useTheme = () => useContext(ThemeContext);

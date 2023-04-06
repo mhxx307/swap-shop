@@ -1,6 +1,5 @@
 import { NetworkStatus } from '@apollo/client';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '@/components/shared';
@@ -234,7 +233,7 @@ function Comment({ id }: CommentProps) {
                         }
                     />
                     <Button
-                        primary
+                        secondary
                         isLoading={insertLoading}
                         type="submit"
                         className="flex-center"

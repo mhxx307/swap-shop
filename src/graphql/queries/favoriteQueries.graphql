@@ -10,3 +10,7 @@ query Favorites {
         }
     }
 }
+
+query CountFavoritesForArticle($articleId: String!) {
+    countFavoritesForArticle(articleId: $articleId)
+}

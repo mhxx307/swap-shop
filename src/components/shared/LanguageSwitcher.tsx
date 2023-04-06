@@ -4,6 +4,7 @@ import nookies from 'nookies';
 import { memo, useMemo } from 'react';
 // import { AiOutlineGlobal } from 'react-icons/ai';
 import Popover from './Popover';
+import { path } from '@/constants';
 
 // eslint-disable-next-line react/display-name
 const LanguageSwitcher = () => {
@@ -35,7 +36,7 @@ const LanguageSwitcher = () => {
                         <button
                             key={locale}
                             onClick={handleChangeLanguage(locale)}
-                            className="flex flex-col py-2 pr-28 pl-3 hover:text-primary-500"
+                            className="flex w-full flex-col py-2 pr-28 pl-3 hover:bg-slate-100 hover:text-primary-500"
                         >
                             {name}
                         </button>
@@ -43,7 +44,11 @@ const LanguageSwitcher = () => {
                 </div>
             }
         >
-            <div className="cursor-pointer text-black">
+            <div
+                className={`cursor-pointer ${
+                    router.pathname === path.market ? 'text-white' : ''
+                }`}
+            >
                 {currentLocale?.name}
             </div>
         </Popover>

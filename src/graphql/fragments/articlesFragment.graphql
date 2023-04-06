@@ -6,6 +6,7 @@ fragment article on Article {
     productName
     thumbnail
     images
+    views
     categories {
         id
         name

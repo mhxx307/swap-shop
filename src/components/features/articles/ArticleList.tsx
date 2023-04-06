@@ -20,12 +20,17 @@ const ArticleList = ({
     return (
         <div className={classNames('mb-4', className)}>
             {title && (
-                <h3 className={classNames('text-xl font-bold', titleClassName)}>
+                <h3
+                    className={classNames(
+                        'mb-6 text-xl font-bold',
+                        titleClassName,
+                    )}
+                >
                     {title}
                 </h3>
             )}
 
-            <div className="grid grid-cols-2 gap-1 md:grid-cols-4 lg:grid-cols-5  xl:grid-cols-6">
+            <div className="grid grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
                 {articles &&
                     articles.map((article, index) => (
                         <motion.div
@@ -41,7 +46,7 @@ const ArticleList = ({
                                 translateY: 0,
                             }}
                             transition={{ duration: 0.2, delay: index * 0.2 }}
-                            className="col-span-1"
+                            className="col-span-2"
                         >
                             <ArticleCard article={article} />
                         </motion.div>

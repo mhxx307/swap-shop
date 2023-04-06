@@ -1,6 +1,7 @@
+import { path } from '@/constants';
 import { storage } from '@/libs/firebase';
 import axios from 'axios';
-import { UploadResult, ref, uploadBytes } from 'firebase/storage';
+import { ref, uploadBytes } from 'firebase/storage';
 import mime from 'mime';
 import { v4 } from 'uuid';
 
@@ -107,4 +108,8 @@ export const uploadMultipleImages = (files: File[]) => {
         const fileRef = ref(storage, `articles/${file.name + v4()}`);
         uploadBytes(fileRef, file);
     }
+};
+
+export const getTextColorByPath = (pathname: string) => {
+    return pathname !== path.home ? 'text-white' : '';
 };

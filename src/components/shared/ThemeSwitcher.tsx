@@ -1,12 +1,11 @@
-import { ThemeContext } from '@/contexts/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import { motion } from 'framer-motion';
-import { useContext } from 'react';
 import { RiMoonClearFill, RiSunFill } from 'react-icons/ri';
 import ClientOnly from './ClientOnly';
 
 // https://dev.to/mrpbennett/creating-a-dark-theme-switch-with-tailwind-framer-motion-4f4h
 const ThemeSwitcher = () => {
-    const { isOn, setIsOn } = useContext(ThemeContext);
+    const { isOn, setIsOn } = useTheme();
 
     const spring = {
         type: 'spring',

@@ -40,7 +40,7 @@ export const path = {
     about: '/about',
     contact: '/contact',
     shortcuts: '/shortcuts',
-    articlesCreate: '/articles/create-article',
+    createArticle: '/articles/create-article',
     settingsProfile: '/settings/profile',
     login: '/login',
     logout: '/logout',
@@ -50,7 +50,7 @@ export const path = {
     dmca: '/dmca',
     privacy: '/privacy',
     categories: '/categories',
-    search: '/search',
+    market: '/market',
     favorites: '/favorites',
     chat: '/chat',
 } as const;

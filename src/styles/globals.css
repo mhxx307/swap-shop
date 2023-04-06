@@ -41,7 +41,7 @@ main {
 @layer utilities {
     /* nav animation underline */
     .nav-item {
-        @apply relative font-bold capitalize tracking-[1px] transition-colors duration-300 hover:text-white;
+        @apply relative font-bold capitalize tracking-[1px] transition-colors duration-300 hover:text-primary-500;
     }
 
     .nav-item::after {
@@ -100,12 +100,24 @@ main {
     }
 
     /* scrollbar */
-    ::-webkit-scrollbar {
+    /* ::-webkit-scrollbar {
         @apply w-2 bg-white/10;
     }
 
     ::-webkit-scrollbar-thumb {
         @apply rounded-full bg-zinc-500;
+    } */
+
+    /* =========== custom scroll-bar ========= */
+
+    ::-webkit-scrollbar {
+        width: 6px;
+        background: #343444;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 2em;
+        background: linear-gradient(-45deg, #e250e5, #4b50e6, #e250e5, #4b50e6);
     }
 
     .no-scrollbar::-webkit-scrollbar {

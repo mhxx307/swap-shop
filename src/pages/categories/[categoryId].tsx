@@ -1,7 +1,12 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { isUndefined, omitBy } from 'lodash';
 
-import { ClientOnly, Head, Pagination } from '@/components/shared';
+import {
+    ClientOnly,
+    CommonSection,
+    Head,
+    Pagination,
+} from '@/components/shared';
 import {
     Article,
     ArticlesDocument,
@@ -63,25 +68,25 @@ const Categories = () => {
         <>
             <Head />
             <ClientOnly>
-                <div className="container header-height space-y-6 pb-[20px]">
-                    {/* tao 1 filter nhu header cho categories, chi categories moi thay filter nay, filter nay se filter rieng cho category */}
-                    <h3 className="text-xl font-bold">
-                        Khám phá{' '}
-                        {removeSpecialCharacter(category.name).replace(
-                            /\s/g,
-                            ' ',
-                        )}
-                    </h3>
-
-                    <ArticleListByCategory articles={articles as Article[]} />
-
-                    <Pagination
-                        pageSize={
-                            articlesData.articles.data?.pagination
-                                .page_size as number
-                        }
-                        queryConfig={queryConfig}
+                <div className="flex w-full flex-col">
+                    <CommonSection
+                        title={`Khám phá ${removeSpecialCharacter(
+                            category.name,
+                        ).replace(/\s/g, ' ')}`}
                     />
+                    <div className="container mt-8 space-y-6 pb-[20px]">
+                        <ArticleListByCategory
+                            articles={articles as Article[]}
+                        />
+
+                        <Pagination
+                            pageSize={
+                                articlesData.articles.data?.pagination
+                                    .page_size as number
+                            }
+                            queryConfig={queryConfig}
+                        />
+                    </div>
                 </div>
             </ClientOnly>
         </>

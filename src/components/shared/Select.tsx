@@ -78,7 +78,7 @@ const Select = React.forwardRef<any, Props>(
                     ...theme,
                     colors: {
                         ...theme.colors,
-                        primary: '#ef4444',
+                        primary: '#e250e5',
                         primary75: '#f87171',
                         primary50: '#fca5a5',
                         primary20: '#fecaca',

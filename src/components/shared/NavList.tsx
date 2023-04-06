@@ -15,17 +15,17 @@ const NavList = ({ navList, className, itemClassName }: NavListProps) => {
 
     return (
         <nav className={classNames('space-x-10', className)}>
-            {navList.map(({ path, label }) => (
+            {navList.map((item) => (
                 <Link
-                    href={path as string}
-                    key={label}
+                    href={item.path as string}
+                    key={item.label}
                     className={classNames(
                         `nav-item
-							${router.pathname === path ? ' text-white after:w-full' : 'text-[#d6d3d1]'}`,
+							${router.pathname === item.path ? 'text-primary-400 after:w-full' : ''}`,
                         itemClassName,
                     )}
                 >
-                    {label}
+                    {item.label}
                 </Link>
             ))}
         </nav>
