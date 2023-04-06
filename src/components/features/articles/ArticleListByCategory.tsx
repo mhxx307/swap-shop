@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { memo } from 'react';
-import { Article } from '@/generated/graphql';
-import { Image } from '@/components/shared';
+import { Article, QueryConfig } from '@/generated/graphql';
+import { Image, Pagination } from '@/components/shared';
 import { formatCurrency, generateNameId } from '@/utils';
 import { useRouter } from 'next/router';
 import HearButton from './HeartButton';
@@ -9,9 +9,16 @@ import HearButton from './HeartButton';
 export interface ArticleListProps {
     className?: string;
     articles: Article[];
+    pageSize: number;
+    queryConfig: QueryConfig;
 }
 
-const ArticleListByCategory = ({ articles, className }: ArticleListProps) => {
+const ArticleListByCategory = ({
+    articles,
+    className,
+    pageSize,
+    queryConfig,
+}: ArticleListProps) => {
     const router = useRouter();
 
     return (
@@ -75,6 +82,10 @@ const ArticleListByCategory = ({ articles, className }: ArticleListProps) => {
                         </motion.div>
                     ))}
             </div>
+            <Pagination
+                pageSize={pageSize}
+                queryConfig={queryConfig as QueryConfig}
+            />
         </div>
     );
 };

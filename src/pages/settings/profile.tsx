@@ -84,7 +84,7 @@ const ProfilePage = () => {
                 />
 
                 <Button
-                    primary
+                    secondary
                     isLoading={loading}
                     className="border-[2px] border-transparent font-semibold"
                     type="submit"

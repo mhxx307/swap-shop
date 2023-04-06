@@ -53,6 +53,7 @@ export const path = {
     market: '/market',
     favorites: '/favorites',
     chat: '/chat',
+    personal: '/personal',
 } as const;
 
 export const icons = {

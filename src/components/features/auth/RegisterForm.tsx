@@ -127,46 +127,44 @@ const RegisterForm = () => {
     };
 
     return (
-        <>
-            <div className="flex min-h-screen w-[100%] flex-col space-y-28 py-[80px] px-[20px] md:w-[1084px] md:py-[20px] md:px-0">
-                <h3 className="text-center text-5xl font-bold">Registration</h3>
-
+        <div className="container">
+            <div className="mb-24">
                 <ProgressBar
                     progressList={PROGRESS_LIST}
                     stepCurrentNumber={currentStepIndex}
                     goTo={goTo}
                 />
-
-                <div className="mt-[30px] w-full rounded-md bg-white p-[20px] shadow-md dark:bg-secondaryDark">
-                    <form
-                        onSubmit={handleSubmit(handleRegister)}
-                        className="flex min-h-[400px] flex-col justify-between"
-                    >
-                        <div>{currentStep}</div>
-                        <div className="mt-[40px] flex justify-end gap-2">
-                            {!isFirstStep && (
-                                <Button
-                                    type="button"
-                                    className="bg-black text-white dark:hover:bg-gray-700"
-                                    onClick={back}
-                                >
-                                    Back
-                                </Button>
-                            )}
-                            <Button
-                                primary
-                                type={isLastStep ? 'submit' : 'button'}
-                                shortcutKey="enter"
-                                onClick={handleNextStep}
-                                isLoading={loading}
-                            >
-                                {isLastStep ? 'Finish' : 'Next'}
-                            </Button>
-                        </div>
-                    </form>
-                </div>
             </div>
-        </>
+
+            <div className="mt-[30px] w-full rounded-md bg-white p-[20px] shadow-md dark:bg-secondaryDark">
+                <form
+                    onSubmit={handleSubmit(handleRegister)}
+                    className="flex min-h-[400px] flex-col justify-between"
+                >
+                    <div>{currentStep}</div>
+                    <div className="mt-[40px] flex justify-end gap-2">
+                        {!isFirstStep && (
+                            <Button
+                                type="button"
+                                className="bg-black text-white dark:hover:bg-gray-700"
+                                onClick={back}
+                            >
+                                Back
+                            </Button>
+                        )}
+                        <Button
+                            primary
+                            type={isLastStep ? 'submit' : 'button'}
+                            shortcutKey="enter"
+                            onClick={handleNextStep}
+                            isLoading={loading}
+                        >
+                            {isLastStep ? 'Finish' : 'Next'}
+                        </Button>
+                    </div>
+                </form>
+            </div>
+        </div>
     );
 };
 

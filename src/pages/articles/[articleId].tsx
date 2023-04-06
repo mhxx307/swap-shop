@@ -34,6 +34,8 @@ import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import { formatNumberToSocialStyle, getIdFromNameId } from '@/utils';
 
 import 'tippy.js/dist/tippy.css';
+import { path } from '@/constants';
+import Link from 'next/link';
 
 const ArticleDetailPage = () => {
     const router = useRouter();
@@ -44,12 +46,15 @@ const ArticleDetailPage = () => {
             articleId: id,
         },
         skip: !id,
+        fetchPolicy: 'no-cache',
     });
 
     const { data: articleData, loading } = useArticleQuery({
         variables: {
             articleId: id,
         },
+        skip: !id,
+        fetchPolicy: 'no-cache',
     });
 
     const queryConfig: QueryConfig = {
@@ -266,16 +271,21 @@ const ArticleDetailPage = () => {
                                             }
                                             placement="top-start"
                                         >
-                                            <div className="h-[40px] w-[40px] flex-shrink-0 cursor-pointer object-cover">
-                                                <img
-                                                    src={
-                                                        article.user.avatar ||
-                                                        '/images/avatar-fallback.png'
-                                                    }
-                                                    alt=""
-                                                    className="w-full rounded-full"
-                                                />
-                                            </div>
+                                            <Link
+                                                href={`${path.personal}/${article.user.id}`}
+                                            >
+                                                <div className="h-[40px] w-[40px] flex-shrink-0 cursor-pointer object-cover">
+                                                    <img
+                                                        src={
+                                                            article.user
+                                                                .avatar ||
+                                                            '/images/avatar-fallback.png'
+                                                        }
+                                                        alt=""
+                                                        className="w-full rounded-full"
+                                                    />
+                                                </div>
+                                            </Link>
                                         </Tippy>
 
                                         <div>

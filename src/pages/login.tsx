@@ -9,6 +9,7 @@ import quotes from '@/quotes.json';
 import { Head, Rejected } from '@/components/shared';
 import { path, REVALIDATE_TIME } from '@/constants';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface Quote {
     text: string;
@@ -22,13 +23,14 @@ interface LoginPageProps {
 const LoginPage = ({ quotes }: LoginPageProps) => {
     const randomQuote = useMemo(() => randomElement(quotes), [quotes]);
     const { t } = useTranslation('login');
+    const { isOn } = useTheme();
 
     return (
         <Rejected>
             <Head />
             <div className="relative grid min-h-screen w-full grid-cols-1 md:grid-cols-5">
                 <Link
-                    className="absolute right-2 top-0 mt-4 bg-black shadow-3xl dark:bg-white"
+                    className="absolute right-2 top-0 mt-4 rounded-[15px] border-[1px] border-secondary bg-transparent px-[25px] py-[7px] text-white transition-opacity hover:opacity-80"
                     href={path.home}
                 >
                     {t('back_btn')}
@@ -57,7 +59,21 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                     <div className="w-full space-y-6 rounded-lg bg-white p-6 shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md sm:p-8 md:mt-0">
                         <div className="text-2xl font-semibold">
                             {t('welcome_heading')}{' '}
-                            <span className="capitalize text-primary-500">
+                            <span
+                                className="capitalize"
+                                style={{
+                                    background:
+                                        'linear-gradient(-45deg, #e250e5, #4b50e6, #e250e5, #4b50e6)',
+                                    backgroundSize: '100% 100%',
+                                    backgroundClip: 'text',
+                                    marginBottom: 0,
+                                    WebkitTextStroke: '3px transparent',
+                                    WebkitTextFillColor: isOn
+                                        ? '#14141f'
+                                        : '#fff',
+                                    WebkitBackgroundClip: 'text',
+                                }}
+                            >
                                 second chance
                             </span>
                             <p className="mt-2 text-xl">

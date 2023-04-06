@@ -47,6 +47,7 @@ const Categories = () => {
     });
 
     const articles = articlesData?.articles.data?.articles;
+    const pageSize = articlesData?.articles.data?.pagination.page_size;
 
     useEffect(() => {
         if (query.categoryId) {
@@ -75,9 +76,13 @@ const Categories = () => {
                         ).replace(/\s/g, ' ')}`}
                     />
                     <div className="container mt-8 space-y-6 pb-[20px]">
-                        <ArticleListByCategory
-                            articles={articles as Article[]}
-                        />
+                        {pageSize && (
+                            <ArticleListByCategory
+                                articles={articles as Article[]}
+                                pageSize={pageSize}
+                                queryConfig={queryConfig}
+                            />
+                        )}
 
                         <Pagination
                             pageSize={

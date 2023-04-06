@@ -27,7 +27,7 @@ const SettingsLayout = ({ children }: BaseLayoutProps) => {
                             <div className="col-span-2 hidden space-y-8 pr-10 ss:block">
                                 <NavList navList={settings} />
                                 <div className="border-bottom"></div>
-                                <p className="mt-[20px] cursor-pointer font-medium text-primary-500">
+                                <p className="mt-[20px] cursor-pointer font-medium text-red-500">
                                     Delete Account
                                 </p>
                             </div>

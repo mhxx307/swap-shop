@@ -36,7 +36,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
                 <ApolloProvider client={apolloClient}>
                     {Layout(
                         <>
-                            <NextNProgress color="#ef4444" />
+                            <NextNProgress color="#5142fc" />
                             <Component {...pageProps} />
                         </>,
                     )}
