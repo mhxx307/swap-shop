@@ -59,7 +59,7 @@ function ChatBox() {
 
     // connect to socket
     useEffect(() => {
-        socket.current = io(`ws://localhost:8900`);
+        socket.current = io(`wss://${process.env.NEXT_PUBLIC_SOCKET_URL}`);
         console.log('Socket ID:', socket.current.id);
         console.log('socket', socket.current);
 

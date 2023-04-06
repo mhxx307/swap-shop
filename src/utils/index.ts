@@ -110,6 +110,10 @@ export const uploadMultipleImages = (files: File[]) => {
     }
 };
 
+
 export const getTextColorByPath = (pathname: string) => {
     return pathname !== path.home ? 'text-white' : '';
+
+export const createAttachmentUrl = (url: string, folderName: string) => {
+    return `${folderName}/${url.split('%2F')[1].split('?')[0]}`;
 };

@@ -14,7 +14,7 @@ query Articles($queryConfig: QueryConfig!) {
 }
 
 query Article($articleId: String!) {
-    article(id: $articleId) {
+    article(articleId: $articleId) {
         ...article
     }
 }

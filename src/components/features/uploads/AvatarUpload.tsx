@@ -14,6 +14,7 @@ import {
     useMeQuery,
     useUploadAvatarProfileMutation,
 } from '@/generated/graphql';
+import { createAttachmentUrl } from '@/utils';
 
 export interface AvatarUploadProps {
     picture?: string | null;
@@ -57,7 +58,7 @@ const AvatarUpload = ({ picture }: AvatarUploadProps) => {
         if (picture) {
             const oldImageRef = ref(
                 storage,
-                `profiles/${picture.split('%2F')[1].split('?')[0]}`,
+                createAttachmentUrl(picture, 'profiles'),
             );
             await deleteObject(oldImageRef);
         }

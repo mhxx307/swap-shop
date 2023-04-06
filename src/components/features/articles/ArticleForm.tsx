@@ -1,22 +1,33 @@
-import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
-import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
-// import ReactCurrentcyInput from "react-currency-input-field"
-import 'react-quill/dist/quill.snow.css';
-import dynamic from 'next/dynamic';
-
 import { ImageUpload } from '@/components/features/uploads';
 import { Auth, Button, FormSelect, InputField } from '@/components/shared';
+import { path, STATUS_ARTICLE } from '@/constants';
 import {
+    ArticleDocument,
+    ArticleQuery,
     InsertArticleInput,
+    QueryArticleArgs,
+    useArticleQuery,
     useCategoriesQuery,
     useInsertArticleMutation,
+    useUpdateArticleMutation,
 } from '@/generated/graphql';
+import { initializeApollo } from '@/libs/apolloClient';
 import { storage } from '@/libs/firebase';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { v4 } from 'uuid';
-import { path } from '@/constants';
+import { createAttachmentUrl, createFileFromUrl } from '@/utils';
+import { async } from '@firebase/util';
+import {
+    deleteObject,
+    getDownloadURL,
+    ref,
+    uploadBytes,
+} from 'firebase/storage';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, useState } from 'react';
+import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { v4 } from 'uuid';
+import 'react-quill/dist/quill.snow.css';
 
 const prices = [
     { id: 1, label: 'Free' },
@@ -52,61 +63,116 @@ const formats = [
     'image',
 ];
 
-const CreateArticle = () => {
+function ArticleForm({ id }: { id?: string }) {
     const ReactQuill = useMemo(
         () => dynamic(() => import('react-quill'), { ssr: false }),
         [],
     );
     const router = useRouter();
     const [files, setFiles] = useState<File[]>([]);
-
     const [checked, setChecked] = useState(1);
+
+    const { data: articleDataUpdate } = useArticleQuery({
+        variables: {
+            articleId: id as string,
+        },
+        skip: !id,
+    });
+    const { data: categoriesData } = useCategoriesQuery();
+
+    const categories = categoriesData?.categories;
+    const article = articleDataUpdate?.article;
+    const categoriesIdByArticle =
+        article && article.categories.map((category) => category.id);
+
     const { control, handleSubmit } = useForm<
         Omit<InsertArticleInput, 'images'>
     >({
         defaultValues: {
-            title: '',
-            description: '',
-            productName: '',
-            categoryIds: [''],
-            price: 0,
+            title: article?.title ? article.title : '',
+            description: article?.description ? article.description : '',
+            productName: article?.productName ? article.productName : '',
+            categoryIds: categoriesIdByArticle ? categoriesIdByArticle : [''],
+            price: article?.price ? article.price : 0,
         },
     });
 
     const [createArticle, { loading }] = useInsertArticleMutation();
-    const { data: categoriesData } = useCategoriesQuery();
-    const categories = categoriesData?.categories;
+    const [updateArticle] = useUpdateArticleMutation();
 
-    const handleAddProduct = async (
+    useEffect(() => {
+        article?.images.forEach((image) => {
+            createFileFromUrl(image, image).then((file) => {
+                setFiles((prev) => [...prev, file]);
+            });
+        });
+    }, []);
+
+    const handleSubmitArticle = async (
         payload: Omit<InsertArticleInput, 'images'>,
     ) => {
-        const urlArticles: string[] = [];
-        for (const file of files) {
-            const fileRef = ref(storage, `articles/${file.name + v4()}`);
-            const upload = await uploadBytes(fileRef, file);
-            const url = await getDownloadURL(upload.ref);
-            urlArticles.push(url);
-        }
+        if (!article) {
+            const urlArticles: string[] = [];
+            for (const file of files) {
+                const fileRef = ref(storage, `articles/${file.name + v4()}`);
+                const upload = await uploadBytes(fileRef, file);
+                const url = await getDownloadURL(upload.ref);
+                urlArticles.push(url);
+            }
 
-        if (urlArticles.length > 0) {
-            await createArticle({
+            if (urlArticles.length > 0) {
+                await createArticle({
+                    variables: {
+                        insertArticleInput: {
+                            title: payload.title,
+                            description: payload.description,
+                            productName: payload.productName,
+                            images: urlArticles,
+                            categoryIds: payload.categoryIds,
+                            price: Number(payload.price),
+                        },
+                    },
+                });
+            } else {
+                toast.error('Please upload an image article');
+                return;
+            }
+
+            router.push(path.home);
+        } else {
+            const images = article.images;
+            if (images.length > 0) {
+                for (const image of images) {
+                    const oldImageRef = ref(
+                        storage,
+                        createAttachmentUrl(image, 'articles'),
+                    );
+                    await deleteObject(oldImageRef);
+                }
+            }
+            const urlArticles: string[] = [];
+            for (const file of files) {
+                const fileRef = ref(storage, `articles/${file.name + v4()}`);
+                const upload = await uploadBytes(fileRef, file);
+                const url = await getDownloadURL(upload.ref);
+                urlArticles.push(url);
+            }
+
+            await updateArticle({
                 variables: {
-                    insertArticleInput: {
+                    updateArticleInput: {
+                        id: articleDataUpdate.article?.id as string,
                         title: payload.title,
                         description: payload.description,
                         productName: payload.productName,
                         images: urlArticles,
                         categoryIds: payload.categoryIds,
                         price: Number(payload.price),
+                        status: STATUS_ARTICLE.PENDING,
                     },
                 },
             });
-        } else {
-            toast.error('Please upload an image article');
-            return;
         }
-
-        router.push(path.home);
     };
 
     return (
@@ -118,7 +184,7 @@ const CreateArticle = () => {
                     </h2>
                     <form
                         action="#"
-                        onSubmit={handleSubmit(handleAddProduct)}
+                        onSubmit={handleSubmit(handleSubmitArticle)}
                         className="space-y-4"
                     >
                         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -197,9 +263,16 @@ const CreateArticle = () => {
                             <div className="space-y-2 sm:col-span-2">
                                 <p>Images:</p>
                                 <ImageUpload
-                                    initialFiles={[]}
+                                    initialFiles={files}
                                     onChange={setFiles}
                                     multiple
+                                    value={files.filter(
+                                        (file, index, self) =>
+                                            index ===
+                                            self.findIndex(
+                                                (f) => f.name === file.name,
+                                            ),
+                                    )}
                                 />
                             </div>
 
@@ -232,6 +305,6 @@ const CreateArticle = () => {
             </section>
         </Auth>
     );
-};
+}
 
-export default CreateArticle;
+export default ArticleForm;

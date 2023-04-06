@@ -57,6 +57,8 @@ const ArticleDetailPage = () => {
         fetchPolicy: 'no-cache',
     });
 
+    console.log(articleData);
+
     const queryConfig: QueryConfig = {
         page: '1',
         limit: '20',

@@ -40,7 +40,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 className="relative pt-[calc(95%)]"
             >
                 <Image
-                    src={article.thumbnail}
+                    src={article.images[0]}
                     alt="article"
                     classnamewrapper="absolute top-0 w-full h-full"
                     className="rounded-[10px]"
