@@ -80,14 +80,6 @@ function PublishedPage() {
                                                             />
                                                         ),
                                                     )}
-                                                {/* <Pagination
-                                                    pageSize={
-                                                        articlesData?.articles
-                                                            .data?.pagination
-                                                            .page_size as number
-                                                    }
-                                                    queryConfig={queryConfig}
-                                                /> */}
                                             </div>
                                         ),
                                     },
@@ -106,14 +98,6 @@ function PublishedPage() {
                                                             />
                                                         ),
                                                     )}
-                                                {/* <Pagination
-                                                    pageSize={
-                                                        articlesData?.articles
-                                                            .data?.pagination
-                                                            .page_size as number
-                                                    }
-                                                    queryConfig={queryConfig}
-                                                /> */}
                                             </div>
                                         ),
                                     },
@@ -132,14 +116,6 @@ function PublishedPage() {
                                                             />
                                                         ),
                                                     )}
-                                                {/* <Pagination
-                                                    pageSize={
-                                                        articlesData?.articles
-                                                            .data?.pagination
-                                                            .page_size as number
-                                                    }
-                                                    queryConfig={queryConfig}
-                                                /> */}
                                             </div>
                                         ),
                                     },

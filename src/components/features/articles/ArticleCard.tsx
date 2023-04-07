@@ -45,7 +45,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                     classnamewrapper="absolute top-0 w-full h-full"
                     className="rounded-[10px]"
                 />
-                <HeartButton articleId={article.id} />
+                {article.id && <HeartButton articleId={article.id} />}
             </motion.div>
 
             <div className="">

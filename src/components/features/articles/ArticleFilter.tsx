@@ -19,7 +19,7 @@ function ArticleFilter({ queryConfig }: Props) {
         );
 
         router.push({
-            pathname: path.search,
+            pathname: path.market,
             query: {
                 ...queryConfig,
                 categories: selectedCategoryIds,

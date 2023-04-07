@@ -126,7 +126,7 @@ const Header = () => {
                                 <div className="relative rounded-sm border border-gray-200 bg-white shadow-md">
                                     {menuList.map((item) => (
                                         <Link
-                                            key={item.path}
+                                            key={item.label}
                                             href={item.path}
                                             className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-primary-500"
                                         >

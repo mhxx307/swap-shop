@@ -40,8 +40,8 @@ export const path = {
     about: '/about',
     contact: '/contact',
     shortcuts: '/shortcuts',
-    createArticle: '/articles/create-article',
-    articlesEdit: '/articles/edit',
+    createArticle: '/articles/edit/create-article',
+    editArticle: '/articles/edit',
     settingsProfile: '/settings/profile',
     login: '/login',
     logout: '/logout',
@@ -55,7 +55,7 @@ export const path = {
     favorites: '/favorites',
     chat: '/chat',
     personal: '/personal',
-    dashboardPulished: '/dashboard/published',
+    dashboardPublished: '/dashboard/published',
 } as const;
 
 export const icons = {
