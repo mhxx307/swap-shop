@@ -1,15 +1,13 @@
 import { Image } from '@/components/shared';
 import { Article } from '@/generated/graphql';
-import { generateNameId } from '@/utils';
 import DOMPurify from 'dompurify';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 function PublishedCard({ article }: { article: Article }) {
     const router = useRouter();
     return (
-        <div key={article.id} className={` mt-1 block rounded-sm bg-white p-4`}>
+        <div key={article.id} className={`mt-1 block rounded-sm bg-white p-4`}>
             <div className="flex ">
                 <Image
                     src={article.images[0]}

@@ -4,7 +4,7 @@ import nookies from 'nookies';
 import { memo, useMemo } from 'react';
 // import { AiOutlineGlobal } from 'react-icons/ai';
 import Popover from './Popover';
-import { path } from '@/constants';
+import { getTextColorByPath } from '@/utils';
 
 // eslint-disable-next-line react/display-name
 const LanguageSwitcher = () => {
@@ -28,6 +28,8 @@ const LanguageSwitcher = () => {
         [router.locale],
     );
 
+    const textColor = getTextColorByPath(router.pathname);
+
     return (
         <Popover
             renderPopover={
@@ -44,11 +46,7 @@ const LanguageSwitcher = () => {
                 </div>
             }
         >
-            <div
-                className={`cursor-pointer ${
-                    router.pathname === path.market ? 'text-white' : ''
-                }`}
-            >
+            <div className={`cursor-pointer ${textColor}`}>
                 {currentLocale?.name}
             </div>
         </Popover>

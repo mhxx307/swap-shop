@@ -39,7 +39,7 @@ const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     {
         icon: icons.BsPencilSquare,
         label: 'Management Posts',
-        path: path.dashboardPulished,
+        path: path.dashboardPublished,
     },
     ...POPUP_MENU_LIST,
     { icon: icons.BsGear, label: 'Settings', path: path.settingsProfile },

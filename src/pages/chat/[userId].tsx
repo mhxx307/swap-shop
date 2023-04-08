@@ -150,10 +150,11 @@ function ChatBox() {
                                 onChange={(e) => setNewMessage(e.target.value)}
                             />
                             <Button
-                                primary
+                                secondary
                                 RightIcon={MdSend}
                                 onClick={handleSendMessage}
                                 isLoading={sendMessageLoading}
+                                className="text-white"
                             >
                                 Send
                             </Button>

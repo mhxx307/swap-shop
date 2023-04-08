@@ -89,8 +89,8 @@ const Select = React.forwardRef<any, Props>(
                         return {
                             ...provided,
                             backgroundColor: '#1a1a1a',
-                            minWidth: '12rem',
-                            maxWidth: '14rem',
+                            minWidth: '100%',
+                            maxWidth: '100%',
                         };
                     },
                     menu: (provided) => {

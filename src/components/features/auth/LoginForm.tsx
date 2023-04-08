@@ -83,7 +83,7 @@ const LoginForm = () => {
                 type="text"
                 name="usernameOrEmail"
                 control={control}
-                containerInputClassName="default-input"
+                containerInputClassName=""
                 label={t('username_label') as string}
             />
 
@@ -91,9 +91,9 @@ const LoginForm = () => {
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 control={control}
-                containerInputClassName="default-input"
+                containerInputClassName=""
                 label={t('password_label') as string}
-                iconClassName="w-4 h-4 cursor-pointer hover:text-gray-500"
+                iconClassName="cursor-pointer hover:text-gray-500"
                 rightIconOnClick={(e) => {
                     e.preventDefault();
                     setShowPassword(!showPassword);

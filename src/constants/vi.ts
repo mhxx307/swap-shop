@@ -32,8 +32,8 @@ const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
     },
     {
         icon: icons.BsPencilSquare,
-        label: 'Quản lý tin đăng',
-        path: path.dashboardPulished,
+        label: 'Management Posts',
+        path: path.dashboardPublished,
     },
     ...POPUP_MENU_LIST,
     { icon: icons.BsGear, label: 'Cài đặt', path: path.settingsProfile },
