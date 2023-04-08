@@ -2,6 +2,7 @@ import { ArticleList } from '@/components/features/articles';
 import { SwiperCategories } from '@/components/features/categories';
 import { HeroSection } from '@/components/features/home';
 import { ClientOnly, Head, Pagination } from '@/components/shared';
+import { ORDER, SORT_BY } from '@/constants';
 import {
     useArticlesQuery,
     useCategoriesQuery,
@@ -25,8 +26,31 @@ const Home = () => {
             queryConfig: queryConfig,
         },
     });
+    const { data: articlesFavoritesData } = useArticlesQuery({
+        variables: {
+            queryConfig: {
+                page: '1',
+                limit: '10',
+                sort_by: SORT_BY[3],
+                order_by: ORDER[0],
+            },
+        },
+    });
+    const { data: articlesTrendingData } = useArticlesQuery({
+        variables: {
+            queryConfig: {
+                page: '1',
+                limit: '10',
+                sort_by: SORT_BY[1],
+                order_by: ORDER[0],
+            },
+        },
+    });
+
     const categories = categoriesData?.categories;
     const articles = articlesData?.articles.data?.articles;
+    const articlesFavorites = articlesFavoritesData?.articles.data?.articles;
+    const articlesTrending = articlesTrendingData?.articles.data?.articles;
 
     return (
         <ClientOnly>
@@ -56,6 +80,34 @@ const Home = () => {
                     <Pagination
                         pageSize={
                             articlesData?.articles.data?.pagination
+                                .page_size as number
+                        }
+                        queryConfig={queryConfig}
+                    />
+                </div>
+
+                <div className="my-6">
+                    <ArticleList
+                        articles={articlesTrending as Article[]}
+                        title="Tin đăng nổi bật"
+                    />
+                    <Pagination
+                        pageSize={
+                            articlesTrendingData?.articles.data?.pagination
+                                .page_size as number
+                        }
+                        queryConfig={queryConfig}
+                    />
+                </div>
+
+                <div className="my-6">
+                    <ArticleList
+                        articles={articlesFavorites as Article[]}
+                        title="Tin đăng yêu thích"
+                    />
+                    <Pagination
+                        pageSize={
+                            articlesFavoritesData?.articles.data?.pagination
                                 .page_size as number
                         }
                         queryConfig={queryConfig}

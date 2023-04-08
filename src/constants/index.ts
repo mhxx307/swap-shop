@@ -72,3 +72,11 @@ export const STATUS_ARTICLE = {
     REJECTED: 'rejected',
     APPROVED: 'approved',
 } as const;
+
+export const SORT_BY = [
+    'createdDate',
+    'views',
+    'price',
+    'favoritesCount',
+] as const;
+export const ORDER = ['DESC', 'ASC'] as const;
