@@ -1,0 +1,25 @@
+query Reviews($reviewOptions: ReviewOptions!) {
+    reviews(reviewOptions: $reviewOptions) {
+        message
+        data {
+            pagination {
+                limit
+                page
+                page_size
+            }
+            reviews {
+                id
+                content
+                rating
+                user {
+                    ...user
+                }
+                createdDate
+                updatedDate
+                assessor {
+                    ...user
+                }
+            }
+        }
+    }
+}

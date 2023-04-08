@@ -9,6 +9,7 @@ fragment user on User {
     avatar
     createdDate
     updatedDate
+	status
 }
 
 fragment userMutationResponse on UserMutationResponse {

@@ -40,7 +40,7 @@ function PublishedPage() {
                 <div className="container header-height">
                     <div className="grid grid-cols-12 shadow">
                         {' '}
-                        <div className=" col-span-12 rounded-sm bg-white p-6">
+                        <div className=" col-span-12 rounded-sm bg-white p-6 dark:bg-[#343444]">
                             <div className="mb-4 flex items-end justify-between">
                                 <div className="flex items-end">
                                     <Image
@@ -53,15 +53,15 @@ function PublishedPage() {
                                     />
 
                                     <div>
-                                        <h3 className="mb-2 font-semibold text-black">
+                                        <h3 className="mb-2 font-semibold">
                                             {me?.fullName}
                                         </h3>
-                                        <h5 className="cursor-pointer rounded-lg border border-red-500 pl-6 pr-6 text-primary-500 hover:bg-slate-50">
+                                        <h5 className="cursor-pointer rounded-lg border border-secondary pl-6 pr-6 text-secondary hover:bg-slate-50">
                                             Trang chủ
                                         </h5>
                                     </div>
                                 </div>
-                                <div>Co gi moi</div>
+                                <div>Có gì mới ?</div>
                             </div>
                             <TabView
                                 tabs={[
