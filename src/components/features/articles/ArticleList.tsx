@@ -31,7 +31,7 @@ const ArticleList = ({
             )}
 
             <div className="grid grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
-                {articles &&
+                {articles && articles.length > 0 ? (
                     articles.map((article, index) => (
                         <motion.div
                             key={article.id}
@@ -50,7 +50,12 @@ const ArticleList = ({
                         >
                             <ArticleCard article={article} />
                         </motion.div>
-                    ))}
+                    ))
+                ) : (
+                    <div className="col-span-12 text-center">
+                        <p className="text-sm">Không tìm thấy article</p>
+                    </div>
+                )}
             </div>
         </div>
     );

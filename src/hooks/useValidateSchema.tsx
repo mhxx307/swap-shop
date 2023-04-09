@@ -1,7 +1,7 @@
 import getSchema from '@/constants/schema';
 
 // union type
-type validateName = 'register' | 'login' | 'changePassword';
+type validateName = 'register' | 'login' | 'changePassword' | 'priceMinMax';
 
 const useValidateSchema = (name: validateName) => {
     const registerSchema = getSchema().pick([
@@ -21,6 +21,8 @@ const useValidateSchema = (name: validateName) => {
         'confirmPassword',
     ]);
 
+    const priceMinMaxSchema = getSchema().pick(['price_min', 'price_max']);
+
     switch (name) {
         case 'register':
             return registerSchema;
@@ -28,6 +30,8 @@ const useValidateSchema = (name: validateName) => {
             return loginSchema;
         case 'changePassword':
             return changePasswordSchema;
+        case 'priceMinMax':
+            return priceMinMaxSchema;
         default:
             return loginSchema;
     }

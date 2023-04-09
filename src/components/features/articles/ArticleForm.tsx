@@ -1,21 +1,3 @@
-import { ImageUpload } from '@/components/features/uploads';
-import { Auth, Button, FormSelect, InputField } from '@/components/shared';
-import { path, STATUS_ARTICLE } from '@/constants';
-import {
-    Article,
-    InsertArticleInput,
-    useArticleQuery,
-    useCategoriesQuery,
-    useInsertArticleMutation,
-    useMeQuery,
-    useUpdateArticleMutation,
-} from '@/generated/graphql';
-import { storage } from '@/libs/firebase';
-import {
-    createAttachmentUrl,
-    createFileFromUrl,
-    formatCurrency,
-} from '@/utils';
 import {
     deleteObject,
     getDownloadURL,
@@ -24,13 +6,28 @@ import {
 } from 'firebase/storage';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { SetStateAction, useEffect, useMemo, useState } from 'react';
 import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { v4 } from 'uuid';
+
+import { ImageUpload } from '@/components/features/uploads';
+import { storage } from '@/libs/firebase';
+import { Auth, Button, FormSelect, InputField } from '@/components/shared';
+import { path, STATUS_ARTICLE } from '@/constants';
+import {
+    InsertArticleInput,
+    User,
+    useArticleQuery,
+    useCategoriesQuery,
+    useInsertArticleMutation,
+    useMeQuery,
+    useUpdateArticleMutation,
+} from '@/generated/graphql';
+import { createAttachmentUrl, createFileFromUrl } from '@/utils';
+
 import 'react-quill/dist/quill.snow.css';
-import TimeAgo from 'timeago-react';
-import { BsFillPlayFill } from 'react-icons/bs';
+import ArticleCardPreview from './ArticleCardPreview';
 
 const prices = [
     { id: 1, label: 'Free' },
@@ -91,7 +88,7 @@ function ArticleForm({ id }: { id?: string }) {
     const categoriesIdByArticle =
         article && article.categories.map((category) => category.id);
 
-    const { control, handleSubmit, watch } = useForm<
+    const { control, handleSubmit } = useForm<
         Omit<InsertArticleInput, 'images'>
     >({
         defaultValues: {
@@ -105,18 +102,6 @@ function ArticleForm({ id }: { id?: string }) {
 
     const [createArticle, { loading }] = useInsertArticleMutation();
     const [updateArticle] = useUpdateArticleMutation();
-
-    const articleWatch = {
-        title: watch('title'),
-        description: watch('description'),
-        productName: watch('productName'),
-        thumbnail: files[0]
-            ? URL.createObjectURL(files[0])
-            : '/images/avatar-fallback.png',
-        price: watch('price'),
-        images: [''],
-        user: me,
-    };
 
     useEffect(() => {
         article?.images.forEach((image) => {
@@ -200,9 +185,15 @@ function ArticleForm({ id }: { id?: string }) {
                 <div className="mt-12 grid grid-cols-12">
                     <div className="col-span-6 mr-6 md:col-span-4 lg:col-span-3">
                         <h5 className="text-light mb-4">Preview Item</h5>
-                        {articleWatch && (
-                            <ArticleCard article={articleWatch as Article} />
-                        )}
+                        <ArticleCardPreview
+                            control={control}
+                            thumbnail={
+                                files[0]
+                                    ? URL.createObjectURL(files[0])
+                                    : '/images/avatar-fallback.png'
+                            }
+                            user={me as User}
+                        />
                     </div>
                     <div className="col-span-6 md:col-span-8 lg:col-span-9">
                         <div>
@@ -338,7 +329,7 @@ const PriceOptions = ({
     setChecked,
 }: {
     checked: number;
-    setChecked: any;
+    setChecked: React.Dispatch<SetStateAction<number>>;
 }) => {
     return (
         <div className="mb-2 flex items-center space-x-2">
@@ -355,82 +346,6 @@ const PriceOptions = ({
                     </div>
                 );
             })}
-        </div>
-    );
-};
-
-const ArticleCard = ({ article }: { article: any }) => {
-    return (
-        <div className="rounded-[10px] bg-white p-[20px] shadow dark:bg-[#343444]">
-            {/* image */}
-            <div className="relative pt-[calc(95%)]">
-                <img
-                    src={article.thumbnail}
-                    alt="article"
-                    className="absolute top-0 h-full w-full rounded-[10px]"
-                />
-            </div>
-
-            <div className="">
-                <span className="my-[8px] block text-[10px] font-normal text-[#919eab] line-clamp-1">
-                    <TimeAgo datetime={article.createdDate} />{' '}
-                    {article.user.address}
-                </span>
-
-                <div className="space-y-4">
-                    <h5 className="truncate text-sm hover:underline">
-                        {article.title}
-                    </h5>
-
-                    <div className="flex">
-                        {/* avatar */}
-                        <div className="mr-[18px] h-[40px] w-[40px] flex-shrink-0 cursor-pointer object-cover">
-                            <img
-                                src={
-                                    article.user.avatar ||
-                                    '/images/avatar-fallback.png'
-                                }
-                                alt={article.user.username}
-                                className="w-full rounded-full "
-                            />
-                        </div>
-
-                        {/* content */}
-                        <div className="flex w-full items-center justify-between">
-                            <div className="space-y-2">
-                                <h6 className="text-xs text-[#919eab]">
-                                    Created By
-                                </h6>
-                                <p className="text-xs">
-                                    {article.user.username}
-                                </p>
-                            </div>
-
-                            <div className="space-y-2">
-                                <h6 className="text-xs text-[#919eab]">
-                                    Price
-                                </h6>
-                                <p className="text-xs">
-                                    {article.price
-                                        ? `đ ${formatCurrency(article.price)}`
-                                        : 'Free'}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="mt-[18px] flex items-center justify-between">
-                    <Button
-                        secondary
-                        className="rounded-full px-6 text-white"
-                        LeftIcon={BsFillPlayFill}
-                    >
-                        Xem
-                    </Button>
-                    <span className="truncate text-xs">address</span>
-                </div>
-            </div>
         </div>
     );
 };

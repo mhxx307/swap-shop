@@ -18,7 +18,7 @@ const Button = ({
                 'flex items-center space-x-2 rounded-md px-4 py-1 hover:bg-opacity-80',
                 className,
                 passProps.primary && 'text-white',
-                secondary && 'hover:bg-opacity/20 bg-secondary',
+                secondary && 'hover:bg-opacity/20 bg-secondary text-white',
                 secondary &&
                     passProps.outline &&
                     'border border-secondary bg-transparent',
