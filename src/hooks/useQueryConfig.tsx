@@ -1,6 +1,7 @@
 import { isUndefined, omitBy } from 'lodash';
 import { QueryConfig } from '@/generated/graphql';
 import { useRouter } from 'next/router';
+import { STATUS_ARTICLE } from '@/constants';
 
 function useQueryConfig() {
     const { query } = useRouter();
@@ -16,6 +17,7 @@ function useQueryConfig() {
             categories: query.categories,
             isFree: query.isFree,
             userId: query.userId,
+            status: STATUS_ARTICLE.APPROVED,
         },
         isUndefined,
     );

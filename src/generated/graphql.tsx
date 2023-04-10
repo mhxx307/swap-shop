@@ -486,6 +486,7 @@ export type QueryConfig = {
   price_max?: InputMaybe<Scalars['String']>;
   price_min?: InputMaybe<Scalars['String']>;
   sort_by?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['String']>;
   user_rating?: InputMaybe<Scalars['String']>;

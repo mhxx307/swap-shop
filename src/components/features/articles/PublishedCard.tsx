@@ -7,7 +7,10 @@ import React from 'react';
 function PublishedCard({ article }: { article: Article }) {
     const router = useRouter();
     return (
-        <div key={article.id} className={`mt-1 block rounded-sm bg-white p-4`}>
+        <div
+            key={article.id}
+            className={`mt-1 block rounded-sm bg-white p-4 dark:bg-[#343444]`}
+        >
             <div className="flex ">
                 <Image
                     src={article.images[0]}
