@@ -95,9 +95,11 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                                     Price
                                 </h6>
                                 <p className="text-xs">
-                                    {article.price
-                                        ? `đ ${formatCurrency(article.price)}`
-                                        : 'Free'}
+                                    {article.price && article.price === '0'
+                                        ? 'Free'
+                                        : `đ ${formatCurrency(
+                                              Number(article.price),
+                                          )}`}
                                 </p>
                             </div>
                         </div>

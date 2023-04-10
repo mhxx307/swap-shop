@@ -18,7 +18,9 @@ function PublishedCard({ article }: { article: Article }) {
                 <div className="relative ml-4 w-full ">
                     <h2 className="font-bold uppercase">{article.title}</h2>
                     <p className="mt-2 text-primary-500">
-                        {article.price === 0 ? 'Free' : article.price}
+                        {article.price && article.price === '0'
+                            ? 'Free'
+                            : article.price}
                     </p>
                     <div className="absolute bottom-0 left-0 flex w-full justify-between">
                         <div

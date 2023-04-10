@@ -1,15 +1,9 @@
-import {
-    deleteObject,
-    getDownloadURL,
-    ref,
-    uploadBytes,
-} from 'firebase/storage';
+import { deleteObject, ref } from 'firebase/storage';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { SetStateAction, useEffect, useMemo, useState } from 'react';
 import { Control, Controller, FieldValues, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { v4 } from 'uuid';
 
 import { ImageUpload } from '@/components/features/uploads';
 import { storage } from '@/libs/firebase';
@@ -24,43 +18,19 @@ import {
     useMeQuery,
     useUpdateArticleMutation,
 } from '@/generated/graphql';
-import { createAttachmentUrl, createFileFromUrl } from '@/utils';
+import {
+    createAttachmentUrl,
+    createFileFromUrl,
+    createUrlListFromFileList,
+} from '@/utils';
 
 import 'react-quill/dist/quill.snow.css';
 import ArticleCardPreview from './ArticleCardPreview';
+import { formats, modules } from '@/utils/Quill';
 
 const prices = [
     { id: 1, label: 'Free' },
     { id: 2, label: 'Charges' },
-];
-
-const modules = {
-    toolbar: [
-        [{ header: [1, 2, false] }],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [
-            { list: 'ordered' },
-            { list: 'bullet' },
-            { indent: '-1' },
-            { indent: '+1' },
-        ],
-        ['link', 'image'],
-        ['clean'],
-    ],
-};
-
-const formats = [
-    'header',
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'blockquote',
-    'list',
-    'bullet',
-    'indent',
-    'link',
-    'image',
 ];
 
 function ArticleForm({ id }: { id?: string }) {
@@ -96,7 +66,7 @@ function ArticleForm({ id }: { id?: string }) {
             description: article?.description ? article.description : '',
             productName: article?.productName ? article.productName : '',
             categoryIds: categoriesIdByArticle ? categoriesIdByArticle : [''],
-            price: article?.price ? article.price : 0,
+            price: article?.price ? article.price : '0',
         },
     });
 
@@ -115,15 +85,9 @@ function ArticleForm({ id }: { id?: string }) {
     const handleSubmitArticle = async (
         payload: Omit<InsertArticleInput, 'images'>,
     ) => {
-        if (!article) {
-            const urlArticles: string[] = [];
-            for (const file of files) {
-                const fileRef = ref(storage, `articles/${file.name + v4()}`);
-                const upload = await uploadBytes(fileRef, file);
-                const url = await getDownloadURL(upload.ref);
-                urlArticles.push(url);
-            }
+        const urlArticles = await createUrlListFromFileList(files, 'articles');
 
+        if (!article) {
             if (urlArticles.length > 0) {
                 await createArticle({
                     variables: {
@@ -133,7 +97,7 @@ function ArticleForm({ id }: { id?: string }) {
                             productName: payload.productName,
                             images: urlArticles,
                             categoryIds: payload.categoryIds,
-                            price: Number(payload.price),
+                            price: payload.price,
                         },
                     },
                 });
@@ -154,13 +118,6 @@ function ArticleForm({ id }: { id?: string }) {
                     await deleteObject(oldImageRef);
                 }
             }
-            const urlArticles: string[] = [];
-            for (const file of files) {
-                const fileRef = ref(storage, `articles/${file.name + v4()}`);
-                const upload = await uploadBytes(fileRef, file);
-                const url = await getDownloadURL(upload.ref);
-                urlArticles.push(url);
-            }
 
             await updateArticle({
                 variables: {
@@ -171,7 +128,7 @@ function ArticleForm({ id }: { id?: string }) {
                         productName: payload.productName,
                         images: urlArticles,
                         categoryIds: payload.categoryIds,
-                        price: Number(payload.price),
+                        price: payload.price,
                         status: STATUS_ARTICLE.PENDING,
                     },
                 },

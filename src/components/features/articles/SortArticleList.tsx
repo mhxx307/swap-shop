@@ -52,7 +52,7 @@ const SortArticleList = ({ queryConfig, pageSize }: PaginationProps) => {
     };
 
     return (
-        <div className="bg-gray-300/40 py-4 px-3">
+        <div className="bg-white py-4 px-3 dark:bg-[#343444]">
             <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex flex-wrap items-center gap-2">
                     <div>Sắp xếp theo</div>
@@ -71,22 +71,6 @@ const SortArticleList = ({ queryConfig, pageSize }: PaginationProps) => {
                         onClick={() => handleSort(SORT_BY.views)}
                     >
                         Phổ biến
-                    </button>
-                    <button
-                        className={classNames(
-                            'h-8 px-4 text-center text-sm capitalize ',
-                            {
-                                'bg-primary hover:bg-primary/80 text-white':
-                                    isActiveSortBy(SORT_BY.user_rating),
-                            },
-                            {
-                                'bg-white text-black hover:bg-slate-100':
-                                    !isActiveSortBy(SORT_BY.user_rating),
-                            },
-                        )}
-                        onClick={() => handleSort(SORT_BY.user_rating)}
-                    >
-                        Đánh giá người dùng
                     </button>
                     <button
                         className={classNames(

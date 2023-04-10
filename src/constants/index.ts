@@ -73,7 +73,6 @@ export const SORT_BY = {
     views: 'views',
     price: 'price',
     favorites: 'favoritesCount',
-    user_rating: 'user_rating',
 } as const;
 
 export const ORDER = { desc: 'DESC', asc: 'ASC' } as const;

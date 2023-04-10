@@ -1,7 +1,7 @@
 import { QueryConfig } from '@/generated/graphql';
 import { useRouter } from 'next/router';
 import { AiFillStar } from 'react-icons/ai';
-import { SORT_BY, path } from '@/constants';
+import { path } from '@/constants';
 
 /**
  * index 0: Có 5 cái màu vàng tương ứng từ indexStar 0 - 4 đều màu vang

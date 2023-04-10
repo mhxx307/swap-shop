@@ -53,9 +53,9 @@ const ArticleListByCategory = ({
                                 <div>
                                     <h3>{article.title}</h3>
                                     <p className="text-sm text-red-500">
-                                        {article.price
+                                        {article.price && article.price === '0'
                                             ? `${formatCurrency(
-                                                  article.price,
+                                                  Number(article.price),
                                               )} đ`
                                             : 'Free'}
                                     </p>

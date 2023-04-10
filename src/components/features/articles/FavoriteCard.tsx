@@ -46,8 +46,9 @@ function FavoriteCard({ favorite, index }: FavoriteCardProps) {
                         {favorite.article.title}
                     </h2>
                     <p className="mt-2 text-primary-500">
-                        {favorite.article.price
-                            ? formatCurrency(favorite.article.price)
+                        {favorite.article.price &&
+                        favorite.article.price === '0'
+                            ? formatCurrency(Number(favorite.article.price))
                             : 'Free'}
                     </p>
                 </div>

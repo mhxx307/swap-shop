@@ -1,7 +1,7 @@
 import { path } from '@/constants';
 import { storage } from '@/libs/firebase';
 import axios from 'axios';
-import { ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import mime from 'mime';
 import { v4 } from 'uuid';
 
@@ -116,4 +116,18 @@ export const getTextColorByPath = (pathname: string) => {
 
 export const createAttachmentUrl = (url: string, folderName: string) => {
     return `${folderName}/${url.split('%2F')[1].split('?')[0]}`;
+};
+
+export const createUrlListFromFileList = async (
+    files: File[],
+    folderName: string,
+) => {
+    const urlList: string[] = [];
+    for (const file of files) {
+        const fileRef = ref(storage, `${folderName}/${file.name + v4()}`);
+        const upload = await uploadBytes(fileRef, file);
+        const url = await getDownloadURL(upload.ref);
+        urlList.push(url);
+    }
+    return urlList;
 };

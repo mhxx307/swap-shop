@@ -31,8 +31,8 @@ const Home = () => {
             queryConfig: {
                 page: '1',
                 limit: '10',
-                sort_by: SORT_BY[3],
-                order_by: ORDER[0],
+                sort_by: SORT_BY.favorites,
+                order_by: ORDER.desc,
             },
         },
     });
@@ -41,8 +41,8 @@ const Home = () => {
             queryConfig: {
                 page: '1',
                 limit: '10',
-                sort_by: SORT_BY[1],
-                order_by: ORDER[0],
+                sort_by: SORT_BY.views,
+                order_by: ORDER.desc,
             },
         },
     });
