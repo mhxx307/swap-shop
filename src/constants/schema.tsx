@@ -1,6 +1,17 @@
 import * as yup from 'yup';
 
 const getSchema = () => {
+    function testPriceMinMax(this: yup.TestContext<any>) {
+        const { price_max, price_min } = this.parent as {
+            price_min: string;
+            price_max: string;
+        };
+        if (price_min !== '' && price_max !== '') {
+            return Number(price_max) >= Number(price_min);
+        }
+        return price_min !== '' || price_max !== '';
+    }
+
     const schema = yup
         .object({
             email: yup
@@ -51,6 +62,17 @@ const getSchema = () => {
                 .min(2, 'Must be at least 2 characters long')
                 .required('Please enter your username or email'),
             title: yup.string().required('Please enter your title'),
+            price_min: yup.string().test({
+                name: 'price-not-allowed',
+                message: 'Giá không phù hợp',
+                test: testPriceMinMax,
+            }),
+            price_max: yup.string().test({
+                name: 'price-not-allowed',
+                message: 'Giá không phù hợp',
+                test: testPriceMinMax,
+            }),
+            name: yup.string().required(),
         })
         .required();
 

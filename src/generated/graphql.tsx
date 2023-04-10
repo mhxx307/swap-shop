@@ -21,9 +21,10 @@ export type Article = {
   categories: Array<Category>;
   createdDate: Scalars['DateTime'];
   description: Scalars['String'];
+  favoritesCount: Scalars['Float'];
   id: Scalars['ID'];
   images: Array<Scalars['String']>;
-  price?: Maybe<Scalars['Float']>;
+  price: Scalars['String'];
   productName: Scalars['String'];
   status: Scalars['String'];
   thumbnail: Scalars['String'];
@@ -161,7 +162,7 @@ export type InsertArticleInput = {
   categoryIds: Array<Scalars['String']>;
   description: Scalars['String'];
   images: Array<Scalars['String']>;
-  price?: InputMaybe<Scalars['Float']>;
+  price?: InputMaybe<Scalars['String']>;
   productName: Scalars['String'];
   title: Scalars['String'];
 };
@@ -487,6 +488,7 @@ export type QueryConfig = {
   sort_by?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['String']>;
+  user_rating?: InputMaybe<Scalars['String']>;
 };
 
 export type RegisterInput = {
@@ -564,7 +566,7 @@ export type UpdateArticleInput = {
   description: Scalars['String'];
   id: Scalars['String'];
   images: Array<Scalars['String']>;
-  price?: InputMaybe<Scalars['Float']>;
+  price?: InputMaybe<Scalars['String']>;
   productName: Scalars['String'];
   status: Scalars['String'];
   title: Scalars['String'];
@@ -599,6 +601,7 @@ export type User = {
   fullName: Scalars['String'];
   id: Scalars['ID'];
   phoneNumber?: Maybe<Scalars['String']>;
+  rating: Scalars['Float'];
   roles: Array<UserRole>;
   status: Scalars['String'];
   updatedDate: Scalars['DateTime'];
@@ -624,11 +627,11 @@ export type UserRole = {
   userId: Scalars['ID'];
 };
 
-export type ArticleFragment = { __typename?: 'Article', id: string, title: string, description: string, price?: number | null, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string } };
+export type ArticleFragment = { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } };
 
-export type UserFragment = { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string };
+export type UserFragment = { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number };
 
-export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null };
+export type UserMutationResponseFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null };
 
 export type ErrorsFragment = { __typename?: 'FieldError', field: string, message: string };
 
@@ -637,28 +640,28 @@ export type InsertArticleMutationVariables = Exact<{
 }>;
 
 
-export type InsertArticleMutation = { __typename?: 'Mutation', insertArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price?: number | null, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string } } | null } };
+export type InsertArticleMutation = { __typename?: 'Mutation', insertArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null } };
 
 export type UpdateArticleMutationVariables = Exact<{
   updateArticleInput: UpdateArticleInput;
 }>;
 
 
-export type UpdateArticleMutation = { __typename?: 'Mutation', updateArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price?: number | null, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string } } | null } };
+export type UpdateArticleMutation = { __typename?: 'Mutation', updateArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null } };
 
 export type RegisterMutationVariables = Exact<{
   registerInput: RegisterInput;
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type LoginMutationVariables = Exact<{
   loginInput: LoginInput;
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -679,7 +682,7 @@ export type ChangePasswordMutationVariables = Exact<{
 }>;
 
 
-export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type ChangePasswordLoggedMutationVariables = Exact<{
   changePasswordLoggedInput: ChangePasswordLoggedInput;
@@ -763,7 +766,7 @@ export type ReviewUserMutationVariables = Exact<{
 }>;
 
 
-export type ReviewUserMutation = { __typename?: 'Mutation', reviewUser: { __typename?: 'ReviewMutationResponse', message?: string | null, success: boolean, review?: { __typename?: 'Review', updatedDate: any, id: string, createdDate: any, content: string, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string } } | null } };
+export type ReviewUserMutation = { __typename?: 'Mutation', reviewUser: { __typename?: 'ReviewMutationResponse', message?: string | null, success: boolean, review?: { __typename?: 'Review', updatedDate: any, id: string, createdDate: any, content: string, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null } };
 
 export type DeleteReviewMutationVariables = Exact<{
   deleteReviewId: Scalars['String'];
@@ -777,19 +780,19 @@ export type ArticlesQueryVariables = Exact<{
 }>;
 
 
-export type ArticlesQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleResponseSuccess', data?: { __typename?: 'ArticlesResponse', articles: Array<{ __typename?: 'Article', id: string, title: string, description: string, price?: number | null, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string } }>, pagination: { __typename?: 'Pagination', page: number, limit: number, page_size: number } } | null } };
+export type ArticlesQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleResponseSuccess', data?: { __typename?: 'ArticlesResponse', articles: Array<{ __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } }>, pagination: { __typename?: 'Pagination', page: number, limit: number, page_size: number } } | null } };
 
 export type ArticleQueryVariables = Exact<{
   articleId: Scalars['String'];
 }>;
 
 
-export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, title: string, description: string, price?: number | null, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string } } | null };
+export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } | null };
 
 export type UserByIdQueryVariables = Exact<{
   userId: Scalars['String'];
@@ -841,7 +844,7 @@ export type IsFavoriteQuery = { __typename?: 'Query', isFavorite: boolean };
 export type FavoritesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FavoritesQuery = { __typename?: 'Query', favorites?: Array<{ __typename?: 'Favorite', id: string, article: { __typename?: 'Article', id: string, title: string, description: string, price?: number | null, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string } } }> | null };
+export type FavoritesQuery = { __typename?: 'Query', favorites?: Array<{ __typename?: 'Favorite', id: string, article: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } }> | null };
 
 export type CountFavoritesForArticleQueryVariables = Exact<{
   articleId: Scalars['String'];
@@ -862,7 +865,7 @@ export type ReviewsQueryVariables = Exact<{
 }>;
 
 
-export type ReviewsQuery = { __typename?: 'Query', reviews: { __typename?: 'ReviewResponseSuccess', message: string, data?: { __typename?: 'ReviewsResponse', pagination: { __typename?: 'Pagination', limit: number, page: number, page_size: number }, reviews: Array<{ __typename?: 'Review', id: string, content: string, rating: number, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string }, assessor: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string } }> } | null } };
+export type ReviewsQuery = { __typename?: 'Query', reviews: { __typename?: 'ReviewResponseSuccess', message: string, data?: { __typename?: 'ReviewsResponse', pagination: { __typename?: 'Pagination', limit: number, page: number, page_size: number }, reviews: Array<{ __typename?: 'Review', id: string, content: string, rating: number, createdDate: any, updatedDate: any, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number }, assessor: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } }> } | null } };
 
 export const UserFragmentDoc = gql`
     fragment user on User {
@@ -877,6 +880,7 @@ export const UserFragmentDoc = gql`
   createdDate
   updatedDate
   status
+  rating
 }
     `;
 export const ArticleFragmentDoc = gql`
@@ -897,6 +901,8 @@ export const ArticleFragmentDoc = gql`
     ...user
   }
   status
+  favoritesCount
+  views
   createdDate
   updatedDate
 }

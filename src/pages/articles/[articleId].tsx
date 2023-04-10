@@ -264,6 +264,24 @@ const ArticleDetailPage = () => {
                                         </div>
                                     </div>
 
+                                    <div className="mb-4 flex items-center">
+                                        <p className="mr-4 text-sm">
+                                            Thể loại:
+                                        </p>
+                                        <ul>
+                                            {article.categories.map(
+                                                (category) => (
+                                                    <li
+                                                        key={category.id}
+                                                        className="text-sm"
+                                                    >
+                                                        {category.name}
+                                                    </li>
+                                                ),
+                                            )}
+                                        </ul>
+                                    </div>
+
                                     <div className="flex w-[50%] items-center gap-3 rounded-[7px]  bg-white p-[15px] shadow dark:bg-[#343434]">
                                         <Tippy
                                             content={

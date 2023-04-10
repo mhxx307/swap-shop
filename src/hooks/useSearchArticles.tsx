@@ -31,7 +31,7 @@ function useSearchArticles() {
               };
 
         router.push({
-            pathname: path.search,
+            pathname: path.market,
             query: config,
         });
         setValue('title', '');

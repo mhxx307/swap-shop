@@ -1,7 +1,11 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { isUndefined, omitBy } from 'lodash';
 
-import { ArticleFilter, ArticleList } from '@/components/features/articles';
+import {
+    ArticleList,
+    AsideFilterMarket,
+    SortArticleList,
+} from '@/components/features/articles';
 import {
     ClientOnly,
     CommonSection,
@@ -41,17 +45,33 @@ const MarketPage = () => {
                 <div className="flex w-full flex-col">
                     <CommonSection title="Market" />
                     <div className="container mt-14 space-y-12 pb-[20px]">
-                        <ArticleFilter queryConfig={queryConfig} />
+                        <div className="grid grid-cols-12 gap-6">
+                            <div className="col-span-12 lg:col-span-2">
+                                <AsideFilterMarket queryConfig={queryConfig} />
+                            </div>
 
-                        <ArticleList articles={articles as Article[]} />
+                            <div className="col-span-12 lg:col-span-10">
+                                <SortArticleList
+                                    queryConfig={queryConfig}
+                                    pageSize={
+                                        articlesData.articles.data?.pagination
+                                            .page_size || 0
+                                    }
+                                />
 
-                        <Pagination
-                            pageSize={
-                                articlesData.articles.data?.pagination
-                                    .page_size as number
-                            }
-                            queryConfig={queryConfig}
-                        />
+                                <ArticleList articles={articles as Article[]} />
+
+                                {articles && articles.length > 0 && (
+                                    <Pagination
+                                        pageSize={
+                                            articlesData.articles.data
+                                                ?.pagination.page_size as number
+                                        }
+                                        queryConfig={queryConfig}
+                                    />
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </ClientOnly>
