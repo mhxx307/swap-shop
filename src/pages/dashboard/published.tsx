@@ -49,7 +49,7 @@ function PublishedPage() {
                                             '/images/avatar-fallback.png'
                                         }
                                         alt="Avatar"
-                                        className="h-20 w-20 rounded-[50%] text-center ss:mr-[24px]"
+                                        className="h-20 w-20 rounded-[50%] object-cover text-center ss:mr-[24px]"
                                     />
 
                                     <div>

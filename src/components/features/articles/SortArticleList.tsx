@@ -52,7 +52,7 @@ const SortArticleList = ({ queryConfig, pageSize }: PaginationProps) => {
     };
 
     return (
-        <div className="bg-white py-4 px-3 dark:bg-[#343444]">
+        <div className="mb-4 bg-white py-4 px-3 dark:bg-[#343444]">
             <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex flex-wrap items-center gap-2">
                     <div>Sắp xếp theo</div>

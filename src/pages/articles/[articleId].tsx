@@ -25,10 +25,16 @@ import {
     ArticleQuery,
     ArticlesDocument,
     ArticlesQuery,
+    Conversation,
+    GetConversationDocument,
+    GetConversationQuery,
     QueryConfig,
+    QueryGetConversationArgs,
     useArticleQuery,
     useArticlesQuery,
     useCountFavoritesForArticleQuery,
+    useGetConversationsQuery,
+    useNewConversationMutation,
 } from '@/generated/graphql';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import { formatNumberToSocialStyle, getIdFromNameId } from '@/utils';
@@ -40,6 +46,11 @@ import Link from 'next/link';
 const ArticleDetailPage = () => {
     const router = useRouter();
     const [id, setId] = useState('');
+    const { refetch } = useGetConversationsQuery();
+    const [currentChat, setCurrentChat] = useState<Conversation | null>(null);
+
+    const apolloClient = initializeApollo();
+    const [newConversationMutation] = useNewConversationMutation();
 
     const { data: countFavoritesData } = useCountFavoritesForArticleQuery({
         variables: {
@@ -56,8 +67,6 @@ const ArticleDetailPage = () => {
         skip: !id,
         fetchPolicy: 'no-cache',
     });
-
-    console.log(articleData);
 
     const queryConfig: QueryConfig = {
         page: '1',
@@ -153,6 +162,45 @@ const ArticleDetailPage = () => {
     if (!loading && !article) {
         return <div>Not have data to render</div>;
     }
+
+    const handleNewConversation = async (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    ) => {
+        e.preventDefault();
+        const { data: conversationData } = await apolloClient.query<
+            GetConversationQuery,
+            QueryGetConversationArgs
+        >({
+            query: GetConversationDocument,
+            variables: {
+                userId: article.user.id,
+            },
+        });
+        console.log(conversationData);
+
+        // If the conversation already exists, set it as current chat
+        if (conversationData.getConversation) {
+            setCurrentChat(conversationData.getConversation as Conversation);
+            router.push(`${path.chat}/${article.user.id}`);
+            refetch();
+            return;
+        }
+
+        // If the conversation doesn't exist, create a new one
+        await newConversationMutation({
+            variables: {
+                userId: article.user.id,
+            },
+            onCompleted: (data) => {
+                refetch();
+                setCurrentChat(
+                    data.newConversation.conversation as Conversation,
+                );
+                router.push(`${path.chat}/${article.user.id}`);
+                console.log('tao thanh cong');
+            },
+        });
+    };
 
     return (
         <>
@@ -252,9 +300,13 @@ const ArticleDetailPage = () => {
                                             <Tippy
                                                 content={`Contact with ${article.user.username}`}
                                             >
-                                                <span>
+                                                <button
+                                                    onClick={
+                                                        handleNewConversation
+                                                    }
+                                                >
                                                     <RiSendPlaneLine className="h-6 w-6 cursor-pointer transition-opacity hover:opacity-80" />
-                                                </span>
+                                                </button>
                                             </Tippy>
                                             <Popover
                                                 renderPopover={<MoreAction />}
@@ -302,7 +354,7 @@ const ArticleDetailPage = () => {
                                                             '/images/avatar-fallback.png'
                                                         }
                                                         alt=""
-                                                        className="w-full rounded-full"
+                                                        className="h-full w-full rounded-full object-cover"
                                                     />
                                                 </div>
                                             </Link>

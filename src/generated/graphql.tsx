@@ -174,6 +174,7 @@ export type InsertCommentInput = {
 
 export type InsertMessageInput = {
   conversationId: Scalars['String'];
+  images: Array<Scalars['String']>;
   senderId: Scalars['String'];
   text: Scalars['String'];
 };
@@ -188,9 +189,10 @@ export type Message = {
   conversationId: Scalars['String'];
   createdDate: Scalars['DateTime'];
   id: Scalars['ID'];
+  images?: Maybe<Array<Scalars['String']>>;
   sender: User;
   status: Scalars['String'];
-  text: Scalars['String'];
+  text?: Maybe<Scalars['String']>;
   updatedDate: Scalars['DateTime'];
 };
 
@@ -858,7 +860,7 @@ export type MessagesQueryVariables = Exact<{
 }>;
 
 
-export type MessagesQuery = { __typename?: 'Query', messages?: Array<{ __typename?: 'Message', id: string, createdDate: any, text: string, status: string, updatedDate: any, sender: { __typename?: 'User', username: string, phoneNumber?: string | null, email: string, fullName: string, avatar?: string | null, id: string } }> | null };
+export type MessagesQuery = { __typename?: 'Query', messages?: Array<{ __typename?: 'Message', id: string, createdDate: any, text?: string | null, images?: Array<string> | null, status: string, updatedDate: any, sender: { __typename?: 'User', username: string, phoneNumber?: string | null, email: string, fullName: string, avatar?: string | null, id: string } }> | null };
 
 export type ReviewsQueryVariables = Exact<{
   reviewOptions: ReviewOptions;
@@ -2171,6 +2173,7 @@ export const MessagesDocument = gql`
     }
     createdDate
     text
+    images
     status
     updatedDate
   }

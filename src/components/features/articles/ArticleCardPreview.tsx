@@ -44,7 +44,7 @@ const ArticleCardPreview = ({
                                     user.avatar || '/images/avatar-fallback.png'
                                 }
                                 alt={user.username}
-                                className="w-full rounded-full "
+                                className="h-full w-full rounded-full object-cover "
                             />
                         </div>
 
