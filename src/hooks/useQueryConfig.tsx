@@ -16,6 +16,7 @@ function useQueryConfig() {
             categories: query.categories,
             isFree: query.isFree,
             userId: query.userId,
+            user_rating: query.user_rating,
         },
         isUndefined,
     );

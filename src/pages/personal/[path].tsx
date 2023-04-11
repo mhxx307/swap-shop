@@ -79,7 +79,10 @@ function StoreDetail() {
                                     <div className="relative pt-[calc(75%)]">
                                         {/* user avatar */}
                                         <Image
-                                            src={'/images/avatar-fallback.png'}
+                                            src={
+                                                user.avatar ||
+                                                '/images/avatar-fallback.png'
+                                            }
                                             alt="Avatar"
                                             className="h-full w-full rounded-[50%] object-cover text-center ss:mx-[24px]"
                                             classnamewrapper="flex-center text-sm z-50 w-24 h-24 absolute left-[20px] bottom-[-40px]"

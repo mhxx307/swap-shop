@@ -11,6 +11,7 @@ query Messages($conversationId: String!) {
         }
         createdDate
         text
+        images
         status
         updatedDate
     }
