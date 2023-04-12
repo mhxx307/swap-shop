@@ -44,7 +44,6 @@ function ArticleForm({ id }: { id?: string }) {
 
     const { data: meData } = useMeQuery();
     const me = meData?.me;
-
     const { data: articleDataUpdate } = useArticleQuery({
         variables: {
             articleId: id as string,
@@ -52,7 +51,6 @@ function ArticleForm({ id }: { id?: string }) {
         skip: !id,
     });
     const { data: categoriesData } = useCategoriesQuery();
-
     const categories = categoriesData?.categories;
     const article = articleDataUpdate?.article;
     const categoriesIdByArticle =
@@ -100,13 +98,14 @@ function ArticleForm({ id }: { id?: string }) {
                             price: payload.price,
                         },
                     },
+                    onCompleted: () => {
+                        router.push(path.dashboardPublished);
+                    },
                 });
             } else {
                 toast.error('Please upload an image article');
                 return;
             }
-
-            router.push(path.home);
         } else {
             const images = article.images;
             if (images.length > 0) {
@@ -131,6 +130,9 @@ function ArticleForm({ id }: { id?: string }) {
                         price: payload.price,
                         status: STATUS_ARTICLE.PENDING,
                     },
+                },
+                onCompleted: () => {
+                    router.push(path.dashboardPublished);
                 },
             });
         }
