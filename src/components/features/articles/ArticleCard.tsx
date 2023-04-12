@@ -8,6 +8,7 @@ import { Button, Image } from '@/components/shared';
 import { Article } from '@/generated/graphql';
 import { formatCurrency, generateNameId } from '@/utils';
 import { HeartButton } from '.';
+import { path } from '@/constants';
 
 interface ArticleCardProps {
     article: Article;
@@ -28,7 +29,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 }}
                 onClick={() =>
                     router.push(
-                        `/articles/${generateNameId({
+                        `/${path.market}/${generateNameId({
                             id: article.id,
                             name: article.title,
                         })}`,
@@ -57,7 +58,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 <div className="space-y-4">
                     <h5 className="truncate text-sm hover:underline">
                         <Link
-                            href={`/articles/${generateNameId({
+                            href={`/${path.market}/${generateNameId({
                                 id: article.id,
                                 name: article.title,
                             })}`}
@@ -113,7 +114,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                         LeftIcon={BsFillPlayFill}
                         onClick={() =>
                             router.push(
-                                `/articles/${generateNameId({
+                                `/${path.market}/${generateNameId({
                                     id: article.id,
                                     name: article.title,
                                 })}`,

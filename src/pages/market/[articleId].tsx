@@ -12,6 +12,7 @@ import { VscReport } from 'react-icons/vsc';
 import { ArticleList } from '@/components/features/articles';
 import { Comment } from '@/components/features/comment';
 import {
+    Breadcrumb,
     Button,
     ClientOnly,
     CommonSection,
@@ -93,8 +94,7 @@ const ArticleDetailPage = () => {
 
     useEffect(() => {
         setId(getIdFromNameId(router.query.articleId as string));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [router]);
 
     const prev = () => {
         if (currentImagesIndex[0] > 0) {
@@ -161,6 +161,7 @@ const ArticleDetailPage = () => {
                 <div className="flex w-full flex-col">
                     <CommonSection title={article.title} />
                     <div className="container mt-[30px]">
+                        <Breadcrumb />
                         <div className="grid grid-cols-12">
                             {/* image */}
                             <div className="col-span-6">

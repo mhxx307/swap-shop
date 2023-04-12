@@ -103,6 +103,10 @@ export const getNameFromNameId = (nameId: string) => {
     return arr[0];
 };
 
+export const validateNameId = (nameId: string) => {
+    return nameId.includes('-i,');
+};
+
 export const uploadMultipleImages = (files: File[]) => {
     for (const file of files) {
         const fileRef = ref(storage, `articles/${file.name + v4()}`);

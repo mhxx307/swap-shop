@@ -2,6 +2,7 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { isUndefined, omitBy } from 'lodash';
 
 import {
+    Breadcrumb,
     ClientOnly,
     CommonSection,
     Head,
@@ -76,6 +77,7 @@ const Categories = () => {
                         ).replace(/\s/g, ' ')}`}
                     />
                     <div className="container mt-8 space-y-6 pb-[20px]">
+                        <Breadcrumb />
                         {pageSize && (
                             <ArticleListByCategory
                                 articles={articles as Article[]}

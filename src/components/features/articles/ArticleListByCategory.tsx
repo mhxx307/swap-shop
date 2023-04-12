@@ -5,6 +5,7 @@ import { Image, Pagination } from '@/components/shared';
 import { formatCurrency, generateNameId } from '@/utils';
 import { useRouter } from 'next/router';
 import HearButton from './HeartButton';
+import { path } from '@/constants';
 
 export interface ArticleListProps {
     className?: string;
@@ -36,7 +37,7 @@ const ArticleListByCategory = ({
                             }}
                             onClick={() =>
                                 router.push(
-                                    `/articles/${generateNameId({
+                                    `/${path.market}/${generateNameId({
                                         id: article.id,
                                         name: article.title,
                                     })}`,

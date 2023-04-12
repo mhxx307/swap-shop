@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { AiFillFacebook } from 'react-icons/ai';
 import { createRef, useState } from 'react';
 
-import { Head, Button, Input } from '@/components/shared';
+import { Head, Button, Input, CommonSection } from '@/components/shared';
 import { FACEBOOK_URL } from '@/constants';
 import { useTranslation } from 'react-i18next';
 import { IconType } from 'react-icons/lib';
@@ -49,66 +49,69 @@ const ContactPage = () => {
                 description={t('head_description') && 'Contact'}
             />
 
-            <div className="container header-height space-y-6">
-                <h1 className="text-xl font-bold">{t('contact')}</h1>
+            <div className="flex w-full flex-col">
+                <CommonSection title={t('contact')} />
+                <div className="container mt-10 space-y-6">
+                    <h1 className="text-xl font-bold">{t('contact')}</h1>
 
-                <p className="text-lg">{t('heading1')}</p>
+                    <p className="text-lg">{t('heading1')}</p>
 
-                <div className="flex items-center space-x-4">
-                    <ContactItem
-                        Icon={AiFillFacebook}
-                        name="Facebook"
-                        href={FACEBOOK_URL}
-                        iconclassNameWrapper="bg-[#007bff]"
-                    />
-                </div>
+                    <div className="flex items-center space-x-4">
+                        <ContactItem
+                            Icon={AiFillFacebook}
+                            name="Facebook"
+                            href={FACEBOOK_URL}
+                            iconclassNameWrapper="bg-[#007bff]"
+                        />
+                    </div>
 
-                <div className="space-y-4">
-                    <p>{t('heading2')}</p>
-                    <form
-                        ref={formRef}
-                        onSubmit={handleSubmit}
-                        className="w-[400px] space-y-8 pb-[30px]"
-                    >
-                        <Input
-                            type="text"
-                            placeholder={t('name') && 'Username'}
-                            name="user_name"
-                            label={t('name') && 'Username:'}
-                            className="p-[5px]"
-                            containerInputClassName="default-input"
-                        />
-                        <Input
-                            type="text"
-                            placeholder={t('subject') && 'Subject'}
-                            name="user_subject"
-                            label={t('subject') && 'Subject'}
-                            className="p-[5px]"
-                            containerInputClassName="default-input"
-                        />
-                        <Input
-                            type="email"
-                            placeholder="Email"
-                            name="user_email"
-                            label={t('email') && 'Email'}
-                            className="p-[5px]"
-                            containerInputClassName="default-input"
-                        />
-                        <textarea
-                            rows={5}
-                            placeholder={t('message') && 'Message'}
-                            name="message"
-                            className="w-full rounded-md border border-gray-300 p-5 text-black focus:border-blue-500 focus:outline-none"
-                        />
-                        <Button
-                            primary
-                            type="submit"
-                            className="px-[20px]"
-                            isLoading={isLoading}
+                    <div className="space-y-4">
+                        <p>{t('heading2')}</p>
+                        <form
+                            ref={formRef}
+                            onSubmit={handleSubmit}
+                            className="w-[400px] space-y-8 pb-[30px]"
                         >
-                            {t('send')}
-                        </Button>
-                    </form>
+                            <Input
+                                type="text"
+                                placeholder={t('name') && 'Username'}
+                                name="user_name"
+                                label={t('name') && 'Username:'}
+                                className="p-[5px]"
+                                containerInputClassName="default-input"
+                            />
+                            <Input
+                                type="text"
+                                placeholder={t('subject') && 'Subject'}
+                                name="user_subject"
+                                label={t('subject') && 'Subject'}
+                                className="p-[5px]"
+                                containerInputClassName="default-input"
+                            />
+                            <Input
+                                type="email"
+                                placeholder="Email"
+                                name="user_email"
+                                label={t('email') && 'Email'}
+                                className="p-[5px]"
+                                containerInputClassName="default-input"
+                            />
+                            <textarea
+                                rows={5}
+                                placeholder={t('message') && 'Message'}
+                                name="message"
+                                className="w-full rounded-md border border-gray-300 p-5 text-black focus:border-blue-500 focus:outline-none"
+                            />
+                            <Button
+                                secondary
+                                type="submit"
+                                className="px-[20px]"
+                                isLoading={isLoading}
+                            >
+                                {t('send')}
+                            </Button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </>
