@@ -8,6 +8,7 @@ import { Button, Image } from '@/components/shared';
 import { Article } from '@/generated/graphql';
 import { formatCurrency, generateNameId } from '@/utils';
 import { HeartButton } from '.';
+import { path } from '@/constants';
 
 interface ArticleCardProps {
     article: Article;
@@ -28,7 +29,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 }}
                 onClick={() =>
                     router.push(
-                        `/articles/${generateNameId({
+                        `/${path.market}/${generateNameId({
                             id: article.id,
                             name: article.title,
                         })}`,
@@ -57,7 +58,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 <div className="space-y-4">
                     <h5 className="truncate text-sm hover:underline">
                         <Link
-                            href={`/articles/${generateNameId({
+                            href={`/${path.market}/${generateNameId({
                                 id: article.id,
                                 name: article.title,
                             })}`}
@@ -68,7 +69,12 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
 
                     <div className="flex">
                         {/* avatar */}
-                        <div className="mr-[18px] h-[40px] w-[40px] flex-shrink-0 cursor-pointer object-cover">
+                        <Link
+                            href={{
+                                pathname: `/${path.personal}/${article.user.id}`,
+                            }}
+                            className="mr-[18px] h-[40px] w-[40px] flex-shrink-0 cursor-pointer object-cover"
+                        >
                             <img
                                 src={
                                     article.user.avatar ||
@@ -77,7 +83,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                                 alt={article.user.username}
                                 className="w-full rounded-full "
                             />
-                        </div>
+                        </Link>
 
                         {/* content */}
                         <div className="flex w-full items-center justify-between">
@@ -113,7 +119,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                         LeftIcon={BsFillPlayFill}
                         onClick={() =>
                             router.push(
-                                `/articles/${generateNameId({
+                                `/${path.market}/${generateNameId({
                                     id: article.id,
                                     name: article.title,
                                 })}`,
