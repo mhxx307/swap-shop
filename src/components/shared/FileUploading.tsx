@@ -14,6 +14,7 @@ import {
 import BaseButton from './BaseButton';
 import Button from './Button';
 import { humanFileSize } from '@/utils';
+import { BsCardImage } from 'react-icons/bs';
 
 export interface FileUploadingProps extends Partial<FileUploadingPropsType> {
     initialFiles: File[];
@@ -95,6 +96,24 @@ export const FileUploader: React.FC<ExportInterface> = ({
                     Upload
                 </button>{' '}
             </p>
+        </div>
+    );
+};
+
+export const FileChatUploader: React.FC<ExportInterface> = ({
+    isDragging,
+    dragProps,
+    onFileUpload,
+}) => {
+    return (
+        <div
+            className={classNames(
+                'flex flex-col items-center justify-center p-4 transition duration-300',
+                isDragging ? 'bg-white/20' : 'bg-background-900',
+            )}
+            {...dragProps}
+        >
+            <BsCardImage className="cursor-pointer" onClick={onFileUpload} />
         </div>
     );
 };

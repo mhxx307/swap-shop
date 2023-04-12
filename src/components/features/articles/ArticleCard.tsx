@@ -81,7 +81,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                                     '/images/avatar-fallback.png'
                                 }
                                 alt={article.user.username}
-                                className="w-full rounded-full "
+                                className="h-full w-full rounded-full object-cover "
                             />
                         </Link>
 

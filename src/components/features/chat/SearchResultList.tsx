@@ -28,45 +28,45 @@ function SearchResultList({
     const apolloClient = initializeApollo();
     const router = useRouter();
 
-    const handleNewConversation =
-        (item: UserType) =>
-        async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            e.preventDefault();
-            const { data: conversationData } = await apolloClient.query<
-                GetConversationQuery,
-                QueryGetConversationArgs
-            >({
-                query: GetConversationDocument,
-                variables: {
-                    userId: item.id,
-                },
-            });
+    // const handleNewConversation =
+    //     (item: UserType) =>
+    //     async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    //         e.preventDefault();
+    //         const { data: conversationData } = await apolloClient.query<
+    //             GetConversationQuery,
+    //             QueryGetConversationArgs
+    //         >({
+    //             query: GetConversationDocument,
+    //             variables: {
+    //                 userId: item.id,
+    //             },
+    //         });
 
-            // If the conversation already exists, set it as current chat
-            if (conversationData.getConversation) {
-                setCurrentChat(
-                    conversationData.getConversation as Conversation,
-                );
-                router.push(`${path.chat}/${item.id}`);
-                refetch();
-                return;
-            }
+    //         // If the conversation already exists, set it as current chat
+    //         if (conversationData.getConversation) {
+    //             setCurrentChat(
+    //                 conversationData.getConversation as Conversation,
+    //             );
+    //             router.push(`${path.chat}/${item.id}`);
+    //             refetch();
+    //             return;
+    //         }
 
-            // If the conversation doesn't exist, create a new one
-            await newConversationMutation({
-                variables: {
-                    userId: item.id,
-                },
-                onCompleted: (data) => {
-                    refetch();
-                    setCurrentChat(
-                        data.newConversation.conversation as Conversation,
-                    );
-                    router.push(`${path.chat}/${item.id}`);
-                    console.log('tao thanh cong');
-                },
-            });
-        };
+    //         // If the conversation doesn't exist, create a new one
+    //         await newConversationMutation({
+    //             variables: {
+    //                 userId: item.id,
+    //             },
+    //             onCompleted: (data) => {
+    //                 refetch();
+    //                 setCurrentChat(
+    //                     data.newConversation.conversation as Conversation,
+    //                 );
+    //                 router.push(`${path.chat}/${item.id}`);
+    //                 console.log('tao thanh cong');
+    //             },
+    //         });
+    //     };
 
     return (
         <div className="flex max-h-[300px] flex-col overflow-y-scroll bg-white">
@@ -75,7 +75,7 @@ function SearchResultList({
                     <button
                         key={item.id}
                         className="mt-4 flex cursor-pointer items-center p-2 transition-colors hover:bg-gray-200"
-                        onClick={handleNewConversation(item)}
+                        // onClick={handleNewConversation(item)}
                     >
                         <Avatar
                             src={

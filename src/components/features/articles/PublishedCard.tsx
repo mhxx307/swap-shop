@@ -1,4 +1,5 @@
 import { Image } from '@/components/shared';
+import { STATUS_ARTICLE } from '@/constants';
 import { Article } from '@/generated/graphql';
 import DOMPurify from 'dompurify';
 import { useRouter } from 'next/router';
@@ -28,13 +29,15 @@ function PublishedCard({ article }: { article: Article }) {
                                 __html: DOMPurify.sanitize(article.description),
                             }}
                         />
-                        <button
-                            onClick={() =>
-                                router.push(`/articles/edit/${article.id}`)
-                            }
-                        >
-                            Edit
-                        </button>
+                        {article.status === STATUS_ARTICLE.APPROVED && (
+                            <button
+                                onClick={() =>
+                                    router.push(`/articles/edit/${article.id}`)
+                                }
+                            >
+                                Edit
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

@@ -1,20 +1,27 @@
 import {
+    Conversation,
     useGetConversationQuery,
     useMeQuery,
     useMessagesQuery,
     useNewMessageMutation,
 } from '@/generated/graphql';
 import { useRouter } from 'next/router';
-import { io, Socket } from 'socket.io-client';
+import { Socket, io } from 'socket.io-client';
 
+import { BsEmojiSmile } from 'react-icons/bs';
 import { MdSend } from 'react-icons/md';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 
 import { Message } from '@/components/features/chat';
-import { Button } from '@/components/shared';
-import { Message as MessageType } from '@/generated/graphql';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ImageChatUpload } from '@/components/features/uploads';
 import { ChatLayout } from '@/components/layouts';
+import { Button, Image } from '@/components/shared';
+import { Message as MessageType } from '@/generated/graphql';
+import { createUrlListFromFileList, formatCurrency } from '@/utils';
+import Tippy from '@tippyjs/react/headless';
+import EmojiPicker, { EmojiStyle } from 'emoji-picker-react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
+
 interface UserSocket {
     userId: string;
     socketId: string;
@@ -27,16 +34,18 @@ function ChatBox() {
     const socket = useRef<Socket>();
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const [newMessage, setNewMessage] = useState('');
+    const [files, setFiles] = useState<File[]>([]);
     const [onlineUsers, setOnlineUsers] = useState<UserSocket[]>([]);
-    console.log(onlineUsers);
 
     const { data: meData } = useMeQuery();
 
     const { data: conversationData } = useGetConversationQuery({
         variables: {
-            userId: userId as string,
+            userId: (userId as string).split('-i,')[1],
+            articleId: (userId as string).split('-i,')[0],
         },
         skip: !userId,
+        fetchPolicy: 'no-cache',
     });
 
     const { data: messagesData, refetch } = useMessagesQuery({
@@ -46,12 +55,19 @@ function ChatBox() {
         skip: !conversationData?.getConversation?.id,
     });
 
+    console.log(
+        (userId as string).split('-i,')[0],
+        (userId as string).split('-i,')[1],
+    );
+
     const [sendMessageMutation, { loading: sendMessageLoading }] =
         useNewMessageMutation();
 
     const conversation = conversationData?.getConversation;
     const messages = messagesData?.messages;
     const me = meData?.me;
+
+    const iconRef = useRef<any>();
 
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -93,6 +109,8 @@ function ChatBox() {
         event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
     ) => {
         event?.preventDefault();
+        const urlChatImages = await createUrlListFromFileList(files, 'chats');
+
         if (me?.id && conversation?.id && newMessage) {
             const receiverId =
                 conversation.member1.id === me.id
@@ -105,15 +123,18 @@ function ChatBox() {
                         conversationId: conversation.id,
                         senderId: me.id,
                         text: newMessage,
+                        images: urlChatImages,
                     },
                 },
                 onCompleted() {
                     refetch();
                     setNewMessage('');
+                    setFiles([]);
                     socket.current?.emit('sendMessage', {
                         senderId: me.id,
                         receiverId: receiverId,
                         text: newMessage,
+                        images: urlChatImages,
                     });
                 },
             });
@@ -127,6 +148,35 @@ function ChatBox() {
                 {conversation ? (
                     <>
                         {/* top */}
+
+                        <div className=" mr-4 mt-2 h-[120px] rounded-lg bg-[#f5f1f1] p-2 pl-4 dark:bg-[#343444]">
+                            <p>
+                                Bạn đang trao đổi với người bán về sản phẩm này
+                            </p>
+                            <div className="h-[2px] w-full bg-black/10" />
+                            <div className="mt-2 flex">
+                                <Image
+                                    className="h-[60px] w-[100px] object-cover"
+                                    src={conversation.article.thumbnail}
+                                    alt={conversation.id}
+                                />
+                                <div className="ml-2">
+                                    <p>{conversation.article.title}</p>
+                                    <p>
+                                        {conversation.article.price &&
+                                        conversation.article.price === '0'
+                                            ? 'Free'
+                                            : `đ ${formatCurrency(
+                                                  Number(
+                                                      conversation.article
+                                                          .price,
+                                                  ),
+                                              )}`}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="h-[520px] overflow-y-scroll">
                             {messages &&
                                 messages.map((message) => (
@@ -141,6 +191,63 @@ function ChatBox() {
 
                         {/* bottom */}
                         <div className="mt-[5px] mb-[15px] flex items-center justify-between">
+                            {/* Toggle icon basic hand */}
+                            {/* <div className="absolute bottom-10 left-7">
+                                    {toggleEmoji && (
+                                        <div className="relative flex">
+                                            <EmojiPicker />
+                                            <AiOutlineCloseCircle
+                                                className=" absolute right-0 h-[20px] w-[25px] cursor-pointer text-black"
+                                                onClick={() =>
+                                                    setToggleEmoji(false)
+                                                }
+                                            />
+                                        </div>
+                                    )}
+                                </div> */}
+                            <Tippy
+                                interactive={true}
+                                render={(attrs) => (
+                                    <div
+                                        className="box"
+                                        tabIndex={-1}
+                                        {...attrs}
+                                    >
+                                        <EmojiPicker
+                                            emojiStyle={EmojiStyle.FACEBOOK}
+                                            onEmojiClick={(emoji) =>
+                                                setNewMessage(
+                                                    (prev) =>
+                                                        prev + emoji.emoji,
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                )}
+                                trigger="click"
+                                animation={false}
+                                offset={[28, 20]}
+                                placement="top-start"
+                            >
+                                <span ref={iconRef}>
+                                    {' '}
+                                    <BsEmojiSmile className="cursor-pointer" />
+                                </span>
+                            </Tippy>
+
+                            <ImageChatUpload
+                                initialFiles={files}
+                                onChange={setFiles}
+                                multiple
+                                value={files.filter(
+                                    (file, index, self) =>
+                                        index ===
+                                        self.findIndex(
+                                            (f) => f.name === file.name,
+                                        ),
+                                )}
+                            />
+
                             <ReactTextareaAutosize
                                 minRows={1}
                                 maxRows={6}

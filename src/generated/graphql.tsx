@@ -104,6 +104,7 @@ export type CommentMutationResponse = IMutationResponse & {
 
 export type Conversation = {
   __typename?: 'Conversation';
+  article: Article;
   createdDate: Scalars['DateTime'];
   id: Scalars['ID'];
   member1: User;
@@ -174,6 +175,7 @@ export type InsertCommentInput = {
 
 export type InsertMessageInput = {
   conversationId: Scalars['String'];
+  images: Array<Scalars['String']>;
   senderId: Scalars['String'];
   text: Scalars['String'];
 };
@@ -188,9 +190,10 @@ export type Message = {
   conversationId: Scalars['String'];
   createdDate: Scalars['DateTime'];
   id: Scalars['ID'];
+  images?: Maybe<Array<Scalars['String']>>;
   sender: User;
   status: Scalars['String'];
-  text: Scalars['String'];
+  text?: Maybe<Scalars['String']>;
   updatedDate: Scalars['DateTime'];
 };
 
@@ -330,6 +333,7 @@ export type MutationLoginDashboardAdminArgs = {
 
 
 export type MutationNewConversationArgs = {
+  articleId: Scalars['String'];
   userId: Scalars['String'];
 };
 
@@ -449,6 +453,7 @@ export type QueryCountFavoritesForArticleArgs = {
 
 
 export type QueryGetConversationArgs = {
+  articleId: Scalars['String'];
   userId: Scalars['String'];
 };
 
@@ -720,11 +725,12 @@ export type UpdateCommentMutationVariables = Exact<{
 export type UpdateCommentMutation = { __typename?: 'Mutation', updateComment: { __typename?: 'CommentMutationResponse', message?: string | null, success: boolean, comment?: { __typename?: 'Comment', text: string, updatedDate: any, status?: string | null, id: string, createdDate: any, user: { __typename?: 'User', username: string, avatar?: string | null } } | null } };
 
 export type NewConversationMutationVariables = Exact<{
+  articleId: Scalars['String'];
   userId: Scalars['String'];
 }>;
 
 
-export type NewConversationMutation = { __typename?: 'Mutation', newConversation: { __typename?: 'ConversationMutationResponse', success: boolean, message?: string | null, conversation?: { __typename?: 'Conversation', id: string, createdDate: any, updatedDate: any, member1: { __typename?: 'User', username: string, id: string, avatar?: string | null }, member2: { __typename?: 'User', username: string, id: string, avatar?: string | null } } | null } };
+export type NewConversationMutation = { __typename?: 'Mutation', newConversation: { __typename?: 'ConversationMutationResponse', success: boolean, message?: string | null, conversation?: { __typename?: 'Conversation', id: string, createdDate: any, updatedDate: any, member1: { __typename?: 'User', username: string, id: string, avatar?: string | null }, member2: { __typename?: 'User', username: string, id: string, avatar?: string | null }, article: { __typename?: 'Article', title: string, thumbnail: string, productName: string, price: string, id: string, description: string } } | null } };
 
 export type NewMessageMutationVariables = Exact<{
   insertMessageInput: InsertMessageInput;
@@ -825,14 +831,15 @@ export type CommentListByArticleIdQuery = { __typename?: 'Query', commentListByA
 export type GetConversationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetConversationsQuery = { __typename?: 'Query', getConversations?: Array<{ __typename?: 'Conversation', id: string, createdDate: any, updatedDate: any, member1: { __typename?: 'User', username: string, id: string, avatar?: string | null }, member2: { __typename?: 'User', username: string, id: string, avatar?: string | null } }> | null };
+export type GetConversationsQuery = { __typename?: 'Query', getConversations?: Array<{ __typename?: 'Conversation', id: string, createdDate: any, updatedDate: any, member1: { __typename?: 'User', username: string, id: string, avatar?: string | null }, member2: { __typename?: 'User', username: string, id: string, avatar?: string | null }, article: { __typename?: 'Article', id: string, productName: string, thumbnail: string, price: string, title: string, description: string } }> | null };
 
 export type GetConversationQueryVariables = Exact<{
+  articleId: Scalars['String'];
   userId: Scalars['String'];
 }>;
 
 
-export type GetConversationQuery = { __typename?: 'Query', getConversation?: { __typename?: 'Conversation', id: string, createdDate: any, updatedDate: any, member1: { __typename?: 'User', username: string, id: string, avatar?: string | null }, member2: { __typename?: 'User', username: string, id: string, avatar?: string | null } } | null };
+export type GetConversationQuery = { __typename?: 'Query', getConversation?: { __typename?: 'Conversation', id: string, createdDate: any, updatedDate: any, member1: { __typename?: 'User', username: string, id: string, avatar?: string | null }, member2: { __typename?: 'User', username: string, id: string, avatar?: string | null }, article: { __typename?: 'Article', id: string, productName: string, thumbnail: string, price: string, title: string, description: string } } | null };
 
 export type IsFavoriteQueryVariables = Exact<{
   articleId: Scalars['String'];
@@ -858,7 +865,7 @@ export type MessagesQueryVariables = Exact<{
 }>;
 
 
-export type MessagesQuery = { __typename?: 'Query', messages?: Array<{ __typename?: 'Message', id: string, createdDate: any, text: string, status: string, updatedDate: any, sender: { __typename?: 'User', username: string, phoneNumber?: string | null, email: string, fullName: string, avatar?: string | null, id: string } }> | null };
+export type MessagesQuery = { __typename?: 'Query', messages?: Array<{ __typename?: 'Message', id: string, createdDate: any, text?: string | null, images?: Array<string> | null, status: string, updatedDate: any, sender: { __typename?: 'User', username: string, phoneNumber?: string | null, email: string, fullName: string, avatar?: string | null, id: string } }> | null };
 
 export type ReviewsQueryVariables = Exact<{
   reviewOptions: ReviewOptions;
@@ -1369,8 +1376,8 @@ export type UpdateCommentMutationHookResult = ReturnType<typeof useUpdateComment
 export type UpdateCommentMutationResult = Apollo.MutationResult<UpdateCommentMutation>;
 export type UpdateCommentMutationOptions = Apollo.BaseMutationOptions<UpdateCommentMutation, UpdateCommentMutationVariables>;
 export const NewConversationDocument = gql`
-    mutation NewConversation($userId: String!) {
-  newConversation(userId: $userId) {
+    mutation NewConversation($articleId: String!, $userId: String!) {
+  newConversation(articleId: $articleId, userId: $userId) {
     success
     message
     conversation {
@@ -1384,6 +1391,14 @@ export const NewConversationDocument = gql`
         username
         id
         avatar
+      }
+      article {
+        title
+        thumbnail
+        productName
+        price
+        id
+        description
       }
       createdDate
       updatedDate
@@ -1406,6 +1421,7 @@ export type NewConversationMutationFn = Apollo.MutationFunction<NewConversationM
  * @example
  * const [newConversationMutation, { data, loading, error }] = useNewConversationMutation({
  *   variables: {
+ *      articleId: // value for 'articleId'
  *      userId: // value for 'userId'
  *   },
  * });
@@ -1977,6 +1993,14 @@ export const GetConversationsDocument = gql`
       id
       avatar
     }
+    article {
+      id
+      productName
+      thumbnail
+      price
+      title
+      description
+    }
   }
 }
     `;
@@ -2008,8 +2032,8 @@ export type GetConversationsQueryHookResult = ReturnType<typeof useGetConversati
 export type GetConversationsLazyQueryHookResult = ReturnType<typeof useGetConversationsLazyQuery>;
 export type GetConversationsQueryResult = Apollo.QueryResult<GetConversationsQuery, GetConversationsQueryVariables>;
 export const GetConversationDocument = gql`
-    query GetConversation($userId: String!) {
-  getConversation(userId: $userId) {
+    query GetConversation($articleId: String!, $userId: String!) {
+  getConversation(articleId: $articleId, userId: $userId) {
     id
     member1 {
       username
@@ -2020,6 +2044,14 @@ export const GetConversationDocument = gql`
       username
       id
       avatar
+    }
+    article {
+      id
+      productName
+      thumbnail
+      price
+      title
+      description
     }
     createdDate
     updatedDate
@@ -2039,6 +2071,7 @@ export const GetConversationDocument = gql`
  * @example
  * const { data, loading, error } = useGetConversationQuery({
  *   variables: {
+ *      articleId: // value for 'articleId'
  *      userId: // value for 'userId'
  *   },
  * });
@@ -2171,6 +2204,7 @@ export const MessagesDocument = gql`
     }
     createdDate
     text
+    images
     status
     updatedDate
   }
