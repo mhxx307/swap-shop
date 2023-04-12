@@ -4,6 +4,7 @@ import {
     useMeQuery,
     useUserByIdQuery,
 } from '@/generated/graphql';
+import { generateNameId } from '@/utils';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -35,7 +36,14 @@ function Conversations({ conversation }: { conversation: Conversation }) {
     return (
         <button
             className="flex w-full cursor-pointer items-center p-[10px] hover:bg-gray-200"
-            onClick={() => router.push(`${path.chat}/${friendId}`)}
+            onClick={() =>
+                router.push(
+                    `${path.chat}/${generateNameId({
+                        id: friendId,
+                        name: conversation.article.id,
+                    })}`,
+                )
+            }
         >
             {friend && (
                 <>

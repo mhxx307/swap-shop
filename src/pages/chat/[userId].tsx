@@ -1,4 +1,5 @@
 import {
+    Conversation,
     useGetConversationQuery,
     useMeQuery,
     useMessagesQuery,
@@ -14,9 +15,9 @@ import ReactTextareaAutosize from 'react-textarea-autosize';
 import { Message } from '@/components/features/chat';
 import { ImageChatUpload } from '@/components/features/uploads';
 import { ChatLayout } from '@/components/layouts';
-import { Button } from '@/components/shared';
+import { Button, Image } from '@/components/shared';
 import { Message as MessageType } from '@/generated/graphql';
-import { createUrlListFromFileList } from '@/utils';
+import { createUrlListFromFileList, formatCurrency } from '@/utils';
 import Tippy from '@tippyjs/react/headless';
 import EmojiPicker, { EmojiStyle } from 'emoji-picker-react';
 import { ReactNode, useEffect, useRef, useState } from 'react';
@@ -40,7 +41,8 @@ function ChatBox() {
 
     const { data: conversationData } = useGetConversationQuery({
         variables: {
-            userId: userId as string,
+            userId: (userId as string).split('-i,')[1],
+            articleId: (userId as string).split('-i,')[0],
         },
         skip: !userId,
         fetchPolicy: 'no-cache',
@@ -53,7 +55,10 @@ function ChatBox() {
         skip: !conversationData?.getConversation?.id,
     });
 
-    console.log('messageData', messagesData);
+    console.log(
+        (userId as string).split('-i,')[0],
+        (userId as string).split('-i,')[1],
+    );
 
     const [sendMessageMutation, { loading: sendMessageLoading }] =
         useNewMessageMutation();
@@ -143,6 +148,35 @@ function ChatBox() {
                 {conversation ? (
                     <>
                         {/* top */}
+
+                        <div className=" mr-4 mt-2 h-[120px] rounded-lg bg-[#f5f1f1] p-2 pl-4 dark:bg-[#343444]">
+                            <p>
+                                Bạn đang trao đổi với người bán về sản phẩm này
+                            </p>
+                            <div className="h-[2px] w-full bg-black/10" />
+                            <div className="mt-2 flex">
+                                <Image
+                                    className="h-[60px] w-[100px] object-cover"
+                                    src={conversation.article.thumbnail}
+                                    alt={conversation.id}
+                                />
+                                <div className="ml-2">
+                                    <p>{conversation.article.title}</p>
+                                    <p>
+                                        {conversation.article.price &&
+                                        conversation.article.price === '0'
+                                            ? 'Free'
+                                            : `đ ${formatCurrency(
+                                                  Number(
+                                                      conversation.article
+                                                          .price,
+                                                  ),
+                                              )}`}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="h-[520px] overflow-y-scroll">
                             {messages &&
                                 messages.map((message) => (
