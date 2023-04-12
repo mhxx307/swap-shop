@@ -37,7 +37,11 @@ import {
     useNewConversationMutation,
 } from '@/generated/graphql';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
-import { formatNumberToSocialStyle, getIdFromNameId } from '@/utils';
+import {
+    formatNumberToSocialStyle,
+    generateNameId,
+    getIdFromNameId,
+} from '@/utils';
 
 import 'tippy.js/dist/tippy.css';
 import { path } from '@/constants';
@@ -173,15 +177,20 @@ const ArticleDetailPage = () => {
         >({
             query: GetConversationDocument,
             variables: {
+                articleId: id,
                 userId: article.user.id,
             },
         });
-        console.log(conversationData);
 
         // If the conversation already exists, set it as current chat
         if (conversationData.getConversation) {
             setCurrentChat(conversationData.getConversation as Conversation);
-            router.push(`${path.chat}/${article.user.id}`);
+            router.push(
+                `${path.chat}/${generateNameId({
+                    id: article.user.id,
+                    name: id,
+                })}`,
+            );
             refetch();
             return;
         }
@@ -189,6 +198,7 @@ const ArticleDetailPage = () => {
         // If the conversation doesn't exist, create a new one
         await newConversationMutation({
             variables: {
+                articleId: id,
                 userId: article.user.id,
             },
             onCompleted: (data) => {
@@ -196,7 +206,12 @@ const ArticleDetailPage = () => {
                 setCurrentChat(
                     data.newConversation.conversation as Conversation,
                 );
-                router.push(`${path.chat}/${article.user.id}`);
+                router.push(
+                    `${path.chat}/${generateNameId({
+                        id: article.user.id,
+                        name: id,
+                    })}`,
+                );
                 console.log('tao thanh cong');
             },
         });

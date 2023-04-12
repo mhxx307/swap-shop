@@ -1,5 +1,5 @@
-mutation NewConversation($userId: String!) {
-    newConversation(userId: $userId) {
+mutation NewConversation($articleId: String!, $userId: String!) {
+    newConversation(articleId: $articleId, userId: $userId) {
         success
         message
         conversation {
@@ -13,6 +13,14 @@ mutation NewConversation($userId: String!) {
                 username
                 id
                 avatar
+            }
+            article {
+                title
+                thumbnail
+                productName
+                price
+                id
+                description
             }
             createdDate
             updatedDate
