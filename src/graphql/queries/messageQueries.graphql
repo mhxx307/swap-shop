@@ -9,6 +9,28 @@ query Messages($conversationId: String!) {
             avatar
             id
         }
+        conversation {
+            article {
+                id
+                title
+                thumbnail
+                description
+                productName
+                user {
+                    id
+                    username
+                }
+            }
+            member1 {
+                id
+                username
+            }
+            member2 {
+                id
+                username
+            }
+            id
+        }
         createdDate
         text
         images

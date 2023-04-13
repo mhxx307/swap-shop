@@ -77,7 +77,7 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
                 <div className="app">
                     <div className="flex w-full flex-col">
                         <CommonSection title="Chat" />
-                        <div className="container mt-12 bg-white dark:bg-primaryDark">
+                        <div className="container mt-12 bg-white dark:bg-[#343444]">
                             {/* messenger */}
                             <div className="grid grid-cols-12 p-3">
                                 {/* chat menu */}
