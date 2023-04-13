@@ -26,6 +26,7 @@ export type Article = {
   images: Array<Scalars['String']>;
   price: Scalars['String'];
   productName: Scalars['String'];
+  reportsCount: Scalars['Float'];
   status: Scalars['String'];
   thumbnail: Scalars['String'];
   title: Scalars['String'];
@@ -187,6 +188,7 @@ export type LoginInput = {
 
 export type Message = {
   __typename?: 'Message';
+  conversation: Conversation;
   conversationId: Scalars['String'];
   createdDate: Scalars['DateTime'];
   id: Scalars['ID'];
@@ -209,6 +211,7 @@ export type MessageMutationResponse = IMutationResponse & {
 export type Mutation = {
   __typename?: 'Mutation';
   addToFavorite: FavoriteMutationResponse;
+  cancelReport: ReportMutationResponse;
   changePassword: UserMutationResponse;
   changePasswordLogged: UserMutationResponse;
   changeStatusArticle: ArticleMutationResponse;
@@ -231,6 +234,7 @@ export type Mutation = {
   register: UserMutationResponse;
   removeFromFavorite: FavoriteMutationResponse;
   removeMessage: MessageMutationResponse;
+  report: ReportMutationResponse;
   reviewUser: ReviewMutationResponse;
   updateArticle: ArticleMutationResponse;
   updateCategory: CategoryMutationResponse;
@@ -243,6 +247,11 @@ export type Mutation = {
 
 export type MutationAddToFavoriteArgs = {
   articleId: Scalars['String'];
+};
+
+
+export type MutationCancelReportArgs = {
+  articleIds: Array<Scalars['String']>;
 };
 
 
@@ -358,6 +367,11 @@ export type MutationRemoveMessageArgs = {
 };
 
 
+export type MutationReportArgs = {
+  articleId: Scalars['String'];
+};
+
+
 export type MutationReviewUserArgs = {
   reviewUserInput: ReviewUserInput;
 };
@@ -415,6 +429,7 @@ export type Query = {
   categories?: Maybe<Array<Category>>;
   commentListByArticleId?: Maybe<PaginatedComments>;
   countFavoritesForArticle?: Maybe<Scalars['Float']>;
+  countReportsForArticle?: Maybe<Scalars['Float']>;
   favorites?: Maybe<Array<Favorite>>;
   getAllUser?: Maybe<Array<User>>;
   getConversation?: Maybe<Conversation>;
@@ -425,6 +440,7 @@ export type Query = {
   isFavorite: Scalars['Boolean'];
   me?: Maybe<User>;
   messages?: Maybe<Array<Message>>;
+  reports?: Maybe<Array<Report>>;
   reviews: ReviewResponseSuccess;
   roles?: Maybe<Array<Role>>;
 };
@@ -448,6 +464,11 @@ export type QueryCommentListByArticleIdArgs = {
 
 
 export type QueryCountFavoritesForArticleArgs = {
+  articleId: Scalars['String'];
+};
+
+
+export type QueryCountReportsForArticleArgs = {
   articleId: Scalars['String'];
 };
 
@@ -491,6 +512,7 @@ export type QueryConfig = {
   price_max?: InputMaybe<Scalars['String']>;
   price_min?: InputMaybe<Scalars['String']>;
   sort_by?: InputMaybe<Scalars['String']>;
+  status?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['String']>;
   user_rating?: InputMaybe<Scalars['String']>;
@@ -504,6 +526,25 @@ export type RegisterInput = {
   password: Scalars['String'];
   phoneNumber?: InputMaybe<Scalars['String']>;
   username: Scalars['String'];
+};
+
+export type Report = {
+  __typename?: 'Report';
+  article: Article;
+  createdDate: Scalars['DateTime'];
+  id: Scalars['ID'];
+  reason: Scalars['String'];
+  updatedDate: Scalars['DateTime'];
+  user: User;
+};
+
+export type ReportMutationResponse = IMutationResponse & {
+  __typename?: 'ReportMutationResponse';
+  code: Scalars['Float'];
+  errors?: Maybe<Array<FieldError>>;
+  message?: Maybe<Scalars['String']>;
+  report?: Maybe<Report>;
+  success: Scalars['Boolean'];
 };
 
 export type Review = {
@@ -865,7 +906,7 @@ export type MessagesQueryVariables = Exact<{
 }>;
 
 
-export type MessagesQuery = { __typename?: 'Query', messages?: Array<{ __typename?: 'Message', id: string, createdDate: any, text?: string | null, images?: Array<string> | null, status: string, updatedDate: any, sender: { __typename?: 'User', username: string, phoneNumber?: string | null, email: string, fullName: string, avatar?: string | null, id: string } }> | null };
+export type MessagesQuery = { __typename?: 'Query', messages?: Array<{ __typename?: 'Message', id: string, createdDate: any, text?: string | null, images?: Array<string> | null, status: string, updatedDate: any, sender: { __typename?: 'User', username: string, phoneNumber?: string | null, email: string, fullName: string, avatar?: string | null, id: string }, conversation: { __typename?: 'Conversation', id: string, article: { __typename?: 'Article', id: string, title: string, thumbnail: string, description: string, productName: string, user: { __typename?: 'User', id: string, username: string } }, member1: { __typename?: 'User', id: string, username: string }, member2: { __typename?: 'User', id: string, username: string } } }> | null };
 
 export type ReviewsQueryVariables = Exact<{
   reviewOptions: ReviewOptions;
@@ -2200,6 +2241,28 @@ export const MessagesDocument = gql`
       email
       fullName
       avatar
+      id
+    }
+    conversation {
+      article {
+        id
+        title
+        thumbnail
+        description
+        productName
+        user {
+          id
+          username
+        }
+      }
+      member1 {
+        id
+        username
+      }
+      member2 {
+        id
+        username
+      }
       id
     }
     createdDate

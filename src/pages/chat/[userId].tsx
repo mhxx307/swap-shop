@@ -1,16 +1,12 @@
-import {
-    Conversation,
-    useGetConversationQuery,
-    useMeQuery,
-    useMessagesQuery,
-    useNewMessageMutation,
-} from '@/generated/graphql';
-import { useRouter } from 'next/router';
-import { Socket, io } from 'socket.io-client';
+import { useMeQuery, useNewMessageMutation } from '@/generated/graphql';
+import { io } from 'socket.io-client';
 
 import { BsEmojiSmile } from 'react-icons/bs';
 import { MdSend } from 'react-icons/md';
 import ReactTextareaAutosize from 'react-textarea-autosize';
+import EmojiPicker, { EmojiStyle } from 'emoji-picker-react';
+import Tippy from '@tippyjs/react/headless';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import { Message } from '@/components/features/chat';
 import { ImageChatUpload } from '@/components/features/uploads';
@@ -18,9 +14,9 @@ import { ChatLayout } from '@/components/layouts';
 import { Button, Image } from '@/components/shared';
 import { Message as MessageType } from '@/generated/graphql';
 import { createUrlListFromFileList, formatCurrency } from '@/utils';
-import Tippy from '@tippyjs/react/headless';
-import EmojiPicker, { EmojiStyle } from 'emoji-picker-react';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { useMessage } from '@/hooks';
+
+import 'tippy.js/dist/tippy.css';
 
 interface UserSocket {
     userId: string;
@@ -28,37 +24,14 @@ interface UserSocket {
 }
 
 function ChatBox() {
-    const {
-        query: { userId },
-    } = useRouter();
-    const socket = useRef<Socket>();
+    const { conversationData, messagesData, refetch, socket } = useMessage();
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const [newMessage, setNewMessage] = useState('');
     const [files, setFiles] = useState<File[]>([]);
     const [onlineUsers, setOnlineUsers] = useState<UserSocket[]>([]);
+    console.log(onlineUsers);
 
     const { data: meData } = useMeQuery();
-
-    const { data: conversationData } = useGetConversationQuery({
-        variables: {
-            userId: (userId as string).split('-i,')[1],
-            articleId: (userId as string).split('-i,')[0],
-        },
-        skip: !userId,
-        fetchPolicy: 'no-cache',
-    });
-
-    const { data: messagesData, refetch } = useMessagesQuery({
-        variables: {
-            conversationId: conversationData?.getConversation?.id as string,
-        },
-        skip: !conversationData?.getConversation?.id,
-    });
-
-    console.log(
-        (userId as string).split('-i,')[0],
-        (userId as string).split('-i,')[1],
-    );
 
     const [sendMessageMutation, { loading: sendMessageLoading }] =
         useNewMessageMutation();
@@ -67,7 +40,7 @@ function ChatBox() {
     const messages = messagesData?.messages;
     const me = meData?.me;
 
-    const iconRef = useRef<any>();
+    const iconRef = useRef<HTMLSpanElement | null>(null);
 
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -103,6 +76,7 @@ function ChatBox() {
                 setOnlineUsers(users);
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [me]);
 
     const handleSendMessage = async (
@@ -134,7 +108,6 @@ function ChatBox() {
                         senderId: me.id,
                         receiverId: receiverId,
                         text: newMessage,
-                        images: urlChatImages,
                     });
                 },
             });
@@ -150,7 +123,7 @@ function ChatBox() {
                         {/* top */}
 
                         <div className=" mr-4 mt-2 h-[120px] rounded-lg bg-[#f5f1f1] p-2 pl-4 dark:bg-[#343444]">
-                            <p>
+                            <p className="text-sm">
                                 Bạn đang trao đổi với người bán về sản phẩm này
                             </p>
                             <div className="h-[2px] w-full bg-black/10" />
@@ -161,8 +134,10 @@ function ChatBox() {
                                     alt={conversation.id}
                                 />
                                 <div className="ml-2">
-                                    <p>{conversation.article.title}</p>
-                                    <p>
+                                    <p className="text-xs">
+                                        {conversation.article.title}
+                                    </p>
+                                    <p className="text-xs text-red-500">
                                         {conversation.article.price &&
                                         conversation.article.price === '0'
                                             ? 'Free'
@@ -184,6 +159,7 @@ function ChatBox() {
                                         <Message
                                             own={message.sender.id === me?.id}
                                             message={message as MessageType}
+                                            socket={socket}
                                         />
                                     </div>
                                 ))}
@@ -191,20 +167,6 @@ function ChatBox() {
 
                         {/* bottom */}
                         <div className="mt-[5px] mb-[15px] flex items-center justify-between">
-                            {/* Toggle icon basic hand */}
-                            {/* <div className="absolute bottom-10 left-7">
-                                    {toggleEmoji && (
-                                        <div className="relative flex">
-                                            <EmojiPicker />
-                                            <AiOutlineCloseCircle
-                                                className=" absolute right-0 h-[20px] w-[25px] cursor-pointer text-black"
-                                                onClick={() =>
-                                                    setToggleEmoji(false)
-                                                }
-                                            />
-                                        </div>
-                                    )}
-                                </div> */}
                             <Tippy
                                 interactive={true}
                                 render={(attrs) => (

@@ -16,6 +16,7 @@ interface Props {
     as?: ElementType;
     initialOpen?: boolean;
     placement?: Placement;
+    isArrow?: boolean;
 }
 
 export default function Popover({
@@ -25,6 +26,7 @@ export default function Popover({
     as: Element = 'div',
     initialOpen,
     placement = 'bottom-end',
+    isArrow = true,
 }: Props) {
     const [open, setOpen] = useState(initialOpen || false);
     const arrowRef = useRef<HTMLElement>(null);
@@ -69,14 +71,16 @@ export default function Popover({
                             exit={{ opacity: 0, transform: 'scale(0)' }}
                             transition={{ duration: 0.2 }}
                         >
-                            <span
-                                ref={arrowRef}
-                                className="absolute z-10 translate-y-[-95%] border-[11px] border-x-transparent border-t-transparent border-b-white"
-                                style={{
-                                    left: middlewareData.arrow?.x,
-                                    top: middlewareData.arrow?.y,
-                                }}
-                            />
+                            {isArrow && (
+                                <span
+                                    ref={arrowRef}
+                                    className="absolute z-10 translate-y-[-95%] border-[11px] border-x-transparent border-t-transparent border-b-white"
+                                    style={{
+                                        left: middlewareData.arrow?.x,
+                                        top: middlewareData.arrow?.y,
+                                    }}
+                                />
+                            )}
                             {renderPopover}
                         </motion.div>
                     )}
