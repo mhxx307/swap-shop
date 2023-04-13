@@ -52,6 +52,7 @@ const ArticleDetailPage = () => {
     const [id, setId] = useState('');
     const { refetch } = useGetConversationsQuery();
     const [currentChat, setCurrentChat] = useState<Conversation | null>(null);
+    console.log(currentChat);
 
     const apolloClient = initializeApollo();
     const [newConversationMutation] = useNewConversationMutation();
