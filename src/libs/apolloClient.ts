@@ -29,10 +29,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const httpLink = new HttpLink({
-    uri:
-        process.env.NODE_ENV === 'production'
-            ? 'https://swapshop-server-pzsb.onrender.com/graphql'
-            : 'http://localhost:4000/graphql', // Server URL (must be absolute)
+    uri: 'https://swapshop-server-pzsb.onrender.com/graphql', // Server URL (must be absolute)
     credentials: 'include', // Additional fetch() options like `credentials` or `headers`
     headers: {
         'content-type': 'application/json',

@@ -29,7 +29,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 }}
                 onClick={() =>
                     router.push(
-                        `/${path.market}/${generateNameId({
+                        `${path.market}/${generateNameId({
                             id: article.id,
                             name: article.title,
                         })}`,
@@ -58,7 +58,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 <div className="space-y-4">
                     <h5 className="truncate text-sm hover:underline">
                         <Link
-                            href={`/${path.market}/${generateNameId({
+                            href={`${path.market}/${generateNameId({
                                 id: article.id,
                                 name: article.title,
                             })}`}
@@ -71,7 +71,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                         {/* avatar */}
                         <Link
                             href={{
-                                pathname: `/${path.personal}/${article.user.id}`,
+                                pathname: `${path.personal}/${article.user.id}`,
                             }}
                             className="mr-[18px] h-[40px] w-[40px] flex-shrink-0 cursor-pointer object-cover"
                         >
@@ -119,7 +119,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                         LeftIcon={BsFillPlayFill}
                         onClick={() =>
                             router.push(
-                                `/${path.market}/${generateNameId({
+                                `${path.market}/${generateNameId({
                                     id: article.id,
                                     name: article.title,
                                 })}`,
