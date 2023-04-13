@@ -29,7 +29,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const httpLink = new HttpLink({
-    uri: 'https://swapshop-server-pzsb.onrender.com/graphql', // Server URL (must be absolute)
+    uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
     credentials: 'include', // Additional fetch() options like `credentials` or `headers`
     headers: {
         'content-type': 'application/json',
@@ -49,6 +49,7 @@ function createApolloClient() {
         ssrMode: typeof window === 'undefined',
         link: from([errorLink, httpLink]),
         cache: cache,
+        credentials: 'include',
     });
 }
 

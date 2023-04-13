@@ -232,6 +232,7 @@ export type Mutation = {
   newConversation: ConversationMutationResponse;
   newMessage: MessageMutationResponse;
   register: UserMutationResponse;
+  removeFromConversation: ConversationMutationResponse;
   removeFromFavorite: FavoriteMutationResponse;
   removeMessage: MessageMutationResponse;
   report: ReportMutationResponse;
@@ -354,6 +355,11 @@ export type MutationNewMessageArgs = {
 
 export type MutationRegisterArgs = {
   registerInput: RegisterInput;
+};
+
+
+export type MutationRemoveFromConversationArgs = {
+  conversationIds: Array<Scalars['String']>;
 };
 
 
@@ -772,6 +778,13 @@ export type NewConversationMutationVariables = Exact<{
 
 
 export type NewConversationMutation = { __typename?: 'Mutation', newConversation: { __typename?: 'ConversationMutationResponse', success: boolean, message?: string | null, conversation?: { __typename?: 'Conversation', id: string, createdDate: any, updatedDate: any, member1: { __typename?: 'User', username: string, id: string, avatar?: string | null }, member2: { __typename?: 'User', username: string, id: string, avatar?: string | null }, article: { __typename?: 'Article', title: string, thumbnail: string, productName: string, price: string, id: string, description: string } } | null } };
+
+export type RemoveFromConversationMutationVariables = Exact<{
+  conversationIds: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+
+export type RemoveFromConversationMutation = { __typename?: 'Mutation', removeFromConversation: { __typename?: 'ConversationMutationResponse', success: boolean, message?: string | null } };
 
 export type NewMessageMutationVariables = Exact<{
   insertMessageInput: InsertMessageInput;
@@ -1474,6 +1487,40 @@ export function useNewConversationMutation(baseOptions?: Apollo.MutationHookOpti
 export type NewConversationMutationHookResult = ReturnType<typeof useNewConversationMutation>;
 export type NewConversationMutationResult = Apollo.MutationResult<NewConversationMutation>;
 export type NewConversationMutationOptions = Apollo.BaseMutationOptions<NewConversationMutation, NewConversationMutationVariables>;
+export const RemoveFromConversationDocument = gql`
+    mutation RemoveFromConversation($conversationIds: [String!]!) {
+  removeFromConversation(conversationIds: $conversationIds) {
+    success
+    message
+  }
+}
+    `;
+export type RemoveFromConversationMutationFn = Apollo.MutationFunction<RemoveFromConversationMutation, RemoveFromConversationMutationVariables>;
+
+/**
+ * __useRemoveFromConversationMutation__
+ *
+ * To run a mutation, you first call `useRemoveFromConversationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveFromConversationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeFromConversationMutation, { data, loading, error }] = useRemoveFromConversationMutation({
+ *   variables: {
+ *      conversationIds: // value for 'conversationIds'
+ *   },
+ * });
+ */
+export function useRemoveFromConversationMutation(baseOptions?: Apollo.MutationHookOptions<RemoveFromConversationMutation, RemoveFromConversationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveFromConversationMutation, RemoveFromConversationMutationVariables>(RemoveFromConversationDocument, options);
+      }
+export type RemoveFromConversationMutationHookResult = ReturnType<typeof useRemoveFromConversationMutation>;
+export type RemoveFromConversationMutationResult = Apollo.MutationResult<RemoveFromConversationMutation>;
+export type RemoveFromConversationMutationOptions = Apollo.BaseMutationOptions<RemoveFromConversationMutation, RemoveFromConversationMutationVariables>;
 export const NewMessageDocument = gql`
     mutation NewMessage($insertMessageInput: InsertMessageInput!) {
   newMessage(insertMessageInput: $insertMessageInput) {
