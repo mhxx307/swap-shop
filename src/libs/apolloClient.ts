@@ -74,6 +74,7 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
         ssrMode: typeof window === 'undefined',
         link: from([errorLink, httpLink]),
         cache: cache,
+        credentials: 'include',
     });
 }
 
