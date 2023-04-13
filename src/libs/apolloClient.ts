@@ -9,6 +9,7 @@ import {
 import { onError } from '@apollo/client/link/error';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
+import { IncomingHttpHeaders } from 'http';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -28,15 +29,39 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
-const httpLink = new HttpLink({
-    uri: 'https://swapshop-server-pzsb.onrender.com/graphql', // Server URL (must be absolute)
-    credentials: 'include', // Additional fetch() options like `credentials` or `headers`
-    headers: {
-        'content-type': 'application/json',
-    },
-});
+// const httpLink = new HttpLink({
+//     uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
+//     credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
+//     headers: {
+//         'content-type': 'application/json',
+//     },
+// });
 
-function createApolloClient() {
+// https://swapshop-server-pzsb.onrender.com/graphql
+
+function createApolloClient(headers: IncomingHttpHeaders | null = null) {
+    const enhancedFetch = (url: RequestInfo, init: RequestInit) => {
+        return fetch(url, {
+            ...init,
+            headers: {
+                ...init.headers,
+                'Access-Control-Allow-Origin': '*',
+                // here we pass the cookie along for each request
+                Cookie: headers?.cookie ?? '',
+            },
+        });
+    };
+
+    const httpLink = new HttpLink({
+        // uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
+        uri:
+            process.env.NODE_ENV === 'production'
+                ? 'https://swapshop-server-pzsb.onrender.com/graphql'
+                : 'http://localhost:4000/graphql',
+        credentials: 'include', // Additional fetch() options like `credentials` or `headers`
+        fetch: enhancedFetch,
+    });
+
     const cache = new InMemoryCache({
         typePolicies: {
             Query: {
