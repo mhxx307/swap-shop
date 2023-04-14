@@ -1,0 +1,6 @@
+mutation Report($reason: String!, $description: String!, $articleId: String!) {
+    report(reason: $reason, description: $description, articleId: $articleId) {
+        success
+        message
+    }
+}

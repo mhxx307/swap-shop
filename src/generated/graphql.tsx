@@ -378,6 +378,8 @@ export type MutationRemoveMessageArgs = {
 
 export type MutationReportArgs = {
   articleId: Scalars['String'];
+  description: Scalars['String'];
+  reason: Scalars['String'];
 };
 
 
@@ -424,9 +426,9 @@ export type MutationVerifyEmailArgs = {
 
 export type PaginatedComments = {
   __typename?: 'PaginatedComments';
-  cursor: Scalars['DateTime'];
+  cursor?: Maybe<Scalars['DateTime']>;
   hasMore: Scalars['Boolean'];
-  paginatedComments: Array<Comment>;
+  paginatedComments?: Maybe<Array<Comment>>;
   totalCount: Scalars['Float'];
 };
 
@@ -544,6 +546,7 @@ export type Report = {
   __typename?: 'Report';
   article: Article;
   createdDate: Scalars['DateTime'];
+  description: Scalars['String'];
   id: Scalars['ID'];
   reason: Scalars['String'];
   updatedDate: Scalars['DateTime'];
@@ -837,6 +840,15 @@ export type UpdateProfileMutationVariables = Exact<{
 
 export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'UserMutationResponse', success: boolean, message?: string | null, user?: { __typename?: 'User', username: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null } | null } };
 
+export type ReportMutationVariables = Exact<{
+  reason: Scalars['String'];
+  description: Scalars['String'];
+  articleId: Scalars['String'];
+}>;
+
+
+export type ReportMutation = { __typename?: 'Mutation', report: { __typename?: 'ReportMutationResponse', success: boolean, message?: string | null } };
+
 export type ReviewUserMutationVariables = Exact<{
   reviewUserInput: ReviewUserInput;
 }>;
@@ -896,7 +908,7 @@ export type CommentListByArticleIdQueryVariables = Exact<{
 }>;
 
 
-export type CommentListByArticleIdQuery = { __typename?: 'Query', commentListByArticleId?: { __typename?: 'PaginatedComments', cursor: any, totalCount: number, hasMore: boolean, paginatedComments: Array<{ __typename?: 'Comment', text: string, updatedDate: any, status?: string | null, id: string, createdDate: any, user: { __typename?: 'User', id: string, username: string, avatar?: string | null } }> } | null };
+export type CommentListByArticleIdQuery = { __typename?: 'Query', commentListByArticleId?: { __typename?: 'PaginatedComments', cursor?: any | null, totalCount: number, hasMore: boolean, paginatedComments?: Array<{ __typename?: 'Comment', text: string, updatedDate: any, status?: string | null, id: string, createdDate: any, user: { __typename?: 'User', id: string, username: string, avatar?: string | null, fullName: string, rating: number } }> | null } | null };
 
 export type GetConversationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1762,6 +1774,42 @@ export function useUpdateProfileMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfileMutation>;
 export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
 export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
+export const ReportDocument = gql`
+    mutation Report($reason: String!, $description: String!, $articleId: String!) {
+  report(reason: $reason, description: $description, articleId: $articleId) {
+    success
+    message
+  }
+}
+    `;
+export type ReportMutationFn = Apollo.MutationFunction<ReportMutation, ReportMutationVariables>;
+
+/**
+ * __useReportMutation__
+ *
+ * To run a mutation, you first call `useReportMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useReportMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [reportMutation, { data, loading, error }] = useReportMutation({
+ *   variables: {
+ *      reason: // value for 'reason'
+ *      description: // value for 'description'
+ *      articleId: // value for 'articleId'
+ *   },
+ * });
+ */
+export function useReportMutation(baseOptions?: Apollo.MutationHookOptions<ReportMutation, ReportMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ReportMutation, ReportMutationVariables>(ReportDocument, options);
+      }
+export type ReportMutationHookResult = ReturnType<typeof useReportMutation>;
+export type ReportMutationResult = Apollo.MutationResult<ReportMutation>;
+export type ReportMutationOptions = Apollo.BaseMutationOptions<ReportMutation, ReportMutationVariables>;
 export const ReviewUserDocument = gql`
     mutation ReviewUser($reviewUserInput: ReviewUserInput!) {
   reviewUser(reviewUserInput: $reviewUserInput) {
@@ -2079,6 +2127,8 @@ export const CommentListByArticleIdDocument = gql`
         id
         username
         avatar
+        fullName
+        rating
       }
       updatedDate
       status

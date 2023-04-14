@@ -48,6 +48,9 @@ function Comment({ id }: CommentProps) {
         notifyOnNetworkStatusChange: true,
     });
 
+    const paginatedComments =
+        commentList?.commentListByArticleId?.paginatedComments;
+
     const [insertCommentMutation, { loading: insertLoading }] =
         useInsertCommentMutation();
     const [deleteCommentMutation, { loading: deleteLoading }] =
@@ -114,9 +117,14 @@ function Comment({ id }: CommentProps) {
                                 const newTotalCount =
                                     existingComments.totalCount + 1;
 
+                                const currentCommentList =
+                                    existingComments.paginatedComments
+                                        ? existingComments.paginatedComments
+                                        : [];
+
                                 const newPaginatedComments = [
                                     { __ref: newCommentRef },
-                                    ...existingComments.paginatedComments,
+                                    ...currentCommentList,
                                 ];
 
                                 const newCommentsAfterCreation = {
@@ -245,8 +253,8 @@ function Comment({ id }: CommentProps) {
 
             <div className="-my-5 rounded-b-md py-8 px-10">
                 <hr className="py-2" />
-                {commentList?.commentListByArticleId?.paginatedComments.map(
-                    (comment) => (
+                {paginatedComments &&
+                    paginatedComments.map((comment) => (
                         <CommentItem
                             key={comment.id}
                             comment={comment}
@@ -258,8 +266,7 @@ function Comment({ id }: CommentProps) {
                             updateMode={updateMode}
                             me={profile}
                         />
-                    ),
-                )}
+                    ))}
                 {commentList?.commentListByArticleId?.hasMore && (
                     <Button
                         onClick={handleMoreComment}

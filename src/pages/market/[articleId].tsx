@@ -8,7 +8,7 @@ import { RiSendPlaneLine } from 'react-icons/ri';
 import Tippy from '@tippyjs/react';
 import TimeAgo from 'timeago-react';
 import { VscReport } from 'react-icons/vsc';
-
+import ReactTextareaAutosize from 'react-textarea-autosize';
 import { ArticleList } from '@/components/features/articles';
 import { Comment } from '@/components/features/comment';
 import {
@@ -30,12 +30,14 @@ import {
     GetConversationQuery,
     QueryConfig,
     QueryGetConversationArgs,
+    User,
     useArticleQuery,
     useArticlesQuery,
     useCountFavoritesForArticleQuery,
     useGetConversationsQuery,
     useMeQuery,
     useNewConversationMutation,
+    useReportMutation,
 } from '@/generated/graphql';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import {
@@ -47,6 +49,16 @@ import {
 import 'tippy.js/dist/tippy.css';
 import { path } from '@/constants';
 import Link from 'next/link';
+import UserInfo from '@/components/features/comment/UserInfo';
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogHeading,
+    DialogTrigger,
+} from '@/components/shared/Dialog';
+import { toast } from 'react-toastify';
 
 const ArticleDetailPage = () => {
     const { data: me } = useMeQuery();
@@ -331,7 +343,13 @@ const ArticleDetailPage = () => {
                                                     </Tippy>
                                                 )}
                                             <Popover
-                                                renderPopover={<MoreAction />}
+                                                renderPopover={
+                                                    <MoreAction
+                                                        article={
+                                                            article as Article
+                                                        }
+                                                    />
+                                                }
                                             >
                                                 <AiOutlineMore className="h-6 w-6 cursor-pointer transition-opacity hover:opacity-80" />
                                             </Popover>
@@ -357,13 +375,14 @@ const ArticleDetailPage = () => {
                                     </div>
 
                                     <div className="flex w-[50%] items-center gap-3 rounded-[7px]  bg-white p-[15px] shadow dark:bg-[#343434]">
-                                        <Tippy
-                                            content={
+                                        <Popover
+                                            isArrow={false}
+                                            renderPopover={
                                                 <UserInfo
-                                                    article={article as Article}
+                                                    user={article.user as User}
                                                 />
                                             }
-                                            placement="top-start"
+                                            placement="bottom-start"
                                         >
                                             <Link
                                                 href={`${path.personal}/${article.user.id}`}
@@ -380,7 +399,7 @@ const ArticleDetailPage = () => {
                                                     />
                                                 </div>
                                             </Link>
-                                        </Tippy>
+                                        </Popover>
 
                                         <div>
                                             <p className="mb-0 mt-0 text-xs font-light">
@@ -489,49 +508,91 @@ export const getStaticProps: GetStaticProps = async (
 
 export default ArticleDetailPage;
 
-const UserInfo = ({ article }: { article: Article }) => {
-    return (
-        <div className="flex flex-col gap-3 rounded-[7px]  bg-white p-[15px] shadow dark:bg-[#343434]">
-            <div className="flex items-center">
-                <p className="mr-2 text-black dark:text-white">Username: </p>
-                <p className="text-[#919eab]">{article.user.username}</p>
-            </div>
-            <div className="flex items-center">
-                <p className="mr-2 text-black dark:text-white">
-                    Phone number:{' '}
-                </p>
-                <p className="text-[#919eab]">{article.user.phoneNumber}</p>
-            </div>
-            <div className="flex items-center">
-                <p className="mr-2 text-black dark:text-white">Address: </p>
-                <p className="text-[#919eab]">{article.user.address}</p>
-            </div>
-            <div className="flex items-center">
-                <p className="mr-2 text-black dark:text-white">Full name: </p>
-                <p className="text-[#919eab]">{article.user.fullName}</p>
-            </div>
-            <div className="flex items-center">
-                <p className="mr-2 text-black dark:text-white">
-                    Participation date:{' '}
-                </p>
-                <span className="text-[#919eab]">
-                    <TimeAgo datetime={article.user.createdDate} />
-                </span>
-            </div>
-        </div>
-    );
-};
+const MoreAction = ({ article }: { article: Article }) => {
+    const reportDescription = [
+        'Lừa đảo',
+        'Không liêc lạc được',
+        'Sản phẩm bị cấm buôn bán',
+        'Sản phẩm có hình ảnh, nội dụng phản cảm',
+        'Khác',
+    ];
+    const [isChecked, setIsChecked] = useState(0);
+    const [reason, setReason] = useState(reportDescription[isChecked]);
+    const [description, setDescription] = useState('');
 
-const MoreAction = () => {
+    const [insertReport] = useReportMutation();
+    console.log(reason);
+
+    const handleInsertReport = async () => {
+        if (!description) {
+            toast.info('Bạn phải nhập mô tả cho báo cáo');
+            return;
+        } else {
+            await insertReport({
+                variables: {
+                    articleId: article.id,
+                    description: description,
+                    reason: reason,
+                },
+            });
+            toast.success('Báo cáo thành công');
+            setDescription('');
+        }
+    };
+
     return (
         <div className="bg-white">
-            <Button
-                LeftIcon={VscReport}
-                className="flex-center bg-white px-6 py-3 hover:bg-gray-200"
-                iconClassName="mr-2"
-            >
-                Report
-            </Button>
+            <Dialog>
+                <DialogTrigger className="flex-center bg-white px-6 py-3 hover:bg-gray-200">
+                    <VscReport className="mr-2" /> Report
+                </DialogTrigger>
+                <DialogContent className="m-[15px] w-[70vh] rounded-md bg-white shadow-md dark:bg-primaryDark dark:text-white">
+                    <DialogHeading className="relative  bg-gray-200 p-2 text-center  text-black dark:bg-[#343444] dark:text-white">
+                        Báo cáo vi phạm
+                        <DialogClose className="absolute top-1 right-2">
+                            x
+                        </DialogClose>
+                    </DialogHeading>
+
+                    <DialogDescription className="p-2">
+                        <ul>
+                            {' '}
+                            Hãy chọn mục bạn cần báo cáo
+                            {reportDescription.map((report, index) => (
+                                <li key={report} className="ml-2">
+                                    <input
+                                        type="radio"
+                                        className="mr-2"
+                                        checked={isChecked === index}
+                                        onChange={() => {
+                                            setReason(report);
+                                            setIsChecked(index);
+                                        }}
+                                    />
+                                    {report}
+                                </li>
+                            ))}
+                        </ul>
+                        <p>Chi tiết</p>
+                        <ReactTextareaAutosize
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            minRows={3}
+                            maxRows={6}
+                            placeholder="Ghi rõ nội dung cần báo cáo"
+                            className=" mt-2 w-full rounded-sm p-2 text-black outline"
+                        />
+                        <Button
+                            className="flex-center mt-2 w-full"
+                            secondary
+                            onClick={handleInsertReport}
+                        >
+                            {' '}
+                            Gửi báo cáo
+                        </Button>
+                    </DialogDescription>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };
