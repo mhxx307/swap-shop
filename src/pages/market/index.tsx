@@ -101,7 +101,7 @@ export const getServerSideProps: GetServerSideProps = async (
 
     const Cookie = context.req.headers.cookie;
 
-    const apolloClient = initializeApollo();
+    const apolloClient = initializeApollo({ headers: context.req.headers });
 
     await apolloClient.query<ArticlesQuery, QueryArticlesArgs>({
         context: { headers: { Cookie } },
