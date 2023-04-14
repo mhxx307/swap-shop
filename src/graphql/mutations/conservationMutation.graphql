@@ -28,6 +28,13 @@ mutation NewConversation($articleId: String!, $userId: String!) {
     }
 }
 
+mutation RemoveFromConversation($conversationIds: [String!]!) {
+    removeFromConversation(conversationIds: $conversationIds) {
+        success
+        message
+    }
+}
+
 mutation NewMessage($insertMessageInput: InsertMessageInput!) {
     newMessage(insertMessageInput: $insertMessageInput) {
         message

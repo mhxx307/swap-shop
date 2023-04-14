@@ -1,8 +1,9 @@
 import HeadlessTippy from '@tippyjs/react/headless'; // different import path!
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState, useMemo } from 'react';
 import { BsFillGearFill, BsTrash } from 'react-icons/bs';
 
 import { Conversation, SearchResultList } from '@/components/features/chat';
+import { Header } from '@/components/partials';
 import { Auth, Button, CommonSection, Spinner } from '@/components/shared';
 import {
     Conversation as ConversationType,
@@ -11,15 +12,25 @@ import {
     QueryGetUsersByNameArgs,
     User,
     useGetConversationsQuery,
+    useRemoveFromConversationMutation,
 } from '@/generated/graphql';
 import { useDebounce } from '@/hooks';
 import { initializeApollo } from '@/libs/apolloClient';
 import classNames from 'classnames';
-import { Header } from '@/components/partials';
+import { keyBy } from 'lodash';
+import produce from 'immer';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+import { path } from '@/constants';
 
 type UserType = Pick<User, 'id' | 'username' | 'avatar' | '__typename'>;
 
+interface ExtendedConversationType extends ConversationType {
+    checked: boolean;
+}
+
 function ChatLayout({ children }: { children: React.ReactNode }) {
+    const router = useRouter();
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState<UserType[]>([]);
@@ -28,11 +39,27 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
         null,
     );
     const [searchLoading, setSearchLoading] = useState(false);
-    const { data: conversationsData } = useGetConversationsQuery();
+    const [showRemoveCheckBox, setShowRemoveCheckBox] = useState(false);
+    const [extendedConversations, setExtendedConversations] = useState<
+        ExtendedConversationType[]
+    >([]);
+
+    const { data: conversationsData, refetch } = useGetConversationsQuery();
+    const [removeConversationMutate] = useRemoveFromConversationMutation();
+
     const debounceValue = useDebounce(searchValue, 500);
     const apolloClient = initializeApollo();
 
     const conversations = conversationsData?.getConversations;
+    const isAllChecked = useMemo(
+        () => extendedConversations.every((c) => c.checked),
+        [extendedConversations],
+    );
+    const checkedConversations = useMemo(
+        () => extendedConversations.filter((c) => c.checked),
+        [extendedConversations],
+    );
+    const checkedConversationsCount = checkedConversations.length;
 
     useEffect(() => {
         if (!debounceValue.trim()) {
@@ -62,12 +89,56 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounceValue]);
 
+    useEffect(() => {
+        setExtendedConversations((prev) => {
+            const extendedConversationObject = keyBy(prev, 'id');
+            return (
+                conversations?.map((conversation) => {
+                    return {
+                        ...(conversation as ExtendedConversationType),
+                        checked: Boolean(
+                            extendedConversationObject[conversation.id]
+                                ?.checked,
+                        ),
+                    };
+                }) || []
+            );
+        });
+    }, [conversations]);
+
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
         const searchValue = e.target.value;
 
         if (!searchValue.startsWith(' ')) {
             setSearchValue(searchValue);
         }
+    };
+
+    const handleCheck =
+        (conversationIndex: number) =>
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            setExtendedConversations(
+                produce((draft) => {
+                    draft[conversationIndex].checked = e.target.checked;
+                }),
+            );
+        };
+
+    const handleRemoveConversation = async () => {
+        const conversationIds = checkedConversations.map(
+            (conversation) => conversation.id,
+        );
+
+        await removeConversationMutate({
+            variables: {
+                conversationIds: conversationIds,
+            },
+            onCompleted: () => {
+                refetch();
+                toast.success('Deleted conversation successfully');
+                router.push(path.chat);
+            },
+        });
     };
 
     return (
@@ -136,9 +207,9 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
 
                                         {/* list */}
                                         <div className="h-full overflow-y-scroll">
-                                            {conversations &&
-                                                conversations.map(
-                                                    (conversation) => (
+                                            {extendedConversations.length > 0 &&
+                                                extendedConversations.map(
+                                                    (conversation, index) => (
                                                         <div
                                                             key={
                                                                 conversation.id
@@ -159,24 +230,67 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
                                                                 },
                                                             )}
                                                         >
-                                                            <Conversation
-                                                                conversation={
-                                                                    conversation as ConversationType
-                                                                }
-                                                            />
+                                                            <div className="flex">
+                                                                {showRemoveCheckBox && (
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={
+                                                                            conversation.checked
+                                                                        }
+                                                                        onChange={handleCheck(
+                                                                            index,
+                                                                        )}
+                                                                    />
+                                                                )}
+                                                                <Conversation
+                                                                    conversation={
+                                                                        conversation as ConversationType
+                                                                    }
+                                                                />
+                                                            </div>
                                                         </div>
                                                     ),
                                                 )}
                                         </div>
 
-                                        {/* remove */}
-                                        <div className="mt-[5px] mb-[15px]">
-                                            <Button
-                                                className="w-full items-center justify-center bg-red-500 text-white"
-                                                LeftIcon={BsTrash}
-                                            >
-                                                Clear conversation
-                                            </Button>
+                                        <div className="mt-[5px] mb-[15px] flex items-center">
+                                            {showRemoveCheckBox ? (
+                                                <>
+                                                    {checkedConversationsCount >
+                                                        0 && (
+                                                        <Button
+                                                            className="mr-1 w-full items-center justify-center bg-white text-black"
+                                                            onClick={() =>
+                                                                handleRemoveConversation()
+                                                            }
+                                                        >
+                                                            Xóa
+                                                        </Button>
+                                                    )}
+
+                                                    <Button
+                                                        className="w-full items-center justify-center bg-white text-black"
+                                                        onClick={() =>
+                                                            setShowRemoveCheckBox(
+                                                                false,
+                                                            )
+                                                        }
+                                                    >
+                                                        Hủy
+                                                    </Button>
+                                                </>
+                                            ) : (
+                                                <Button
+                                                    className="w-full items-center justify-center bg-red-500 text-white"
+                                                    onClick={() =>
+                                                        setShowRemoveCheckBox(
+                                                            true,
+                                                        )
+                                                    }
+                                                >
+                                                    Clear conversation
+                                                </Button>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
