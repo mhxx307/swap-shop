@@ -1,4 +1,4 @@
-import { useMeQuery, useNewMessageMutation } from '@/generated/graphql';
+import { useNewMessageMutation } from '@/generated/graphql';
 import { io } from 'socket.io-client';
 
 import { BsEmojiSmile } from 'react-icons/bs';
@@ -17,6 +17,7 @@ import { createUrlListFromFileList, formatCurrency } from '@/utils';
 import { useMessage } from '@/hooks';
 
 import 'tippy.js/dist/tippy.css';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 interface UserSocket {
     userId: string;
@@ -30,16 +31,13 @@ function ChatBox() {
     const [files, setFiles] = useState<File[]>([]);
     const [onlineUsers, setOnlineUsers] = useState<UserSocket[]>([]);
     console.log(onlineUsers);
-
-    const { data: meData } = useMeQuery();
+    const { profile } = useAuthContext();
 
     const [sendMessageMutation, { loading: sendMessageLoading }] =
         useNewMessageMutation();
 
     const conversation = conversationData?.getConversation;
     const messages = messagesData?.messages;
-    const me = meData?.me;
-
     const iconRef = useRef<HTMLSpanElement | null>(null);
 
     useEffect(() => {
@@ -70,14 +68,14 @@ function ChatBox() {
 
     // add user and getUsers to socket
     useEffect(() => {
-        if (me) {
-            socket.current?.emit('addUser', me.id); // emit the addUser event with the me.id as the argument
+        if (profile) {
+            socket.current?.emit('addUser', profile.id); // emit the addUser event with the me.id as the argument
             socket.current?.on('getUsers', (users: UserSocket[]) => {
                 setOnlineUsers(users);
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [me]);
+    }, [profile]);
 
     const handleSendMessage = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
@@ -85,9 +83,9 @@ function ChatBox() {
         event?.preventDefault();
         const urlChatImages = await createUrlListFromFileList(files, 'chats');
 
-        if (me?.id && conversation?.id && newMessage) {
+        if (profile?.id && conversation?.id && newMessage) {
             const receiverId =
-                conversation.member1.id === me.id
+                conversation.member1.id === profile.id
                     ? conversation.member2.id
                     : conversation.member1.id;
 
@@ -95,7 +93,7 @@ function ChatBox() {
                 variables: {
                     insertMessageInput: {
                         conversationId: conversation.id,
-                        senderId: me.id,
+                        senderId: profile.id,
                         text: newMessage,
                         images: urlChatImages,
                     },
@@ -105,7 +103,7 @@ function ChatBox() {
                     setNewMessage('');
                     setFiles([]);
                     socket.current?.emit('sendMessage', {
-                        senderId: me.id,
+                        senderId: profile.id,
                         receiverId: receiverId,
                         text: newMessage,
                     });
@@ -157,7 +155,10 @@ function ChatBox() {
                                 messages.map((message) => (
                                     <div ref={scrollRef} key={message.id}>
                                         <Message
-                                            own={message.sender.id === me?.id}
+                                            own={
+                                                message.sender.id ===
+                                                profile?.id
+                                            }
                                             message={message as MessageType}
                                             socket={socket}
                                         />

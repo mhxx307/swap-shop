@@ -7,13 +7,10 @@ import Tippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 
 import { Image, Popover } from '@/components/shared';
-import {
-    Message,
-    useMeQuery,
-    useRemoveMessageMutation,
-} from '@/generated/graphql';
+import { Message, useRemoveMessageMutation } from '@/generated/graphql';
 import { useMessage } from '@/hooks';
 import { toast } from 'react-toastify';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 interface MessageProps {
     own?: boolean;
@@ -157,13 +154,12 @@ const MoreOptions = ({
     message: Message;
     socket: any;
 }) => {
-    const { data: meData } = useMeQuery();
-    const me = meData?.me;
+    const { profile } = useAuthContext();
     const { refetch } = useMessage();
     const [removeMessage] = useRemoveMessageMutation();
 
     const receiverId =
-        message?.conversation?.member1?.id === me?.id
+        message?.conversation?.member1?.id === profile?.id
             ? message?.conversation?.member2?.id
             : message?.conversation?.member1?.id;
 
@@ -180,9 +176,9 @@ const MoreOptions = ({
             },
             onCompleted: () => {
                 refetch();
-                if (socket.current) {
+                if (socket.current && profile) {
                     socket.current.emit('sendMessage', {
-                        senderId: me?.id,
+                        senderId: profile.id,
                         receiverId: receiverId,
                         text: 'Tin nhắn đã được thu hồi',
                     });

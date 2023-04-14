@@ -10,11 +10,9 @@ import {
 } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { toast } from 'react-toastify';
-import {
-    useMeQuery,
-    useUploadAvatarProfileMutation,
-} from '@/generated/graphql';
+import { User, useUploadAvatarProfileMutation } from '@/generated/graphql';
 import { createAttachmentUrl } from '@/utils';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 export interface AvatarUploadProps {
     picture?: string | null;
@@ -24,7 +22,7 @@ const AvatarUpload = ({ picture }: AvatarUploadProps) => {
     const [selectedFile, setSelectedFile] = useState<File | null>();
     const [preview, setPreview] = useState<string>();
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const { refetch } = useMeQuery();
+    const { setProfile } = useAuthContext();
 
     // create a preview as a side effect, whenever selected file is changed
     useEffect(() => {
@@ -63,12 +61,12 @@ const AvatarUpload = ({ picture }: AvatarUploadProps) => {
             await deleteObject(oldImageRef);
         }
 
-        const respose = await uploadBytes(imageRef, selectedFile);
-        const url = await getDownloadURL(respose.ref);
+        const response = await uploadBytes(imageRef, selectedFile);
+        const url = await getDownloadURL(response.ref);
         await uploadAvatarProfileMutation({
             variables: { imageUrl: url },
-            onCompleted: () => {
-                refetch();
+            onCompleted: (data) => {
+                setProfile(data.uploadAvatarProfile.user as User);
                 toast.success('Uploaded successfully');
             },
         });

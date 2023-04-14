@@ -55,6 +55,8 @@ mutation UploadAvatarProfile($imageUrl: String!) {
     uploadAvatarProfile(imageUrl: $imageUrl) {
         success
         message
-        code
+        user {
+            ...user
+        }
     }
 }
