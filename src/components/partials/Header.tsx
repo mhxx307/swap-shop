@@ -18,12 +18,17 @@ import {
     Popover,
 } from '@/components/shared';
 import { useConstantsTranslation, useDevice } from '@/hooks';
-import { MeDocument, MeQuery, useLogoutMutation } from '@/generated/graphql';
+import {
+    MeDocument,
+    MeQuery,
+    useLogoutMutation,
+    useMeQuery,
+} from '@/generated/graphql';
 import { BsBellFill } from 'react-icons/bs';
 import { path } from '@/constants';
 import { getTextColorByPath } from '@/utils';
-import { clearLS } from '@/utils/auth';
-import { useAuthContext } from '@/contexts/AuthContext';
+// import { clearLS } from '@/utils/auth';
+// import { useAuthContext } from '@/contexts/AuthContext';
 
 const Header = () => {
     const [navbar, setNavbar] = useState<boolean>(false);
@@ -38,7 +43,9 @@ const Header = () => {
     const { isMobile } = useDevice();
     const [logout] = useLogoutMutation();
 
-    const { profile, setProfile, setIsAuthenticated } = useAuthContext();
+    // const { profile, setProfile, setIsAuthenticated } = useAuthContext();
+    const { data: meData } = useMeQuery();
+    const profile = meData?.me;
     console.log('profile', profile);
 
     const menuList = profile ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
@@ -71,11 +78,11 @@ const Header = () => {
                     });
                 }
             },
-            onCompleted() {
-                clearLS();
-                setProfile(null);
-                setIsAuthenticated(false);
-            },
+            // onCompleted() {
+            //     clearLS();
+            //     setProfile(null);
+            //     setIsAuthenticated(false);
+            // },
         });
     };
 

@@ -1,8 +1,9 @@
-import { useAuthContext } from '@/contexts/AuthContext';
+// import { useAuthContext } from '@/contexts/AuthContext';
 import {
     useAddToFavoriteMutation,
     useFavoritesQuery,
     useIsFavoriteQuery,
+    useMeQuery,
     useRemoveFromFavoriteMutation,
 } from '@/generated/graphql';
 import { useRouter } from 'next/router';
@@ -10,7 +11,9 @@ import React from 'react';
 
 function useFavorites({ articleId }: { articleId: string }) {
     const router = useRouter();
-    const { profile } = useAuthContext();
+    // const { profile } = useAuthContext();
+    const { data: meData } = useMeQuery();
+    const profile = meData?.me;
 
     const [addToFavorite] = useAddToFavoriteMutation();
     const [removeFromFavorite] = useRemoveFromFavoriteMutation();

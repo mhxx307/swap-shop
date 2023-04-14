@@ -21,6 +21,7 @@ import {
     User,
     useArticlesQuery,
     useDeleteReviewMutation,
+    useMeQuery,
     useReviewUserMutation,
     useReviewsQuery,
     useUserByIdQuery,
@@ -29,7 +30,7 @@ import { useQueryConfig } from '@/hooks';
 import { getIdFromNameId } from '@/utils';
 import classNames from 'classnames';
 import { toast } from 'react-toastify';
-import { useAuthContext } from '@/contexts/AuthContext';
+// import { useAuthContext } from '@/contexts/AuthContext';
 
 function StoreDetail() {
     const router = useRouter();
@@ -455,7 +456,9 @@ const MoreAction = ({
     setContent: any;
     refetch: any;
 }) => {
-    const { profile } = useAuthContext();
+    // const { profile } = useAuthContext();
+    const { data } = useMeQuery();
+    const profile = data?.me;
     const [deleteReviewMutations] = useDeleteReviewMutation();
 
     const handleDeleteReview = () => {

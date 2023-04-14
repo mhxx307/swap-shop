@@ -1,4 +1,4 @@
-import { useNewMessageMutation } from '@/generated/graphql';
+import { useMeQuery, useNewMessageMutation } from '@/generated/graphql';
 import { io } from 'socket.io-client';
 
 import { BsEmojiSmile } from 'react-icons/bs';
@@ -17,7 +17,7 @@ import { createUrlListFromFileList, formatCurrency } from '@/utils';
 import { useMessage } from '@/hooks';
 
 import 'tippy.js/dist/tippy.css';
-import { useAuthContext } from '@/contexts/AuthContext';
+// import { useAuthContext } from '@/contexts/AuthContext';
 
 interface UserSocket {
     userId: string;
@@ -31,7 +31,9 @@ function ChatBox() {
     const [files, setFiles] = useState<File[]>([]);
     const [onlineUsers, setOnlineUsers] = useState<UserSocket[]>([]);
     console.log(onlineUsers);
-    const { profile } = useAuthContext();
+    // const { profile } = useAuthContext();
+    const { data: meData } = useMeQuery();
+    const profile = meData?.me;
 
     const [sendMessageMutation, { loading: sendMessageLoading }] =
         useNewMessageMutation();

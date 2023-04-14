@@ -6,13 +6,16 @@ import { Button, InputField } from '@/components/shared';
 import { AvatarUpload } from '@/components/features/uploads';
 import {
     UpdateProfileInput,
+    useMeQuery,
     useUpdateProfileMutation,
 } from '@/generated/graphql';
 import { toast } from 'react-toastify';
-import { useAuthContext } from '@/contexts/AuthContext';
+// import { useAuthContext } from '@/contexts/AuthContext';
 
 const ProfilePage = () => {
-    const { profile } = useAuthContext();
+    // const { profile } = useAuthContext();
+    const { data } = useMeQuery();
+    const profile = data?.me;
     const { control, handleSubmit } = useForm<UpdateProfileInput>({
         defaultValues: {
             username: profile?.username,

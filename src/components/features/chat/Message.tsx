@@ -7,10 +7,14 @@ import Tippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 
 import { Image, Popover } from '@/components/shared';
-import { Message, useRemoveMessageMutation } from '@/generated/graphql';
+import {
+    Message,
+    useMeQuery,
+    useRemoveMessageMutation,
+} from '@/generated/graphql';
 import { useMessage } from '@/hooks';
 import { toast } from 'react-toastify';
-import { useAuthContext } from '@/contexts/AuthContext';
+// import { useAuthContext } from '@/contexts/AuthContext';
 
 interface MessageProps {
     own?: boolean;
@@ -154,7 +158,9 @@ const MoreOptions = ({
     message: Message;
     socket: any;
 }) => {
-    const { profile } = useAuthContext();
+    // const { profile } = useAuthContext();
+    const { data: meData } = useMeQuery();
+    const profile = meData?.me;
     const { refetch } = useMessage();
     const [removeMessage] = useRemoveMessageMutation();
 

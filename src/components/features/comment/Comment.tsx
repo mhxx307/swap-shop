@@ -15,11 +15,12 @@ import {
     useCommentListByArticleIdQuery,
     useDeleteCommentMutation,
     useInsertCommentMutation,
+    useMeQuery,
     useUpdateCommentMutation,
 } from '@/generated/graphql';
 import { MouseEvent, useState } from 'react';
 import CommentItem from './CommentItem';
-import { useAuthContext } from '@/contexts/AuthContext';
+// import { useAuthContext } from '@/contexts/AuthContext';
 
 interface CommentProps {
     id: string;
@@ -31,7 +32,9 @@ function Comment({ id }: CommentProps) {
         null,
     );
     const articleId = id;
-    const { profile } = useAuthContext();
+    // const { profile } = useAuthContext();
+    const { data: meData } = useMeQuery();
+    const profile = meData?.me;
 
     const {
         data: commentList,

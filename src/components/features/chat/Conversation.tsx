@@ -1,6 +1,10 @@
 import { path } from '@/constants';
-import { useAuthContext } from '@/contexts/AuthContext';
-import { Conversation, useUserByIdQuery } from '@/generated/graphql';
+// import { useAuthContext } from '@/contexts/AuthContext';
+import {
+    Conversation,
+    useMeQuery,
+    useUserByIdQuery,
+} from '@/generated/graphql';
 import { generateNameId } from '@/utils';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -8,7 +12,9 @@ import { useEffect, useState } from 'react';
 function Conversations({ conversation }: { conversation: Conversation }) {
     const router = useRouter();
     const [friendId, setFriendId] = useState('');
-    const { profile } = useAuthContext();
+    // const { profile } = useAuthContext();
+    const { data: meData } = useMeQuery();
+    const profile = meData?.me;
     const { data: friendData } = useUserByIdQuery({
         variables: {
             userId: friendId,

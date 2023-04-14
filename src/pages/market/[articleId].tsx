@@ -34,6 +34,7 @@ import {
     useArticlesQuery,
     useCountFavoritesForArticleQuery,
     useGetConversationsQuery,
+    useMeQuery,
     useNewConversationMutation,
 } from '@/generated/graphql';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
@@ -48,6 +49,7 @@ import { path } from '@/constants';
 import Link from 'next/link';
 
 const ArticleDetailPage = () => {
+    const { data: me } = useMeQuery();
     const router = useRouter();
     const [id, setId] = useState('');
     const { refetch } = useGetConversationsQuery();
@@ -313,17 +315,21 @@ const ArticleDetailPage = () => {
                                         </div>
 
                                         <div className="flex items-center gap-2">
-                                            <Tippy
-                                                content={`Contact with ${article.user.username}`}
-                                            >
-                                                <button
-                                                    onClick={
-                                                        handleNewConversation
-                                                    }
-                                                >
-                                                    <RiSendPlaneLine className="h-6 w-6 cursor-pointer transition-opacity hover:opacity-80" />
-                                                </button>
-                                            </Tippy>
+                                            {me?.me &&
+                                                me.me.id !==
+                                                    article.user.id && (
+                                                    <Tippy
+                                                        content={`Contact with ${article.user.username}`}
+                                                    >
+                                                        <button
+                                                            onClick={
+                                                                handleNewConversation
+                                                            }
+                                                        >
+                                                            <RiSendPlaneLine className="h-6 w-6 cursor-pointer transition-opacity hover:opacity-80" />
+                                                        </button>
+                                                    </Tippy>
+                                                )}
                                             <Popover
                                                 renderPopover={<MoreAction />}
                                             >

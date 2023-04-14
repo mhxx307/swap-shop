@@ -8,12 +8,14 @@ import {
     TabView,
 } from '@/components/shared';
 import { STATUS_ARTICLE } from '@/constants';
-import { useAuthContext } from '@/contexts/AuthContext';
-import { Article, useArticlesQuery } from '@/generated/graphql';
+// import { useAuthContext } from '@/contexts/AuthContext';
+import { Article, useArticlesQuery, useMeQuery } from '@/generated/graphql';
 import { useQueryConfig } from '@/hooks';
 
 function PublishedPage() {
-    const { profile } = useAuthContext();
+    // const { profile } = useAuthContext();
+    const { data: meData } = useMeQuery();
+    const profile = meData?.me;
     const queryConfig = useQueryConfig();
 
     const { data: articlesData } = useArticlesQuery({

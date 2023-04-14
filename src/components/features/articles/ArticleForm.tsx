@@ -15,6 +15,7 @@ import {
     useArticleQuery,
     useCategoriesQuery,
     useInsertArticleMutation,
+    useMeQuery,
     useUpdateArticleMutation,
 } from '@/generated/graphql';
 import {
@@ -26,7 +27,7 @@ import {
 import 'react-quill/dist/quill.snow.css';
 import ArticleCardPreview from './ArticleCardPreview';
 import { formats, modules } from '@/utils/Quill';
-import { useAuthContext } from '@/contexts/AuthContext';
+// import { useAuthContext } from '@/contexts/AuthContext';
 
 const prices = [
     { id: 1, label: 'Free' },
@@ -42,7 +43,9 @@ function ArticleForm({ id }: { id?: string }) {
     const [files, setFiles] = useState<File[]>([]);
     const [checked, setChecked] = useState(1);
 
-    const { profile } = useAuthContext();
+    // const { profile } = useAuthContext();
+    const { data: meData } = useMeQuery();
+    const profile = meData?.me;
     const { data: articleDataUpdate } = useArticleQuery({
         variables: {
             articleId: id as string,
