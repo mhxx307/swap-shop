@@ -4,6 +4,9 @@ import { Dispatch, SetStateAction } from 'react';
 
 import { Avatar, Button, Popover } from '@/components/shared';
 import { UpdateCommentInput } from '@/generated/graphql';
+import { AiOutlineMore } from 'react-icons/ai';
+import { RiDeleteBinLine, RiPencilLine } from 'react-icons/ri';
+import UserInfo from './UserInfo';
 
 // ! comment fix any type
 interface CommentItemProps {
@@ -30,60 +33,8 @@ function CommentItem({
     return (
         <div className="flex space-x-4">
             <Popover
-                renderPopover={
-                    <div className=" absolute z-10 inline-block w-64 rounded-lg border border-gray-200 bg-white text-sm font-light text-gray-500  shadow-sm transition-opacity duration-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400">
-                        <div className="p-3">
-                            <div className="mb-2 flex items-center justify-between">
-                                <span>
-                                    <Avatar
-                                        src={comment.user.avatar as string}
-                                    />
-                                </span>
-                                <div>
-                                    <button
-                                        type="button"
-                                        className="rounded-lg bg-blue-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                    >
-                                        Follow
-                                    </button>
-                                </div>
-                            </div>
-                            <p className="text-base font-semibold leading-none text-gray-900 dark:text-white">
-                                <span>{comment.user.username}</span>
-                            </p>
-                            <p className="mb-3 text-sm font-normal">
-                                <span className="hover:underline">@Hoang</span>
-                            </p>
-                            <p className="mb-4 text-sm font-light">
-                                Open-source contributor. Building{' '}
-                                <span className="text-blue-600 hover:underline dark:text-blue-500">
-                                    flowbite.com
-                                </span>
-                                .
-                            </p>
-                            <ul className="flex text-sm font-light">
-                                <li className="mr-2">
-                                    <span className="hover:underline">
-                                        <span className="font-semibold text-gray-900 dark:text-white">
-                                            799
-                                        </span>
-                                        <span>Following</span>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span className="hover:underline">
-                                        <span className="font-semibold text-gray-900 dark:text-white">
-                                            3,758
-                                        </span>
-                                        <span>Followers</span>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div data-popper-arrow></div>
-                    </div>
-                }
+                isArrow={false}
+                renderPopover={<UserInfo user={comment.user} />}
             >
                 <Avatar src={comment.user.avatar as string} />
             </Popover>
@@ -100,6 +51,7 @@ function CommentItem({
                             minRows={1}
                             maxRows={6}
                             defaultValue={comment.text}
+                            className="rounded-sm p-2 text-black outline-none"
                         />
                         <div className="mt-2 flex items-center justify-end space-x-2">
                             <Button onClick={() => setUpdateMode(null)}>
@@ -128,27 +80,40 @@ function CommentItem({
                         </div>
                         {me?.id === comment.user.id && (
                             <div className="flex-center col-span-8 space-x-2 justify-self-end ">
-                                <Button
-                                    isLoading={deleteLoading}
-                                    primary
-                                    onClick={() =>
-                                        handleDeleteComment(comment.id)
+                                <Popover
+                                    isArrow={false}
+                                    renderPopover={
+                                        <div className="bg-white dark:bg-[#6B728E]">
+                                            <Button
+                                                isLoading={deleteLoading}
+                                                className="w-full hover:bg-gray-300"
+                                                LeftIcon={RiDeleteBinLine}
+                                                onClick={() =>
+                                                    handleDeleteComment(
+                                                        comment.id,
+                                                    )
+                                                }
+                                            >
+                                                Delete
+                                            </Button>
+                                            <Button
+                                                isLoading={updateLoading}
+                                                className="w-full hover:bg-gray-300"
+                                                LeftIcon={RiPencilLine}
+                                                onClick={() =>
+                                                    setUpdateMode({
+                                                        id: comment.id,
+                                                        text: comment.text,
+                                                    })
+                                                }
+                                            >
+                                                Update
+                                            </Button>
+                                        </div>
                                     }
                                 >
-                                    Delete
-                                </Button>
-                                <Button
-                                    isLoading={updateLoading}
-                                    primary
-                                    onClick={() =>
-                                        setUpdateMode({
-                                            id: comment.id,
-                                            text: comment.text,
-                                        })
-                                    }
-                                >
-                                    Update
-                                </Button>
+                                    <AiOutlineMore className="h-6 w-6 cursor-pointer transition-opacity hover:opacity-80" />
+                                </Popover>
                             </div>
                         )}
                     </>
