@@ -1,6 +1,6 @@
 import HeadlessTippy from '@tippyjs/react/headless'; // different import path!
 import { ChangeEvent, useEffect, useRef, useState, useMemo } from 'react';
-import { BsFillGearFill, BsTrash } from 'react-icons/bs';
+import { BsFillGearFill } from 'react-icons/bs';
 
 import { Conversation, SearchResultList } from '@/components/features/chat';
 import { Header } from '@/components/partials';

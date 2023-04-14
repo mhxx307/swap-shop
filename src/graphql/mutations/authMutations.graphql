@@ -60,3 +60,13 @@ mutation UploadAvatarProfile($imageUrl: String!) {
         }
     }
 }
+
+mutation VerifyEmail($userId: String!, $token: String!) {
+    verifyEmail(userId: $userId, token: $token) {
+        message
+        success
+        user {
+            ...user
+        }
+    }
+}

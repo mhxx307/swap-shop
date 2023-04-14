@@ -11,20 +11,6 @@ const UserForm = ({ control }: FormProps) => {
                 name="fullName"
                 type="text"
             />
-
-            <InputField
-                label="Phone number:"
-                control={control}
-                name="phoneNumber"
-                type="text"
-            />
-
-            <InputField
-                label="Date of birth:"
-                control={control}
-                name="birthday"
-                type="date"
-            />
         </FormWrapper>
     );
 };
