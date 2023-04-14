@@ -18,6 +18,7 @@ export type Scalars = {
 
 export type Article = {
   __typename?: 'Article';
+  address: Scalars['String'];
   categories: Array<Category>;
   createdDate: Scalars['DateTime'];
   description: Scalars['String'];
@@ -161,10 +162,11 @@ export type IMutationResponse = {
 };
 
 export type InsertArticleInput = {
+  address: Scalars['String'];
   categoryIds: Array<Scalars['String']>;
   description: Scalars['String'];
   images: Array<Scalars['String']>;
-  price?: InputMaybe<Scalars['String']>;
+  price?: Scalars['String'];
   productName: Scalars['String'];
   title: Scalars['String'];
 };
@@ -243,6 +245,7 @@ export type Mutation = {
   updateMessage: MessageMutationResponse;
   updateProfile: UserMutationResponse;
   uploadAvatarProfile: UserMutationResponse;
+  verifyEmail: UserMutationResponse;
 };
 
 
@@ -413,6 +416,12 @@ export type MutationUploadAvatarProfileArgs = {
   imageUrl: Scalars['String'];
 };
 
+
+export type MutationVerifyEmailArgs = {
+  token: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export type PaginatedComments = {
   __typename?: 'PaginatedComments';
   cursor: Scalars['DateTime'];
@@ -525,12 +534,9 @@ export type QueryConfig = {
 };
 
 export type RegisterInput = {
-  address?: InputMaybe<Scalars['String']>;
-  birthday?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   fullName: Scalars['String'];
   password: Scalars['String'];
-  phoneNumber?: InputMaybe<Scalars['String']>;
   username: Scalars['String'];
 };
 
@@ -614,11 +620,12 @@ export type RoleMutationResponse = IMutationResponse & {
 };
 
 export type UpdateArticleInput = {
+  address: Scalars['String'];
   categoryIds: Array<Scalars['String']>;
   description: Scalars['String'];
   id: Scalars['String'];
   images: Array<Scalars['String']>;
-  price?: InputMaybe<Scalars['String']>;
+  price?: Scalars['String'];
   productName: Scalars['String'];
   status: Scalars['String'];
   title: Scalars['String'];
@@ -652,6 +659,7 @@ export type User = {
   email: Scalars['String'];
   fullName: Scalars['String'];
   id: Scalars['ID'];
+  isVerified: Scalars['Boolean'];
   phoneNumber?: Maybe<Scalars['String']>;
   rating: Scalars['Float'];
   roles: Array<UserRole>;
@@ -749,6 +757,14 @@ export type UploadAvatarProfileMutationVariables = Exact<{
 
 
 export type UploadAvatarProfileMutation = { __typename?: 'Mutation', uploadAvatarProfile: { __typename?: 'UserMutationResponse', success: boolean, message?: string | null, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } | null } };
+
+export type VerifyEmailMutationVariables = Exact<{
+  userId: Scalars['String'];
+  token: Scalars['String'];
+}>;
+
+
+export type VerifyEmailMutation = { __typename?: 'Mutation', verifyEmail: { __typename?: 'UserMutationResponse', message?: string | null, success: boolean, user?: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } | null } };
 
 export type InsertCommentMutationVariables = Exact<{
   insertCommentInput: InsertCommentInput;
@@ -1307,6 +1323,44 @@ export function useUploadAvatarProfileMutation(baseOptions?: Apollo.MutationHook
 export type UploadAvatarProfileMutationHookResult = ReturnType<typeof useUploadAvatarProfileMutation>;
 export type UploadAvatarProfileMutationResult = Apollo.MutationResult<UploadAvatarProfileMutation>;
 export type UploadAvatarProfileMutationOptions = Apollo.BaseMutationOptions<UploadAvatarProfileMutation, UploadAvatarProfileMutationVariables>;
+export const VerifyEmailDocument = gql`
+    mutation VerifyEmail($userId: String!, $token: String!) {
+  verifyEmail(userId: $userId, token: $token) {
+    message
+    success
+    user {
+      ...user
+    }
+  }
+}
+    ${UserFragmentDoc}`;
+export type VerifyEmailMutationFn = Apollo.MutationFunction<VerifyEmailMutation, VerifyEmailMutationVariables>;
+
+/**
+ * __useVerifyEmailMutation__
+ *
+ * To run a mutation, you first call `useVerifyEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [verifyEmailMutation, { data, loading, error }] = useVerifyEmailMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useVerifyEmailMutation(baseOptions?: Apollo.MutationHookOptions<VerifyEmailMutation, VerifyEmailMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VerifyEmailMutation, VerifyEmailMutationVariables>(VerifyEmailDocument, options);
+      }
+export type VerifyEmailMutationHookResult = ReturnType<typeof useVerifyEmailMutation>;
+export type VerifyEmailMutationResult = Apollo.MutationResult<VerifyEmailMutation>;
+export type VerifyEmailMutationOptions = Apollo.BaseMutationOptions<VerifyEmailMutation, VerifyEmailMutationVariables>;
 export const InsertCommentDocument = gql`
     mutation InsertComment($insertCommentInput: InsertCommentInput!) {
   insertComment(insertCommentInput: $insertCommentInput) {

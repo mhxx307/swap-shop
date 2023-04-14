@@ -30,7 +30,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
             <Head />
             <div className="relative grid min-h-screen w-full grid-cols-1 md:grid-cols-5">
                 <Link
-                    className="absolute right-2 top-0 mt-4 rounded-[15px] border-[1px] border-secondary bg-transparent px-[25px] py-[7px] text-white transition-opacity hover:opacity-80"
+                    className="absolute right-2 top-0 mt-4 rounded-[15px] border-[1px] border-secondary bg-transparent px-[25px] py-[7px] text-black transition-opacity hover:opacity-80 dark:text-white"
                     href={path.home}
                 >
                     {t('back_btn')}

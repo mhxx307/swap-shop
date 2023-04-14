@@ -10,8 +10,6 @@ const useValidateSchema = (name: validateName) => {
         'password',
         'confirmPassword',
         'fullName',
-        'phoneNumber',
-        'address',
     ]);
 
     const loginSchema = getSchema().pick(['usernameOrEmail', 'password']);
