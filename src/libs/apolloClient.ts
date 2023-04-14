@@ -10,6 +10,7 @@ import { onError } from '@apollo/client/link/error';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { IncomingHttpHeaders } from 'http';
+import fetch from 'isomorphic-unfetch';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -53,11 +54,10 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
     };
 
     const httpLink = new HttpLink({
-        // uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
         uri:
             process.env.NODE_ENV === 'production'
                 ? 'https://swapshop-server-pzsb.onrender.com/graphql'
-                : 'http://localhost:4000/graphql',
+                : 'http://localhost:4000/graphql', // Server URL (must be absolute)
         credentials: 'include', // Additional fetch() options like `credentials` or `headers`
         fetch: enhancedFetch,
     });
@@ -79,9 +79,15 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
 }
 
 export function initializeApollo(
-    initialState: NormalizedCacheObject | null = null,
+    {
+        headers,
+        initialState,
+    }: {
+        headers?: IncomingHttpHeaders | null;
+        initialState?: NormalizedCacheObject | null;
+    } = { headers: null, initialState: null },
 ) {
-    const _apolloClient = apolloClient ?? createApolloClient();
+    const _apolloClient = apolloClient ?? createApolloClient(headers);
 
     // If your page has Next.js data fetching methods that use Apollo Client, the initial state
     // gets hydrated here
@@ -124,6 +130,9 @@ export function addApolloState(
 
 export function useApollo(pageProps: ApolloPageProps) {
     const state = pageProps[APOLLO_STATE_PROP_NAME];
-    const store = useMemo(() => initializeApollo(state), [state]);
+    const store = useMemo(
+        () => initializeApollo({ initialState: state }),
+        [state],
+    );
     return store;
 }

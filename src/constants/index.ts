@@ -15,10 +15,6 @@ export const PROGRESS_LIST: ProgressItemProps[] = [
         title: 'User',
         number: 1,
     },
-    {
-        title: 'Address',
-        number: 2,
-    },
 ];
 
 export const FACEBOOK_URL = 'https://www.facebook.com';

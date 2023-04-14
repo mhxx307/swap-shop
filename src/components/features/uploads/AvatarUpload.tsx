@@ -11,10 +11,12 @@ import {
 import { v4 } from 'uuid';
 import { toast } from 'react-toastify';
 import {
+    User,
     useMeQuery,
     useUploadAvatarProfileMutation,
 } from '@/generated/graphql';
 import { createAttachmentUrl } from '@/utils';
+// import { useAuthContext } from '@/contexts/AuthContext';
 
 export interface AvatarUploadProps {
     picture?: string | null;
@@ -24,6 +26,7 @@ const AvatarUpload = ({ picture }: AvatarUploadProps) => {
     const [selectedFile, setSelectedFile] = useState<File | null>();
     const [preview, setPreview] = useState<string>();
     const fileInputRef = useRef<HTMLInputElement>(null);
+    // const { setProfile } = useAuthContext();
     const { refetch } = useMeQuery();
 
     // create a preview as a side effect, whenever selected file is changed
@@ -63,11 +66,12 @@ const AvatarUpload = ({ picture }: AvatarUploadProps) => {
             await deleteObject(oldImageRef);
         }
 
-        const respose = await uploadBytes(imageRef, selectedFile);
-        const url = await getDownloadURL(respose.ref);
+        const response = await uploadBytes(imageRef, selectedFile);
+        const url = await getDownloadURL(response.ref);
         await uploadAvatarProfileMutation({
             variables: { imageUrl: url },
-            onCompleted: () => {
+            onCompleted: (data) => {
+                // setProfile(data.uploadAvatarProfile.user as User);
                 refetch();
                 toast.success('Uploaded successfully');
             },

@@ -27,10 +27,11 @@ import {
 import { BsBellFill } from 'react-icons/bs';
 import { path } from '@/constants';
 import { getTextColorByPath } from '@/utils';
+// import { clearLS } from '@/utils/auth';
+// import { useAuthContext } from '@/contexts/AuthContext';
 
 const Header = () => {
     const [navbar, setNavbar] = useState<boolean>(false);
-    const { data } = useMeQuery();
     const router = useRouter();
     const { t } = useTranslation('header');
     const {
@@ -42,8 +43,12 @@ const Header = () => {
     const { isMobile } = useDevice();
     const [logout] = useLogoutMutation();
 
-    const me = data?.me;
-    const menuList = me ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
+    // const { profile, setProfile, setIsAuthenticated } = useAuthContext();
+    const { data: meData } = useMeQuery();
+    const profile = meData?.me;
+    console.log('profile', profile);
+
+    const menuList = profile ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
     const textColor = getTextColorByPath(router.pathname);
 
     useEffect(() => {
@@ -73,6 +78,11 @@ const Header = () => {
                     });
                 }
             },
+            // onCompleted() {
+            //     clearLS();
+            //     setProfile(null);
+            //     setIsAuthenticated(false);
+            // },
         });
     };
 
@@ -107,7 +117,7 @@ const Header = () => {
                             className={`h-4 w-4 transition-colors hover:text-gray-500 ${textColor}`}
                         />
 
-                        {!me && (
+                        {!profile && (
                             <Button
                                 primary
                                 outline
@@ -133,7 +143,7 @@ const Header = () => {
                                             {item.label}
                                         </Link>
                                     ))}
-                                    {me && (
+                                    {profile && (
                                         <button
                                             className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-primary-500"
                                             onClick={handleLogout}
@@ -144,13 +154,13 @@ const Header = () => {
                                 </div>
                             }
                         >
-                            {me ? (
+                            {profile ? (
                                 <Image
                                     src={
-                                        me?.avatar ||
+                                        profile?.avatar ||
                                         '/images/avatar-fallback.png'
                                     }
-                                    alt={me.username}
+                                    alt={profile.username}
                                     className="h-8 w-8 rounded-[50%] object-cover sm:cursor-pointer"
                                 />
                             ) : (

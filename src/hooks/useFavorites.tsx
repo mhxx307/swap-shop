@@ -1,3 +1,4 @@
+// import { useAuthContext } from '@/contexts/AuthContext';
 import {
     useAddToFavoriteMutation,
     useFavoritesQuery,
@@ -10,7 +11,9 @@ import React from 'react';
 
 function useFavorites({ articleId }: { articleId: string }) {
     const router = useRouter();
-    const { data: me, loading } = useMeQuery();
+    // const { profile } = useAuthContext();
+    const { data: meData } = useMeQuery();
+    const profile = meData?.me;
 
     const [addToFavorite] = useAddToFavoriteMutation();
     const [removeFromFavorite] = useRemoveFromFavoriteMutation();
@@ -18,13 +21,13 @@ function useFavorites({ articleId }: { articleId: string }) {
         variables: {
             articleId: articleId,
         },
-        skip: !me?.me,
+        skip: !profile,
     });
     const { refetch: refetchFavorites } = useFavoritesQuery();
 
     const handleAddToFavorite = async (e: React.MouseEvent) => {
         e.stopPropagation();
-        if (!loading && !me?.me) {
+        if (!profile) {
             router.push('/login');
             return;
         }

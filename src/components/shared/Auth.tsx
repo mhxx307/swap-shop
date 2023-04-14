@@ -2,22 +2,25 @@ import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
 import Spinner from './Spinner';
 import { useMeQuery } from '@/generated/graphql';
+// import { useAuthContext } from '@/contexts/AuthContext';
 
 interface AuthProps {
     children: ReactNode;
 }
 
 const Auth = ({ children }: AuthProps) => {
-    const { data, loading } = useMeQuery();
+    // const { profile } = useAuthContext();
+    const { loading, data } = useMeQuery();
+    const profile = data?.me;
     const router = useRouter();
 
     useEffect(() => {
-        if (!loading && !data?.me) {
+        if (!loading && !profile) {
             router.push('/login');
         }
-    }, [loading, router, data]);
+    }, [router, profile, loading]);
 
-    if (!data?.me) {
+    if (!profile) {
         return <Spinner />;
     }
 

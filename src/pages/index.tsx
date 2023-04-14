@@ -2,7 +2,7 @@ import { ArticleList } from '@/components/features/articles';
 import { SwiperCategories } from '@/components/features/categories';
 import { HeroSection } from '@/components/features/home';
 import { ClientOnly, Head, Pagination } from '@/components/shared';
-import { ORDER, SORT_BY } from '@/constants';
+import { ORDER, SORT_BY, STATUS_ARTICLE } from '@/constants';
 import {
     useArticlesQuery,
     useCategoriesQuery,
@@ -23,7 +23,7 @@ const Home = () => {
     const { data: categoriesData } = useCategoriesQuery();
     const { data: articlesData } = useArticlesQuery({
         variables: {
-            queryConfig: queryConfig,
+            queryConfig: { ...queryConfig, status: STATUS_ARTICLE.APPROVED },
         },
     });
     const { data: articlesFavoritesData } = useArticlesQuery({

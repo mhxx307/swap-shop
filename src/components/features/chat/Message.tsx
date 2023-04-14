@@ -14,6 +14,7 @@ import {
 } from '@/generated/graphql';
 import { useMessage } from '@/hooks';
 import { toast } from 'react-toastify';
+// import { useAuthContext } from '@/contexts/AuthContext';
 
 interface MessageProps {
     own?: boolean;
@@ -157,13 +158,14 @@ const MoreOptions = ({
     message: Message;
     socket: any;
 }) => {
+    // const { profile } = useAuthContext();
     const { data: meData } = useMeQuery();
-    const me = meData?.me;
+    const profile = meData?.me;
     const { refetch } = useMessage();
     const [removeMessage] = useRemoveMessageMutation();
 
     const receiverId =
-        message?.conversation?.member1?.id === me?.id
+        message?.conversation?.member1?.id === profile?.id
             ? message?.conversation?.member2?.id
             : message?.conversation?.member1?.id;
 
@@ -180,9 +182,9 @@ const MoreOptions = ({
             },
             onCompleted: () => {
                 refetch();
-                if (socket.current) {
+                if (socket.current && profile) {
                     socket.current.emit('sendMessage', {
-                        senderId: me?.id,
+                        senderId: profile.id,
                         receiverId: receiverId,
                         text: 'Tin nhắn đã được thu hồi',
                     });

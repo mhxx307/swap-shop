@@ -10,17 +10,19 @@ import {
     useUpdateProfileMutation,
 } from '@/generated/graphql';
 import { toast } from 'react-toastify';
+// import { useAuthContext } from '@/contexts/AuthContext';
 
 const ProfilePage = () => {
-    const { data: meData } = useMeQuery();
-    const me = meData?.me;
+    // const { profile } = useAuthContext();
+    const { data } = useMeQuery();
+    const profile = data?.me;
     const { control, handleSubmit } = useForm<UpdateProfileInput>({
         defaultValues: {
-            username: me?.username,
-            address: me?.address,
-            phoneNumber: me?.phoneNumber,
-            fullName: me?.fullName,
-            birthday: me?.birthday,
+            username: profile?.username,
+            address: profile?.address || '',
+            phoneNumber: profile?.phoneNumber || '',
+            fullName: profile?.fullName,
+            birthday: profile?.birthday || '',
         },
     });
 
@@ -36,9 +38,13 @@ const ProfilePage = () => {
         toast.success('Update Sucessfully', { toastId: 'updatedProfile' });
     };
 
+    if (!profile) {
+        return <div>No authen</div>;
+    }
+
     return (
         <div className="space-y-12 pb-[60px]">
-            <AvatarUpload picture={me?.avatar} />
+            <AvatarUpload picture={profile?.avatar} />
 
             <form
                 method="POST"
@@ -59,7 +65,7 @@ const ProfilePage = () => {
                     containerInputClassName="default-input"
                 />
 
-                <p>{me?.email}</p>
+                <p>{profile.email}</p>
 
                 <InputField
                     name="phoneNumber"

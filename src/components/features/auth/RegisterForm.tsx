@@ -8,17 +8,11 @@ import { Button } from '@/components/shared';
 import { PROGRESS_LIST } from '@/constants';
 import {
     AccountForm,
-    AddressForm,
     FinishForm,
     ProgressBar,
     UserForm,
 } from './components/register';
-import {
-    MeDocument,
-    MeQuery,
-    useRegisterMutation,
-    RegisterInput,
-} from '@/generated/graphql';
+import { useRegisterMutation, RegisterInput } from '@/generated/graphql';
 import { useRouter } from 'next/router';
 import { omit } from 'lodash';
 
@@ -29,12 +23,9 @@ interface FormState extends RegisterInput {
 
 export const initialData: FormState = {
     fullName: '',
-    birthday: '',
-    address: '',
     email: '',
     username: '',
     password: '',
-    phoneNumber: '',
     confirmPassword: '',
 };
 
@@ -66,7 +57,6 @@ const RegisterForm = () => {
     } = useMultiStepForm([
         <AccountForm control={control} />,
         <UserForm control={control} />,
-        <AddressForm control={control} />,
         <FinishForm />,
     ]);
 
@@ -81,23 +71,19 @@ const RegisterForm = () => {
             variables: {
                 registerInput,
             },
-            update(cache, { data }) {
+            onCompleted: (data) => {
                 if (data?.register.success) {
-                    cache.writeQuery<MeQuery>({
-                        query: MeDocument,
-                        data: { me: data.register.user },
-                    });
+                    toast.success(
+                        'Register success - Check your email to verify account!',
+                    );
                 }
+                router.push('/login');
             },
         });
 
         if (response.data?.register.errors) {
             response.data?.register.errors.forEach((error) => {
-                if (
-                    error.field === 'username' ||
-                    error.field === 'email' ||
-                    error.field === 'phoneNumber'
-                ) {
+                if (error.field === 'username' || error.field === 'email') {
                     setError(
                         error.field,
                         {
