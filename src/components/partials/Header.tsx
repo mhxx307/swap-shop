@@ -27,8 +27,10 @@ import {
 import { BsBellFill } from 'react-icons/bs';
 import { path } from '@/constants';
 import { getTextColorByPath } from '@/utils';
+import { useSession, signOut } from 'next-auth/react';
 
 const Header = () => {
+    const { data: session } = useSession();
     const [navbar, setNavbar] = useState<boolean>(false);
     const { data } = useMeQuery();
     const router = useRouter();
@@ -43,7 +45,7 @@ const Header = () => {
     const [logout] = useLogoutMutation();
 
     const me = data?.me;
-    const menuList = me ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
+    const menuList = me || session ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
     const textColor = getTextColorByPath(router.pathname);
 
     useEffect(() => {
@@ -63,17 +65,21 @@ const Header = () => {
     };
 
     const handleLogout = async () => {
-        await logout({
-            update(cache, { data }) {
-                toast.success('Logout successfully');
-                if (data?.logout) {
-                    cache.writeQuery<MeQuery>({
-                        query: MeDocument,
-                        data: { me: null },
-                    });
-                }
-            },
-        });
+        if (session) {
+            signOut();
+        } else {
+            await logout({
+                update(cache, { data }) {
+                    toast.success('Logout successfully');
+                    if (data?.logout) {
+                        cache.writeQuery<MeQuery>({
+                            query: MeDocument,
+                            data: { me: null },
+                        });
+                    }
+                },
+            });
+        }
     };
 
     return (
@@ -107,7 +113,7 @@ const Header = () => {
                             className={`h-4 w-4 transition-colors hover:text-gray-500 ${textColor}`}
                         />
 
-                        {!me && (
+                        {!me && !session && (
                             <Button
                                 primary
                                 outline
@@ -133,7 +139,7 @@ const Header = () => {
                                             {item.label}
                                         </Link>
                                     ))}
-                                    {me && (
+                                    {(me || session) && (
                                         <button
                                             className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-primary-500"
                                             onClick={handleLogout}
@@ -151,6 +157,15 @@ const Header = () => {
                                         '/images/avatar-fallback.png'
                                     }
                                     alt={me.username}
+                                    className="h-8 w-8 rounded-[50%] object-cover sm:cursor-pointer"
+                                />
+                            ) : session ? (
+                                <Image
+                                    src={
+                                        session.user?.image ||
+                                        '/images/avatar-fallback.png'
+                                    }
+                                    alt={session.user?.name as string}
                                     className="h-8 w-8 rounded-[50%] object-cover sm:cursor-pointer"
                                 />
                             ) : (

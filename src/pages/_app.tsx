@@ -8,18 +8,19 @@ import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '@/libs/apolloClient';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import BaseLayout from '@/components/layouts/BaseLayout';
+import { SessionProvider } from 'next-auth/react';
 
 import '@/styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+const App = ({ Component, pageProps, session }: AppPropsWithLayout) => {
     const Layout =
         Component.Layout || ((page) => <BaseLayout>{page}</BaseLayout>);
 
     const apolloClient = useApollo(pageProps);
 
     return (
-        <>
+        <SessionProvider session={session}>
             <ToastContainer
                 position="bottom-left"
                 autoClose={5000}
@@ -37,12 +38,13 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
                     {Layout(
                         <>
                             <NextNProgress color="#5142fc" />
+
                             <Component {...pageProps} />
                         </>,
                     )}
                 </ApolloProvider>
             </ThemeProvider>
-        </>
+        </SessionProvider>
     );
 };
 

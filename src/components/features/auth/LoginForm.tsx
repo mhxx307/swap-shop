@@ -15,6 +15,7 @@ import {
     MeQuery,
     useLoginMutation,
 } from '@/generated/graphql';
+import { signIn } from 'next-auth/react';
 
 const LoginForm = () => {
     const { t } = useTranslation('login');
@@ -117,6 +118,7 @@ const LoginForm = () => {
                     className="w-full select-none justify-center py-2 pr-6 pl-4 hover:bg-gray-200 hover:text-black"
                     LeftIcon={FcGoogle}
                     iconClassName="w-5 h-5"
+                    onClick={() => signIn()}
                 >
                     {t('google_login')}
                 </Button>
