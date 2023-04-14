@@ -15,11 +15,11 @@ import {
     useCommentListByArticleIdQuery,
     useDeleteCommentMutation,
     useInsertCommentMutation,
-    useMeQuery,
     useUpdateCommentMutation,
 } from '@/generated/graphql';
 import { MouseEvent, useState } from 'react';
 import CommentItem from './CommentItem';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 interface CommentProps {
     id: string;
@@ -30,11 +30,8 @@ function Comment({ id }: CommentProps) {
     const [updateMode, setUpdateMode] = useState<UpdateCommentInput | null>(
         null,
     );
-    // const { query } = useRouter();
     const articleId = id;
-
-    const { data: meData } = useMeQuery();
-    const me = meData?.me;
+    const { profile } = useAuthContext();
 
     const {
         data: commentList,
@@ -205,11 +202,11 @@ function Comment({ id }: CommentProps) {
         <div className="bg-white dark:bg-secondaryDark">
             <div className="-mt-1 space-y-4 rounded-b-sm p-5">
                 <p className="text-sm">
-                    {meData?.me ? (
+                    {profile ? (
                         <>
                             Comment as{' '}
                             <span className="text-red-500">
-                                {meData.me.username}
+                                {profile.username}
                             </span>
                         </>
                     ) : (
@@ -224,10 +221,10 @@ function Comment({ id }: CommentProps) {
                 >
                     <textarea
                         {...register('text')}
-                        disabled={!me}
+                        disabled={!profile}
                         className="h-24 rounded-md border border-gray-200 p-2 pl-4 outline-none disabled:bg-gray-50"
                         placeholder={
-                            me
+                            profile
                                 ? 'What are your thoughts?'
                                 : 'Please sign into comment'
                         }
@@ -256,7 +253,7 @@ function Comment({ id }: CommentProps) {
                             setUpdateMode={setUpdateMode}
                             updateLoading={updateLoading}
                             updateMode={updateMode}
-                            me={me}
+                            me={profile}
                         />
                     ),
                 )}

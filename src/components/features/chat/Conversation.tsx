@@ -1,9 +1,6 @@
 import { path } from '@/constants';
-import {
-    Conversation,
-    useMeQuery,
-    useUserByIdQuery,
-} from '@/generated/graphql';
+import { useAuthContext } from '@/contexts/AuthContext';
+import { Conversation, useUserByIdQuery } from '@/generated/graphql';
 import { generateNameId } from '@/utils';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -11,20 +8,19 @@ import { useEffect, useState } from 'react';
 function Conversations({ conversation }: { conversation: Conversation }) {
     const router = useRouter();
     const [friendId, setFriendId] = useState('');
-    const { data: meData } = useMeQuery();
+    const { profile } = useAuthContext();
     const { data: friendData } = useUserByIdQuery({
         variables: {
             userId: friendId,
         },
         skip: !friendId,
     });
-    const me = meData?.me;
     const friend = friendData?.getUserById;
 
     useEffect(() => {
-        if (me) {
+        if (profile) {
             const friendId =
-                conversation.member1.id === me.id
+                conversation.member1.id === profile.id
                     ? conversation.member2.id
                     : conversation.member1.id;
 

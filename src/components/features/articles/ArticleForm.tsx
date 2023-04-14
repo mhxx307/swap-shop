@@ -15,7 +15,6 @@ import {
     useArticleQuery,
     useCategoriesQuery,
     useInsertArticleMutation,
-    useMeQuery,
     useUpdateArticleMutation,
 } from '@/generated/graphql';
 import {
@@ -27,6 +26,7 @@ import {
 import 'react-quill/dist/quill.snow.css';
 import ArticleCardPreview from './ArticleCardPreview';
 import { formats, modules } from '@/utils/Quill';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 const prices = [
     { id: 1, label: 'Free' },
@@ -42,8 +42,7 @@ function ArticleForm({ id }: { id?: string }) {
     const [files, setFiles] = useState<File[]>([]);
     const [checked, setChecked] = useState(1);
 
-    const { data: meData } = useMeQuery();
-    const me = meData?.me;
+    const { profile } = useAuthContext();
     const { data: articleDataUpdate } = useArticleQuery({
         variables: {
             articleId: id as string,
@@ -151,7 +150,7 @@ function ArticleForm({ id }: { id?: string }) {
                                     ? URL.createObjectURL(files[0])
                                     : '/images/avatar-fallback.png'
                             }
-                            user={me as User}
+                            user={profile as User}
                         />
                     </div>
                     <div className="col-span-6 md:col-span-8 lg:col-span-9">

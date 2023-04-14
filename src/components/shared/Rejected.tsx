@@ -1,20 +1,19 @@
 import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
 import Spinner from './Spinner';
-import { useMeQuery } from '@/generated/graphql';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 interface RejectedProps {
     children: ReactNode;
 }
 
 const Rejected = ({ children }: RejectedProps) => {
-    const { data, loading } = useMeQuery();
+    const { profile } = useAuthContext();
     const router = useRouter();
 
     useEffect(() => {
         if (
-            !loading &&
-            data?.me &&
+            profile &&
             (router.route === '/login' ||
                 router.route === '/register' ||
                 router.route === '/forgot-password' ||
@@ -22,9 +21,9 @@ const Rejected = ({ children }: RejectedProps) => {
         ) {
             router.replace('/');
         }
-    }, [loading, router, data]);
+    }, [router, profile]);
 
-    if (data?.me) {
+    if (profile) {
         return <Spinner />;
     }
 
