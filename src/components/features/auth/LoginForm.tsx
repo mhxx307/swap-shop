@@ -13,13 +13,17 @@ import {
     LoginInput,
     MeDocument,
     MeQuery,
+    User,
     useLoginMutation,
 } from '@/generated/graphql';
+import { setProfileToLS } from '@/utils/auth';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 const LoginForm = () => {
     const { t } = useTranslation('login');
     const schema = useValidateSchema('login');
     const [showPassword, setShowPassword] = useState(false);
+    const { setProfile, setIsAuthenticated } = useAuthContext();
     const router = useRouter();
 
     const { control, handleSubmit, setError } = useForm<LoginInput>({
@@ -69,6 +73,9 @@ const LoginForm = () => {
             toast.success(
                 `Login successfully! WELCOME ${response.data?.login.user?.username}`,
             );
+            setProfileToLS(response.data?.login.user as User);
+            setProfile(response.data?.login.user as User);
+            setIsAuthenticated(true);
             router.push('/');
         }
     };
