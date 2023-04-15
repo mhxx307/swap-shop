@@ -117,16 +117,18 @@ function ChatBox() {
     return (
         <>
             {/* wrapper */}
-            <div className="relative flex h-full flex-col justify-between">
+            <div className="relative flex h-full flex-col justify-between bg-[#F9F9F9] dark:bg-[#161616]">
                 {conversation ? (
                     <>
                         {/* top */}
-
-                        <div className=" mr-4 mt-2 h-[120px] rounded-lg bg-[#f5f1f1] p-2 pl-4 dark:bg-[#343444]">
+                        <div className="flex items-center justify-between border-b-[1px] border-l-[1px] border-r-[1px] bg-[#F5F1F1] px-3 pt-3 pb-5 dark:border-gray-500 dark:bg-[#343444]">
+                            <p className="font-bold">Chat</p>
+                        </div>
+                        <div className="h-[114px] border-b-[1px] bg-[#f5f1f1] p-2 pl-4 dark:border-gray-500 dark:bg-[#343444]">
                             <p className="text-sm">
                                 Bạn đang trao đổi với người bán về sản phẩm này
                             </p>
-                            <div className="h-[2px] w-full bg-black/10" />
+                            <div className="mt-1 h-[1px] w-full bg-black/10 dark:bg-gray-300" />
                             <div className="mt-2 flex">
                                 <Image
                                     className="h-[60px] w-[100px] object-cover"
@@ -169,7 +171,7 @@ function ChatBox() {
                         </div>
 
                         {/* bottom */}
-                        <div className="mt-[5px] mb-[15px] flex items-center justify-between">
+                        <div className="mt-[5px] flex items-center justify-between rounded-md bg-[#F5F1F1] px-3 dark:bg-[#5e5d5d] dark:text-black">
                             <Tippy
                                 interactive={true}
                                 render={(attrs) => (
@@ -196,7 +198,7 @@ function ChatBox() {
                             >
                                 <span ref={iconRef}>
                                     {' '}
-                                    <BsEmojiSmile className="cursor-pointer" />
+                                    <BsEmojiSmile className="cursor-pointer text-black" />
                                 </span>
                             </Tippy>
 
@@ -217,7 +219,7 @@ function ChatBox() {
                                 minRows={1}
                                 maxRows={6}
                                 placeholder="Write somthing..."
-                                className="h-[90px] w-[80%] border p-[10px] outline-none"
+                                className="mr-2 h-[90px] w-[80%] rounded-md border p-[4px] outline-none"
                                 value={newMessage}
                                 onChange={(e) => setNewMessage(e.target.value)}
                             />

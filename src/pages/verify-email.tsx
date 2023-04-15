@@ -4,13 +4,21 @@ import { toast } from 'react-toastify';
 
 import { BaseLayout } from '@/components/layouts';
 import { Button, Rejected } from '@/components/shared';
-import { useVerifyEmailMutation } from '@/generated/graphql';
+import {
+    useVerifyEmailMutation,
+    useMeQuery,
+    MeQuery,
+    MeDocument,
+} from '@/generated/graphql';
+import { path } from '@/constants';
 
 const VerifyPage = () => {
     const router = useRouter();
     const {
         query: { userId, token },
     } = router;
+
+    const { refetch } = useMeQuery();
 
     const [verifyEmail, { loading }] = useVerifyEmailMutation();
 
@@ -26,7 +34,15 @@ const VerifyPage = () => {
                 },
                 onCompleted: () => {
                     toast.success('Verify email success!');
-                    router.push('/login');
+                },
+                update(cache, { data }) {
+                    if (data?.verifyEmail.success) {
+                        cache.writeQuery<MeQuery>({
+                            query: MeDocument,
+                            data: { me: data.verifyEmail.user },
+                        });
+                    }
+                    router.push(path.home);
                 },
             });
         } else {
