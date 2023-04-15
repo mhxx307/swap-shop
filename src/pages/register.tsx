@@ -6,8 +6,11 @@ import { BaseLayout } from '@/components/layouts';
 import { CommonSection, Head, Rejected } from '@/components/shared';
 import { path } from '@/constants';
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const RegisterPage = () => {
+    const { t } = useTranslation('common');
+
     return (
         <Rejected>
             <Head />
@@ -25,7 +28,7 @@ const RegisterPage = () => {
                             className="flex-center h-[35px] bg-black text-white shadow-md dark:hover:bg-gray-700 md:px-[25px]"
                             href={path.login}
                         >
-                            login
+                            {t('login')}
                         </Link>
                     </div>
                     <RegisterForm />

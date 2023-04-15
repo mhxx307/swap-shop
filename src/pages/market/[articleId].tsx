@@ -59,6 +59,7 @@ import {
     DialogTrigger,
 } from '@/components/shared/Dialog';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const ArticleDetailPage = () => {
     const { data: me } = useMeQuery();
@@ -67,6 +68,7 @@ const ArticleDetailPage = () => {
     const { refetch } = useGetConversationsQuery();
     const [currentChat, setCurrentChat] = useState<Conversation | null>(null);
     console.log(currentChat);
+    const { t } = useTranslation('common');
 
     const apolloClient = initializeApollo();
     const [newConversationMutation] = useNewConversationMutation();
@@ -227,7 +229,6 @@ const ArticleDetailPage = () => {
                         name: id,
                     })}`,
                 );
-                console.log('tao thanh cong');
             },
         });
     };
@@ -358,7 +359,7 @@ const ArticleDetailPage = () => {
 
                                     <div className="mb-4 flex items-center">
                                         <p className="mr-4 text-sm">
-                                            Thể loại:
+                                            {t('category')}
                                         </p>
                                         <ul>
                                             {article.categories.map(
@@ -403,7 +404,7 @@ const ArticleDetailPage = () => {
 
                                         <div>
                                             <p className="mb-0 mt-0 text-xs font-light">
-                                                Created By
+                                                {t('create_by')}
                                             </p>
                                             <h6 className="text-sm font-medium text-black dark:text-white">
                                                 {article.user.username}
@@ -413,7 +414,7 @@ const ArticleDetailPage = () => {
 
                                     <div className="mx-4 mt-12 mb-4 text-sm leading-loose">
                                         <h3 className="text-2xl">
-                                            Description:
+                                            {t('description')}:
                                         </h3>
                                         <div
                                             dangerouslySetInnerHTML={{
@@ -441,11 +442,11 @@ const ArticleDetailPage = () => {
                             <TabView
                                 tabs={[
                                     {
-                                        label: 'Comments',
+                                        label: t('comments') || 'Comments',
                                         content: <Comment id={id} />,
                                     },
                                     {
-                                        label: 'MinhQuan articles',
+                                        label: 'MinhQuan',
                                         content: <div>Article</div>,
                                     },
                                 ]}
@@ -455,7 +456,7 @@ const ArticleDetailPage = () => {
                         {/* related articles */}
                         <div className="mt-20">
                             <h3 className="mb-6 text-4xl font-bold">
-                                Related articles
+                                {t('related_articles')}
                             </h3>
                             {articles && (
                                 <ArticleList articles={articles as Article[]} />
@@ -509,12 +510,13 @@ export const getStaticProps: GetStaticProps = async (
 export default ArticleDetailPage;
 
 const MoreAction = ({ article }: { article: Article }) => {
+    const { t } = useTranslation();
     const reportDescription = [
-        'Lừa đảo',
-        'Không liêc lạc được',
-        'Sản phẩm bị cấm buôn bán',
-        'Sản phẩm có hình ảnh, nội dụng phản cảm',
-        'Khác',
+        t('reason[0]'),
+        t('reason[1]'),
+        t('reason[2]'),
+        t('reason[3]'),
+        t('reason[4]'),
     ];
     const [isChecked, setIsChecked] = useState(0);
     const [reason, setReason] = useState(reportDescription[isChecked]);
@@ -525,7 +527,7 @@ const MoreAction = ({ article }: { article: Article }) => {
 
     const handleInsertReport = async () => {
         if (!description) {
-            toast.info('Bạn phải nhập mô tả cho báo cáo');
+            toast.info(t('desc_required') || 'Bạn phải nhập mô tả cho báo cáo');
             return;
         } else {
             await insertReport({
@@ -535,7 +537,7 @@ const MoreAction = ({ article }: { article: Article }) => {
                     reason: reason,
                 },
             });
-            toast.success('Báo cáo thành công');
+            toast.success(t('report_success') || 'Báo cáo thành công');
             setDescription('');
         }
     };
@@ -544,11 +546,11 @@ const MoreAction = ({ article }: { article: Article }) => {
         <div className="bg-white">
             <Dialog>
                 <DialogTrigger className="flex-center bg-white px-6 py-3 hover:bg-gray-200">
-                    <VscReport className="mr-2" /> Report
+                    <VscReport className="mr-2" /> {t('report')}
                 </DialogTrigger>
                 <DialogContent className="m-[15px] w-[70vh] rounded-md bg-white shadow-md dark:bg-primaryDark dark:text-white">
                     <DialogHeading className="relative  bg-gray-200 p-2 text-center  text-black dark:bg-[#343444] dark:text-white">
-                        Báo cáo vi phạm
+                        {t('report_text')}
                         <DialogClose className="absolute top-1 right-2">
                             x
                         </DialogClose>
@@ -557,7 +559,7 @@ const MoreAction = ({ article }: { article: Article }) => {
                     <DialogDescription className="p-2">
                         <ul>
                             {' '}
-                            Hãy chọn mục bạn cần báo cáo
+                            {t('call')}
                             {reportDescription.map((report, index) => (
                                 <li key={report} className="ml-2">
                                     <input
@@ -573,13 +575,16 @@ const MoreAction = ({ article }: { article: Article }) => {
                                 </li>
                             ))}
                         </ul>
-                        <p>Chi tiết</p>
+                        <p>{t('detail')}</p>
                         <ReactTextareaAutosize
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             minRows={3}
                             maxRows={6}
-                            placeholder="Ghi rõ nội dung cần báo cáo"
+                            placeholder={
+                                t('desc_placeholder') ||
+                                'Ghi rõ nội dung cần báo cáo'
+                            }
                             className=" mt-2 w-full rounded-sm p-2 text-black outline"
                         />
                         <Button
@@ -588,7 +593,7 @@ const MoreAction = ({ article }: { article: Article }) => {
                             onClick={handleInsertReport}
                         >
                             {' '}
-                            Gửi báo cáo
+                            {t('btn_report')}
                         </Button>
                     </DialogDescription>
                 </DialogContent>

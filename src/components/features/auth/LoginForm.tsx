@@ -20,7 +20,6 @@ const LoginForm = () => {
     const { t } = useTranslation('login');
     const schema = useValidateSchema('login');
     const [showPassword, setShowPassword] = useState(false);
-    // const { setProfile, setIsAuthenticated } = useAuthContext();
     const router = useRouter();
 
     const { control, handleSubmit, setError } = useForm<LoginInput>({
@@ -68,7 +67,7 @@ const LoginForm = () => {
             });
         } else if (response.data?.login.success) {
             toast.success(
-                `Login successfully! WELCOME ${response.data?.login.user?.username}`,
+                `${t('login_success')} ${response.data?.login.user?.username}`,
             );
             router.push('/');
         } else if (response.data?.login.success === false) {

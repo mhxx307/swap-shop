@@ -15,6 +15,7 @@ import {
 import { useRegisterMutation, RegisterInput } from '@/generated/graphql';
 import { useRouter } from 'next/router';
 import { omit } from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 interface FormState extends RegisterInput {
     password: string;
@@ -32,6 +33,7 @@ export const initialData: FormState = {
 const RegisterForm = () => {
     const router = useRouter();
     const schema = useValidateSchema('register');
+    const { t } = useTranslation('common');
 
     const {
         control,
@@ -74,7 +76,8 @@ const RegisterForm = () => {
             onCompleted: (data) => {
                 if (data?.register.success) {
                     toast.success(
-                        'Register success - Check your email to verify account!',
+                        t('register_success') ||
+                            'Register success - Check your email to verify account!',
                     );
                 }
                 router.push('/login');
@@ -135,7 +138,7 @@ const RegisterForm = () => {
                                 className="bg-black text-white dark:hover:bg-gray-700"
                                 onClick={back}
                             >
-                                Back
+                                {t('back')}
                             </Button>
                         )}
                         <Button
@@ -145,7 +148,7 @@ const RegisterForm = () => {
                             onClick={handleNextStep}
                             isLoading={loading}
                         >
-                            {isLastStep ? 'Finish' : 'Next'}
+                            {isLastStep ? t('finish') : t('next')}
                         </Button>
                     </div>
                 </form>
