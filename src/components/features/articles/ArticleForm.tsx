@@ -52,13 +52,16 @@ function ArticleForm({ id }: { id?: string }) {
         },
         skip: !id,
     });
+
+    console.log(id, articleDataUpdate);
+
     const { data: categoriesData } = useCategoriesQuery();
     const categories = categoriesData?.categories;
     const article = articleDataUpdate?.article;
     const categoriesIdByArticle =
         article && article.categories.map((category) => category.id);
 
-    const { control, handleSubmit } = useForm<
+    const { control, handleSubmit, setValue } = useForm<
         Omit<InsertArticleInput, 'images'>
     >({
         defaultValues: {
@@ -67,6 +70,7 @@ function ArticleForm({ id }: { id?: string }) {
             productName: article?.productName ? article.productName : '',
             categoryIds: categoriesIdByArticle ? categoriesIdByArticle : [''],
             price: article?.price ? article.price : '0',
+            address: article?.address ? article.address : '',
         },
     });
 
@@ -74,13 +78,21 @@ function ArticleForm({ id }: { id?: string }) {
     const [updateArticle] = useUpdateArticleMutation();
 
     useEffect(() => {
+        setValue('title', article?.address || '');
+        setValue('description', article?.description || '');
+        setValue('productName', article?.productName || '');
+        setValue('categoryIds', categoriesIdByArticle || ['']);
+        setValue('price', article?.price || '');
+        setValue('address', article?.address || '');
+    }, [article, categoriesIdByArticle, setValue]);
+
+    useEffect(() => {
         article?.images.forEach((image) => {
             createFileFromUrl(image, image).then((file) => {
                 setFiles((prev) => [...prev, file]);
             });
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [article]);
 
     const handleSubmitArticle = async (
         payload: Omit<InsertArticleInput, 'images'>,
@@ -98,6 +110,7 @@ function ArticleForm({ id }: { id?: string }) {
                             images: urlArticles,
                             categoryIds: payload.categoryIds,
                             price: payload.price,
+                            address: payload.address,
                         },
                     },
                     onCompleted: () => {
@@ -131,6 +144,7 @@ function ArticleForm({ id }: { id?: string }) {
                         categoryIds: payload.categoryIds,
                         price: payload.price,
                         status: STATUS_ARTICLE.PENDING,
+                        address: payload.address,
                     },
                 },
                 onCompleted: () => {
@@ -186,17 +200,32 @@ function ArticleForm({ id }: { id?: string }) {
 
                                     <div>
                                         <span className="text-sm">Price:</span>
-                                        <PriceOptions
-                                            checked={checked}
-                                            setChecked={setChecked}
-                                        />
-                                        <InputField
-                                            control={control}
-                                            type="number"
-                                            name="price"
-                                            placeholder="Price"
-                                            disabled={checked === 1}
-                                        />
+                                        <div className="flex w-full items-center">
+                                            <div className="mr-2 w-[60%]">
+                                                <PriceOptions
+                                                    checked={checked}
+                                                    setChecked={setChecked}
+                                                />
+
+                                                <InputField
+                                                    control={control}
+                                                    type="text"
+                                                    name="price"
+                                                    placeholder="Price"
+                                                    disabled={checked === 1}
+                                                    onlyNumber
+                                                />
+                                            </div>
+                                            <div className="w-[40%]">
+                                                <InputField
+                                                    control={control}
+                                                    type="text"
+                                                    label="Address:"
+                                                    name="address"
+                                                    placeholder="Adress"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div>

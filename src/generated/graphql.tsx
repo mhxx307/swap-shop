@@ -690,7 +690,7 @@ export type UserRole = {
   userId: Scalars['ID'];
 };
 
-export type ArticleFragment = { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } };
+export type ArticleFragment = { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } };
 
 export type UserFragment = { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number };
 
@@ -703,14 +703,14 @@ export type InsertArticleMutationVariables = Exact<{
 }>;
 
 
-export type InsertArticleMutation = { __typename?: 'Mutation', insertArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null } };
+export type InsertArticleMutation = { __typename?: 'Mutation', insertArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null } };
 
 export type UpdateArticleMutationVariables = Exact<{
   updateArticleInput: UpdateArticleInput;
 }>;
 
 
-export type UpdateArticleMutation = { __typename?: 'Mutation', updateArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null } };
+export type UpdateArticleMutation = { __typename?: 'Mutation', updateArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null } };
 
 export type RegisterMutationVariables = Exact<{
   registerInput: RegisterInput;
@@ -868,14 +868,14 @@ export type ArticlesQueryVariables = Exact<{
 }>;
 
 
-export type ArticlesQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleResponseSuccess', data?: { __typename?: 'ArticlesResponse', articles: Array<{ __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } }>, pagination: { __typename?: 'Pagination', page: number, limit: number, page_size: number } } | null } };
+export type ArticlesQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleResponseSuccess', data?: { __typename?: 'ArticlesResponse', articles: Array<{ __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } }>, pagination: { __typename?: 'Pagination', page: number, limit: number, page_size: number } } | null } };
 
 export type ArticleQueryVariables = Exact<{
   articleId: Scalars['String'];
 }>;
 
 
-export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null };
+export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -933,7 +933,7 @@ export type IsFavoriteQuery = { __typename?: 'Query', isFavorite: boolean };
 export type FavoritesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FavoritesQuery = { __typename?: 'Query', favorites?: Array<{ __typename?: 'Favorite', id: string, article: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } }> | null };
+export type FavoritesQuery = { __typename?: 'Query', favorites?: Array<{ __typename?: 'Favorite', id: string, article: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } }> | null };
 
 export type CountFavoritesForArticleQueryVariables = Exact<{
   articleId: Scalars['String'];
@@ -992,6 +992,7 @@ export const ArticleFragmentDoc = gql`
   status
   favoritesCount
   views
+  address
   createdDate
   updatedDate
 }

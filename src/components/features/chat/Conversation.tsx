@@ -37,7 +37,7 @@ function Conversations({ conversation }: { conversation: Conversation }) {
 
     return (
         <button
-            className="flex w-full cursor-pointer items-center p-[10px] hover:bg-gray-200"
+            className="flex w-full cursor-pointer items-center border-b-[1px] p-[10px] hover:bg-gray-200 dark:border-gray-500 "
             onClick={() =>
                 router.push(
                     `${path.chat}/${generateNameId({
@@ -58,7 +58,12 @@ function Conversations({ conversation }: { conversation: Conversation }) {
                         }
                         alt={friend.username}
                     />
-                    <span className="font-medium">{friend.username}</span>
+                    <div>
+                        <p className="dark:text-black">{friend.username}</p>
+                        <p className="text-gray-500 dark:text-black">
+                            {conversation.article.productName}
+                        </p>
+                    </div>
                 </>
             )}
         </button>
