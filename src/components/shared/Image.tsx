@@ -13,15 +13,25 @@ const variants = {
     },
 };
 
-interface ImageProps extends NextImageProps {
-    containerclassname?: string;
+export interface ImageProps extends NextImageProps {
+    classnamewrapper?: string;
     className?: string;
+    fallbackImg?: string;
 }
 
-const Image: React.FC<ImageProps> = ({ onLoadingComplete, ...props }) => {
-    const { containerclassname, className } = props;
+const Image: React.FC<ImageProps> = ({ onLoadingComplete, src, ...props }) => {
+    const {
+        classnamewrapper,
+        className,
+        fallbackImg = '/images/avatar-fallback.png',
+    } = props;
 
     const [isLoaded, setIsLoaded] = useState(false);
+    const [fallback, setFallback] = useState<string>('');
+
+    const handleError = () => {
+        setFallback(fallbackImg);
+    };
 
     const handleLoadingComplete: NextImageProps['onLoadingComplete'] =
         useCallback(
@@ -37,15 +47,17 @@ const Image: React.FC<ImageProps> = ({ onLoadingComplete, ...props }) => {
             initial="hidden"
             variants={variants}
             animate={isLoaded ? 'visible' : 'hidden'}
-            className={containerclassname}
+            className={classNames('flex-shrink-0', classnamewrapper)}
         >
             <NextImage
+                src={fallback || src}
                 onLoadingComplete={handleLoadingComplete}
                 unoptimized
                 {...props}
                 width={props.width || 100}
                 height={props.height || 100}
-                className={classNames('w-full h-full', className)}
+                className={classNames('h-full w-full flex-shrink-0', className)}
+                onError={handleError}
             />
         </motion.div>
     );

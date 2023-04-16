@@ -1,28 +1,17 @@
+import { ReactNode } from 'react';
 import { IconType } from 'react-icons/lib';
 
 export interface PopupMenuItemProps {
     icon?: IconType;
     label: string;
-    path?: string;
-    children?: any;
+    path: string;
+    children?: ReactNode;
     separate?: boolean;
 }
 
-export interface LoginPayload {
-    username: string;
-    password: string;
-}
-
-export interface RegisterPayload {
-    firstName: string;
-    lastName: string;
-    age: string;
-    street: string;
-    city: string;
-    state: string;
-    zip: string;
-    email: string;
-    password: string;
+export interface NavItemProps {
+    label: string;
+    path: string;
 }
 
 export interface ProgressItemProps {

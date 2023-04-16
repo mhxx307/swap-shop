@@ -1,109 +1,210 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import {
-    AiOutlineMore,
-    AiOutlineSearch,
-    AiOutlineDownload,
-} from 'react-icons/ai';
-import { GoThreeBars } from 'react-icons/go';
+import { AiOutlineMore, AiOutlineDownload } from 'react-icons/ai';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'next-i18next';
+import { toast } from 'react-toastify';
+
 import {
     Button,
     NavList,
     Logo,
-    PopupMenu,
     Image,
     LanguageSwitcher,
+    Search,
     ThemeSwitcher,
+    HamburgerNavbar,
+    Popover,
 } from '@/components/shared';
-import { useTranslation } from 'next-i18next';
 import { useConstantsTranslation, useDevice } from '@/hooks';
+import {
+    MeDocument,
+    MeQuery,
+    useLogoutMutation,
+    useMeQuery,
+} from '@/generated/graphql';
+import { BsBellFill } from 'react-icons/bs';
+import { path } from '@/constants';
+import { getTextColorByPath } from '@/utils';
+// import { clearLS } from '@/utils/auth';
+// import { useAuthContext } from '@/contexts/AuthContext';
 
 const Header = () => {
+    const [navbar, setNavbar] = useState<boolean>(false);
     const router = useRouter();
     const { t } = useTranslation('header');
-    const { HEADER_NAV_LIST, POPUP_MENU_LIST, POPUP_USER_MENU_LIST }: any =
-        useConstantsTranslation();
-
-    const mobileHide = 'hidden md:flex';
-    const mobileShow = 'block md:hidden';
-
+    const {
+        HEADER_NAV_LIST,
+        HEADER_MOBILE_NAV_LIST,
+        POPUP_USER_MENU_LIST,
+        POPUP_MENU_LIST,
+    } = useConstantsTranslation();
     const { isMobile } = useDevice();
+    const [logout] = useLogoutMutation();
 
-    const currentUser = false;
+    // const { profile, setProfile, setIsAuthenticated } = useAuthContext();
+    const { data: meData } = useMeQuery();
+    const profile = meData?.me;
+    console.log('profile', profile);
+
+    const menuList = profile ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
+    const textColor = getTextColorByPath(router.pathname);
+
+    useEffect(() => {
+        window.addEventListener('scroll', changeBackground);
+
+        return () => {
+            window.removeEventListener('scroll', changeBackground);
+        };
+    }, []);
+
+    const changeBackground = () => {
+        if (window.scrollY >= 80) {
+            setNavbar(true);
+        } else {
+            setNavbar(false);
+        }
+    };
+
+    const handleLogout = async () => {
+        await logout({
+            update(cache, { data }) {
+                toast.success('Logout successfully');
+                if (data?.logout) {
+                    cache.writeQuery<MeQuery>({
+                        query: MeDocument,
+                        data: { me: null },
+                    });
+                }
+            },
+            // onCompleted() {
+            //     clearLS();
+            //     setProfile(null);
+            //     setIsAuthenticated(false);
+            // },
+        });
+    };
 
     return (
-        <header
-            className="wrapper flex items-center justify-between h-[60px] md:h-[80px]
-            [&>*:first-child]:ml-0 bg-white dark:bg-secondaryDark fixed z-[100] shadow-md"
+        <motion.header
+            initial={{ opacity: 0, y: -180 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+                ease: 'easeInOut',
+                duration: 1,
+                delay: 0.3,
+            }}
+            className="fixed z-20 flex w-full flex-col [&>*:first-child]:ml-0"
         >
-            <div className="flex items-center">
-                <PopupMenu items={HEADER_NAV_LIST} hideOnClick>
-                    <GoThreeBars
-                        className={`mr-[10px] w-[22px] h-[22px] ${mobileShow}`}
-                    />
-                </PopupMenu>
-
-                <Link href="/" className={`mr-[10px] ${mobileHide}`}>
+            <div className={`bg-transparent ${navbar && 'hidden'}`}>
+                <div className="container flex items-center justify-between">
                     <Logo />
-                </Link>
-                <ThemeSwitcher />
+
+                    {/* language switcher, notification, login, bar */}
+                    <div className="flex items-center space-x-6">
+                        <Search className="hidden md:flex" />
+
+                        <LanguageSwitcher />
+
+                        {isMobile && (
+                            <Link href="/download">
+                                <AiOutlineDownload className="h-6 w-6" />
+                            </Link>
+                        )}
+
+                        <BsBellFill
+                            className={`h-4 w-4 transition-colors hover:text-gray-500 ${textColor}`}
+                        />
+
+                        {!profile && (
+                            <Button
+                                primary
+                                outline
+                                shortcutKey="enter"
+                                onClick={() => router.push(path.login)}
+                                className="rounded-full"
+                            >
+                                <p className="line-clamp-1">
+                                    {t('login_title')}
+                                </p>
+                            </Button>
+                        )}
+
+                        <Popover
+                            renderPopover={
+                                <div className="relative rounded-sm border border-gray-200 bg-white shadow-md">
+                                    {menuList.map((item) => (
+                                        <Link
+                                            key={item.label}
+                                            href={item.path}
+                                            className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-primary-500"
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    ))}
+                                    {profile && (
+                                        <button
+                                            className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-primary-500"
+                                            onClick={handleLogout}
+                                        >
+                                            {t('logout')}
+                                        </button>
+                                    )}
+                                </div>
+                            }
+                        >
+                            {profile ? (
+                                <Image
+                                    src={
+                                        profile?.avatar ||
+                                        '/images/avatar-fallback.png'
+                                    }
+                                    alt={profile.username}
+                                    className="h-8 w-8 rounded-[50%] object-cover sm:cursor-pointer"
+                                />
+                            ) : (
+                                <AiOutlineMore
+                                    className={`h-8 w-8 sm:cursor-pointer ${textColor}`}
+                                />
+                            )}
+                        </Popover>
+                    </div>
+                </div>
             </div>
 
-            <NavList
-                navList={HEADER_NAV_LIST}
-                className={`[&>*:first-child]:ml-0  ${mobileHide}`}
-                itemClassName="ml-[30px]"
-            />
-
-            <Link href="/" className={mobileShow}>
-                <Logo />
-            </Link>
-
-            <div className="flex items-center">
-                <LanguageSwitcher />
-
-                {isMobile && (
-                    <Link href="/download">
-                        <AiOutlineDownload className="w-[22px] h-[22px] ml-[16px]" />
-                    </Link>
-                )}
-
-                <Link href="/search" className={mobileHide}>
-                    <AiOutlineSearch className="w-[22px] h-[22px] ml-[15px] sm:ml-[20px] sm:hover:text-primary-500 transition-colors" />
-                </Link>
-
-                {!currentUser && (
-                    <Button
-                        primary
-                        shortcutKey="enter"
-                        className="ml-[15px] sm:ml-[20px] sm:px-[25px] shadow-md"
-                        onClick={() => router.push('/login')}
-                    >
-                        <span className="text-[1rem] xs:text-[1.4rem] md:text-[1.6rem]">
-                            {t('login_title')}
-                        </span>
-                    </Button>
-                )}
-
-                <PopupMenu
-                    items={currentUser ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST}
-                    onChange={() => console.log('menu change')}
-                    hideOnClick
-                >
-                    {currentUser ? (
-                        <Image
-                            src="https://www.adobe.com/express/feature/image/media_16ad2258cac6171d66942b13b8cd4839f0b6be6f3.png?width=750&format=png&optimize=medium"
-                            alt="dog avatar"
-                            className="rounded-[50%] w-[32px] h-[32px] object-cover ml-[12px] sm:cursor-pointer"
+            <div
+                className={` py-3  ${
+                    navbar ? 'bg-white dark:bg-primaryDark' : 'bg-transparent'
+                } ${
+                    navbar &&
+                    ' shadow-headerLight backdrop-blur-3xl dark:shadow-headerDark'
+                }`}
+            >
+                <div className="container flex items-center justify-between">
+                    <div className="flex-center">
+                        <HamburgerNavbar
+                            data={HEADER_MOBILE_NAV_LIST}
+                            className="block cursor-pointer text-white md:hidden"
                         />
-                    ) : (
-                        <AiOutlineMore
-                            className={`w-[30px] h-[30px] ml-[6px] sm:cursor-pointer sm:hover:text-primary-500`}
+
+                        <NavList
+                            navList={HEADER_NAV_LIST}
+                            className="hidden items-center justify-between md:flex"
+                            itemClassName={`${
+                                navbar
+                                    ? 'text-black dark:text-white'
+                                    : textColor
+                            }`}
                         />
-                    )}
-                </PopupMenu>
+
+                        <Search className="block md:hidden" />
+                    </div>
+
+                    <ThemeSwitcher />
+                </div>
             </div>
-        </header>
+        </motion.header>
     );
 };
 

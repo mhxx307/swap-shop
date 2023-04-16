@@ -1,0 +1,13 @@
+mutation UpdateProfile($updateProfileInput: UpdateProfileInput!) {
+    updateProfile(updateProfileInput: $updateProfileInput) {
+        success
+        message
+        user {
+            username
+            address
+            phoneNumber
+            fullName
+            birthday
+        }
+    }
+}

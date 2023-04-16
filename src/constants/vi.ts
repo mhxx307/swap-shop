@@ -1,35 +1,47 @@
-import { AiOutlineQuestionCircle, AiOutlineUser } from 'react-icons/ai';
-import { CgShortcut } from 'react-icons/cg';
-import { BsGear, BsPencilSquare } from 'react-icons/bs';
-import { VscSignOut } from 'react-icons/vsc';
-import { PopupMenuItemProps } from '@/types';
+import { NavItemProps, PopupMenuItemProps } from '@/types';
+import { path, icons } from '.';
 
-const HEADER_NAV_LIST: PopupMenuItemProps[] = [
-    { path: '/', label: 'Trang chủ' },
-    { path: '/articles', label: 'Bài viết' },
-    { path: '/about', label: 'Giới thiệu' },
-    { path: '/trust', label: 'Tin cậy' },
+const HEADER_NAV_LIST: NavItemProps[] = [
+    { path: path.home, label: 'Trang chủ' },
+    { path: path.market, label: 'Đồ cũ' },
+    { path: path.about, label: 'Giới thiệu' },
+    { path: path.chat, label: 'Chat' },
 ];
+
+const HEADER_MOBILE_NAV_LIST: NavItemProps[] = [...HEADER_NAV_LIST];
 
 const POPUP_MENU_LIST: PopupMenuItemProps[] = [
     {
-        icon: AiOutlineQuestionCircle,
+        icon: icons.AiOutlineQuestionCircle,
         label: 'Phản hồi và giúp đỡ',
-        path: '/contact',
+        path: path.contact,
     },
-    { icon: CgShortcut, label: 'Phím tắt', path: '/shortcuts' },
+    { icon: icons.CgShortcut, label: 'Phím tắt', path: path.shortcuts },
 ];
 
 const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [
-    { icon: AiOutlineUser, label: 'Thông tin tài khoản', path: '/@hoa' },
-    { icon: BsGear, label: 'Cài đặt', path: '/settings' },
-    { icon: BsPencilSquare, label: 'Tạo bài viết', path: '/create-article' },
+    {
+        icon: icons.BsPencilSquare,
+        label: 'Thêm sản phẩm',
+        path: path.createArticle,
+    },
+    {
+        icon: icons.BsPencilSquare,
+        label: 'Bài viết yêu thích',
+        path: path.favorites,
+    },
+    {
+        icon: icons.BsPencilSquare,
+        label: 'Management Posts',
+        path: path.dashboardPublished,
+    },
     ...POPUP_MENU_LIST,
-    { icon: VscSignOut, label: 'Đăng xuất', path: '/logout', separate: true },
+    { icon: icons.BsGear, label: 'Cài đặt', path: path.settingsProfile },
 ];
 
 const viTranslations = {
     HEADER_NAV_LIST,
+    HEADER_MOBILE_NAV_LIST,
     POPUP_MENU_LIST,
     POPUP_USER_MENU_LIST,
 };

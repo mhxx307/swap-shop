@@ -1,0 +1,26 @@
+fragment user on User {
+    id
+    username
+    email
+    address
+    phoneNumber
+    fullName
+    birthday
+    avatar
+    createdDate
+    updatedDate
+    status
+    rating
+}
+
+fragment userMutationResponse on UserMutationResponse {
+    code
+    success
+    message
+    user {
+        ...user
+    }
+    errors {
+        ...errors
+    }
+}

@@ -1,13 +1,11 @@
-import { ThemeContext } from '@/contexts/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import { motion } from 'framer-motion';
-import { useContext } from 'react';
 import { RiMoonClearFill, RiSunFill } from 'react-icons/ri';
 import ClientOnly from './ClientOnly';
 
 // https://dev.to/mrpbennett/creating-a-dark-theme-switch-with-tailwind-framer-motion-4f4h
 const ThemeSwitcher = () => {
-    const { isOn, setIsOn } = useContext(ThemeContext);
-    console.log(isOn);
+    const { isOn, setIsOn } = useTheme();
 
     const spring = {
         type: 'spring',
@@ -17,13 +15,14 @@ const ThemeSwitcher = () => {
 
     return (
         <ClientOnly>
-            <div
+            <button
                 onClick={() => setIsOn(!isOn)}
                 className={`flex-start flex h-[30px] w-[60px] rounded-[50px] bg-zinc-100 shadow-inner hover:cursor-pointer dark:bg-zinc-700 ${
                     isOn && 'place-content-end'
                 }`}
             >
                 <motion.div
+                    initial={{ y: '0%' }}
                     className="flex h-[100%] w-[30px] items-center justify-center rounded-full bg-black/90"
                     layout
                     transition={spring}
@@ -36,7 +35,7 @@ const ThemeSwitcher = () => {
                         )}
                     </motion.div>
                 </motion.div>
-            </div>
+            </button>
         </ClientOnly>
     );
 };

@@ -15,10 +15,13 @@ const Button = ({
         <BaseButton
             type="button"
             className={classNames(
-                'flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-opacity-80',
+                'flex items-center space-x-2 rounded-md px-4 py-1 hover:bg-opacity-80',
                 className,
                 passProps.primary && 'text-white',
-                secondary && 'bg-transparent hover:bg-white/20',
+                secondary && 'hover:bg-opacity/20 bg-secondary text-white',
+                secondary &&
+                    passProps.outline &&
+                    'border border-secondary bg-transparent',
             )}
             {...passProps}
         >

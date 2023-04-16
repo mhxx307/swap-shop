@@ -1,0 +1,21 @@
+{
+    "email_required": "Vui lòng nhập địa chỉ email của bạn.",
+    "email_invalid": "Vui lòng nhập một địa chỉ email hợp lệ.",
+    "username_required": "Vui lòng nhập tên người dùng của bạn.",
+    "username_min": "Tên người dùng của bạn phải có ít nhất 2 ký tự.",
+    "username_max": "Tên người dùng của bạn phải ít hơn 20 ký tự.",
+    "username_match": "Tên người dùng là từ 2-20 ký tự, không chứa ký tự đặc biệt",
+    "password_required": "Vui lòng nhập mật khẩu của bạn.",
+    "password_min": "Mật khẩu phải có ít nhất 8 ký tự",
+    "password_match": "Mật khẩu phải có ít nhất 8 ký tự bao gồm ít nhất 1 chữ hoa, 1 chữ thường và 1 số. Có thể chứa ký tự đặc biệt.",
+    "password_confirm": "Vui lòng xác nhận mật khẩu của bạn.",
+    "password_confirm_match": "Mật khẩu không trùng khớp.",
+    "fullname_required": "Vui lòng nhập họ tên của bạn",
+    "fullname_match": "Họ tên không đúng định dạng, không chứa ký tự đặc biệt, chữ cái đầu tiên viết hoa",
+    "phone_required": "Vui lòng nhập số điện thoại của bạn.",
+    "phone_match": "Số điện thoại không đúng định dạng, không chứa ký tự đặc biệt",
+    "address_required": "Vui lòng nhập địa chỉ của bạn.",
+    "username_or_email_required": "Vui lòng nhập tên người dùng hoặc địa chỉ email của bạn.",
+    "username_or_email_min": "Tên người dùng hoặc địa chỉ email của bạn phải có ít nhất 2 ký tự.",
+    "price_not_allow": "Không cho phép giá"
+}

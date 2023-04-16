@@ -1,0 +1,23 @@
+fragment article on Article {
+    id
+    title
+    description
+    price
+    productName
+    thumbnail
+    images
+    views
+    categories {
+        id
+        name
+    }
+    user {
+        ...user
+    }
+    status
+    favoritesCount
+    views
+    address
+    createdDate
+    updatedDate
+}

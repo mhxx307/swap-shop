@@ -1,3 +1,19 @@
 {
-    "description": "trang chủ"
+    "home": "trang chủ",
+    "pending": "Chờ duyệt",
+    "approved": "Đã duyệt",
+    "rejected": "Từ chối",
+    "login": "Đăng nhập",
+    "register_success": "Đăng ký thành công! Vui lòng kiểm tra email để kích hoạt tài khoản.",
+    "back": "Trở lại",
+    "next": "Tiếp theo",
+    "finish": "Hoàn thành",
+    "verify": "Xác thực tài khoản",
+    "verify_success": "Xác thực tài khoản thành công!",
+    "not_have_token": "Không có mã xác thực",
+    "category": "Thể loại",
+    "create_by": "Tạo bởi",
+    "description": "Mô tả",
+    "comments": "Bình luận",
+    "related_articles": "Bài đăng liên quan"
 }

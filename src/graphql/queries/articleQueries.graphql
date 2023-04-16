@@ -1,0 +1,20 @@
+query Articles($queryConfig: QueryConfig!) {
+    articles(queryConfig: $queryConfig) {
+        data {
+            articles {
+                ...article
+            }
+            pagination {
+                page
+                limit
+                page_size
+            }
+        }
+    }
+}
+
+query Article($articleId: String!) {
+    article(articleId: $articleId) {
+        ...article
+    }
+}
