@@ -5,12 +5,14 @@ import { toast } from 'react-toastify';
 import { BaseLayout } from '@/components/layouts';
 import { Button, Rejected } from '@/components/shared';
 import { useVerifyEmailMutation } from '@/generated/graphql';
+import { useTranslation } from 'react-i18next';
 
 const VerifyPage = () => {
     const router = useRouter();
     const {
         query: { userId, token },
     } = router;
+    const { t } = useTranslation('common');
 
     const [verifyEmail, { loading }] = useVerifyEmailMutation();
 
@@ -25,20 +27,22 @@ const VerifyPage = () => {
                     toast.error(error.message);
                 },
                 onCompleted: () => {
-                    toast.success('Verify email success!');
+                    toast.success(
+                        t('verify_success') || 'Verify email success!',
+                    );
                     router.push('/login');
                 },
             });
         } else {
-            toast.error('You do not have token!');
+            toast.error(t('not_have_token') || 'You do not have token!');
         }
     };
 
     return (
         <Rejected>
-            <section className="bg-gray-50 dark:bg-primaryDark">
+            <section className="flex-center h-screen w-full bg-gray-50 dark:bg-primaryDark">
                 <Button secondary isLoading={loading} onClick={handleVerify}>
-                    Xác thực tài khoản
+                    {t('verify')}
                 </Button>
             </section>
         </Rejected>

@@ -8,15 +8,15 @@ import {
     TabView,
 } from '@/components/shared';
 import { STATUS_ARTICLE } from '@/constants';
-// import { useAuthContext } from '@/contexts/AuthContext';
 import { Article, useArticlesQuery, useMeQuery } from '@/generated/graphql';
 import { useQueryConfig } from '@/hooks';
+import { useTranslation } from 'react-i18next';
 
 function PublishedPage() {
-    // const { profile } = useAuthContext();
     const { data: meData } = useMeQuery();
     const profile = meData?.me;
     const queryConfig = useQueryConfig();
+    const { t } = useTranslation('common');
 
     const { data: articlesData } = useArticlesQuery({
         variables: {
@@ -69,16 +69,15 @@ function PublishedPage() {
                                                 {profile.fullName}
                                             </h3>
                                             <h5 className="cursor-pointer rounded-lg border border-secondary pl-6 pr-6 text-secondary hover:bg-slate-50">
-                                                Trang chủ
+                                                {t('home')}
                                             </h5>
                                         </div>
                                     </div>
-                                    <div>Có gì mới ?</div>
                                 </div>
                                 <TabView
                                     tabs={[
                                         {
-                                            label: 'Chờ duyệt',
+                                            label: t('pending') || 'Chờ duyệt',
                                             content: (
                                                 <div>
                                                     {articlesPending &&
@@ -98,7 +97,7 @@ function PublishedPage() {
                                             ),
                                         },
                                         {
-                                            label: 'Đang hiển thị',
+                                            label: t('approved') || 'Chờ duyệt',
                                             content: (
                                                 <div>
                                                     {articlesApproved &&
@@ -118,7 +117,7 @@ function PublishedPage() {
                                             ),
                                         },
                                         {
-                                            label: 'Bị từ chối',
+                                            label: t('rejected') || 'Từ chối',
                                             content: (
                                                 <div>
                                                     {articlesRejected &&

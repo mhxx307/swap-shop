@@ -1,0 +1,21 @@
+{
+    "email_required": "Please enter your email address.",
+    "email_invalid": "Please enter a valid email address.",
+    "username_required": "Please enter your username.",
+    "username_min": "Your username must be at least 2 characters.",
+    "username_max": "Your username must be less than 20 characters.",
+    "username_match": "Username is 2-20 characters long, not special characters",
+    "password_required": "Please enter your password.",
+    "password_min": "Password must be at least 8 characters long",
+    "password_match": "At least 8 characters must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number Can contain special characters.",
+    "password_confirm": "Please confirm your password.",
+    "password_confirm_match": "Passwords do not match.",
+    "fullname_required": "Please enter your full name",
+    "fullname_match": "Full name is incorrect format, not special characters, Uppercase first letter",
+    "phone_required": "Please enter your phone number.",
+    "phone_match": "Phone number is incorrect format, not special characters",
+    "address_required": "Please enter your address.",
+    "username_or_email_required": "Please enter your username or email address.",
+    "username_or_email_min": "Your username or email address must be at least 2 characters.",
+    "price_not_allow": "Price is not allow"
+}

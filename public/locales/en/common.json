@@ -1,3 +1,19 @@
 {
-    "description": "home"
+    "home": "home",
+    "pending": "pending",
+    "rejected": "rejected",
+    "approved": "approved",
+    "login": "login",
+    "register_success": "Register success - Check your email to verify account!",
+    "back": "back",
+    "next": "next",
+    "finish": "finish",
+    "verify": "Verify account",
+    "verify_success": "Verify success",
+    "verify_fail": "You do not have token!",
+    "category": "Category",
+    "create_by": "Created by",
+    "description": "Description",
+    "comments": "Comments",
+    "related_articles": "Related articles"
 }

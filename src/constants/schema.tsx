@@ -80,6 +80,6 @@ const getSchema = () => {
 };
 
 export default getSchema;
-const schema = getSchema();
 
+const schema = getSchema();
 export type Schema = yup.InferType<typeof schema>;
