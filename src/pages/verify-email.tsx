@@ -11,12 +11,14 @@ import {
     MeDocument,
 } from '@/generated/graphql';
 import { path } from '@/constants';
+import { useTranslation } from 'react-i18next';
 
 const VerifyPage = () => {
     const router = useRouter();
     const {
         query: { userId, token },
     } = router;
+    const { t } = useTranslation('common');
 
     const { refetch } = useMeQuery();
 
@@ -32,9 +34,6 @@ const VerifyPage = () => {
                 onError: (error) => {
                     toast.error(error.message);
                 },
-                onCompleted: () => {
-                    toast.success('Verify email success!');
-                },
                 update(cache, { data }) {
                     if (data?.verifyEmail.success) {
                         cache.writeQuery<MeQuery>({
@@ -43,18 +42,21 @@ const VerifyPage = () => {
                         });
                     }
                     router.push(path.home);
+                    toast.success(
+                        t('verify_success') || 'Verify email success!',
+                    );
                 },
             });
         } else {
-            toast.error('You do not have token!');
+            toast.error(t('not_have_token') || 'You do not have token!');
         }
     };
 
     return (
         <Rejected>
-            <section className="bg-gray-50 dark:bg-primaryDark">
+            <section className="flex-center h-screen w-full bg-gray-50 dark:bg-primaryDark">
                 <Button secondary isLoading={loading} onClick={handleVerify}>
-                    Xác thực tài khoản
+                    {t('verify')}
                 </Button>
             </section>
         </Rejected>

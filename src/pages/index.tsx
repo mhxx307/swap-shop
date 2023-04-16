@@ -17,6 +17,7 @@ import { useQueryConfig } from '@/hooks';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import { isUndefined, omitBy } from 'lodash';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
     const queryConfig = useQueryConfig();
@@ -51,6 +52,7 @@ const Home = () => {
     const articles = articlesData?.articles.data?.articles;
     const articlesFavorites = articlesFavoritesData?.articles.data?.articles;
     const articlesTrending = articlesTrendingData?.articles.data?.articles;
+    const { t } = useTranslation('home');
 
     return (
         <ClientOnly>
@@ -61,7 +63,7 @@ const Home = () => {
                 {/* categories */}
                 <div>
                     <h3 className="mb-6 text-xl font-bold">
-                        Khám phá danh mục
+                        {t('explore_categories')}
                     </h3>
 
                     {categories && (
@@ -75,7 +77,7 @@ const Home = () => {
                 <div className="my-6">
                     <ArticleList
                         articles={articles as Article[]}
-                        title="Tin đăng mới"
+                        title={t('latest_article') || 'Tin đăng mới nhất'}
                     />
                     <Pagination
                         pageSize={
@@ -89,7 +91,7 @@ const Home = () => {
                 <div className="my-6">
                     <ArticleList
                         articles={articlesTrending as Article[]}
-                        title="Tin đăng nổi bật"
+                        title={t('trending_article') || 'Tin đăng nổi bật'}
                     />
                     <Pagination
                         pageSize={
@@ -103,7 +105,7 @@ const Home = () => {
                 <div className="my-6">
                     <ArticleList
                         articles={articlesFavorites as Article[]}
-                        title="Tin đăng yêu thích"
+                        title={t('favorite_article') || 'Tin đăng yêu thích'}
                     />
                     <Pagination
                         pageSize={

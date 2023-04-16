@@ -100,7 +100,7 @@ const LoginPage = ({ quotes }: LoginPageProps) => {
                                 href={path.forgotPassword}
                                 className="text-blue-500 transition-colors hover:text-blue-400"
                             >
-                                Forgot password ?
+                                {t('forgot_password')}
                             </Link>
                         </div>
                     </div>
