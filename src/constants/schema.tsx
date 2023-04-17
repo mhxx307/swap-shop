@@ -73,6 +73,9 @@ const getSchema = () => {
                 test: testPriceMinMax,
             }),
             name: yup.string().required(),
+            birthday: yup
+                .date()
+                .max(new Date(), 'Hãy chọn 1 ngày trong quá khứ'),
         })
         .required();
 
@@ -81,5 +84,5 @@ const getSchema = () => {
 
 export default getSchema;
 
-const schema = getSchema();
+export const schema = getSchema();
 export type Schema = yup.InferType<typeof schema>;
