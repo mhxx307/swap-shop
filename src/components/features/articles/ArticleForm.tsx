@@ -27,7 +27,6 @@ import {
 import 'react-quill/dist/quill.snow.css';
 import ArticleCardPreview from './ArticleCardPreview';
 import { formats, modules } from '@/utils/Quill';
-// import { useAuthContext } from '@/contexts/AuthContext';
 
 const prices = [
     { id: 1, label: 'Free' },
@@ -43,7 +42,6 @@ function ArticleForm({ id }: { id?: string }) {
     const [files, setFiles] = useState<File[]>([]);
     const [checked, setChecked] = useState(1);
 
-    // const { profile } = useAuthContext();
     const { data: meData } = useMeQuery();
     const profile = meData?.me;
     const { data: articleDataUpdate } = useArticleQuery({
@@ -65,12 +63,12 @@ function ArticleForm({ id }: { id?: string }) {
         Omit<InsertArticleInput, 'images'>
     >({
         defaultValues: {
-            title: article?.title ? article.title : '',
-            description: article?.description ? article.description : '',
-            productName: article?.productName ? article.productName : '',
-            categoryIds: categoriesIdByArticle ? categoriesIdByArticle : [''],
-            price: article?.price ? article.price : '0',
-            address: article?.address ? article.address : '',
+            title: '',
+            description: '',
+            productName: '',
+            categoryIds: [''],
+            price: '0',
+            address: '',
         },
     });
 
@@ -78,13 +76,15 @@ function ArticleForm({ id }: { id?: string }) {
     const [updateArticle] = useUpdateArticleMutation();
 
     useEffect(() => {
-        setValue('title', article?.address || '');
-        setValue('description', article?.description || '');
-        setValue('productName', article?.productName || '');
-        setValue('categoryIds', categoriesIdByArticle || ['']);
-        setValue('price', article?.price || '');
-        setValue('address', article?.address || '');
-    }, [article, categoriesIdByArticle, setValue]);
+        if (article) {
+            setValue('title', article.title);
+            setValue('description', article.description);
+            setValue('productName', article.productName);
+            setValue('categoryIds', categoriesIdByArticle || ['']);
+            setValue('price', article.price);
+            setValue('address', article?.address || '');
+        }
+    }, [article, setValue, categoriesIdByArticle]);
 
     useEffect(() => {
         article?.images.forEach((image) => {

@@ -26,3 +26,4 @@ export { default as FileUploading } from './FileUploading';
 export { default as Rejected } from './Rejected';
 export { default as Pagination } from './Pagination';
 export { default as CommonSection } from './CommonSection';
+export { default as DateSelect } from './DateSelect';

@@ -3,6 +3,7 @@ import ArticleCard from './ArticleCard';
 import { motion } from 'framer-motion';
 import { memo } from 'react';
 import { Article } from '@/generated/graphql';
+import { useTranslation } from 'react-i18next';
 
 export interface ArticleListProps {
     title?: string;
@@ -17,6 +18,8 @@ const ArticleList = ({
     titleClassName,
     className,
 }: ArticleListProps) => {
+    const { t } = useTranslation('common');
+
     return (
         <div className={classNames('mb-4', className)}>
             {title && (
@@ -53,7 +56,7 @@ const ArticleList = ({
                     ))
                 ) : (
                     <div className="col-span-12 text-center">
-                        <p className="text-sm">Không tìm thấy article</p>
+                        <p className="text-sm">{t('not_found_article')}</p>
                     </div>
                 )}
             </div>
