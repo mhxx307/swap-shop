@@ -1,6 +1,7 @@
 import { QueryConfig } from '@/generated/graphql';
 import classNames from 'classnames';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 import { path } from 'src/constants';
 
 /**
@@ -29,6 +30,7 @@ interface PaginationProps {
 const RANGE = 2;
 
 function Pagination({ queryConfig, pageSize }: PaginationProps) {
+    const { t } = useTranslation('common');
     const page = Number(queryConfig.page);
 
     const renderPagination = () => {
@@ -123,7 +125,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
         <div className="mt-6 flex flex-wrap justify-center">
             {page === 1 ? (
                 <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 text-black shadow-sm">
-                    Prev
+                    {t('prev')}
                 </span>
             ) : (
                 <Link
@@ -136,7 +138,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
                     }}
                     className="flex-center mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm"
                 >
-                    Prev
+                    {t('prev')}
                 </Link>
             )}
 
@@ -144,7 +146,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
 
             {page === pageSize ? (
                 <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 text-black shadow-sm">
-                    Next
+                    {t('next')}
                 </span>
             ) : (
                 <Link
@@ -157,7 +159,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
                     }}
                     className="flex-center mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm"
                 >
-                    Next
+                    {t('next')}
                 </Link>
             )}
         </div>

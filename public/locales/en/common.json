@@ -7,6 +7,7 @@
     "register_success": "Register success - Check your email to verify account!",
     "back": "back",
     "next": "next",
+    "prev": "prev",
     "finish": "finish",
     "verify": "Verify account",
     "verify_success": "Verify success",
@@ -15,5 +16,12 @@
     "create_by": "Created by",
     "description": "Description",
     "comments": "Comments",
-    "related_articles": "Related articles"
+    "related_articles": "Related articles",
+    "favorite_articles": "Favorite articles",
+    "explore": "explore",
+    "create": "create",
+    "hero_title1": "Discover second hand and collect",
+    "hero_title2": "sold at a good price",
+    "hero_title3": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti excepturi omnis neque adipisci sequi ullam unde in minus quis quos.",
+    "not_found_article": "Not found article"
 }

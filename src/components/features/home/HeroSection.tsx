@@ -3,19 +3,21 @@ import { path } from '@/constants';
 import { useTheme } from '@/contexts/ThemeContext';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 import { BiRocket } from 'react-icons/bi';
 import { BsFillPenFill } from 'react-icons/bs';
 
 function HeroSection() {
     const { isOn } = useTheme();
     const router = useRouter();
+    const { t } = useTranslation('common');
 
     return (
         <div className="grid grid-cols-12">
             <div className="col-span-6">
                 <div>
                     <h2 className="text-4xl">
-                        Discover rare digital art and collect{' '}
+                        {t('hero_title1')}{' '}
                         <span
                             style={{
                                 background:
@@ -28,15 +30,11 @@ function HeroSection() {
                                 WebkitBackgroundClip: 'text',
                             }}
                         >
-                            sell extraordinary
+                            {t('hero_title2')}
                         </span>{' '}
-                        NFTs
+                        Second Chance
                     </h2>
-                    <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Deleniti excepturi omnis neque adipisci sequi
-                        ullam unde in minus quis quos.
-                    </p>
+                    <p>{t('hero_title3')}</p>
 
                     <div className="mt-[40px] flex items-center gap-4">
                         <Button
@@ -45,7 +43,7 @@ function HeroSection() {
                             className="flex items-center gap-2 rounded-[50px] border-[1px]  border-none py-[7px] px-[25px] text-sm text-white"
                             onClick={() => router.push(path.market)}
                         >
-                            Explore
+                            {t('explore')}
                         </Button>
                         <Button
                             secondary
@@ -53,7 +51,7 @@ function HeroSection() {
                             className="flex items-center gap-2 rounded-[50px] border-[1px]  border-none py-[7px] px-[25px] text-sm text-white"
                             onClick={() => router.push(path.createArticle)}
                         >
-                            Create
+                            {t('create')}
                         </Button>
                     </div>
                 </div>
