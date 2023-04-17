@@ -6,15 +6,15 @@ import { SettingsLayout } from '@/components/layouts';
 import { Button, DateSelect, InputField } from '@/components/shared';
 import { AvatarUpload } from '@/components/features/uploads';
 import { useMeQuery, useUpdateProfileMutation } from '@/generated/graphql';
-import { Schema, schema } from '@/constants/schema';
+import { UserSchema, userSchema } from '@/constants/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 type FormState = Pick<
-    Schema,
+    UserSchema,
     'username' | 'address' | 'phoneNumber' | 'fullName' | 'birthday'
 >;
 
-const profileSchema = schema.pick([
+const profileSchema = userSchema.pick([
     'username',
     'phoneNumber',
     'address',
@@ -23,7 +23,7 @@ const profileSchema = schema.pick([
 ]);
 
 const ProfilePage = () => {
-    const { data } = useMeQuery();
+    const { data, refetch } = useMeQuery();
     const profile = data?.me;
     const {
         control,
@@ -52,6 +52,7 @@ const ProfilePage = () => {
                 },
             },
         });
+        refetch();
         toast.success('Update Sucessfully', { toastId: 'updatedProfile' });
     };
 
@@ -83,6 +84,8 @@ const ProfilePage = () => {
                 onSubmit={handleSubmit(handleUpdate)}
                 className="space-y-8"
             >
+                <p>Email: {profile.email}</p>
+
                 <InputField
                     name="username"
                     control={control}
@@ -96,8 +99,6 @@ const ProfilePage = () => {
                     label="Address"
                     containerInputClassName="default-input"
                 />
-
-                <p>{profile.email}</p>
 
                 <InputField
                     name="phoneNumber"

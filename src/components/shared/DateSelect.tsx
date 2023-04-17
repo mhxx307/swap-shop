@@ -38,7 +38,7 @@ export default function DateSelect({ value, onChange, errorMessage }: Props) {
 
     return (
         <div className="mt-2 flex flex-col flex-wrap sm:flex-row">
-            <div className="truncate pt-3 capitalize sm:w-[20%] sm:text-right">
+            <div className="truncate pt-3 capitalize sm:text-right">
                 Ngày sinh
             </div>
             <div className="sm:w-[80%] sm:pl-5">
@@ -46,12 +46,16 @@ export default function DateSelect({ value, onChange, errorMessage }: Props) {
                     <select
                         onChange={handleChange}
                         name="date"
-                        className="hover:border-orange h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3"
+                        className="hover:border-orange h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 text-black"
                         value={value?.getDate() || date.date}
                     >
                         <option disabled>Ngày</option>
                         {range(1, 32).map((item) => (
-                            <option value={item} key={item}>
+                            <option
+                                value={item}
+                                key={item}
+                                className="text-black"
+                            >
                                 {item}
                             </option>
                         ))}
@@ -59,12 +63,16 @@ export default function DateSelect({ value, onChange, errorMessage }: Props) {
                     <select
                         onChange={handleChange}
                         name="month"
-                        className="hover:border-orange h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3"
+                        className="hover:border-orange h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 text-black"
                         value={value?.getMonth() || date.month}
                     >
                         <option disabled>Tháng</option>
                         {range(0, 12).map((item) => (
-                            <option value={item} key={item}>
+                            <option
+                                value={item}
+                                key={item}
+                                className="text-black"
+                            >
                                 {item + 1}
                             </option>
                         ))}
@@ -72,12 +80,16 @@ export default function DateSelect({ value, onChange, errorMessage }: Props) {
                     <select
                         onChange={handleChange}
                         name="year"
-                        className="hover:border-orange h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3"
+                        className="hover:border-orange h-10 w-[32%] cursor-pointer rounded-sm border border-black/10 px-3 text-black"
                         value={value?.getFullYear() || date.year}
                     >
                         <option disabled>Năm</option>
                         {range(1990, 2024).map((item) => (
-                            <option value={item} key={item}>
+                            <option
+                                value={item}
+                                key={item}
+                                className="text-black"
+                            >
                                 {item}
                             </option>
                         ))}

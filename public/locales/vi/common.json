@@ -7,6 +7,7 @@
     "register_success": "Đăng ký thành công! Vui lòng kiểm tra email để kích hoạt tài khoản.",
     "back": "Trở lại",
     "next": "Tiếp theo",
+    "prev": "trước",
     "finish": "Hoàn thành",
     "verify": "Xác thực tài khoản",
     "verify_success": "Xác thực tài khoản thành công!",
@@ -15,5 +16,12 @@
     "create_by": "Tạo bởi",
     "description": "Mô tả",
     "comments": "Bình luận",
-    "related_articles": "Bài đăng liên quan"
+    "related_articles": "Bài đăng liên quan",
+    "favorite_articles": "Bài đăng yêu thích",
+    "explore": "Khám phá",
+    "create": "Tạo",
+    "hero_title1": "Khám phá những món hàng thú vị và thu thập",
+    "hero_title2": "được bán với giá tốt",
+    "hero_title3": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti excepturi omnis neque adipisci sequi ullam unde in minus quis quos.",
+    "not_found_article": "Không tìm thấy bài đăng"
 }

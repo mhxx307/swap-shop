@@ -218,14 +218,18 @@ export type Mutation = {
   changePasswordLogged: UserMutationResponse;
   changeStatusArticle: ArticleMutationResponse;
   changeStatusUser: UserMutationResponse;
+  deleteAllNotifications: NotificationMutationResponse;
+  deleteAllNotificationsPrivate: NotificationMutationResponse;
   deleteArticle: ArticleMutationResponse;
   deleteComment: CommentMutationResponse;
+  deleteNotification: NotificationMutationResponse;
   deleteReview: ReviewMutationResponse;
   deleteUser: UserMutationResponse;
   forgotPassword: UserMutationResponse;
   insertArticle: ArticleMutationResponse;
   insertCategory: CategoryMutationResponse;
   insertComment: CommentMutationResponse;
+  insertNotification: NotificationMutationResponse;
   insertRole: RoleMutationResponse;
   insertUserRole: UserMutationResponse;
   login: UserMutationResponse;
@@ -293,6 +297,11 @@ export type MutationDeleteCommentArgs = {
 };
 
 
+export type MutationDeleteNotificationArgs = {
+  id: Scalars['String'];
+};
+
+
 export type MutationDeleteReviewArgs = {
   id: Scalars['String'];
 };
@@ -321,6 +330,12 @@ export type MutationInsertCategoryArgs = {
 
 export type MutationInsertCommentArgs = {
   insertCommentInput: InsertCommentInput;
+};
+
+
+export type MutationInsertNotificationArgs = {
+  content: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 
@@ -424,6 +439,24 @@ export type MutationVerifyEmailArgs = {
   userId: Scalars['String'];
 };
 
+export type Notification = {
+  __typename?: 'Notification';
+  content: Scalars['String'];
+  createdDate: Scalars['DateTime'];
+  id: Scalars['ID'];
+  updatedDate: Scalars['DateTime'];
+  user: User;
+};
+
+export type NotificationMutationResponse = IMutationResponse & {
+  __typename?: 'NotificationMutationResponse';
+  code: Scalars['Float'];
+  errors?: Maybe<Array<FieldError>>;
+  message?: Maybe<Scalars['String']>;
+  notification?: Maybe<Notification>;
+  success: Scalars['Boolean'];
+};
+
 export type PaginatedComments = {
   __typename?: 'PaginatedComments';
   cursor?: Maybe<Scalars['DateTime']>;
@@ -457,6 +490,8 @@ export type Query = {
   isFavorite: Scalars['Boolean'];
   me?: Maybe<User>;
   messages?: Maybe<Array<Message>>;
+  notificationsPrivate?: Maybe<Array<Notification>>;
+  notificationsPublic?: Maybe<Array<Notification>>;
   reports?: Maybe<Array<Report>>;
   reviews: ReviewResponseSuccess;
   roles?: Maybe<Array<Role>>;
