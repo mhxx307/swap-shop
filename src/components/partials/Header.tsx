@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { AiOutlineMore, AiOutlineDownload } from 'react-icons/ai';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-toastify';
@@ -27,6 +27,8 @@ import {
 import { BsBellFill } from 'react-icons/bs';
 import { path } from '@/constants';
 import { getTextColorByPath } from '@/utils';
+import Tippy from '@tippyjs/react';
+import Notification from '../features/notification/Notification';
 // import { clearLS } from '@/utils/auth';
 // import { useAuthContext } from '@/contexts/AuthContext';
 
@@ -50,6 +52,8 @@ const Header = () => {
 
     const menuList = profile ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
     const textColor = getTextColorByPath(router.pathname);
+
+    const optionRef = useRef<HTMLSpanElement | null>(null);
 
     useEffect(() => {
         window.addEventListener('scroll', changeBackground);
@@ -113,9 +117,24 @@ const Header = () => {
                             </Link>
                         )}
 
-                        <BsBellFill
-                            className={`h-4 w-4 transition-colors hover:text-gray-500 ${textColor}`}
-                        />
+                        <Tippy
+                            interactive={true}
+                            render={(attrs) => (
+                                <div tabIndex={-1} {...attrs}>
+                                    <Notification />
+                                </div>
+                            )}
+                            trigger="click"
+                            animation={false}
+                            offset={[6, 20]}
+                            placement="bottom-end"
+                        >
+                            <span ref={optionRef}>
+                                <BsBellFill
+                                    className={`h-4 w-4 transition-colors hover:text-gray-500 ${textColor}`}
+                                />
+                            </span>
+                        </Tippy>
 
                         {!profile && (
                             <Button
