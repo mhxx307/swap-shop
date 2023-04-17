@@ -113,7 +113,10 @@ export const FileChatUploader: React.FC<ExportInterface> = ({
             )}
             {...dragProps}
         >
-            <BsCardImage className="cursor-pointer" onClick={onFileUpload} />
+            <BsCardImage
+                className="cursor-pointer text-black"
+                onClick={onFileUpload}
+            />
         </div>
     );
 };

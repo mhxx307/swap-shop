@@ -50,6 +50,9 @@ function ArticleForm({ id }: { id?: string }) {
         },
         skip: !id,
     });
+
+    console.log(id, articleDataUpdate);
+
     const { data: categoriesData } = useCategoriesQuery();
     const categories = categoriesData?.categories;
     const article = articleDataUpdate?.article;
@@ -65,6 +68,7 @@ function ArticleForm({ id }: { id?: string }) {
             productName: '',
             categoryIds: [''],
             price: '0',
+            address: '',
         },
     });
 
@@ -76,11 +80,9 @@ function ArticleForm({ id }: { id?: string }) {
             setValue('title', article.title);
             setValue('description', article.description);
             setValue('productName', article.productName);
-            setValue(
-                'categoryIds',
-                categoriesIdByArticle ? categoriesIdByArticle : [''],
-            );
+            setValue('categoryIds', categoriesIdByArticle || ['']);
             setValue('price', article.price);
+            setValue('address', article?.address || '');
         }
     }, [article, setValue, categoriesIdByArticle]);
 
@@ -90,8 +92,7 @@ function ArticleForm({ id }: { id?: string }) {
                 setFiles((prev) => [...prev, file]);
             });
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [article]);
 
     const handleSubmitArticle = async (
         payload: Omit<InsertArticleInput, 'images'>,
@@ -109,6 +110,7 @@ function ArticleForm({ id }: { id?: string }) {
                             images: urlArticles,
                             categoryIds: payload.categoryIds,
                             price: payload.price,
+                            address: payload.address,
                         },
                     },
                     onCompleted: () => {
@@ -142,6 +144,7 @@ function ArticleForm({ id }: { id?: string }) {
                         categoryIds: payload.categoryIds,
                         price: payload.price,
                         status: STATUS_ARTICLE.PENDING,
+                        address: payload.address,
                     },
                 },
                 onCompleted: () => {
@@ -197,17 +200,32 @@ function ArticleForm({ id }: { id?: string }) {
 
                                     <div>
                                         <span className="text-sm">Price:</span>
-                                        <PriceOptions
-                                            checked={checked}
-                                            setChecked={setChecked}
-                                        />
-                                        <InputField
-                                            control={control}
-                                            type="number"
-                                            name="price"
-                                            placeholder="Price"
-                                            disabled={checked === 1}
-                                        />
+                                        <div className="flex w-full items-center">
+                                            <div className="mr-2 w-[60%]">
+                                                <PriceOptions
+                                                    checked={checked}
+                                                    setChecked={setChecked}
+                                                />
+
+                                                <InputField
+                                                    control={control}
+                                                    type="text"
+                                                    name="price"
+                                                    placeholder="Price"
+                                                    disabled={checked === 1}
+                                                    onlyNumber
+                                                />
+                                            </div>
+                                            <div className="w-[40%]">
+                                                <InputField
+                                                    control={control}
+                                                    type="text"
+                                                    label="Address:"
+                                                    name="address"
+                                                    placeholder="Adress"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div>

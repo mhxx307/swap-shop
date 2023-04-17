@@ -17,6 +17,7 @@ fragment article on Article {
     status
     favoritesCount
     views
+    address
     createdDate
     updatedDate
 }

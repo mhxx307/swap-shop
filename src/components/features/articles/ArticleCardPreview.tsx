@@ -15,6 +15,7 @@ const ArticleCardPreview = ({
 }) => {
     const title = useWatch({ control, name: 'title' });
     const price = useWatch({ control, name: 'price' });
+    const address = useWatch({ control, name: 'address' });
     return (
         <div className="rounded-[10px] bg-white p-[20px] shadow dark:bg-[#343444]">
             {/* image */}
@@ -79,7 +80,7 @@ const ArticleCardPreview = ({
                     >
                         Xem
                     </Button>
-                    <span className="truncate text-xs">address</span>
+                    <span className="truncate text-xs">{address}</span>
                 </div>
             </div>
         </div>

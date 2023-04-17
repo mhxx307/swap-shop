@@ -1,7 +1,7 @@
 import HeadlessTippy from '@tippyjs/react/headless'; // different import path!
 import { ChangeEvent, useEffect, useRef, useState, useMemo } from 'react';
 import { BsFillGearFill } from 'react-icons/bs';
-
+import { RxMagnifyingGlass } from 'react-icons/rx';
 import { Conversation, SearchResultList } from '@/components/features/chat';
 import { Header } from '@/components/partials';
 import { Auth, Button, CommonSection, Spinner } from '@/components/shared';
@@ -148,156 +148,166 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
                 <div className="app">
                     <div className="flex w-full flex-col">
                         <CommonSection title="Chat" />
-                        <div className="container mt-12 bg-white dark:bg-[#343444]">
-                            {/* messenger */}
-                            <div className="grid grid-cols-12 p-3">
-                                {/* chat menu */}
-                                <div className="col-span-5">
-                                    <div className="flex h-full flex-col justify-between">
-                                        {/* header */}
-                                        <div className="flex justify-between">
-                                            <p className="font-bold">Chat</p>
-                                            <ChatOptions />
-                                        </div>
-
-                                        {/* search */}
-                                        <HeadlessTippy
-                                            visible={
-                                                showResult &&
-                                                searchResult.length > 0
-                                            }
-                                            interactive={true}
-                                            appendTo={() => document.body}
-                                            render={(attrs) => (
-                                                <div
-                                                    tabIndex={-1}
-                                                    {...attrs}
-                                                    className="z-50 w-[500px] shadow"
-                                                >
-                                                    <SearchResultList
-                                                        searchResult={
-                                                            searchResult
-                                                        }
-                                                        setCurrentChat={
-                                                            setCurrentChat
-                                                        }
-                                                    />
-                                                </div>
-                                            )}
-                                            placement="bottom-start"
-                                            onClickOutside={() => {
-                                                setShowResult(false);
-                                            }}
-                                        >
-                                            <div className="flex">
-                                                <input
-                                                    ref={inputRef}
-                                                    placeholder="Search..."
-                                                    className="w-full border-b-[1px] border-b-slate-500 p-2 outline-none"
-                                                    value={searchValue}
-                                                    spellCheck={false}
-                                                    onChange={handleSearch}
-                                                    onFocus={() =>
-                                                        setShowResult(true)
-                                                    }
-                                                />
-                                                {searchLoading && <Spinner />}
+                        <div className="container">
+                            <div className=" mt-12 bg-white shadow-lg dark:bg-[#343444]">
+                                {/* messenger */}
+                                <div className="grid grid-cols-12">
+                                    {/* chat menu */}
+                                    <div className="col-span-5">
+                                        <div className="flex h-full flex-col justify-between">
+                                            {/* header */}
+                                            <div className="flex items-center justify-between rounded-sm border-b-[1px] bg-[#F5F1F1] p-3 dark:bg-[#343444]">
+                                                <p className="font-bold">
+                                                    Chat
+                                                </p>
+                                                <ChatOptions />
                                             </div>
-                                        </HeadlessTippy>
-
-                                        {/* list */}
-                                        <div className="h-full overflow-y-scroll">
-                                            {extendedConversations.length > 0 &&
-                                                extendedConversations.map(
-                                                    (conversation, index) => (
-                                                        <div
-                                                            key={
-                                                                conversation.id
+                                            {/* search */}
+                                            <HeadlessTippy
+                                                visible={
+                                                    showResult &&
+                                                    searchResult.length > 0
+                                                }
+                                                interactive={true}
+                                                appendTo={() => document.body}
+                                                render={(attrs) => (
+                                                    <div
+                                                        tabIndex={-1}
+                                                        {...attrs}
+                                                        className="z-50 w-[500px] shadow"
+                                                    >
+                                                        <SearchResultList
+                                                            searchResult={
+                                                                searchResult
                                                             }
-                                                            onClick={() => {
-                                                                setCurrentChat(
-                                                                    conversation as ConversationType,
-                                                                );
-                                                            }}
-                                                            role="button"
-                                                            tabIndex={0}
-                                                            aria-hidden="true"
-                                                            className={classNames(
-                                                                {
-                                                                    'bg-gray-200':
-                                                                        currentChat?.id ===
-                                                                        conversation.id,
-                                                                },
-                                                            )}
-                                                        >
-                                                            <div className="flex">
-                                                                {showRemoveCheckBox && (
-                                                                    <input
-                                                                        type="checkbox"
-                                                                        checked={
-                                                                            conversation.checked
-                                                                        }
-                                                                        onChange={handleCheck(
-                                                                            index,
-                                                                        )}
-                                                                    />
-                                                                )}
-                                                                <Conversation
-                                                                    conversation={
-                                                                        conversation as ConversationType
-                                                                    }
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    ),
+                                                            setCurrentChat={
+                                                                setCurrentChat
+                                                            }
+                                                        />
+                                                    </div>
                                                 )}
-                                        </div>
-
-                                        <div className="mt-[5px] mb-[15px] flex items-center">
-                                            {showRemoveCheckBox ? (
-                                                <>
-                                                    {checkedConversationsCount >
-                                                        0 && (
+                                                placement="bottom-start"
+                                                onClickOutside={() => {
+                                                    setShowResult(false);
+                                                }}
+                                            >
+                                                <div className="flex bg-[#F7F7F7] p-2 dark:bg-[#44444c]">
+                                                    <div className="relative w-full">
+                                                        <input
+                                                            ref={inputRef}
+                                                            placeholder="Search..."
+                                                            className="w-full rounded-sm border border-slate-300 bg-white p-1 outline-none hover:border-indigo-300"
+                                                            value={searchValue}
+                                                            spellCheck={false}
+                                                            onChange={
+                                                                handleSearch
+                                                            }
+                                                            onFocus={() =>
+                                                                setShowResult(
+                                                                    true,
+                                                                )
+                                                            }
+                                                        />
+                                                        <RxMagnifyingGlass className="absolute top-1 right-2 h-6 w-6 " />
+                                                    </div>
+                                                    {searchLoading && (
+                                                        <Spinner />
+                                                    )}
+                                                </div>
+                                            </HeadlessTippy>
+                                            {/* list */}
+                                            <div className="h-full overflow-y-auto">
+                                                {extendedConversations.length >
+                                                    0 &&
+                                                    extendedConversations.map(
+                                                        (
+                                                            conversation,
+                                                            index,
+                                                        ) => (
+                                                            <div
+                                                                key={
+                                                                    conversation.id
+                                                                }
+                                                                onClick={() => {
+                                                                    setCurrentChat(
+                                                                        conversation as ConversationType,
+                                                                    );
+                                                                }}
+                                                                role="button"
+                                                                tabIndex={0}
+                                                                aria-hidden="true"
+                                                                className={classNames(
+                                                                    {
+                                                                        'bg-gray-200':
+                                                                            currentChat?.id ===
+                                                                            conversation.id,
+                                                                    },
+                                                                )}
+                                                            >
+                                                                <div className="flex">
+                                                                    {showRemoveCheckBox && (
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            checked={
+                                                                                conversation.checked
+                                                                            }
+                                                                            onChange={handleCheck(
+                                                                                index,
+                                                                            )}
+                                                                        />
+                                                                    )}
+                                                                    <Conversation
+                                                                        conversation={
+                                                                            conversation as ConversationType
+                                                                        }
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        ),
+                                                    )}
+                                            </div>
+                                            <div className="mt-[5px] mb-[15px] flex items-center">
+                                                {showRemoveCheckBox ? (
+                                                    <>
+                                                        {checkedConversationsCount >
+                                                            0 && (
+                                                            <Button
+                                                                className="dark-text-black mr-1 w-full items-center justify-center bg-red-500 text-white "
+                                                                onClick={() =>
+                                                                    handleRemoveConversation()
+                                                                }
+                                                            >
+                                                                Xóa
+                                                            </Button>
+                                                        )}
                                                         <Button
-                                                            className="mr-1 w-full items-center justify-center bg-white text-black"
+                                                            className="dark-text-black ml-4 mr-6 w-full items-center justify-center bg-red-500 text-white"
                                                             onClick={() =>
-                                                                handleRemoveConversation()
+                                                                setShowRemoveCheckBox(
+                                                                    false,
+                                                                )
                                                             }
                                                         >
-                                                            Xóa
+                                                            Hủy
                                                         </Button>
-                                                    )}
-
+                                                    </>
+                                                ) : (
                                                     <Button
-                                                        className="w-full items-center justify-center bg-white text-black"
+                                                        className="mr-6 ml-4 w-full items-center justify-center bg-red-500 text-white"
                                                         onClick={() =>
                                                             setShowRemoveCheckBox(
-                                                                false,
+                                                                true,
                                                             )
                                                         }
                                                     >
-                                                        Hủy
+                                                        Clear conversation
                                                     </Button>
-                                                </>
-                                            ) : (
-                                                <Button
-                                                    className="w-full items-center justify-center bg-red-500 text-white"
-                                                    onClick={() =>
-                                                        setShowRemoveCheckBox(
-                                                            true,
-                                                        )
-                                                    }
-                                                >
-                                                    Clear conversation
-                                                </Button>
-                                            )}
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                {/* chatbox */}
-                                <div className="col-span-7 pl-6">
-                                    {children}
+                                    {/* chatbox */}
+                                    <div className="col-span-7">{children}</div>
                                 </div>
                             </div>
                         </div>
@@ -313,13 +323,13 @@ export default ChatLayout;
 const ChatOptions = () => {
     return (
         <ul className="flex items-center space-x-4">
-            <li className="cursor-pointer rounded-full bg-secondary px-2 py-2 text-white">
+            <li className="cursor-pointer rounded-full bg-secondary px-4 py-1 text-white">
                 Tất cả
             </li>
-            <li className="cursor-pointer rounded-full bg-gray-200 px-2 py-2 hover:bg-secondary hover:text-white">
+            <li className="cursor-pointer rounded-full bg-gray-200 px-4 py-1 hover:bg-secondary hover:text-white">
                 Tôi mua
             </li>
-            <li className="cursor-pointer rounded-full bg-gray-200 px-2 py-2 hover:bg-secondary hover:text-white">
+            <li className="cursor-pointer rounded-full bg-gray-200 px-4 py-1 hover:bg-secondary hover:text-white">
                 Tôi bán
             </li>
             <li>
