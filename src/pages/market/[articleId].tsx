@@ -443,7 +443,11 @@ const ArticleDetailPage = () => {
                                 tabs={[
                                     {
                                         label: t('comments') || 'Comments',
-                                        content: <Comment id={id} />,
+                                        content: (
+                                            <Comment
+                                                article={article as Article}
+                                            />
+                                        ),
                                     },
                                     {
                                         label: 'MinhQuan',

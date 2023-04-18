@@ -22,6 +22,8 @@ const profileSchema = userSchema.pick([
     'fullName',
 ]);
 
+// https://www.youtube.com/watch?v=Q--CGvbvY3k
+
 const ProfilePage = () => {
     const { data, refetch } = useMeQuery();
     const profile = data?.me;

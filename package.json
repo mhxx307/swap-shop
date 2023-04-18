@@ -33,6 +33,7 @@
         "eslint-config-next": "13.1.1",
         "firebase": "^9.19.0",
         "framer-motion": "^8.0.2",
+        "graphql-ws": "^5.12.1",
         "hamburger-react": "^2.5.0",
         "i18next": "^22.4.8",
         "i18next-chained-backend": "^4.2.0",

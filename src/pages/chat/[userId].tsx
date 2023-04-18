@@ -1,4 +1,8 @@
-import { useMeQuery, useNewMessageMutation } from '@/generated/graphql';
+import {
+    useMeQuery,
+    useNewMessageMutation,
+    usePushPrivateNotificationMutation,
+} from '@/generated/graphql';
 import { io } from 'socket.io-client';
 
 import { BsEmojiSmile } from 'react-icons/bs';
@@ -17,7 +21,6 @@ import { createUrlListFromFileList, formatCurrency } from '@/utils';
 import { useMessage } from '@/hooks';
 
 import 'tippy.js/dist/tippy.css';
-// import { useAuthContext } from '@/contexts/AuthContext';
 
 interface UserSocket {
     userId: string;
@@ -31,16 +34,16 @@ function ChatBox() {
     const [files, setFiles] = useState<File[]>([]);
     const [onlineUsers, setOnlineUsers] = useState<UserSocket[]>([]);
     console.log(onlineUsers);
-    // const { profile } = useAuthContext();
+    const [pushPrivateNotificationMutation] =
+        usePushPrivateNotificationMutation();
     const { data: meData } = useMeQuery();
     const profile = meData?.me;
-
-    const [sendMessageMutation, { loading: sendMessageLoading }] =
-        useNewMessageMutation();
-
     const conversation = conversationData?.getConversation;
     const messages = messagesData?.messages;
     const iconRef = useRef<HTMLSpanElement | null>(null);
+
+    const [sendMessageMutation, { loading: sendMessageLoading }] =
+        useNewMessageMutation();
 
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -90,6 +93,13 @@ function ChatBox() {
                 conversation.member1.id === profile.id
                     ? conversation.member2.id
                     : conversation.member1.id;
+
+            await pushPrivateNotificationMutation({
+                variables: {
+                    content: 'Bạn có tin nhắn mới: ' + newMessage,
+                    recipientId: receiverId,
+                },
+            });
 
             await sendMessageMutation({
                 variables: {
@@ -171,7 +181,7 @@ function ChatBox() {
                         </div>
 
                         {/* bottom */}
-                        <div className="mt-[5px] flex items-center justify-between rounded-md bg-[#F5F1F1] px-3 dark:bg-[#5e5d5d] dark:text-black">
+                        <div className="mt-[5px] flex items-center justify-between rounded-md bg-[#F5F1F1] px-3 dark:text-black">
                             <Tippy
                                 interactive={true}
                                 render={(attrs) => (

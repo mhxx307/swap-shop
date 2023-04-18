@@ -1,0 +1,33 @@
+mutation DeleteNotifications($ids: [String!]!) {
+    deleteNotifications(ids: $ids) {
+        message
+        success
+    }
+}
+
+mutation PushNotification($content: String!) {
+    pushNotification(content: $content) {
+        message
+        success
+        notification {
+            id
+            content
+            createdDate
+            updatedDate
+        }
+    }
+}
+
+mutation PushPrivateNotification($recipientId: String!, $content: String!) {
+    pushPrivateNotification(recipientId: $recipientId, content: $content) {
+        message
+        success
+        notification {
+            id
+            content
+            userId
+            createdDate
+            updatedDate
+        }
+    }
+}

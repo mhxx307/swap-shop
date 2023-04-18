@@ -2,6 +2,7 @@ import PublishedCard from '@/components/features/articles/PublishedCard';
 import {
     Auth,
     ClientOnly,
+    CommonSection,
     Head,
     Image,
     Spinner,
@@ -49,95 +50,102 @@ function PublishedPage() {
             <Head />
             <ClientOnly>
                 <Auth>
-                    <div className="container header-height">
-                        <div className="grid grid-cols-12 shadow">
-                            {' '}
-                            <div className=" col-span-12 rounded-sm bg-white p-6 dark:bg-[#343444]">
-                                <div className="mb-4 flex items-end justify-between">
-                                    <div className="flex items-end">
-                                        <Image
-                                            src={
-                                                profile?.avatar ||
-                                                '/images/avatar-fallback.png'
-                                            }
-                                            alt="Avatar"
-                                            className="h-20 w-20 rounded-[50%] object-cover text-center ss:mr-[24px]"
-                                        />
+                    <div className="flex w-full flex-col">
+                        <CommonSection title="Quản lý bài viết" />
+                        <div className="container my-10">
+                            <div className="grid grid-cols-12 bg-white p-6 shadow dark:bg-[#343444]">
+                                {' '}
+                                <div className="col-span-12 rounded-sm">
+                                    <div className="mb-4 flex items-end justify-between">
+                                        <div className="flex items-end">
+                                            <Image
+                                                src={
+                                                    profile?.avatar ||
+                                                    '/images/avatar-fallback.png'
+                                                }
+                                                alt="Avatar"
+                                                className="h-20 w-20 rounded-[50%] object-cover text-center ss:mr-[24px]"
+                                            />
 
-                                        <div>
-                                            <h3 className="mb-2 font-semibold">
-                                                {profile.fullName}
-                                            </h3>
-                                            <h5 className="cursor-pointer rounded-lg border border-secondary pl-6 pr-6 text-secondary hover:bg-slate-50">
-                                                {t('home')}
-                                            </h5>
+                                            <div>
+                                                <h3 className="mb-2 font-semibold">
+                                                    {profile.fullName}
+                                                </h3>
+                                                <h5 className="cursor-pointer rounded-lg border border-secondary pl-6 pr-6 text-secondary hover:bg-slate-50">
+                                                    {t('home')}
+                                                </h5>
+                                            </div>
                                         </div>
                                     </div>
+                                    <TabView
+                                        tabs={[
+                                            {
+                                                label:
+                                                    t('pending') || 'Chờ duyệt',
+                                                content: (
+                                                    <div>
+                                                        {articlesPending &&
+                                                            articlesPending?.map(
+                                                                (article) => (
+                                                                    <PublishedCard
+                                                                        key={
+                                                                            article.id
+                                                                        }
+                                                                        article={
+                                                                            article as Article
+                                                                        }
+                                                                    />
+                                                                ),
+                                                            )}
+                                                    </div>
+                                                ),
+                                            },
+                                            {
+                                                label:
+                                                    t('approved') ||
+                                                    'Chờ duyệt',
+                                                content: (
+                                                    <div>
+                                                        {articlesApproved &&
+                                                            articlesApproved?.map(
+                                                                (article) => (
+                                                                    <PublishedCard
+                                                                        key={
+                                                                            article.id
+                                                                        }
+                                                                        article={
+                                                                            article as Article
+                                                                        }
+                                                                    />
+                                                                ),
+                                                            )}
+                                                    </div>
+                                                ),
+                                            },
+                                            {
+                                                label:
+                                                    t('rejected') || 'Từ chối',
+                                                content: (
+                                                    <div>
+                                                        {articlesRejected &&
+                                                            articlesRejected?.map(
+                                                                (article) => (
+                                                                    <PublishedCard
+                                                                        key={
+                                                                            article.id
+                                                                        }
+                                                                        article={
+                                                                            article as Article
+                                                                        }
+                                                                    />
+                                                                ),
+                                                            )}
+                                                    </div>
+                                                ),
+                                            },
+                                        ]}
+                                    />
                                 </div>
-                                <TabView
-                                    tabs={[
-                                        {
-                                            label: t('pending') || 'Chờ duyệt',
-                                            content: (
-                                                <div>
-                                                    {articlesPending &&
-                                                        articlesPending?.map(
-                                                            (article) => (
-                                                                <PublishedCard
-                                                                    key={
-                                                                        article.id
-                                                                    }
-                                                                    article={
-                                                                        article as Article
-                                                                    }
-                                                                />
-                                                            ),
-                                                        )}
-                                                </div>
-                                            ),
-                                        },
-                                        {
-                                            label: t('approved') || 'Chờ duyệt',
-                                            content: (
-                                                <div>
-                                                    {articlesApproved &&
-                                                        articlesApproved?.map(
-                                                            (article) => (
-                                                                <PublishedCard
-                                                                    key={
-                                                                        article.id
-                                                                    }
-                                                                    article={
-                                                                        article as Article
-                                                                    }
-                                                                />
-                                                            ),
-                                                        )}
-                                                </div>
-                                            ),
-                                        },
-                                        {
-                                            label: t('rejected') || 'Từ chối',
-                                            content: (
-                                                <div>
-                                                    {articlesRejected &&
-                                                        articlesRejected?.map(
-                                                            (article) => (
-                                                                <PublishedCard
-                                                                    key={
-                                                                        article.id
-                                                                    }
-                                                                    article={
-                                                                        article as Article
-                                                                    }
-                                                                />
-                                                            ),
-                                                        )}
-                                                </div>
-                                            ),
-                                        },
-                                    ]}
-                                />
                             </div>
                         </div>
                     </div>

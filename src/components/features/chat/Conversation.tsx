@@ -1,5 +1,4 @@
 import { path } from '@/constants';
-// import { useAuthContext } from '@/contexts/AuthContext';
 import {
     Conversation,
     useMeQuery,
@@ -12,7 +11,6 @@ import { useEffect, useState } from 'react';
 function Conversations({ conversation }: { conversation: Conversation }) {
     const router = useRouter();
     const [friendId, setFriendId] = useState('');
-    // const { profile } = useAuthContext();
     const { data: meData } = useMeQuery();
     const profile = meData?.me;
     const { data: friendData } = useUserByIdQuery({
@@ -37,7 +35,7 @@ function Conversations({ conversation }: { conversation: Conversation }) {
 
     return (
         <button
-            className="flex w-full cursor-pointer items-center border-b-[1px] p-[10px] hover:bg-gray-200 dark:border-gray-500 "
+            className="flex w-full cursor-pointer items-center border-b-[1px] p-[10px] transition-colors hover:bg-slate-200 dark:hover:bg-slate-600"
             onClick={() =>
                 router.push(
                     `${path.chat}/${generateNameId({
@@ -58,9 +56,11 @@ function Conversations({ conversation }: { conversation: Conversation }) {
                         }
                         alt={friend.username}
                     />
-                    <div>
-                        <p className="dark:text-black">{friend.username}</p>
-                        <p className="text-gray-500 dark:text-black">
+                    <div className="flex flex-col justify-center">
+                        <p className="text-black dark:text-white">
+                            {friend.username}
+                        </p>
+                        <p className="text-black dark:text-white">
                             {conversation.article.productName}
                         </p>
                     </div>
