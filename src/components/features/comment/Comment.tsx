@@ -6,6 +6,7 @@ import { Button } from '@/components/shared';
 import { limitCommentsPaginated } from '@/constants';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import {
+    Article,
     CommentListByArticleIdDocument,
     CommentListByArticleIdQuery,
     InsertCommentInput,
@@ -16,23 +17,21 @@ import {
     useDeleteCommentMutation,
     useInsertCommentMutation,
     useMeQuery,
+    usePushPrivateNotificationMutation,
     useUpdateCommentMutation,
 } from '@/generated/graphql';
 import { MouseEvent, useState } from 'react';
 import CommentItem from './CommentItem';
-// import { useAuthContext } from '@/contexts/AuthContext';
 
 interface CommentProps {
-    id: string;
+    article: Article;
 }
 
-// ! ApolloError: Cannot read properties of null (reading 'totalCount')
-function Comment({ id }: CommentProps) {
+function Comment({ article }: CommentProps) {
     const [updateMode, setUpdateMode] = useState<UpdateCommentInput | null>(
         null,
     );
-    const articleId = id;
-    // const { profile } = useAuthContext();
+    const articleId = article.id;
     const { data: meData } = useMeQuery();
     const profile = meData?.me;
 
@@ -51,6 +50,7 @@ function Comment({ id }: CommentProps) {
     const paginatedComments =
         commentList?.commentListByArticleId?.paginatedComments;
 
+    const [pushNotification] = usePushPrivateNotificationMutation();
     const [insertCommentMutation, { loading: insertLoading }] =
         useInsertCommentMutation();
     const [deleteCommentMutation, { loading: deleteLoading }] =
@@ -138,6 +138,16 @@ function Comment({ id }: CommentProps) {
                         },
                     },
                 });
+            },
+        });
+
+        await pushNotification({
+            variables: {
+                content:
+                    article.user.username +
+                    ' đã bình luận về bài biết của bạn' +
+                    text,
+                recipientId: article.user.id,
             },
         });
 
