@@ -178,7 +178,7 @@ export type InsertCommentInput = {
 
 export type InsertMessageInput = {
   conversationId: Scalars['String'];
-  images: Array<Scalars['String']>;
+  images?: InputMaybe<Array<Scalars['String']>>;
   senderId: Scalars['String'];
   text: Scalars['String'];
 };

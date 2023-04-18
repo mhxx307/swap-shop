@@ -156,7 +156,7 @@ function ArticleForm({ id }: { id?: string }) {
 
     return (
         <Auth>
-            <section className="container bg-white dark:bg-primaryDark">
+            <section className="container bg-white pb-[30px] dark:bg-primaryDark">
                 <div className="mt-12 grid grid-cols-12">
                     <div className="col-span-6 mr-6 md:col-span-4 lg:col-span-3">
                         <h5 className="text-light mb-4">Preview Item</h5>
@@ -297,7 +297,7 @@ function ArticleForm({ id }: { id?: string }) {
                                 </div>
 
                                 <Button
-                                    primary
+                                    secondary
                                     isLoading={loading}
                                     type="submit"
                                 >

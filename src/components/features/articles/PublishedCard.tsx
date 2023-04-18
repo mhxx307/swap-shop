@@ -10,7 +10,7 @@ function PublishedCard({ article }: { article: Article }) {
     return (
         <div
             key={article.id}
-            className={`mt-1 block rounded-sm border-[1px] bg-white p-4 dark:bg-[#343444]`}
+            className={`mt-1 mb-4 block rounded-md border-[1px] bg-white p-4 dark:bg-[#343444]`}
         >
             <div className="flex ">
                 <Image
@@ -37,6 +37,7 @@ function PublishedCard({ article }: { article: Article }) {
                                 onClick={() =>
                                     router.push(`/articles/edit/${article.id}`)
                                 }
+                                className="cursor-pointer items-center rounded-md bg-blue-700 p-[10px] px-3 py-1.5 text-white transition-colors hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
                                 Edit
                             </button>
