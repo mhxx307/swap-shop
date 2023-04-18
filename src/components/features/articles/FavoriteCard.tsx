@@ -33,7 +33,7 @@ function FavoriteCard({ favorite, index }: FavoriteCardProps) {
                 duration: 0.2,
                 delay: index * 0.2,
             }}
-            className="mb-2 flex"
+            className="mb-4 flex rounded-lg shadow-itemCardLight dark:shadow-itemCardDark"
         >
             <Image
                 src={favorite.article.thumbnail}

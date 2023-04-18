@@ -8,12 +8,12 @@ interface Props {
 
 function NotificationContent({ notifications }: Props) {
     return (
-        <div className="w-[45vh] rounded-md bg-white p-2">
+        <div className="w-[45vh] rounded-md bg-white p-2 dark:bg-[#282828]">
             <header className="flex items-center justify-between">
-                <p className="text-black">Thông báo</p>
+                <p className="text-black dark:text-white">Thông báo</p>
                 <AiOutlineSetting
                     fill="black"
-                    className="h-5 w-5 cursor-pointer"
+                    className="h-5 w-5 cursor-pointer dark:fill-white"
                 />
             </header>
             <hr className="my-1 bg-gray-400" />

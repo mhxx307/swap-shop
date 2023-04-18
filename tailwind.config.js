@@ -21,6 +21,8 @@ module.exports = {
                 '3xl': 'rgb(145 158 171 / 20%) 0px 0px 2px 0px, rgb(145 158 171 / 12%) 0px 12px 24px -4px',
                 headerDark: '2px 2px 4px -2px #e250e5',
                 headerLight: '2px 2px 4px -2px #919eab',
+                itemCardLight: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+                itemCardDark: '#e250e5 0px 1px 4px',
             },
         },
         screens: {

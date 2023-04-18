@@ -1,5 +1,6 @@
 import { Logo } from '@/components/shared';
 import { Notification, useUserByIdQuery } from '@/generated/graphql';
+import DOMPurify from 'dompurify';
 import TimeAgo from 'timeago-react';
 
 interface Props {
@@ -32,11 +33,19 @@ function NotificationItem({ notification }: Props) {
                 <Logo />
             )}
             <div className="ml-4">
-                <p className="max-w-[100%] text-black line-clamp-2">
-                    {notification.content}
-                </p>
-                <p className="text-xs text-gray-400">
-                    <TimeAgo datetime={notification.createdDate} />
+                <div className="max-w-[100%] text-black line-clamp-2 dark:text-white">
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(notification.content),
+                        }}
+                    />
+                </div>
+
+                <p className="text-xs font-bold text-gray-400 ">
+                    <TimeAgo
+                        datetime={notification.createdDate}
+                        className="text-[#5142fc]"
+                    />
                 </p>
             </div>
         </div>

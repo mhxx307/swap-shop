@@ -17,11 +17,13 @@ import {
     useDeleteCommentMutation,
     useInsertCommentMutation,
     useMeQuery,
+    useNotificationsQuery,
     usePushPrivateNotificationMutation,
     useUpdateCommentMutation,
 } from '@/generated/graphql';
 import { MouseEvent, useState } from 'react';
 import CommentItem from './CommentItem';
+import { useNotification } from '@/hooks';
 
 interface CommentProps {
     article: Article;
@@ -34,6 +36,8 @@ function Comment({ article }: CommentProps) {
     const articleId = article.id;
     const { data: meData } = useMeQuery();
     const profile = meData?.me;
+
+    const { refetch } = useNotificationsQuery();
 
     const {
         data: commentList,
@@ -144,13 +148,12 @@ function Comment({ article }: CommentProps) {
         await pushNotification({
             variables: {
                 content:
-                    article.user.username +
-                    ' đã bình luận về bài biết của bạn' +
-                    text,
+                    `<b>${article.user.username}</b>` +
+                    ' đã bình luận về bài biết của bạn',
                 recipientId: article.user.id,
             },
         });
-
+        refetch();
         setValue('text', '');
     };
 
@@ -243,7 +246,7 @@ function Comment({ article }: CommentProps) {
                     <textarea
                         {...register('text')}
                         disabled={!profile}
-                        className="h-24 rounded-md border border-gray-200 p-2 pl-4 outline-none disabled:bg-gray-50"
+                        className="h-24 rounded-md border border-gray-200 p-2 pl-4 text-black outline-none disabled:bg-gray-50"
                         placeholder={
                             profile
                                 ? 'What are your thoughts?'
