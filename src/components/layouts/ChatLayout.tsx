@@ -124,6 +124,16 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
             );
         };
 
+    const handleCheckAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setExtendedConversations(
+            produce((draft) => {
+                draft.forEach((conversation) => {
+                    conversation.checked = e.target.checked;
+                });
+            }),
+        );
+    };
+
     const handleRemoveConversation = async () => {
         const conversationIds = checkedConversations.map(
             (conversation) => conversation.id,
@@ -157,9 +167,22 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
                                         <div className="flex h-full flex-col justify-between p-2">
                                             {/* header */}
                                             <div className="mb-4 flex items-center justify-between rounded-sm border-b-[1px] bg-[#F5F1F1] p-3 dark:bg-[#343444]">
-                                                <p className="font-bold">
-                                                    Chat
-                                                </p>
+                                                <div>
+                                                    <p className="font-bold">
+                                                        Chat
+                                                    </p>
+                                                    {showRemoveCheckBox && (
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={
+                                                                isAllChecked
+                                                            }
+                                                            onChange={
+                                                                handleCheckAll
+                                                            }
+                                                        />
+                                                    )}
+                                                </div>
                                                 <ChatOptions />
                                             </div>
                                             {/* search */}
@@ -281,7 +304,7 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
                                                             </Button>
                                                         )}
                                                         <Button
-                                                            className="dark-text-black ml-4 mr-6 w-full items-center justify-center bg-red-500 text-white"
+                                                            className="dark-text-black 	ml-4 mr-6 w-full items-center justify-center bg-white  text-black"
                                                             onClick={() =>
                                                                 setShowRemoveCheckBox(
                                                                     false,
@@ -326,10 +349,10 @@ const ChatOptions = () => {
             <li className="cursor-pointer rounded-full bg-secondary px-4 py-1 text-white">
                 Tất cả
             </li>
-            <li className="cursor-pointer rounded-full bg-gray-200 px-4 py-1 hover:bg-secondary hover:text-white">
+            <li className="cursor-pointer rounded-full bg-gray-200 px-4 py-1 text-black hover:bg-secondary hover:text-white">
                 Tôi mua
             </li>
-            <li className="cursor-pointer rounded-full bg-gray-200 px-4 py-1 hover:bg-secondary hover:text-white">
+            <li className="cursor-pointer rounded-full bg-gray-200 px-4 py-1 text-black hover:bg-secondary hover:text-white">
                 Tôi bán
             </li>
             <li>

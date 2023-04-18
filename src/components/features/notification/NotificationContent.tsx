@@ -1,4 +1,3 @@
-import React from 'react';
 import { AiOutlineSetting } from 'react-icons/ai';
 import NotificationItem from './NotificationItem';
 import { Notification } from '@/generated/graphql';

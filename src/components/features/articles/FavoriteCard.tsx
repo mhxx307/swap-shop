@@ -40,9 +40,9 @@ function FavoriteCard({ favorite, index }: FavoriteCardProps) {
                 alt="article"
                 classnamewrapper="flex-shrink-0 w-[150px] h-[150px] object-cover"
             />
-            <div className="flex flex-1 flex-col justify-between bg-white p-4">
+            <div className="flex flex-1 flex-col justify-between bg-white p-4 dark:bg-[#343444]">
                 <div>
-                    <h2 className="font-semibold uppercase text-black">
+                    <h2 className="cursor-pointer font-semibold uppercase text-black hover:underline dark:text-white">
                         {favorite.article.title}
                     </h2>
                     <p className="mt-2 text-primary-500">
@@ -54,30 +54,18 @@ function FavoriteCard({ favorite, index }: FavoriteCardProps) {
                 </div>
                 <div className="flex items-center justify-between">
                     <div className="flex items-center justify-between">
-                        {/* <Avatar
-                    className="h-4 w-4"
-                    src={
-                        favorite.article.user
-                            .avatar as string
-                    }
-                /> */}
                         <p className="font-[300] text-gray-400">
-                            {favorite.article.user.fullName}-
+                            {favorite.article.user.fullName} -{' '}
                         </p>
                         <TimeAgo
-                            className="font-[300] text-gray-400"
+                            className="text-xs font-[300] text-gray-400"
                             datetime={favorite.article.createdDate}
                         />
-                        {'-'}
                         <p className="font-[300] text-gray-400">
                             {favorite.article.user.address}
                         </p>
                     </div>
-                    <div className=" flex items-center">
-                        <h5 className="cursor-pointer rounded-lg border border-red-500 pl-6 pr-6 text-primary-500 hover:bg-slate-50">
-                            Chat
-                        </h5>
-
+                    <div className="flex items-center">
                         <button onClick={handleAddToFavorite}>
                             <AiFillHeart
                                 className={classNames(' ml-4 h-8 w-8', {

@@ -218,11 +218,9 @@ export type Mutation = {
   changePasswordLogged: UserMutationResponse;
   changeStatusArticle: ArticleMutationResponse;
   changeStatusUser: UserMutationResponse;
-  deleteAllNotifications: NotificationMutationResponse;
-  deleteAllNotificationsPrivate: NotificationMutationResponse;
   deleteArticle: ArticleMutationResponse;
   deleteComment: CommentMutationResponse;
-  deleteNotification: NotificationMutationResponse;
+  deleteNotifications: NotificationMutationResponse;
   deleteReview: ReviewMutationResponse;
   deleteUser: UserMutationResponse;
   forgotPassword: UserMutationResponse;
@@ -298,8 +296,8 @@ export type MutationDeleteCommentArgs = {
 };
 
 
-export type MutationDeleteNotificationArgs = {
-  id: Scalars['String'];
+export type MutationDeleteNotificationsArgs = {
+  ids: Array<Scalars['String']>;
 };
 
 
@@ -884,22 +882,12 @@ export type RemoveFromFavoriteMutationVariables = Exact<{
 
 export type RemoveFromFavoriteMutation = { __typename?: 'Mutation', removeFromFavorite: { __typename?: 'FavoriteMutationResponse', message?: string | null, code: number, success: boolean, favorite?: { __typename?: 'Favorite', id: string } | null } };
 
-export type DeleteAllNotificationsMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type DeleteAllNotificationsMutation = { __typename?: 'Mutation', deleteAllNotifications: { __typename?: 'NotificationMutationResponse', message?: string | null, success: boolean } };
-
-export type DeleteAllNotificationsPrivateMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type DeleteAllNotificationsPrivateMutation = { __typename?: 'Mutation', deleteAllNotificationsPrivate: { __typename?: 'NotificationMutationResponse', message?: string | null, success: boolean } };
-
-export type DeleteNotificationMutationVariables = Exact<{
-  deleteNotificationId: Scalars['String'];
+export type DeleteNotificationsMutationVariables = Exact<{
+  ids: Array<Scalars['String']> | Scalars['String'];
 }>;
 
 
-export type DeleteNotificationMutation = { __typename?: 'Mutation', deleteNotification: { __typename?: 'NotificationMutationResponse', message?: string | null, success: boolean } };
+export type DeleteNotificationsMutation = { __typename?: 'Mutation', deleteNotifications: { __typename?: 'NotificationMutationResponse', message?: string | null, success: boolean } };
 
 export type PushNotificationMutationVariables = Exact<{
   content: Scalars['String'];
@@ -1834,106 +1822,40 @@ export function useRemoveFromFavoriteMutation(baseOptions?: Apollo.MutationHookO
 export type RemoveFromFavoriteMutationHookResult = ReturnType<typeof useRemoveFromFavoriteMutation>;
 export type RemoveFromFavoriteMutationResult = Apollo.MutationResult<RemoveFromFavoriteMutation>;
 export type RemoveFromFavoriteMutationOptions = Apollo.BaseMutationOptions<RemoveFromFavoriteMutation, RemoveFromFavoriteMutationVariables>;
-export const DeleteAllNotificationsDocument = gql`
-    mutation DeleteAllNotifications {
-  deleteAllNotifications {
+export const DeleteNotificationsDocument = gql`
+    mutation DeleteNotifications($ids: [String!]!) {
+  deleteNotifications(ids: $ids) {
     message
     success
   }
 }
     `;
-export type DeleteAllNotificationsMutationFn = Apollo.MutationFunction<DeleteAllNotificationsMutation, DeleteAllNotificationsMutationVariables>;
+export type DeleteNotificationsMutationFn = Apollo.MutationFunction<DeleteNotificationsMutation, DeleteNotificationsMutationVariables>;
 
 /**
- * __useDeleteAllNotificationsMutation__
+ * __useDeleteNotificationsMutation__
  *
- * To run a mutation, you first call `useDeleteAllNotificationsMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteAllNotificationsMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeleteNotificationsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteNotificationsMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteAllNotificationsMutation, { data, loading, error }] = useDeleteAllNotificationsMutation({
+ * const [deleteNotificationsMutation, { data, loading, error }] = useDeleteNotificationsMutation({
  *   variables: {
+ *      ids: // value for 'ids'
  *   },
  * });
  */
-export function useDeleteAllNotificationsMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAllNotificationsMutation, DeleteAllNotificationsMutationVariables>) {
+export function useDeleteNotificationsMutation(baseOptions?: Apollo.MutationHookOptions<DeleteNotificationsMutation, DeleteNotificationsMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteAllNotificationsMutation, DeleteAllNotificationsMutationVariables>(DeleteAllNotificationsDocument, options);
+        return Apollo.useMutation<DeleteNotificationsMutation, DeleteNotificationsMutationVariables>(DeleteNotificationsDocument, options);
       }
-export type DeleteAllNotificationsMutationHookResult = ReturnType<typeof useDeleteAllNotificationsMutation>;
-export type DeleteAllNotificationsMutationResult = Apollo.MutationResult<DeleteAllNotificationsMutation>;
-export type DeleteAllNotificationsMutationOptions = Apollo.BaseMutationOptions<DeleteAllNotificationsMutation, DeleteAllNotificationsMutationVariables>;
-export const DeleteAllNotificationsPrivateDocument = gql`
-    mutation DeleteAllNotificationsPrivate {
-  deleteAllNotificationsPrivate {
-    message
-    success
-  }
-}
-    `;
-export type DeleteAllNotificationsPrivateMutationFn = Apollo.MutationFunction<DeleteAllNotificationsPrivateMutation, DeleteAllNotificationsPrivateMutationVariables>;
-
-/**
- * __useDeleteAllNotificationsPrivateMutation__
- *
- * To run a mutation, you first call `useDeleteAllNotificationsPrivateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteAllNotificationsPrivateMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteAllNotificationsPrivateMutation, { data, loading, error }] = useDeleteAllNotificationsPrivateMutation({
- *   variables: {
- *   },
- * });
- */
-export function useDeleteAllNotificationsPrivateMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAllNotificationsPrivateMutation, DeleteAllNotificationsPrivateMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteAllNotificationsPrivateMutation, DeleteAllNotificationsPrivateMutationVariables>(DeleteAllNotificationsPrivateDocument, options);
-      }
-export type DeleteAllNotificationsPrivateMutationHookResult = ReturnType<typeof useDeleteAllNotificationsPrivateMutation>;
-export type DeleteAllNotificationsPrivateMutationResult = Apollo.MutationResult<DeleteAllNotificationsPrivateMutation>;
-export type DeleteAllNotificationsPrivateMutationOptions = Apollo.BaseMutationOptions<DeleteAllNotificationsPrivateMutation, DeleteAllNotificationsPrivateMutationVariables>;
-export const DeleteNotificationDocument = gql`
-    mutation DeleteNotification($deleteNotificationId: String!) {
-  deleteNotification(id: $deleteNotificationId) {
-    message
-    success
-  }
-}
-    `;
-export type DeleteNotificationMutationFn = Apollo.MutationFunction<DeleteNotificationMutation, DeleteNotificationMutationVariables>;
-
-/**
- * __useDeleteNotificationMutation__
- *
- * To run a mutation, you first call `useDeleteNotificationMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteNotificationMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteNotificationMutation, { data, loading, error }] = useDeleteNotificationMutation({
- *   variables: {
- *      deleteNotificationId: // value for 'deleteNotificationId'
- *   },
- * });
- */
-export function useDeleteNotificationMutation(baseOptions?: Apollo.MutationHookOptions<DeleteNotificationMutation, DeleteNotificationMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteNotificationMutation, DeleteNotificationMutationVariables>(DeleteNotificationDocument, options);
-      }
-export type DeleteNotificationMutationHookResult = ReturnType<typeof useDeleteNotificationMutation>;
-export type DeleteNotificationMutationResult = Apollo.MutationResult<DeleteNotificationMutation>;
-export type DeleteNotificationMutationOptions = Apollo.BaseMutationOptions<DeleteNotificationMutation, DeleteNotificationMutationVariables>;
+export type DeleteNotificationsMutationHookResult = ReturnType<typeof useDeleteNotificationsMutation>;
+export type DeleteNotificationsMutationResult = Apollo.MutationResult<DeleteNotificationsMutation>;
+export type DeleteNotificationsMutationOptions = Apollo.BaseMutationOptions<DeleteNotificationsMutation, DeleteNotificationsMutationVariables>;
 export const PushNotificationDocument = gql`
     mutation PushNotification($content: String!) {
   pushNotification(content: $content) {

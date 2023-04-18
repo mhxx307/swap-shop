@@ -1,19 +1,5 @@
-mutation DeleteAllNotifications {
-    deleteAllNotifications {
-        message
-        success
-    }
-}
-
-mutation DeleteAllNotificationsPrivate {
-    deleteAllNotificationsPrivate {
-        message
-        success
-    }
-}
-
-mutation DeleteNotification($deleteNotificationId: String!) {
-    deleteNotification(id: $deleteNotificationId) {
+mutation DeleteNotifications($ids: [String!]!) {
+    deleteNotifications(ids: $ids) {
         message
         success
     }

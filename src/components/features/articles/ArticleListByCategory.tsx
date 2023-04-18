@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
 import { memo } from 'react';
 import { Article, QueryConfig } from '@/generated/graphql';
-import { Image, Pagination } from '@/components/shared';
+import { Image } from '@/components/shared';
 import { formatCurrency, generateNameId } from '@/utils';
 import { useRouter } from 'next/router';
 import HearButton from './HeartButton';
+import TimeAgo from 'timeago-react';
 
 export interface ArticleListProps {
     className?: string;
@@ -13,12 +14,7 @@ export interface ArticleListProps {
     queryConfig: QueryConfig;
 }
 
-const ArticleListByCategory = ({
-    articles,
-    className,
-    pageSize,
-    queryConfig,
-}: ArticleListProps) => {
+const ArticleListByCategory = ({ articles, className }: ArticleListProps) => {
     const router = useRouter();
 
     return (
@@ -72,9 +68,10 @@ const ArticleListByCategory = ({
                                         />
                                         <p>{article.user.fullName}</p>
                                     </div>
-                                    <p className="text-xs">
-                                        {article.createdDate}
-                                    </p>
+                                    <TimeAgo
+                                        className="text-xs"
+                                        datetime={article.createdDate}
+                                    />
 
                                     <HearButton articleId={article.id} />
                                 </div>
@@ -82,10 +79,6 @@ const ArticleListByCategory = ({
                         </motion.div>
                     ))}
             </div>
-            <Pagination
-                pageSize={pageSize}
-                queryConfig={queryConfig as QueryConfig}
-            />
         </div>
     );
 };
