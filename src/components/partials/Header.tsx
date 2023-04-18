@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { AiOutlineMore, AiOutlineDownload } from 'react-icons/ai';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'next-i18next';
 import { toast } from 'react-toastify';
@@ -24,13 +24,9 @@ import {
     useLogoutMutation,
     useMeQuery,
 } from '@/generated/graphql';
-import { BsBellFill } from 'react-icons/bs';
 import { path } from '@/constants';
 import { getTextColorByPath } from '@/utils';
-import Tippy from '@tippyjs/react';
-import Notification from '../features/notification/Notification';
-// import { clearLS } from '@/utils/auth';
-// import { useAuthContext } from '@/contexts/AuthContext';
+import { Notification } from '../features/notification';
 
 const Header = () => {
     const [navbar, setNavbar] = useState<boolean>(false);
@@ -45,15 +41,17 @@ const Header = () => {
     const { isMobile } = useDevice();
     const [logout] = useLogoutMutation();
 
-    // const { profile, setProfile, setIsAuthenticated } = useAuthContext();
-    const { data: meData } = useMeQuery();
+    const { data: meData } = useMeQuery({
+        onError: () => {
+            // refresh
+            router.reload();
+            toast.error('Đã có lỗi xảy ra, vui lòng thử lại sau!');
+        },
+    });
     const profile = meData?.me;
-    console.log('profile', profile);
 
     const menuList = profile ? POPUP_USER_MENU_LIST : POPUP_MENU_LIST;
     const textColor = getTextColorByPath(router.pathname);
-
-    const optionRef = useRef<HTMLSpanElement | null>(null);
 
     useEffect(() => {
         window.addEventListener('scroll', changeBackground);
@@ -82,11 +80,6 @@ const Header = () => {
                     });
                 }
             },
-            // onCompleted() {
-            //     clearLS();
-            //     setProfile(null);
-            //     setIsAuthenticated(false);
-            // },
         });
     };
 
@@ -117,24 +110,7 @@ const Header = () => {
                             </Link>
                         )}
 
-                        <Tippy
-                            interactive={true}
-                            render={(attrs) => (
-                                <div tabIndex={-1} {...attrs}>
-                                    <Notification />
-                                </div>
-                            )}
-                            trigger="click"
-                            animation={false}
-                            offset={[6, 20]}
-                            placement="bottom-end"
-                        >
-                            <span ref={optionRef}>
-                                <BsBellFill
-                                    className={`h-4 w-4 transition-colors hover:text-gray-500 ${textColor}`}
-                                />
-                            </span>
-                        </Tippy>
+                        <Notification />
 
                         {!profile && (
                             <Button

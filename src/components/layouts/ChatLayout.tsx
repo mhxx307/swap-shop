@@ -154,9 +154,9 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
                                 <div className="grid grid-cols-12">
                                     {/* chat menu */}
                                     <div className="col-span-5">
-                                        <div className="flex h-full flex-col justify-between">
+                                        <div className="flex h-full flex-col justify-between p-2">
                                             {/* header */}
-                                            <div className="flex items-center justify-between rounded-sm border-b-[1px] bg-[#F5F1F1] p-3 dark:bg-[#343444]">
+                                            <div className="mb-4 flex items-center justify-between rounded-sm border-b-[1px] bg-[#F5F1F1] p-3 dark:bg-[#343444]">
                                                 <p className="font-bold">
                                                     Chat
                                                 </p>
@@ -191,7 +191,7 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
                                                     setShowResult(false);
                                                 }}
                                             >
-                                                <div className="flex bg-[#F7F7F7] p-2 dark:bg-[#44444c]">
+                                                <div className="flex bg-[#F7F7F7] dark:bg-[#44444c]">
                                                     <div className="relative w-full">
                                                         <input
                                                             ref={inputRef}
@@ -216,7 +216,7 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
                                                 </div>
                                             </HeadlessTippy>
                                             {/* list */}
-                                            <div className="h-full overflow-y-auto">
+                                            <div className="mt-4 h-full overflow-y-auto">
                                                 {extendedConversations.length >
                                                     0 &&
                                                     extendedConversations.map(
@@ -266,7 +266,7 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
                                                         ),
                                                     )}
                                             </div>
-                                            <div className="mt-[5px] mb-[15px] flex items-center">
+                                            <div className="mt-4 flex items-center">
                                                 {showRemoveCheckBox ? (
                                                     <>
                                                         {checkedConversationsCount >
@@ -293,7 +293,7 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
                                                     </>
                                                 ) : (
                                                     <Button
-                                                        className="mr-6 ml-4 w-full items-center justify-center bg-red-500 text-white"
+                                                        className="w-full items-center justify-center bg-red-500 text-white"
                                                         onClick={() =>
                                                             setShowRemoveCheckBox(
                                                                 true,

@@ -5,12 +5,16 @@ import {
     InMemoryCache,
     NormalizedCacheObject,
     from,
+    split,
 } from '@apollo/client';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { onError } from '@apollo/client/link/error';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { IncomingHttpHeaders } from 'http';
 import fetch from 'isomorphic-unfetch';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -62,6 +66,38 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
         fetch: enhancedFetch,
     });
 
+    const wsLink =
+        typeof window !== 'undefined'
+            ? new GraphQLWsLink(
+                  createClient({
+                      url:
+                          process.env.NODE_ENV === 'production'
+                              ? 'wss://swapshop-server-pzsb.onrender.com/graphql'
+                              : 'ws://localhost:4000/graphql',
+                  }),
+              )
+            : null;
+
+    // The split function takes three parameters:
+    //
+    // * A function that's called for each operation to execute
+    // * The Link to use for an operation if the function returns a "truthy" value
+    // * The Link to use for an operation if the function returns a "falsy" value
+    const splitLink =
+        typeof window !== 'undefined' && wsLink != null
+            ? split(
+                  ({ query }) => {
+                      const def = getMainDefinition(query);
+                      return (
+                          def.kind === 'OperationDefinition' &&
+                          def.operation === 'subscription'
+                      );
+                  },
+                  wsLink,
+                  httpLink,
+              )
+            : httpLink;
+
     const cache = new InMemoryCache({
         typePolicies: {
             Query: {
@@ -72,7 +108,7 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
 
     return new ApolloClient({
         ssrMode: typeof window === 'undefined',
-        link: from([errorLink, httpLink]),
+        link: from([errorLink, splitLink]),
         cache: cache,
         credentials: 'include',
     });
