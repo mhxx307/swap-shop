@@ -1,0 +1,17 @@
+{
+    "reason": [
+        "Lừa đảo",
+        "Không liêc lạc được",
+        "Sản phẩm bị cấm buôn bán",
+        "Sản phẩm có hình ảnh, nội dụng phản cảm",
+        "Khác"
+    ],
+    "desc_required": "Vui lòng nhập lý do",
+    "report_success": "Cảm ơn bạn đã báo cáo. Chúng tôi sẽ xem xét và xử lý trong thời gian sớm nhất.",
+    "report": "Báo cáo",
+    "report_text": "Báo cáo vi phạm",
+    "call": "Hãy chọn mục bạn cần báo cáo",
+    "detail": "Chi tiết",
+    "desc_placeholder": "Ghi rõ nội dung cần báo cáo",
+	"btn_report": "Gửi báo cáo"
+}

@@ -9,7 +9,7 @@ export interface BaseLayoutProps {
 }
 
 export type NextPageWithLayout = NextPage & {
-    Layout?: (page: any) => ReactElement;
+    Layout?: (page: ReactNode) => ReactElement;
 };
 
 export type AppPropsWithLayout = AppProps & {

@@ -1,35 +1,45 @@
-import { RegisterForm } from '@/components/features/auth';
-import { BaseLayout } from '@/components/layouts';
-import { ButtonLink, Head } from '@/components/shared';
+import Link from 'next/link';
 import { AiOutlineHome } from 'react-icons/ai';
 
+import { RegisterForm } from '@/components/features/auth';
+import { BaseLayout } from '@/components/layouts';
+import { CommonSection, Head, Rejected } from '@/components/shared';
+import { path } from '@/constants';
+import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
+
 const RegisterPage = () => {
+    const { t } = useTranslation('common');
+
     return (
-        <>
+        <Rejected>
             <Head />
-            <div className="w-full min-h-screen flex-center bg-[#f0f0f0] dark:bg-primaryDark relative">
-                <ButtonLink
-                    shortcutKey="enter"
-                    className="h-[35px] shadow-md bg-black text-white absolute top-10 left-10 hidden dark:hover:bg-gray-700 md:ml-[20px] md:px-[25px] sm:block"
-                    href="/"
-                >
-                    <AiOutlineHome />
-                </ButtonLink>
-                <ButtonLink
-                    shortcutKey="enter"
-                    className="h-[35px] shadow-md bg-black text-white absolute top-10 left-40 hidden dark:hover:bg-gray-700 md:ml-[20px] md:px-[25px] sm:block"
-                    href="/login"
-                >
-                    login
-                </ButtonLink>
-                <RegisterForm />
+            <div className="flex w-full flex-col">
+                <CommonSection title="Registration" />
+                <div className="flex-center relative min-h-screen w-full bg-[#f0f0f0] dark:bg-primaryDark">
+                    <div className="absolute top-2 left-2 flex space-x-4">
+                        <Link
+                            className="flex-center h-[35px] bg-black text-white shadow-3xl dark:hover:bg-gray-700 md:px-[25px]"
+                            href={path.home}
+                        >
+                            <AiOutlineHome />
+                        </Link>
+                        <Link
+                            className="flex-center h-[35px] bg-black text-white shadow-md dark:hover:bg-gray-700 md:px-[25px]"
+                            href={path.login}
+                        >
+                            {t('login')}
+                        </Link>
+                    </div>
+                    <RegisterForm />
+                </div>
             </div>
-        </>
+        </Rejected>
     );
 };
 
 // eslint-disable-next-line react/display-name
-RegisterPage.Layout = (page: any) => (
+RegisterPage.Layout = (page: ReactNode) => (
     <BaseLayout showFooter={false} showHeader={false}>
         {page}
     </BaseLayout>

@@ -3,6 +3,7 @@ import Input, { InputProps } from './Input';
 
 interface InputFieldProps extends InputProps {
     name: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     control: Control<any>;
 }
 
@@ -10,10 +11,10 @@ const InputField = ({
     name,
     control,
     // not using these props, but we don't want to pass them down to the Input component
-    onChange: externalOnChange,
-    onBlur: externalOnBlur,
-    value: externalValue,
-    ref: externalRef,
+    // onChange: externalOnChange,
+    onBlur: _externalOnBlur,
+    value: _externalValue,
+    ref: _externalRef,
     // ********
     ...props
 }: InputFieldProps) => {
@@ -34,9 +35,16 @@ const InputField = ({
                 onBlur={onBlur}
                 {...props}
                 ref={ref}
+                defaultLayout={false}
+                labelClassName={`${error ? 'error-label' : 'default-label'}`}
+                containerInputClassName={`${
+                    error ? 'error-input' : 'default-input'
+                }`}
             />
             {!!error && (
-                <p className="text-[1.4rem] text-red-500">{error.message}</p>
+                <p className="text-sm text-red-600 dark:text-red-500">
+                    {error.message}
+                </p>
             )}
         </>
     );

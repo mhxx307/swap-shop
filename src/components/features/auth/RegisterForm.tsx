@@ -1,21 +1,51 @@
 /* eslint-disable react/jsx-key */
-import { useMultiStepForm } from '@/hooks';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+
+import { useMultiStepForm, useValidateSchema } from '@/hooks';
 import { Button } from '@/components/shared';
-import { RegisterPayload } from '@/types';
-import { REGISTER_INITIAL_DATA, PROGRESS_LIST } from '@/constants';
+import { PROGRESS_LIST } from '@/constants';
 import {
     AccountForm,
-    AddressForm,
+    FinishForm,
     ProgressBar,
     UserForm,
 } from './components/register';
+import { useRegisterMutation, RegisterInput } from '@/generated/graphql';
+import { useRouter } from 'next/router';
+import { omit } from 'lodash';
+import { useTranslation } from 'react-i18next';
+
+interface FormState extends RegisterInput {
+    password: string;
+    confirmPassword: string;
+}
+
+export const initialData: FormState = {
+    fullName: '',
+    email: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
+};
 
 const RegisterForm = () => {
-    const { control, handleSubmit } = useForm<RegisterPayload>({
+    const router = useRouter();
+    const schema = useValidateSchema('register');
+    const { t } = useTranslation('common');
+
+    const {
+        control,
+        handleSubmit,
+        setError,
+        formState: { errors },
+    } = useForm<FormState>({
         defaultValues: {
-            ...REGISTER_INITIAL_DATA,
+            ...initialData,
         },
+        resolver: yupResolver(schema),
+        mode: 'all',
     });
 
     const {
@@ -29,43 +59,96 @@ const RegisterForm = () => {
     } = useMultiStepForm([
         <AccountForm control={control} />,
         <UserForm control={control} />,
-        <AddressForm control={control} />,
-        <h3>Are u sure?</h3>,
+        <FinishForm />,
     ]);
 
-    function handleRegister(payload: RegisterPayload) {
+    const [register, { loading, error }] = useRegisterMutation();
+
+    if (error) return <p>Submission error</p>;
+
+    const handleRegister = async (payload: FormState) => {
+        const registerInput = omit(payload, ['confirmPassword']);
+
+        const response = await register({
+            variables: {
+                registerInput,
+            },
+            onCompleted: (data) => {
+                if (data?.register.success) {
+                    toast.success(
+                        t('register_success') ||
+                            'Register success - Check your email to verify account!',
+                    );
+                }
+                router.push('/login');
+            },
+        });
+
+        if (response.data?.register.errors) {
+            response.data?.register.errors.forEach((error) => {
+                if (error.field === 'username' || error.field === 'email') {
+                    setError(
+                        error.field,
+                        {
+                            type: 'focus',
+                            message: error.message,
+                        },
+                        { shouldFocus: true },
+                    );
+                }
+            });
+        } else if (response.data?.register.success) {
+            router.push('/login');
+        }
+    };
+
+    const handleNextStep = () => {
         if (!isLastStep) return next();
-        alert(payload.email);
-    }
+
+        Object.entries(errors).forEach(([_errorKey, errorValue]) => {
+            const errorMessage = errorValue?.message;
+            if (errorMessage) {
+                toast.error(errorMessage.toString(), {
+                    toastId: errorMessage.toString(),
+                });
+            }
+        });
+    };
 
     return (
-        <div className="min-h-screen w-[100%] md:w-[1084px] flex flex-col space-y-32 py-[50px]">
-            <h3 className="text-[3rem] font-bold text-center">Registration</h3>
+        <div className="container">
+            <div className="mb-24">
+                <ProgressBar
+                    progressList={PROGRESS_LIST}
+                    stepCurrentNumber={currentStepIndex}
+                    goTo={goTo}
+                />
+            </div>
 
-            <ProgressBar
-                progressList={PROGRESS_LIST}
-                stepCurrentNumber={currentStepIndex}
-                goTo={goTo}
-            />
-
-            <div className="bg-white dark:bg-secondaryDark shadow-md p-[2rem] mt-[30px] rounded-md w-full">
+            <div className="mt-[30px] w-full rounded-md bg-white p-[20px] shadow-md dark:bg-secondaryDark">
                 <form
                     onSubmit={handleSubmit(handleRegister)}
-                    className="min-h-[400px] flex flex-col justify-between"
+                    className="flex min-h-[400px] flex-col justify-between"
                 >
                     <div>{currentStep}</div>
-                    <div className="flex gap-2 justify-end mt-[2rem]">
+                    <div className="mt-[40px] flex justify-end gap-2">
                         {!isFirstStep && (
                             <Button
                                 type="button"
                                 className="bg-black text-white dark:hover:bg-gray-700"
                                 onClick={back}
                             >
-                                Back
+                                {t('back')}
                             </Button>
                         )}
-                        <Button primary type="submit" shortcutKey="enter">
-                            {isLastStep ? 'Finish' : 'Next'}
+                        <Button
+                            primary
+                            type={isLastStep ? 'submit' : 'button'}
+                            shortcutKey="enter"
+                            onClick={handleNextStep}
+                            isLoading={loading}
+                        >
+                            {isLastStep ? t('finish') : t('next')}
                         </Button>
                     </div>
                 </form>

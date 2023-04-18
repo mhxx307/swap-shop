@@ -1,1 +1,1 @@
-export { default as Content } from './Content';
+export { default as HeroSection } from './HeroSection';

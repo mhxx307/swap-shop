@@ -1,28 +1,50 @@
-import '@/styles/globals.css';
-import { SWRConfig } from 'swr';
 import { AppPropsWithLayout } from '@/types/layoutTypes';
-import BaseLayout from '@/components/layouts/BaseLayout';
-import httpRequest from '@/utils/httpRequest';
-import { appWithTranslation } from 'next-i18next';
 import nextI18nextConfig from 'next-i18next.config';
-import ThemeProvider from '@/contexts/ThemeContext';
+import { appWithTranslation } from 'next-i18next';
+import NextNProgress from 'nextjs-progressbar';
+import { ToastContainer } from 'react-toastify';
+import { ApolloProvider } from '@apollo/client';
+
+import { useApollo } from '@/libs/apolloClient';
+import { ThemeProvider } from '@/contexts/ThemeContext';
+import BaseLayout from '@/components/layouts/BaseLayout';
+
+import '@/styles/globals.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const Layout =
         Component.Layout || ((page) => <BaseLayout>{page}</BaseLayout>);
+
+    const apolloClient = useApollo(pageProps);
+
     return (
-        <ThemeProvider>
-            <SWRConfig
-                value={{
-                    fetcher: (url) => httpRequest.get(url),
-                    shouldRetryOnError: false,
-                }}
-            >
-                {Layout(<Component {...pageProps} />)}
-            </SWRConfig>
-        </ThemeProvider>
+        <AuthProvider>
+            <ToastContainer
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar={true}
+                newestOnTop={true}
+                closeOnClick
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
+
+            <ThemeProvider>
+                <ApolloProvider client={apolloClient}>
+                    {Layout(
+                        <>
+                            <NextNProgress color="#5142fc" />
+                            <Component {...pageProps} />
+                        </>,
+                    )}
+                </ApolloProvider>
+            </ThemeProvider>
+        </AuthProvider>
     );
 };
 
-// @ts-ignore
 export default appWithTranslation(App, nextI18nextConfig);

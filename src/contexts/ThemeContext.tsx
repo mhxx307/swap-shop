@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 interface ContextProps {
     isOn: boolean;
@@ -7,7 +7,7 @@ interface ContextProps {
 
 export const ThemeContext = createContext<ContextProps>({
     isOn: false,
-    setIsOn: () => {},
+    setIsOn: () => null,
 });
 
 export interface ThemeProviderProps {
@@ -15,7 +15,7 @@ export interface ThemeProviderProps {
 }
 
 //developer.school/snippets/react/localstorage-is-not-defined-nextjs
-const ThemeProvider = ({ children }: ThemeProviderProps) => {
+export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     const theme =
         (typeof window !== 'undefined' && localStorage.getItem('theme')) ||
         'light';
@@ -27,6 +27,10 @@ const ThemeProvider = ({ children }: ThemeProviderProps) => {
             return false;
         }
     });
+
+    const valueContext = useMemo(() => {
+        return { isOn, setIsOn };
+    }, [isOn, setIsOn]);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -49,10 +53,10 @@ const ThemeProvider = ({ children }: ThemeProviderProps) => {
     }, [isOn]);
 
     return (
-        <ThemeContext.Provider value={{ isOn, setIsOn }}>
+        <ThemeContext.Provider value={valueContext}>
             {children}
         </ThemeContext.Provider>
     );
 };
 
-export default ThemeProvider;
+export const useTheme = () => useContext(ThemeContext);

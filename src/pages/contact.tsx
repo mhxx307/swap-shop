@@ -3,16 +3,13 @@ import classNames from 'classnames';
 import { AiFillFacebook } from 'react-icons/ai';
 import { createRef, useState } from 'react';
 
-import { Head, Button, Input } from '@/components/shared';
+import { Head, Button, Input, CommonSection } from '@/components/shared';
 import { FACEBOOK_URL } from '@/constants';
 import { useTranslation } from 'react-i18next';
+import { IconType } from 'react-icons/lib';
 
 const ContactPage = () => {
     const formRef = createRef<HTMLFormElement>();
-    const nameRef = createRef<HTMLInputElement>();
-    const emailRef = createRef<HTMLInputElement>();
-    const messageRef = createRef<HTMLTextAreaElement>();
-    const subjectRef = createRef<HTMLInputElement>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const EMAILJS_SERVICE = process.env.NEXT_PUBLIC_EMAILJS_SERVICE;
@@ -24,7 +21,6 @@ const ContactPage = () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
-        console.log('submit');
         if (formRef.current) {
             if (EMAILJS_SERVICE && EMAILJS_TEMPLATE && EMAILJS_PUBLIC_KEY) {
                 emailjs
@@ -35,13 +31,7 @@ const ContactPage = () => {
                         EMAILJS_PUBLIC_KEY,
                     )
                     .then(
-                        (result) => {
-                            console.log(result.text);
-                            emailRef.current!.value = '';
-                            nameRef.current!.value = '';
-                            subjectRef.current!.value = '';
-                            messageRef.current!.value = '';
-                            nameRef.current!.focus();
+                        (_result) => {
                             setIsLoading(false);
                         },
                         (error) => {
@@ -55,106 +45,102 @@ const ContactPage = () => {
     return (
         <>
             <Head
-                title={t('head_title')!}
-                description={t('head_description')!}
+                title={t('head_title') && 'Contact'}
+                description={t('head_description') && 'Contact'}
             />
 
-            <div className="wrapper pt-[100px] space-y-9">
-                <h1 className="text-2xl font-bold">{t('contact')}</h1>
+            <div className="flex w-full flex-col">
+                <CommonSection title={'Contact'} />
+                <div className="container space-y-6">
+                    <h1 className="text-xl font-bold">{t('contact')}</h1>
 
-                <p className="text-2xl">{t('heading1')}</p>
+                    <p className="text-lg">{t('heading1')}</p>
 
-                <div className="flex items-center space-x-4">
-                    <ContactItem
-                        Icon={AiFillFacebook}
-                        name="Facebook"
-                        href={FACEBOOK_URL}
-                        iconContainerClassName="bg-[#007bff]"
-                    />
-                </div>
+                    <div className="flex items-center space-x-4">
+                        <ContactItem
+                            Icon={AiFillFacebook}
+                            name="Facebook"
+                            href={FACEBOOK_URL}
+                            iconclassNameWrapper="bg-[#007bff]"
+                        />
+                    </div>
 
-                <div className="space-y-4">
-                    <p>{t('heading2')}</p>
-                    <form
-                        ref={formRef}
-                        onSubmit={handleSubmit}
-                        className="w-[400px] space-y-8 pb-[30px]"
-                    >
-                        <Input
-                            ref={nameRef}
-                            type="text"
-                            placeholder={t('name')!}
-                            name="user_name"
-                            label={t('name')!}
-                            className="p-[5px]"
-                            containerInputClassName="register-input"
-                        />
-                        <Input
-                            ref={subjectRef}
-                            type="text"
-                            placeholder={t('subject')!}
-                            name="user_subject"
-                            label={t('subject')!}
-                            className="p-[5px]"
-                            containerInputClassName="register-input"
-                        />
-                        <Input
-                            ref={emailRef}
-                            type="email"
-                            placeholder="Email"
-                            name="user_email"
-                            label={t('email')!}
-                            className="p-[5px]"
-                            containerInputClassName="register-input"
-                        />
-                        <textarea
-                            ref={messageRef}
-                            rows={5}
-                            placeholder={t('message')!}
-                            name="message"
-                            className="w-full p-5 rounded-md text-black border border-gray-300 focus:outline-none focus:border-blue-500"
-                        />
-                        <Button
-                            primary
-                            type="submit"
-                            className="px-[20px]"
-                            isLoading={isLoading}
+                    <div className="space-y-4">
+                        <p>{t('heading2')}</p>
+                        <form
+                            ref={formRef}
+                            onSubmit={handleSubmit}
+                            className="w-[400px] space-y-8 pb-[30px]"
                         >
-                            {t('send')}
-                        </Button>
-                        {!isLoading && (
-                            <span>Thanks, I&apos;ll reply ASAP</span>
-                        )}
-                    </form>
+                            <Input
+                                type="text"
+                                placeholder={t('name') && 'Username'}
+                                name="user_name"
+                                label={t('name') && 'Username:'}
+                                className="p-[5px]"
+                                containerInputClassName="default-input"
+                            />
+                            <Input
+                                type="text"
+                                placeholder={t('subject') && 'Subject'}
+                                name="user_subject"
+                                label={t('subject') && 'Subject'}
+                                className="p-[5px]"
+                                containerInputClassName="default-input"
+                            />
+                            <Input
+                                type="email"
+                                placeholder="Email"
+                                name="user_email"
+                                label={t('email') && 'Email'}
+                                className="p-[5px]"
+                                containerInputClassName="default-input"
+                            />
+                            <textarea
+                                rows={5}
+                                placeholder={t('message') && 'Message'}
+                                name="message"
+                                className="w-full rounded-md border border-gray-300 p-5 text-black focus:border-blue-500 focus:outline-none"
+                            />
+                            <Button
+                                primary
+                                type="submit"
+                                className="px-[20px]"
+                                isLoading={isLoading}
+                            >
+                                {t('send')}
+                            </Button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </>
     );
 };
 
-type ContactItemProps = {
-    Icon: React.ComponentType<any>;
+interface ContactItemProps {
+    Icon: IconType;
     name: string;
-    iconContainerClassName?: string;
+    iconclassNameWrapper?: string;
     href: string;
-};
+}
 
-const ContactItem: React.FC<ContactItemProps> = ({
+const ContactItem = ({
     Icon,
     name,
-    iconContainerClassName,
+    iconclassNameWrapper,
     href,
-}) => {
+}: ContactItemProps) => {
     return (
         <a href={href} target="_blank" rel="noreferrer">
-            <div className="flex items-center rounded-full bg-gray-300 dark:bg-gray-800 p-2">
+            <div className="flex items-center rounded-full bg-gray-300 p-2 dark:bg-gray-800">
                 <div
                     className={classNames(
-                        'p-[16px] rounded-full',
-                        iconContainerClassName,
+                        'rounded-full p-[16px]',
+                        iconclassNameWrapper,
                     )}
                 >
-                    <Icon className="w-[24px] h-[24px] text-white" />
+                    <Icon className="h-[24px] w-[24px] text-white" />
                 </div>
                 <p className="px-4">{name}</p>
             </div>

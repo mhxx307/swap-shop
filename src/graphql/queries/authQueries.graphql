@@ -1,0 +1,29 @@
+query Me {
+    me {
+        ...user
+    }
+}
+
+query UserById($userId: String!) {
+    getUserById(userId: $userId) {
+        id
+        username
+        email
+        address
+        phoneNumber
+        fullName
+        birthday
+        avatar
+        status
+        createdDate
+        updatedDate
+    }
+}
+
+query GetUsersByName($name: String!) {
+    getUsersByName(name: $name) {
+        id
+        username
+        avatar
+    }
+}

@@ -1,0 +1,72 @@
+mutation Register($registerInput: RegisterInput!) {
+    register(registerInput: $registerInput) {
+        ...userMutationResponse
+    }
+}
+
+mutation Login($loginInput: LoginInput!) {
+    login(loginInput: $loginInput) {
+        ...userMutationResponse
+    }
+}
+
+mutation Logout {
+    logout
+}
+
+mutation ForgotPassword($forgotPasswordInput: ForgotPasswordInput!) {
+    forgotPassword(forgotPasswordInput: $forgotPasswordInput) {
+        code
+        success
+        message
+    }
+}
+
+mutation ChangePassword(
+    $changePasswordInput: ChangePasswordInput!
+    $userId: String!
+    $token: String!
+) {
+    changePassword(
+        changePasswordInput: $changePasswordInput
+        userId: $userId
+        token: $token
+    ) {
+        ...userMutationResponse
+    }
+}
+
+mutation ChangePasswordLogged(
+    $changePasswordLoggedInput: ChangePasswordLoggedInput!
+) {
+    changePasswordLogged(
+        changePasswordLoggedInput: $changePasswordLoggedInput
+    ) {
+        code
+        success
+        message
+        errors {
+            ...errors
+        }
+    }
+}
+
+mutation UploadAvatarProfile($imageUrl: String!) {
+    uploadAvatarProfile(imageUrl: $imageUrl) {
+        success
+        message
+        user {
+            ...user
+        }
+    }
+}
+
+mutation VerifyEmail($userId: String!, $token: String!) {
+    verifyEmail(userId: $userId, token: $token) {
+        message
+        success
+        user {
+            ...user
+        }
+    }
+}

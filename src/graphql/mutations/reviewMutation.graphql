@@ -1,0 +1,22 @@
+mutation ReviewUser($reviewUserInput: ReviewUserInput!) {
+    reviewUser(reviewUserInput: $reviewUserInput) {
+        message
+        review {
+            updatedDate
+            id
+            createdDate
+            content
+            user {
+                ...user
+            }
+        }
+        success
+    }
+}
+
+mutation DeleteReview($deleteReviewId: String!) {
+    deleteReview(id: $deleteReviewId) {
+        message
+        success
+    }
+}

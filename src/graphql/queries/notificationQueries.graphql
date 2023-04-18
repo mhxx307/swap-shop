@@ -1,0 +1,9 @@
+query Notifications {
+    notifications {
+        id
+        content
+        userId
+        createdDate
+        updatedDate
+    }
+}

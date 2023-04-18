@@ -18,7 +18,7 @@ const ProgressBar = ({
     goTo,
 }: ProgressBarProps) => {
     return (
-        <div className="px-8 flex justify-between items-center">
+        <div className="flex items-center justify-between px-4">
             {progressList.map((progress: progress) => {
                 //  stepCurrentNumber lay tu useMultiStepForm array nên có giá trị bắt đầu là 0
                 //  nên trong mảng progress phải cho number là 0, hiển thị ra ngoài thì cho + 1
@@ -31,8 +31,8 @@ const ProgressBar = ({
                 return (
                     <React.Fragment key={progress.title}>
                         <div className="relative flex flex-col items-center text-primary-500">
-                            <div
-                                className={`cursor-pointer rounded-full transition duration-500 ease-in-out border-2 border-gray-300 h-12 w-12 flex items-center justify-center py-3 ${
+                            <button
+                                className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-2 border-gray-300 py-3 transition duration-500 ease-in-out ${
                                     isPreviousProgress || isCurrentProgress
                                         ? 'bg-primary-500 text-white'
                                         : ''
@@ -44,9 +44,9 @@ const ProgressBar = ({
                                 ) : (
                                     progress.number + 1
                                 )}
-                            </div>
+                            </button>
                             <div
-                                className={`absolute top-0 text-center mt-16 w-32 text-[1.2rem] font-bold uppercase ${
+                                className={`absolute top-0 mt-12 w-32 text-center text-sm font-bold uppercase ${
                                     isCurrentProgress
                                         ? 'text-black dark:text-white'
                                         : 'text-gray-500'

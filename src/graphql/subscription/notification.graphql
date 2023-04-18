@@ -1,0 +1,25 @@
+subscription NewNotification {
+    newNotification {
+        message
+        success
+        notification {
+            id
+            content
+            createdDate
+            updatedDate
+        }
+    }
+}
+
+subscription NewNotificationPrivate($userId: String!) {
+    newNotificationPrivate(userId: $userId) {
+        message
+        success
+        notification {
+            id
+            content
+            createdDate
+            updatedDate
+        }
+    }
+}

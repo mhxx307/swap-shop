@@ -2,31 +2,30 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
 
-export interface NavMenuProps {
-    navList: any[];
+import { NavItemProps } from '@/types';
+
+interface NavListProps {
+    navList: NavItemProps[];
     className?: string;
     itemClassName?: string;
 }
 
-const NavList = ({ navList, className, itemClassName }: NavMenuProps) => {
+const NavList = ({ navList, className, itemClassName }: NavListProps) => {
     const router = useRouter();
 
     return (
-        <nav className={classNames(className)}>
-            {navList.map(({ path, label }) => (
+        <nav className={classNames('space-x-10', className)}>
+            {navList.map((item) => (
                 <Link
-                    href={path}
-                    key={label}
+                    href={item.path as string}
+                    key={item.label}
                     className={classNames(
-                        'nav-item',
-                        ` ${
-                            router.pathname === path &&
-                            'text-primary-400 dark:text-white after:w-full'
-                        } `,
+                        `nav-item
+							${router.pathname === item.path ? 'text-primary-400 after:w-full' : ''}`,
                         itemClassName,
                     )}
                 >
-                    {label}
+                    {item.label}
                 </Link>
             ))}
         </nav>
