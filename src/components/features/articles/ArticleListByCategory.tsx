@@ -6,6 +6,7 @@ import { formatCurrency, generateNameId } from '@/utils';
 import { useRouter } from 'next/router';
 import HearButton from './HeartButton';
 import TimeAgo from 'timeago-react';
+import { path } from '@/constants';
 
 export interface ArticleListProps {
     className?: string;
@@ -19,7 +20,7 @@ const ArticleListByCategory = ({ articles, className }: ArticleListProps) => {
 
     return (
         <div className={className}>
-            <div className="flex flex-col">
+            <div className="flex cursor-pointer flex-col">
                 {articles &&
                     articles.map((article) => (
                         <motion.div
@@ -32,7 +33,7 @@ const ArticleListByCategory = ({ articles, className }: ArticleListProps) => {
                             }}
                             onClick={() =>
                                 router.push(
-                                    `/articles/${generateNameId({
+                                    `/${path.market}/${generateNameId({
                                         id: article.id,
                                         name: article.title,
                                     })}`,

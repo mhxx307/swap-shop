@@ -96,7 +96,7 @@ function ChatBox() {
 
             await pushPrivateNotificationMutation({
                 variables: {
-                    content: 'Bạn có tin nhắn mới: ' + newMessage,
+                    content: `Bạn có tin nhắn mới: "${newMessage}"`,
                     recipientId: receiverId,
                 },
             });

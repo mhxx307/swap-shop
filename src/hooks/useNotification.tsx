@@ -19,6 +19,7 @@ function useNotification() {
             console.log(error);
         },
     });
+
     const { data: notificationPrivateData } =
         useNewNotificationPrivateSubscription({
             variables: {
@@ -33,7 +34,7 @@ function useNotification() {
                 console.log(error);
             },
         });
-    const { data: notificationDataList } = useNotificationsQuery({
+    const { data: notificationDataList, refetch } = useNotificationsQuery({
         fetchPolicy: 'no-cache',
     });
 
@@ -45,8 +46,9 @@ function useNotification() {
             notificationPrivateData?.newNotificationPrivate.notification
         ) {
             setIsNew(true);
+            refetch();
         }
-    }, [notificationData, notificationPrivateData]);
+    }, [notificationData, notificationPrivateData, refetch]);
 
     return {
         isNew,
