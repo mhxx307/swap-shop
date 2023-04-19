@@ -143,7 +143,7 @@ function ChatBox() {
                                         {...attrs}
                                     >
                                         <EmojiPicker
-                                            emojiStyle={EmojiStyle.FACEBOOK}
+                                            emojiStyle={EmojiStyle.TWITTER}
                                             onEmojiClick={(emoji) =>
                                                 setNewMessage(
                                                     (prev) =>
@@ -180,7 +180,7 @@ function ChatBox() {
                             <ReactTextareaAutosize
                                 minRows={1}
                                 maxRows={6}
-                                placeholder="Write somthing..."
+                                placeholder="Write something..."
                                 className="mr-2 h-[90px] w-[80%] rounded-md border p-[4px] outline-none"
                                 value={newMessage}
                                 onChange={(e) => setNewMessage(e.target.value)}
@@ -191,6 +191,7 @@ function ChatBox() {
                                 onClick={handleSendMessage}
                                 isLoading={sendMessageLoading}
                                 className="text-white"
+                                shortcutKey="enter"
                             >
                                 Send
                             </Button>
