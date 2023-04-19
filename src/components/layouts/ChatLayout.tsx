@@ -261,7 +261,7 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
                                                                 aria-hidden="true"
                                                                 className={classNames(
                                                                     {
-                                                                        'bg-gray-200':
+                                                                        'bg-gray-200 dark:bg-slate-600':
                                                                             currentChat?.id ===
                                                                             conversation.id,
                                                                     },

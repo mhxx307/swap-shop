@@ -1,0 +1,24 @@
+subscription UpdatedMessage {
+    updatedMessage {
+        message
+        success
+        createdMessage {
+            text
+            id
+        }
+    }
+}
+
+subscription DeletedMessage {
+    deletedMessage {
+        message
+        success
+    }
+}
+
+subscription MessageIncoming {
+    messageIncoming {
+        message
+        success
+    }
+}
