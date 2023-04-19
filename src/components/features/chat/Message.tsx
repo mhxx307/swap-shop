@@ -115,23 +115,25 @@ export default Message;
 const MessageOptions = ({ message }: { message: Message }) => {
     const optionRef = useRef<HTMLSpanElement | null>(null);
     return (
-        <Tippy
-            interactive={true}
-            render={(attrs) => (
-                <div tabIndex={-1} {...attrs}>
-                    <MoreOptions message={message as Message} />
-                </div>
-            )}
-            trigger="click"
-            animation={false}
-            offset={[28, 20]}
-            placement="top-end"
-        >
-            <span ref={optionRef}>
-                {' '}
-                <AiOutlineMore className="fill-black-500 h-6 w-6 cursor-pointer dark:fill-gray-500" />
-            </span>
-        </Tippy>
+        <div>
+            <Tippy
+                interactive={true}
+                render={(attrs) => (
+                    <div tabIndex={-1} {...attrs}>
+                        <MoreOptions message={message as Message} />
+                    </div>
+                )}
+                trigger="click"
+                animation={false}
+                offset={[28, 20]}
+                placement="top-end"
+            >
+                <span ref={optionRef}>
+                    {' '}
+                    <AiOutlineMore className="fill-black-500 h-6 w-6 cursor-pointer dark:fill-gray-500" />
+                </span>
+            </Tippy>
+        </div>
     );
 };
 

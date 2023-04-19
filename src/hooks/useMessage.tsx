@@ -13,8 +13,6 @@ function useMessage() {
     const {
         query: { userId },
     } = useRouter();
-    const { data: meData } = useMeQuery();
-    const profile = meData?.me;
 
     const { data: conversationData } = useGetConversationQuery({
         variables: {
@@ -30,6 +28,7 @@ function useMessage() {
             conversationId: conversationData?.getConversation?.id as string,
         },
         skip: !conversationData?.getConversation?.id,
+        fetchPolicy: 'no-cache',
     });
 
     const { data: messageIncomingData } = useMessageIncomingSubscription();
