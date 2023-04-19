@@ -2,12 +2,7 @@ query Messages($conversationId: String!) {
     messages(conversationId: $conversationId) {
         id
         sender {
-            username
-            phoneNumber
-            email
-            fullName
-            avatar
-            id
+            ...user
         }
         conversation {
             article {
