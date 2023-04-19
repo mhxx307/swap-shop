@@ -72,8 +72,8 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
                   createClient({
                       url:
                           process.env.NODE_ENV === 'production'
-                              ? 'wss://swapshop-server-pzsb.onrender.com/graphql'
-                              : 'ws://localhost:4000/graphql',
+                              ? 'wss://swapshop-server-pzsb.onrender.com/'
+                              : 'ws://localhost:4000/',
                   }),
               )
             : null;

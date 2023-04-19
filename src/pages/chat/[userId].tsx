@@ -1,9 +1,8 @@
 import {
+    useInsertMessageMutation,
     useMeQuery,
-    useNewMessageMutation,
     usePushPrivateNotificationMutation,
 } from '@/generated/graphql';
-import { io } from 'socket.io-client';
 
 import { BsEmojiSmile } from 'react-icons/bs';
 import { MdSend } from 'react-icons/md';
@@ -22,65 +21,25 @@ import { useMessage } from '@/hooks';
 
 import 'tippy.js/dist/tippy.css';
 
-interface UserSocket {
-    userId: string;
-    socketId: string;
-}
-
 function ChatBox() {
-    const { conversationData, messagesData, refetch, socket } = useMessage();
+    const { conversationData, messagesData } = useMessage();
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const [newMessage, setNewMessage] = useState('');
     const [files, setFiles] = useState<File[]>([]);
-    const [onlineUsers, setOnlineUsers] = useState<UserSocket[]>([]);
-    console.log(onlineUsers);
+    const { data: meData } = useMeQuery();
     const [pushPrivateNotificationMutation] =
         usePushPrivateNotificationMutation();
-    const { data: meData } = useMeQuery();
+    const [sendMessageMutation, { loading: sendMessageLoading }] =
+        useInsertMessageMutation();
+
     const profile = meData?.me;
     const conversation = conversationData?.getConversation;
     const messages = messagesData?.messages;
     const iconRef = useRef<HTMLSpanElement | null>(null);
 
-    const [sendMessageMutation, { loading: sendMessageLoading }] =
-        useNewMessageMutation();
-
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
-
-    // connect to socket
-    useEffect(() => {
-        socket.current = io(`wss://${process.env.NEXT_PUBLIC_SOCKET_URL}`);
-        console.log('Socket ID:', socket.current.id);
-        console.log('socket', socket.current);
-
-        // Listen for incoming messages
-        if (socket.current) {
-            console.log(socket.current);
-            socket.current.on('getMessage', (data) => {
-                console.log('Received message:', data);
-                // Do something with the message
-                refetch();
-            });
-        }
-
-        return () => {
-            socket.current?.disconnect();
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    // add user and getUsers to socket
-    useEffect(() => {
-        if (profile) {
-            socket.current?.emit('addUser', profile.id); // emit the addUser event with the me.id as the argument
-            socket.current?.on('getUsers', (users: UserSocket[]) => {
-                setOnlineUsers(users);
-            });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [profile]);
 
     const handleSendMessage = async (
         event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
@@ -111,14 +70,8 @@ function ChatBox() {
                     },
                 },
                 onCompleted() {
-                    refetch();
                     setNewMessage('');
                     setFiles([]);
-                    socket.current?.emit('sendMessage', {
-                        senderId: profile.id,
-                        receiverId: receiverId,
-                        text: newMessage,
-                    });
                 },
             });
         }
@@ -174,7 +127,6 @@ function ChatBox() {
                                                 profile?.id
                                             }
                                             message={message as MessageType}
-                                            socket={socket}
                                         />
                                     </div>
                                 ))}

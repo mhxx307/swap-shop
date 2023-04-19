@@ -4,25 +4,19 @@ import { useCallback, useRef, useState } from 'react';
 import TimeAgo from 'timeago-react';
 import { AiOutlineMore } from 'react-icons/ai';
 import Tippy from '@tippyjs/react/headless';
-import 'tippy.js/dist/tippy.css';
 
 import { Image, Popover } from '@/components/shared';
-import {
-    Message,
-    useMeQuery,
-    useRemoveMessageMutation,
-} from '@/generated/graphql';
-import { useMessage } from '@/hooks';
+import { Message, useRemoveMessageMutation } from '@/generated/graphql';
 import { toast } from 'react-toastify';
-// import { useAuthContext } from '@/contexts/AuthContext';
+
+import 'tippy.js/dist/tippy.css';
 
 interface MessageProps {
     own?: boolean;
     message: Message;
-    socket: any;
 }
 
-function Message({ own, message, socket }: MessageProps) {
+function Message({ own, message }: MessageProps) {
     const [currentImage, setCurrentImage] = useState(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
 
@@ -38,7 +32,7 @@ function Message({ own, message, socket }: MessageProps) {
 
     return (
         <div
-            className={classNames('mt-[20px] flex flex-col', {
+            className={classNames('mt-[20px] ml-4 flex flex-col', {
                 'mr-4 items-end': own,
             })}
         >
@@ -90,11 +84,7 @@ function Message({ own, message, socket }: MessageProps) {
 
                 <Popover
                     renderPopover={
-                        own ? (
-                            <MessageOptions message={message} socket={socket} />
-                        ) : (
-                            <></>
-                        )
+                        own ? <MessageOptions message={message} /> : <></>
                     }
                     isArrow={false}
                     placement={own ? 'left-start' : 'right-start'}
@@ -122,20 +112,14 @@ function Message({ own, message, socket }: MessageProps) {
 
 export default Message;
 
-const MessageOptions = ({
-    message,
-    socket,
-}: {
-    message: Message;
-    socket: any;
-}) => {
+const MessageOptions = ({ message }: { message: Message }) => {
     const optionRef = useRef<HTMLSpanElement | null>(null);
     return (
         <Tippy
             interactive={true}
             render={(attrs) => (
                 <div tabIndex={-1} {...attrs}>
-                    <MoreOptions message={message as Message} socket={socket} />
+                    <MoreOptions message={message as Message} />
                 </div>
             )}
             trigger="click"
@@ -151,26 +135,8 @@ const MessageOptions = ({
     );
 };
 
-const MoreOptions = ({
-    message,
-    socket,
-}: {
-    message: Message;
-    socket: any;
-}) => {
-    // const { profile } = useAuthContext();
-    const { data: meData } = useMeQuery();
-    const profile = meData?.me;
-    const { refetch } = useMessage();
+const MoreOptions = ({ message }: { message: Message }) => {
     const [removeMessage] = useRemoveMessageMutation();
-
-    const receiverId =
-        message?.conversation?.member1?.id === profile?.id
-            ? message?.conversation?.member2?.id
-            : message?.conversation?.member1?.id;
-
-    console.log('receiverId', receiverId);
-    console.log('message', message);
 
     const handleRemoveMessage = async (
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -181,15 +147,7 @@ const MoreOptions = ({
                 messageId: message.id,
             },
             onCompleted: () => {
-                refetch();
-                if (socket.current && profile) {
-                    socket.current.emit('sendMessage', {
-                        senderId: profile.id,
-                        receiverId: receiverId,
-                        text: 'Tin nhắn đã được thu hồi',
-                    });
-                }
-                toast.success('Deteled Successfully');
+                toast.success('Deleted Successfully');
             },
         });
     };

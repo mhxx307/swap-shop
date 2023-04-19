@@ -1,14 +1,20 @@
-import { useGetConversationQuery, useMessagesQuery } from '@/generated/graphql';
-import { Socket } from 'socket.io-client';
-
+import {
+    useDeletedMessageSubscription,
+    useGetConversationQuery,
+    useMeQuery,
+    useMessageIncomingSubscription,
+    useMessagesQuery,
+    useUpdatedMessageSubscription,
+} from '@/generated/graphql';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
+import { useEffect } from 'react';
 
 function useMessage() {
     const {
         query: { userId },
     } = useRouter();
-    const socket = useRef<Socket>();
+    const { data: meData } = useMeQuery();
+    const profile = meData?.me;
 
     const { data: conversationData } = useGetConversationQuery({
         variables: {
@@ -26,10 +32,22 @@ function useMessage() {
         skip: !conversationData?.getConversation?.id,
     });
 
+    const { data: messageIncomingData } = useMessageIncomingSubscription();
+    const { data: messageUpdatedData } = useUpdatedMessageSubscription();
+    const { data: messageDeletedData } = useDeletedMessageSubscription();
+
+    useEffect(() => {
+        if (
+            messageIncomingData?.messageIncoming ||
+            messageUpdatedData?.updatedMessage ||
+            messageDeletedData?.deletedMessage.message
+        ) {
+            refetch();
+        }
+    }, [messageIncomingData, messageUpdatedData, messageDeletedData, refetch]);
+
     return {
-        socket,
         messagesData,
-        refetch,
         conversationData,
     };
 }

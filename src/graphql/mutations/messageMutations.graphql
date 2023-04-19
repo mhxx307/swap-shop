@@ -1,5 +1,5 @@
-mutation NewMessage($insertMessageInput: InsertMessageInput!) {
-    newMessage(insertMessageInput: $insertMessageInput) {
+mutation InsertMessage($insertMessageInput: InsertMessageInput!) {
+    insertMessage(insertMessageInput: $insertMessageInput) {
         message
         success
     }
@@ -7,6 +7,13 @@ mutation NewMessage($insertMessageInput: InsertMessageInput!) {
 
 mutation RemoveMessage($messageId: String!) {
     removeMessage(messageId: $messageId) {
+        message
+        success
+    }
+}
+
+mutation UpdateMessage($text: String!, $messageId: String!) {
+    updateMessage(text: $text, messageId: $messageId) {
         message
         success
     }
