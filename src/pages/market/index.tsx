@@ -22,13 +22,14 @@ import {
 } from '@/generated/graphql';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import { useQueryConfig } from '@/hooks';
+import { STATUS_ARTICLE } from '@/constants';
 
 const MarketPage = () => {
     const queryConfig = useQueryConfig();
 
     const { data: articlesData } = useArticlesQuery({
         variables: {
-            queryConfig: queryConfig,
+            queryConfig: { ...queryConfig, status: STATUS_ARTICLE.APPROVED },
         },
     });
 

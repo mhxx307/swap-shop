@@ -8,12 +8,14 @@ import {
     Spinner,
     TabView,
 } from '@/components/shared';
-import { STATUS_ARTICLE } from '@/constants';
+import { STATUS_ARTICLE, path } from '@/constants';
 import { Article, useArticlesQuery, useMeQuery } from '@/generated/graphql';
 import { useQueryConfig } from '@/hooks';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
 function PublishedPage() {
+    const router = useRouter();
     const { data: meData } = useMeQuery();
     const profile = meData?.me;
     const queryConfig = useQueryConfig();
@@ -71,9 +73,16 @@ function PublishedPage() {
                                                 <h3 className="mb-2 font-semibold">
                                                     {profile.fullName}
                                                 </h3>
-                                                <h5 className="cursor-pointer rounded-lg border border-secondary pl-6 pr-6 text-secondary hover:bg-slate-50">
+                                                <button
+                                                    className="cursor-pointer rounded-lg border border-secondary pl-6 pr-6 text-center text-secondary hover:bg-slate-50"
+                                                    onClick={() =>
+                                                        router.push(
+                                                            `${path.personal}/${profile.id}`,
+                                                        )
+                                                    }
+                                                >
                                                     {t('home')}
-                                                </h5>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

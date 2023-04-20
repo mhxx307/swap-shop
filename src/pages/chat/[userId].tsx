@@ -18,14 +18,18 @@ import { Button, Image } from '@/components/shared';
 import { Message as MessageType } from '@/generated/graphql';
 import { createUrlListFromFileList, formatCurrency } from '@/utils';
 import { useMessage } from '@/hooks';
+import { useForm } from 'react-hook-form';
 
 import 'tippy.js/dist/tippy.css';
 
 function ChatBox() {
     const { conversationData, messagesData } = useMessage();
     const scrollRef = useRef<HTMLDivElement | null>(null);
-    const [newMessage, setNewMessage] = useState('');
     const [files, setFiles] = useState<File[]>([]);
+    const [emojiMessage, setEmojiMessage] = useState();
+    const { register, handleSubmit, setValue, getValues } = useForm({
+        defaultValues: { message: '' },
+    });
     const { data: meData } = useMeQuery();
     const [pushPrivateNotificationMutation] =
         usePushPrivateNotificationMutation();
@@ -41,13 +45,18 @@ function ChatBox() {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    const handleSendMessage = async (
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
-    ) => {
-        event?.preventDefault();
-        const urlChatImages = await createUrlListFromFileList(files, 'chats');
+    const handleSendMessage = async (payload: any) => {
+        let urlChatImages: string[] = [];
 
-        if (profile?.id && conversation?.id && newMessage) {
+        if (payload.message.trim().length === 0 && files.length === 0) {
+            return;
+        }
+
+        if (files.length > 0) {
+            urlChatImages = await createUrlListFromFileList(files, 'chats');
+        }
+
+        if (profile?.id && conversation?.id) {
             const receiverId =
                 conversation.member1.id === profile.id
                     ? conversation.member2.id
@@ -55,7 +64,7 @@ function ChatBox() {
 
             await pushPrivateNotificationMutation({
                 variables: {
-                    content: `Bạn có tin nhắn mới: "${newMessage}"`,
+                    content: `Bạn có tin nhắn mới: "${payload.message}"`,
                     recipientId: receiverId,
                 },
             });
@@ -65,15 +74,13 @@ function ChatBox() {
                     insertMessageInput: {
                         conversationId: conversation.id,
                         senderId: profile.id,
-                        text: newMessage,
+                        text: payload.message || null,
                         images: urlChatImages,
                     },
                 },
-                onCompleted() {
-                    setNewMessage('');
-                    setFiles([]);
-                },
             });
+            setValue('message', '');
+            setFiles([]);
         }
     };
 
@@ -133,7 +140,10 @@ function ChatBox() {
                         </div>
 
                         {/* bottom */}
-                        <div className="mt-[5px] flex items-center justify-between rounded-md bg-[#F5F1F1] px-3 dark:text-black">
+                        <form
+                            className="mt-[5px] flex h-[50px] items-center justify-between rounded-md bg-[#F5F1F1] px-3 dark:text-black"
+                            onSubmit={handleSubmit(handleSendMessage)}
+                        >
                             <Tippy
                                 interactive={true}
                                 render={(attrs) => (
@@ -144,12 +154,15 @@ function ChatBox() {
                                     >
                                         <EmojiPicker
                                             emojiStyle={EmojiStyle.TWITTER}
-                                            onEmojiClick={(emoji) =>
-                                                setNewMessage(
-                                                    (prev) =>
-                                                        prev + emoji.emoji,
-                                                )
-                                            }
+                                            onEmojiClick={(emoji) => {
+                                                const value = getValues();
+                                                const message =
+                                                    value['message'];
+                                                setValue(
+                                                    'message',
+                                                    message + emoji.emoji,
+                                                );
+                                            }}
                                         />
                                     </div>
                                 )}
@@ -178,24 +191,22 @@ function ChatBox() {
                             />
 
                             <ReactTextareaAutosize
+                                {...register('message')}
                                 minRows={1}
                                 maxRows={6}
                                 placeholder="Write something..."
                                 className="mr-2 h-[90px] w-[80%] rounded-md border p-[4px] outline-none"
-                                value={newMessage}
-                                onChange={(e) => setNewMessage(e.target.value)}
                             />
                             <Button
                                 secondary
                                 RightIcon={MdSend}
-                                onClick={handleSendMessage}
+                                type="submit"
                                 isLoading={sendMessageLoading}
                                 className="text-white"
-                                shortcutKey="enter"
                             >
                                 Send
                             </Button>
-                        </div>
+                        </form>
                     </>
                 ) : (
                     <span className="absolute left-52 top-48">

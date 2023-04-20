@@ -8,12 +8,14 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 const CreateArticle = () => {
-    const { data } = useMeQuery();
+    const { data } = useMeQuery({ fetchPolicy: 'no-cache' });
     const profile = data?.me;
     const router = useRouter();
 
+    console.log('test', profile);
+
     useEffect(() => {
-        if (!profile?.phoneNumber) {
+        if (profile && Boolean(profile.phoneNumber) === false) {
             router.push(path.settingsProfile);
             toast.error(
                 'Please update your phone number to create an article',
@@ -22,7 +24,7 @@ const CreateArticle = () => {
                 },
             );
         }
-    });
+    }, [profile, router]);
 
     return (
         <div className="flex w-full flex-col">
