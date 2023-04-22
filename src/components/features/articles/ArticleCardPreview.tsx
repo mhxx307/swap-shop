@@ -62,7 +62,7 @@ const ArticleCardPreview = ({
                                 <h6 className="text-xs text-[#919eab]">
                                     Price
                                 </h6>
-                                <p className="text-xs">
+                                <p className="max-w-[100px] truncate text-xs">
                                     {price
                                         ? `đ ${formatCurrency(price)}`
                                         : 'Free'}

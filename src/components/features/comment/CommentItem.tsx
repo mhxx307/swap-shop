@@ -69,17 +69,19 @@ function CommentItem({
                     </div>
                 ) : (
                     <>
-                        <div className="col-span-2">
+                        <div className="col-span-9">
                             <div className="py-1 text-xs text-gray-400">
                                 <span className="font-semibold text-gray-600">
                                     {comment.user.username}
                                 </span>{' '}
                                 <TimeAgo datetime={comment.createdDate} />
                             </div>
-                            <p>{comment.text}</p>
+                            <p className="max-w-[1000px] break-words">
+                                {comment.text}
+                            </p>
                         </div>
                         {me?.id === comment.user.id && (
-                            <div className="flex-center col-span-8 space-x-2 justify-self-end ">
+                            <div className="flex-center col-span-1 space-x-2 justify-self-end ">
                                 <Popover
                                     isArrow={false}
                                     renderPopover={

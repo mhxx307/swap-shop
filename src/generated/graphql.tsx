@@ -180,7 +180,7 @@ export type InsertMessageInput = {
   conversationId: Scalars['String'];
   images?: InputMaybe<Array<Scalars['String']>>;
   senderId: Scalars['String'];
-  text: Scalars['String'];
+  text?: InputMaybe<Scalars['String']>;
 };
 
 export type LoginInput = {
@@ -624,6 +624,7 @@ export type ReviewMutationResponse = IMutationResponse & {
 export type ReviewOptions = {
   limit?: InputMaybe<Scalars['String']>;
   page?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 export type ReviewResponseSuccess = {

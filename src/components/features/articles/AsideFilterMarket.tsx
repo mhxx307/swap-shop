@@ -154,7 +154,7 @@ const AsideFilterMarket = ({ queryConfig }: Props) => {
             <div className="my-4 h-[1px] bg-gray-300" />
 
             <div className="text-sm">Đánh giá</div>
-            <RatingStars queryConfig={queryConfig} />
+            {/* <RatingStars queryConfig={queryConfig} /> */}
             <div className="my-4 h-[1px] bg-gray-300" />
 
             <Button secondary onClick={handleRemoveAll}>

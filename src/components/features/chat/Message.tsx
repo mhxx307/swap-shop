@@ -41,7 +41,7 @@ function Message({ own, message }: MessageProps) {
                     {message.images.map((image, index) => {
                         return (
                             <div
-                                key={message.id}
+                                key={image}
                                 className={`aspect-[4/1] w-[47%] p-1 ${
                                     message.images?.length === 1 && 'flex-1'
                                 }`}
@@ -82,25 +82,27 @@ function Message({ own, message }: MessageProps) {
                     />
                 )}
 
-                <Popover
-                    renderPopover={
-                        own ? <MessageOptions message={message} /> : <></>
-                    }
-                    isArrow={false}
-                    placement={own ? 'left-start' : 'right-start'}
-                >
-                    <p
-                        className={classNames(
-                            'max-w-[300px] rounded-md p-[8px]',
-                            {
-                                'bg-[#1877f2] text-white': !own,
-                                'bg-[#f5f1f1] text-black': own,
-                            },
-                        )}
+                {message.text && (
+                    <Popover
+                        renderPopover={
+                            own ? <MessageOptions message={message} /> : <></>
+                        }
+                        isArrow={false}
+                        placement={own ? 'left-start' : 'right-start'}
                     >
-                        {message.text}
-                    </p>
-                </Popover>
+                        <p
+                            className={classNames(
+                                'max-w-[300px] rounded-md p-[8px]',
+                                {
+                                    'bg-[#1877f2] text-white': !own,
+                                    'bg-[#f5f1f1] text-black': own,
+                                },
+                            )}
+                        >
+                            {message.text}
+                        </p>
+                    </Popover>
+                )}
             </div>
             {/* message bottom */}
             <div className="mt-[10px] text-xs">
