@@ -1,14 +1,38 @@
 import { Image } from '@/components/shared';
 import { STATUS_ARTICLE, path } from '@/constants';
-import { Article } from '@/generated/graphql';
+import { Article, useClosedArticleMutation } from '@/generated/graphql';
 import { generateNameId } from '@/utils';
 import DOMPurify from 'dompurify';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { toast } from 'react-toastify';
 
-function PublishedCard({ article }: { article: Article }) {
+function PublishedCard({
+    article,
+    refetch,
+}: {
+    article: Article;
+    refetch?: any;
+}) {
     const router = useRouter();
+
+    const [closedArticle] = useClosedArticleMutation();
+
+    const handleClosedArticle = async () => {
+        const answer = window.confirm(
+            'Bạn có thật sự muốn đóng bài viết. Nếu đóng thì sẽ không đươc thao tác lại',
+        );
+        if (answer) {
+            await closedArticle({
+                variables: { articleId: article.id },
+                onCompleted: () => toast.success('Closed article successfully'),
+            });
+            refetch();
+        } else {
+            return;
+        }
+    };
 
     const handleArticleDetail = (
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -52,15 +76,27 @@ function PublishedCard({ article }: { article: Article }) {
                         />
                     </div>
                     <div className="absolute bottom-3 right-3 flex justify-between">
-                        {article.status === STATUS_ARTICLE.APPROVED && (
+                        {article.status === STATUS_ARTICLE.APPROVED &&
+                            article.isClosed === false && (
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        router.push(
+                                            `/articles/edit/${article.id}`,
+                                        );
+                                    }}
+                                    className="cursor-pointer items-center rounded-md bg-blue-700 p-[10px] px-3 py-1.5 text-white transition-colors hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                >
+                                    Edit
+                                </button>
+                            )}
+
+                        {article.isClosed === false && (
                             <button
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    router.push(`/articles/edit/${article.id}`);
-                                }}
-                                className="cursor-pointer items-center rounded-md bg-blue-700 p-[10px] px-3 py-1.5 text-white transition-colors hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                onClick={handleClosedArticle}
+                                className="ml-2 cursor-pointer items-center rounded-md bg-blue-700 p-[10px] px-3 py-1.5 text-white transition-colors hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
-                                Edit
+                                Close
                             </button>
                         )}
                     </div>

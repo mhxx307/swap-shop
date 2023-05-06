@@ -2,6 +2,7 @@
     "home": "home",
     "pending": "pending",
     "rejected": "rejected",
+    "closed": "closed",
     "approved": "approved",
     "login": "login",
     "register_success": "Register success - Check your email to verify account!",

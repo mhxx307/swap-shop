@@ -36,13 +36,17 @@ const AsideFilterMarket = ({ queryConfig }: Props) => {
             (category: any) => category.value,
         );
 
-        router.push({
-            pathname: path.market,
-            query: {
-                ...queryConfig,
-                categories: selectedCategoryIds,
+        router.push(
+            {
+                pathname: path.market,
+                query: {
+                    ...queryConfig,
+                    categories: selectedCategoryIds,
+                },
             },
-        });
+            undefined,
+            { shallow: true },
+        );
     };
 
     const handleFilterByPrice = (payload: FormState) => {

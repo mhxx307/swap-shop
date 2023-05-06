@@ -21,7 +21,7 @@ function PublishedPage() {
     const queryConfig = useQueryConfig();
     const { t } = useTranslation('common');
 
-    const { data: articlesData } = useArticlesQuery({
+    const { data: articlesData, refetch } = useArticlesQuery({
         variables: {
             queryConfig: { ...queryConfig, userId: profile?.id },
         },
@@ -32,15 +32,25 @@ function PublishedPage() {
     const articles = articlesData?.articles.data?.articles;
 
     const articlesPending = articles?.filter((value) => {
-        return value.status === STATUS_ARTICLE.PENDING;
+        return (
+            value.status === STATUS_ARTICLE.PENDING && value.isClosed === false
+        );
     });
 
     const articlesApproved = articles?.filter((value) => {
-        return value.status === STATUS_ARTICLE.APPROVED;
+        return (
+            value.status === STATUS_ARTICLE.APPROVED && value.isClosed === false
+        );
     });
 
     const articlesRejected = articles?.filter((value) => {
-        return value.status === STATUS_ARTICLE.REJECTED;
+        return (
+            value.status === STATUS_ARTICLE.REJECTED && value.isClosed === false
+        );
+    });
+
+    const articlesClosed = articles?.filter((value) => {
+        return value.isClosed === true;
     });
 
     if (!profile) {
@@ -125,6 +135,9 @@ function PublishedPage() {
                                                                         article={
                                                                             article as Article
                                                                         }
+                                                                        refetch={
+                                                                            refetch
+                                                                        }
                                                                     />
                                                                 ),
                                                             )}
@@ -138,6 +151,26 @@ function PublishedPage() {
                                                     <div>
                                                         {articlesRejected &&
                                                             articlesRejected?.map(
+                                                                (article) => (
+                                                                    <PublishedCard
+                                                                        key={
+                                                                            article.id
+                                                                        }
+                                                                        article={
+                                                                            article as Article
+                                                                        }
+                                                                    />
+                                                                ),
+                                                            )}
+                                                    </div>
+                                                ),
+                                            },
+                                            {
+                                                label: t('closed') || 'Đã đóng',
+                                                content: (
+                                                    <div>
+                                                        {articlesClosed &&
+                                                            articlesClosed?.map(
                                                                 (article) => (
                                                                     <PublishedCard
                                                                         key={

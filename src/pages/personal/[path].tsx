@@ -30,6 +30,7 @@ import { useQueryConfig } from '@/hooks';
 import { getIdFromNameId } from '@/utils';
 import classNames from 'classnames';
 import { toast } from 'react-toastify';
+import { STATUS_ARTICLE } from '@/constants';
 // import { useAuthContext } from '@/contexts/AuthContext';
 
 function StoreDetail() {
@@ -48,7 +49,11 @@ function StoreDetail() {
 
     const { data: articlesData } = useArticlesQuery({
         variables: {
-            queryConfig: { ...queryConfig, userId: id },
+            queryConfig: {
+                ...queryConfig,
+                userId: id,
+                status: STATUS_ARTICLE.APPROVED,
+            },
         },
         skip: !userData,
     });
@@ -169,11 +174,17 @@ const About = ({ user }: { user: User }) => {
     const queryConfig = useQueryConfig();
     const { data: articlesData } = useArticlesQuery({
         variables: {
-            queryConfig: { ...queryConfig, userId: user?.id },
+            queryConfig: {
+                ...queryConfig,
+                userId: user?.id,
+                status: STATUS_ARTICLE.APPROVED,
+            },
         },
         skip: !user,
         fetchPolicy: 'no-cache',
     });
+
+    console.log('data', articlesData);
 
     const articleCount = articlesData?.articles.data?.articles.length;
     return (

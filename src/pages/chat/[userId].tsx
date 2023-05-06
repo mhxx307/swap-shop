@@ -6,6 +6,7 @@ import {
 
 import { BsEmojiSmile } from 'react-icons/bs';
 import { MdSend } from 'react-icons/md';
+import { GoLocation } from 'react-icons/go';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 import EmojiPicker, { EmojiStyle } from 'emoji-picker-react';
 import Tippy from '@tippyjs/react/headless';
@@ -27,6 +28,7 @@ function ChatBox() {
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const [files, setFiles] = useState<File[]>([]);
     const [emojiMessage, setEmojiMessage] = useState();
+    const [openMap, setOpenMap] = useState(false);
     const { register, handleSubmit, setValue, getValues } = useForm({
         defaultValues: { message: '' },
     });
@@ -134,6 +136,7 @@ function ChatBox() {
                                                 profile?.id
                                             }
                                             message={message as MessageType}
+                                            openMap={openMap}
                                         />
                                     </div>
                                 ))}
@@ -188,6 +191,11 @@ function ChatBox() {
                                             (f) => f.name === file.name,
                                         ),
                                 )}
+                            />
+
+                            <GoLocation
+                                className="mr-2 cursor-pointer"
+                                onClick={() => setOpenMap(true)}
                             />
 
                             <ReactTextareaAutosize

@@ -5,7 +5,7 @@ import TimeAgo from 'timeago-react';
 import { AiOutlineMore } from 'react-icons/ai';
 import Tippy from '@tippyjs/react/headless';
 
-import { Image, Popover } from '@/components/shared';
+import { Image, Map, Popover } from '@/components/shared';
 import { Message, useRemoveMessageMutation } from '@/generated/graphql';
 import { toast } from 'react-toastify';
 
@@ -14,9 +14,10 @@ import 'tippy.js/dist/tippy.css';
 interface MessageProps {
     own?: boolean;
     message: Message;
+    openMap?: boolean;
 }
 
-function Message({ own, message }: MessageProps) {
+function Message({ own, message, openMap }: MessageProps) {
     const [currentImage, setCurrentImage] = useState(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
 
@@ -36,6 +37,7 @@ function Message({ own, message }: MessageProps) {
                 'mr-4 items-end': own,
             })}
         >
+            {openMap && <Map />}
             {message.images && (
                 <div className="mb-1 flex w-[300px] flex-wrap">
                     {message.images.map((image, index) => {
