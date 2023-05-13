@@ -20,9 +20,13 @@ function PublishedCard({
     const [closedArticle] = useClosedArticleMutation();
 
     const handleClosedArticle = async () => {
-        const answer = window.confirm(
-            'Bạn có thật sự muốn đóng bài viết. Nếu đóng thì sẽ không đươc thao tác lại',
-        );
+        let answer;
+        if (typeof window !== 'undefined') {
+            answer = window.confirm(
+                'Bạn có thật sự muốn đóng bài viết. Nếu đóng thì sẽ không đươc thao tác lại',
+            );
+        }
+
         if (answer) {
             await closedArticle({
                 variables: { articleId: article.id },

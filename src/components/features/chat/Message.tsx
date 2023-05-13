@@ -1,11 +1,11 @@
-import ImageViewer from 'react-simple-image-viewer';
+import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames';
 import { useCallback, useRef, useState } from 'react';
-import TimeAgo from 'timeago-react';
 import { AiOutlineMore } from 'react-icons/ai';
-import Tippy from '@tippyjs/react/headless';
+import ImageViewer from 'react-simple-image-viewer';
+import TimeAgo from 'timeago-react';
 
-import { Image, Map, Popover } from '@/components/shared';
+import { Image, Popover } from '@/components/shared';
 import { Message, useRemoveMessageMutation } from '@/generated/graphql';
 import { toast } from 'react-toastify';
 
@@ -14,10 +14,9 @@ import 'tippy.js/dist/tippy.css';
 interface MessageProps {
     own?: boolean;
     message: Message;
-    openMap?: boolean;
 }
 
-function Message({ own, message, openMap }: MessageProps) {
+function Message({ own, message }: MessageProps) {
     const [currentImage, setCurrentImage] = useState(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
 
@@ -37,7 +36,6 @@ function Message({ own, message, openMap }: MessageProps) {
                 'mr-4 items-end': own,
             })}
         >
-            {openMap && <Map />}
             {message.images && (
                 <div className="mb-1 flex w-[300px] flex-wrap">
                     {message.images.map((image, index) => {
@@ -49,7 +47,7 @@ function Message({ own, message, openMap }: MessageProps) {
                                 }`}
                             >
                                 <Image
-                                    className="  h-[47%] flex-1 cursor-pointer rounded-lg border-[2px] border-gray-50 object-cover"
+                                    className="  h-[50%] flex-1 cursor-pointer rounded-lg border-[2px] border-gray-50 object-cover"
                                     alt="imageChat"
                                     src={image}
                                     onClick={() => openImageViewer(index)}

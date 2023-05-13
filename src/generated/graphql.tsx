@@ -587,6 +587,7 @@ export type QueryReviewsArgs = {
 };
 
 export type QueryConfig = {
+  all?: InputMaybe<Scalars['Boolean']>;
   categories?: InputMaybe<Array<Scalars['String']>>;
   end_date?: InputMaybe<Scalars['String']>;
   limit?: InputMaybe<Scalars['String']>;
