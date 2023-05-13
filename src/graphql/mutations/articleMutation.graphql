@@ -17,3 +17,10 @@ mutation UpdateArticle($updateArticleInput: UpdateArticleInput!) {
         success
     }
 }
+
+mutation ClosedArticle($articleId: String!) {
+    closedArticle(articleId: $articleId) {
+        success
+        message
+    }
+}

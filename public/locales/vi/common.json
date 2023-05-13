@@ -3,6 +3,7 @@
     "pending": "Chờ duyệt",
     "approved": "Đã duyệt",
     "rejected": "Từ chối",
+    "closed": "Đã đóng",
     "login": "Đăng nhập",
     "register_success": "Đăng ký thành công! Vui lòng kiểm tra email để kích hoạt tài khoản.",
     "back": "Trở lại",

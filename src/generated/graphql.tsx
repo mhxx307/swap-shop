@@ -25,6 +25,7 @@ export type Article = {
   favoritesCount: Scalars['Float'];
   id: Scalars['ID'];
   images: Array<Scalars['String']>;
+  isClosed: Scalars['Boolean'];
   price: Scalars['String'];
   productName: Scalars['String'];
   reportsCount: Scalars['Float'];
@@ -214,10 +215,12 @@ export type Mutation = {
   __typename?: 'Mutation';
   addToFavorite: FavoriteMutationResponse;
   cancelReport: ReportMutationResponse;
+  changeNotification: NotificationMutationResponse;
   changePassword: UserMutationResponse;
   changePasswordLogged: UserMutationResponse;
   changeStatusArticle: ArticleMutationResponse;
   changeStatusUser: UserMutationResponse;
+  closedArticle: ArticleMutationResponse;
   deleteArticle: ArticleMutationResponse;
   deleteComment: CommentMutationResponse;
   deleteNotifications: NotificationMutationResponse;
@@ -262,6 +265,12 @@ export type MutationCancelReportArgs = {
 };
 
 
+export type MutationChangeNotificationArgs = {
+  content: Scalars['String'];
+  notificationId: Scalars['String'];
+};
+
+
 export type MutationChangePasswordArgs = {
   changePasswordInput: ChangePasswordInput;
   token: Scalars['String'];
@@ -283,6 +292,11 @@ export type MutationChangeStatusArticleArgs = {
 export type MutationChangeStatusUserArgs = {
   status: Scalars['String'];
   userId: Scalars['String'];
+};
+
+
+export type MutationClosedArticleArgs = {
+  articleId: Scalars['String'];
 };
 
 
@@ -462,6 +476,12 @@ export type NotificationMutationResponse = IMutationResponse & {
   success: Scalars['Boolean'];
 };
 
+export type OptionsUser = {
+  limit?: InputMaybe<Scalars['String']>;
+  order_by?: InputMaybe<Scalars['String']>;
+  sort_by?: InputMaybe<Scalars['String']>;
+};
+
 export type PaginatedComments = {
   __typename?: 'PaginatedComments';
   cursor?: Maybe<Scalars['DateTime']>;
@@ -489,6 +509,7 @@ export type Query = {
   getAllUser?: Maybe<Array<User>>;
   getConversation?: Maybe<Conversation>;
   getConversations?: Maybe<Array<Conversation>>;
+  getTopUser?: Maybe<Array<User>>;
   getUserById?: Maybe<User>;
   getUserRoles: Array<UserRole>;
   getUsersByName?: Maybe<Array<User>>;
@@ -496,6 +517,7 @@ export type Query = {
   me?: Maybe<User>;
   messages?: Maybe<Array<Message>>;
   notifications?: Maybe<Array<Notification>>;
+  notificationsPublic?: Maybe<Array<Notification>>;
   reports?: Maybe<Array<Report>>;
   reviews: ReviewResponseSuccess;
   roles?: Maybe<Array<Role>>;
@@ -535,6 +557,11 @@ export type QueryGetConversationArgs = {
 };
 
 
+export type QueryGetTopUserArgs = {
+  optionsUser: OptionsUser;
+};
+
+
 export type QueryGetUserByIdArgs = {
   userId: Scalars['String'];
 };
@@ -561,13 +588,14 @@ export type QueryReviewsArgs = {
 
 export type QueryConfig = {
   categories?: InputMaybe<Array<Scalars['String']>>;
-  isFree?: InputMaybe<Scalars['String']>;
+  end_date?: InputMaybe<Scalars['String']>;
   limit?: InputMaybe<Scalars['String']>;
   order_by?: InputMaybe<Scalars['String']>;
   page?: InputMaybe<Scalars['String']>;
   price_max?: InputMaybe<Scalars['String']>;
   price_min?: InputMaybe<Scalars['String']>;
   sort_by?: InputMaybe<Scalars['String']>;
+  start_date?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['String']>;
@@ -668,6 +696,7 @@ export type Subscription = {
   messageIncoming: MessageMutationResponse;
   newNotification: NotificationMutationResponse;
   newNotificationPrivate: NotificationMutationResponse;
+  updateNotification: NotificationMutationResponse;
   updatedMessage: MessageMutationResponse;
 };
 
@@ -744,7 +773,7 @@ export type UserRole = {
   userId: Scalars['ID'];
 };
 
-export type ArticleFragment = { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } };
+export type ArticleFragment = { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, isClosed: boolean, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } };
 
 export type UserFragment = { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number };
 
@@ -757,14 +786,21 @@ export type InsertArticleMutationVariables = Exact<{
 }>;
 
 
-export type InsertArticleMutation = { __typename?: 'Mutation', insertArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null } };
+export type InsertArticleMutation = { __typename?: 'Mutation', insertArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, isClosed: boolean, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null } };
 
 export type UpdateArticleMutationVariables = Exact<{
   updateArticleInput: UpdateArticleInput;
 }>;
 
 
-export type UpdateArticleMutation = { __typename?: 'Mutation', updateArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null } };
+export type UpdateArticleMutation = { __typename?: 'Mutation', updateArticle: { __typename?: 'ArticleMutationResponse', message?: string | null, success: boolean, article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, isClosed: boolean, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null } };
+
+export type ClosedArticleMutationVariables = Exact<{
+  articleId: Scalars['String'];
+}>;
+
+
+export type ClosedArticleMutation = { __typename?: 'Mutation', closedArticle: { __typename?: 'ArticleMutationResponse', success: boolean, message?: string | null } };
 
 export type RegisterMutationVariables = Exact<{
   registerInput: RegisterInput;
@@ -952,14 +988,14 @@ export type ArticlesQueryVariables = Exact<{
 }>;
 
 
-export type ArticlesQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleResponseSuccess', data?: { __typename?: 'ArticlesResponse', articles: Array<{ __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } }>, pagination: { __typename?: 'Pagination', page: number, limit: number, page_size: number } } | null } };
+export type ArticlesQuery = { __typename?: 'Query', articles: { __typename?: 'ArticleResponseSuccess', data?: { __typename?: 'ArticlesResponse', articles: Array<{ __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, isClosed: boolean, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } }>, pagination: { __typename?: 'Pagination', page: number, limit: number, page_size: number } } | null } };
 
 export type ArticleQueryVariables = Exact<{
   articleId: Scalars['String'];
 }>;
 
 
-export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null };
+export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, isClosed: boolean, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } | null };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1017,7 +1053,7 @@ export type IsFavoriteQuery = { __typename?: 'Query', isFavorite: boolean };
 export type FavoritesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FavoritesQuery = { __typename?: 'Query', favorites?: Array<{ __typename?: 'Favorite', id: string, article: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } }> | null };
+export type FavoritesQuery = { __typename?: 'Query', favorites?: Array<{ __typename?: 'Favorite', id: string, article: { __typename?: 'Article', id: string, title: string, description: string, price: string, productName: string, thumbnail: string, images: Array<string>, views: number, status: string, favoritesCount: number, address: string, isClosed: boolean, createdDate: any, updatedDate: any, categories: Array<{ __typename?: 'Category', id: string, name: string }>, user: { __typename?: 'User', id: string, username: string, email: string, address?: string | null, phoneNumber?: string | null, fullName: string, birthday?: string | null, avatar?: string | null, createdDate: any, updatedDate: any, status: string, rating: number } } }> | null };
 
 export type CountFavoritesForArticleQueryVariables = Exact<{
   articleId: Scalars['String'];
@@ -1109,6 +1145,7 @@ export const ArticleFragmentDoc = gql`
   favoritesCount
   views
   address
+  isClosed
   createdDate
   updatedDate
 }
@@ -1207,6 +1244,40 @@ export function useUpdateArticleMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateArticleMutationHookResult = ReturnType<typeof useUpdateArticleMutation>;
 export type UpdateArticleMutationResult = Apollo.MutationResult<UpdateArticleMutation>;
 export type UpdateArticleMutationOptions = Apollo.BaseMutationOptions<UpdateArticleMutation, UpdateArticleMutationVariables>;
+export const ClosedArticleDocument = gql`
+    mutation ClosedArticle($articleId: String!) {
+  closedArticle(articleId: $articleId) {
+    success
+    message
+  }
+}
+    `;
+export type ClosedArticleMutationFn = Apollo.MutationFunction<ClosedArticleMutation, ClosedArticleMutationVariables>;
+
+/**
+ * __useClosedArticleMutation__
+ *
+ * To run a mutation, you first call `useClosedArticleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useClosedArticleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [closedArticleMutation, { data, loading, error }] = useClosedArticleMutation({
+ *   variables: {
+ *      articleId: // value for 'articleId'
+ *   },
+ * });
+ */
+export function useClosedArticleMutation(baseOptions?: Apollo.MutationHookOptions<ClosedArticleMutation, ClosedArticleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ClosedArticleMutation, ClosedArticleMutationVariables>(ClosedArticleDocument, options);
+      }
+export type ClosedArticleMutationHookResult = ReturnType<typeof useClosedArticleMutation>;
+export type ClosedArticleMutationResult = Apollo.MutationResult<ClosedArticleMutation>;
+export type ClosedArticleMutationOptions = Apollo.BaseMutationOptions<ClosedArticleMutation, ClosedArticleMutationVariables>;
 export const RegisterDocument = gql`
     mutation Register($registerInput: RegisterInput!) {
   register(registerInput: $registerInput) {

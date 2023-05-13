@@ -35,6 +35,7 @@ const Home = () => {
                 limit: '10',
                 sort_by: SORT_BY.favorites,
                 order_by: ORDER.desc,
+                status: STATUS_ARTICLE.APPROVED,
             },
         },
     });
@@ -45,6 +46,7 @@ const Home = () => {
                 limit: '10',
                 sort_by: SORT_BY.views,
                 order_by: ORDER.desc,
+                status: STATUS_ARTICLE.APPROVED,
             },
         },
     });
