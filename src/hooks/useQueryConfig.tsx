@@ -1,4 +1,5 @@
-import { isUndefined, omitBy } from 'lodash';
+import omitBy from 'lodash/omitBy';
+import isUndefined from 'lodash/isUndefined';
 import { QueryConfig } from '@/generated/graphql';
 import { useRouter } from 'next/router';
 

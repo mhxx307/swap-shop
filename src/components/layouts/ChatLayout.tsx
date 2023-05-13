@@ -17,7 +17,7 @@ import {
 import { useDebounce } from '@/hooks';
 import { initializeApollo } from '@/libs/apolloClient';
 import classNames from 'classnames';
-import { keyBy } from 'lodash';
+import keyBy from 'lodash/keyBy';
 import produce from 'immer';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
