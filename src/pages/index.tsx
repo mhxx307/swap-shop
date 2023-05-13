@@ -15,7 +15,8 @@ import {
 } from '@/generated/graphql';
 import { useQueryConfig } from '@/hooks';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
-import { isUndefined, omitBy } from 'lodash';
+import omitBy from 'lodash/omitBy';
+import isUndefined from 'lodash/isUndefined';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'react-i18next';
 

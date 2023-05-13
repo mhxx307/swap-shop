@@ -1,6 +1,6 @@
 import { QueryConfig } from '@/generated/graphql';
 import classNames from 'classnames';
-import { omit } from 'lodash';
+import omit from 'lodash/omit';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
