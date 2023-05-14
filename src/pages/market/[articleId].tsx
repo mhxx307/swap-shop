@@ -487,8 +487,8 @@ export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
 
     return {
         paths:
-            data.articles.data?.articles &&
-            data.articles.data?.articles.length > 0
+            data.articles?.data?.articles &&
+            data.articles?.data?.articles.length > 0
                 ? data.articles?.data?.articles
                       .map((article) => {
                           return locales.map((locale) => {
