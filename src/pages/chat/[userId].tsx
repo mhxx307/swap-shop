@@ -24,13 +24,12 @@ import { useForm } from 'react-hook-form';
 import 'tippy.js/dist/tippy.css';
 import { useAppContext } from '@/contexts/AppContext';
 import dynamic from 'next/dynamic';
+import { clearLS, setIsShowMapToLS } from '@/utils/auth';
 
 function ChatBox() {
     const { conversationData, messagesData } = useMessage();
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const [files, setFiles] = useState<File[]>([]);
-    const [emojiMessage, setEmojiMessage] = useState();
-    const [openMap, setOpenMap] = useState(false);
     const { register, handleSubmit, setValue, getValues } = useForm({
         defaultValues: { message: '' },
     });
@@ -50,6 +49,16 @@ function ChatBox() {
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
+
+    useEffect(() => {
+        const id = setTimeout(() => {
+            clearLS();
+        }, 1000 * 60 * 5); // 5 minutes
+
+        return () => {
+            clearTimeout(id);
+        };
+    }, []);
 
     const Map = useMemo(
         () =>
@@ -215,7 +224,10 @@ function ChatBox() {
 
                             <FiMapPin
                                 className="mr-2 cursor-pointer"
-                                onClick={() => setIsShowMap(true)}
+                                onClick={() => {
+                                    setIsShowMap(!isShowMap);
+                                    setIsShowMapToLS(!isShowMap);
+                                }}
                             />
 
                             <ReactTextareaAutosize

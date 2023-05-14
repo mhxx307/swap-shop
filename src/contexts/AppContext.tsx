@@ -1,3 +1,4 @@
+import { getIsShowMapFromLS } from '@/utils/auth';
 import { createContext, useContext, useState } from 'react';
 
 interface AppContextInterface {
@@ -6,7 +7,7 @@ interface AppContextInterface {
 }
 
 export const getInitialAppContext: () => AppContextInterface = () => ({
-    isShowMap: false,
+    isShowMap: Boolean(getIsShowMapFromLS()),
     setIsShowMap: () => null,
 });
 

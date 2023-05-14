@@ -475,6 +475,8 @@ const ArticleDetailPage = () => {
     );
 };
 
+export default ArticleDetailPage;
+
 export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
     const apolloClient = initializeApollo();
 
@@ -485,17 +487,19 @@ export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
 
     return {
         paths:
-            data &&
-            data.articles?.data?.articles
-                .map((article) => {
-                    return locales.map((locale) => {
-                        return {
-                            params: { articleId: article.id.toString() },
-                            locale,
-                        };
-                    });
-                })
-                .flat(),
+            data.articles.data?.articles &&
+            data.articles.data?.articles.length > 0
+                ? data.articles?.data?.articles
+                      .map((article) => {
+                          return locales.map((locale) => {
+                              return {
+                                  params: { articleId: article.id.toString() },
+                                  locale,
+                              };
+                          });
+                      })
+                      .flat()
+                : [],
         fallback: 'blocking',
     };
 };
@@ -512,8 +516,6 @@ export const getStaticProps: GetStaticProps = async (
 
     return addApolloState(apolloClient, { props: {} });
 };
-
-export default ArticleDetailPage;
 
 const MoreAction = ({ article }: { article: Article }) => {
     const { t } = useTranslation('market');
