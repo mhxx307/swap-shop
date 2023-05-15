@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { Button, InputField, Select } from '@/components/shared';
 import { path } from '@/constants';
 import RatingStars from './RatingStar';
+import { useState } from 'react';
 
 interface Props {
     queryConfig: QueryConfig;
@@ -30,11 +31,13 @@ const AsideFilterMarket = ({ queryConfig }: Props) => {
         },
         resolver: yupResolver(schema),
     });
+    const [selectedCategories, setSelectedCategories] = useState<any>([]);
 
     const handleFilterCategories = (selectedCategories: any) => {
         const selectedCategoryIds = selectedCategories.map(
             (category: any) => category.value,
         );
+        setSelectedCategories(selectedCategories);
 
         router.push(
             {
@@ -62,6 +65,7 @@ const AsideFilterMarket = ({ queryConfig }: Props) => {
 
     const handleRemoveAll = () => {
         reset();
+        setSelectedCategories([]);
         router.replace(path.market, undefined, { shallow: true });
     };
 
@@ -96,6 +100,7 @@ const AsideFilterMarket = ({ queryConfig }: Props) => {
                         : []
                 }
                 onChange={handleFilterCategories}
+                value={selectedCategories}
             />
 
             <Link

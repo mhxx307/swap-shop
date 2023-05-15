@@ -34,6 +34,12 @@ const PasswordPage = () => {
 
     const handleChangePassword = async (payload: FormState) => {
         const changePasswordInput = omit(payload, 'confirmNewPassword');
+        if (payload.newPassword !== payload.confirmNewPassword) {
+            toast.error('Confirm password does not match', {
+                toastId: 'error',
+            });
+            return;
+        }
         await changePassword({
             variables: {
                 changePasswordLoggedInput: changePasswordInput,

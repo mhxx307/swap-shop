@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');
     const [forgotPassword, { loading, data }] = useForgotPasswordMutation();
-    const { t } = useTranslation();
+    const { t } = useTranslation('forgot-password');
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

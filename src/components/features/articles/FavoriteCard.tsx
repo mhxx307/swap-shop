@@ -1,9 +1,11 @@
 import { Image } from '@/components/shared';
+import { path } from '@/constants';
 import { Favorite } from '@/generated/graphql';
 import useFavorites from '@/hooks/useFavorites';
-import { formatCurrency } from '@/utils';
+import { formatCurrency, generateNameId } from '@/utils';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { AiFillHeart } from 'react-icons/ai';
 import TimeAgo from 'timeago-react';
 
@@ -16,6 +18,7 @@ function FavoriteCard({ favorite, index }: FavoriteCardProps) {
     const { handleAddToFavorite, isFavorite } = useFavorites({
         articleId: favorite.article.id,
     });
+
     return (
         <motion.div
             key={favorite.id}
@@ -42,9 +45,18 @@ function FavoriteCard({ favorite, index }: FavoriteCardProps) {
             />
             <div className="flex flex-1 flex-col justify-between bg-white p-4 dark:bg-[#343444]">
                 <div>
-                    <h2 className="cursor-pointer font-semibold uppercase text-black hover:underline dark:text-white">
-                        {favorite.article.title}
-                    </h2>
+                    <Link
+                        href={`https://secondchance.vercel.app/${
+                            path.market
+                        }/${generateNameId({
+                            id: favorite.article.id,
+                            name: favorite.article.title,
+                        })}`}
+                    >
+                        <h2 className="cursor-pointer font-semibold uppercase text-black hover:underline dark:text-white">
+                            {favorite.article.title}
+                        </h2>
+                    </Link>
                     <p className="mt-2 text-primary-500">
                         {favorite.article.price &&
                         favorite.article.price === '0'

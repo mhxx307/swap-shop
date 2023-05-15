@@ -27,11 +27,22 @@ import {
 import 'react-quill/dist/quill.snow.css';
 import ArticleCardPreview from './ArticleCardPreview';
 import { formats, modules } from '@/utils/Quill';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const prices = [
     { id: 1, label: 'Free' },
     { id: 2, label: 'Charges' },
 ];
+
+const schema = yup.object().shape({
+    title: yup.string().required('Title is required'),
+    description: yup.string().required('Description is required'),
+    productName: yup.string().required('Product name is required'),
+    categoryIds: yup.array().min(1, 'Category is required'),
+    price: yup.string().required('Price is required'),
+    address: yup.string().required('Address is required'),
+});
 
 function ArticleForm({ id }: { id?: string }) {
     const ReactQuill = useMemo(
@@ -40,7 +51,6 @@ function ArticleForm({ id }: { id?: string }) {
     );
     const router = useRouter();
     const [files, setFiles] = useState<File[]>([]);
-    const [checked, setChecked] = useState(1);
 
     const [loadingImages, setLoadingImages] = useState(false);
 
@@ -60,6 +70,9 @@ function ArticleForm({ id }: { id?: string }) {
     const article = articleDataUpdate?.article;
     const categoriesIdByArticle =
         article && article.categories.map((category) => category.id);
+    const [checked, setChecked] = useState(
+        article?.price && article?.price === '0' ? 1 : 0,
+    );
 
     const { control, handleSubmit, setValue } = useForm<
         Omit<InsertArticleInput, 'images'>
@@ -72,6 +85,7 @@ function ArticleForm({ id }: { id?: string }) {
             price: '0',
             address: '',
         },
+        resolver: yupResolver(schema),
     });
 
     const [createArticle, { loading }] = useInsertArticleMutation();
@@ -210,7 +224,9 @@ function ArticleForm({ id }: { id?: string }) {
                                         <div className="flex w-full items-center">
                                             <div className="mr-2 w-[60%]">
                                                 <PriceOptions
-                                                    checked={checked}
+                                                    checked={
+                                                        checked // 1 = free
+                                                    }
                                                     setChecked={setChecked}
                                                 />
 
