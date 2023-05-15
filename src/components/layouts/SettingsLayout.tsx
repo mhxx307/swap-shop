@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const settings = [
     { label: 'profile', path: '/settings/profile' },
-    { label: 'notification', path: '/settings/notification' },
+    // { label: 'notification', path: '/settings/notification' },
     { label: 'password', path: '/settings/password' },
 ];
 
@@ -29,9 +29,9 @@ const SettingsLayout = ({ children }: BaseLayoutProps) => {
                                 <div className="col-span-2 hidden space-y-8 pr-10 ss:block">
                                     <NavList navList={settings} />
                                     <div className="border-bottom"></div>
-                                    <p className="mt-[20px] cursor-pointer font-medium text-red-500">
+                                    {/* <p className="mt-[20px] cursor-pointer font-medium text-red-500">
                                         Delete Account
-                                    </p>
+                                    </p> */}
                                 </div>
                                 <div className="col-span-10 ss:col-span-8">
                                     {children}
