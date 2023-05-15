@@ -427,14 +427,14 @@ const ArticleDetailPage = () => {
                                         />
                                     </div>
 
-                                    <Button
+                                    {/* <Button
                                         secondary
                                         className="flex-center w-full rounded-full py-3 text-white"
                                         LeftIcon={BsBag}
                                         iconClassName="mr-2"
                                     >
                                         Put to your bag
-                                    </Button>
+                                    </Button> */}
                                 </div>
                             </div>
                         </div>
