@@ -451,10 +451,6 @@ const ArticleDetailPage = () => {
                                             />
                                         ),
                                     },
-                                    {
-                                        label: 'MinhQuan',
-                                        content: <div>Article</div>,
-                                    },
                                 ]}
                             />
                         </div>

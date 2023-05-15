@@ -115,7 +115,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                 <div className="mt-[18px] flex items-center justify-between">
                     <Button
                         secondary
-                        className="rounded-full px-6 text-white"
+                        className="rounded-full px-6 text-white mr-4"
                         LeftIcon={BsFillPlayFill}
                         onClick={() =>
                             router.push(

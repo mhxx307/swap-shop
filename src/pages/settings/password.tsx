@@ -66,7 +66,7 @@ const PasswordPage = () => {
                 <InputField
                     type={showOldPassword ? 'text' : 'password'}
                     name="oldPassword"
-                    placeholder="........"
+                    placeholder="Enter your old password"
                     control={control}
                     className="px-3 py-2"
                     label="Old password"
@@ -80,7 +80,7 @@ const PasswordPage = () => {
                 <InputField
                     type={showNewPassword ? 'text' : 'password'}
                     name="newPassword"
-                    placeholder="........"
+                    placeholder="Enter your new password"
                     control={control}
                     className="px-3 py-2"
                     label="New password"
@@ -94,7 +94,7 @@ const PasswordPage = () => {
                 <InputField
                     type={showConfirmNewPassword ? 'text' : 'password'}
                     name="confirmNewPassword"
-                    placeholder="........"
+                    placeholder="Confirm your new password"
                     control={control}
                     className="px-3 py-2"
                     label="Confirm new password"
