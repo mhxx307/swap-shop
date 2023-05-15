@@ -345,17 +345,19 @@ const ArticleDetailPage = () => {
                                                         </button>
                                                     </Tippy>
                                                 )}
-                                            <Popover
-                                                renderPopover={
-                                                    <MoreAction
-                                                        article={
-                                                            article as Article
-                                                        }
-                                                    />
-                                                }
-                                            >
-                                                <AiOutlineMore className="h-6 w-6 cursor-pointer transition-opacity hover:opacity-80" />
-                                            </Popover>
+                                            {article.user.id !== me?.me?.id && (
+                                                <Popover
+                                                    renderPopover={
+                                                        <MoreAction
+                                                            article={
+                                                                article as Article
+                                                            }
+                                                        />
+                                                    }
+                                                >
+                                                    <AiOutlineMore className="h-6 w-6 cursor-pointer transition-opacity hover:opacity-80" />
+                                                </Popover>
+                                            )}
                                         </div>
                                     </div>
 
@@ -534,14 +536,18 @@ const MoreAction = ({ article }: { article: Article }) => {
             toast.info(t('desc_required') || 'Bạn phải nhập mô tả cho báo cáo');
             return;
         } else {
-            await insertReport({
+            const res = await insertReport({
                 variables: {
                     articleId: article.id,
                     description: description,
                     reason: reason,
                 },
             });
-            toast.success(t('report_success') || 'Báo cáo thành công');
+            if (res.data?.report.success === false) {
+                toast.error('Báo cáo thất bại');
+            } else {
+                toast.success(t('report_success') || 'Báo cáo thành công');
+            }
             setDescription('');
         }
     };

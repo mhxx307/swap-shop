@@ -31,7 +31,7 @@ function useSearchArticles() {
               };
 
         router.push({
-            pathname: path.market,
+            pathname: `https://secondchance.vercel.app/${path.market}`,
             query: config,
         });
         setValue('title', '');

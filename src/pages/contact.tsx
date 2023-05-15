@@ -7,6 +7,7 @@ import { Head, Button, Input, CommonSection } from '@/components/shared';
 import { FACEBOOK_URL } from '@/constants';
 import { useTranslation } from 'react-i18next';
 import { IconType } from 'react-icons/lib';
+import { toast } from 'react-toastify';
 
 const ContactPage = () => {
     const formRef = createRef<HTMLFormElement>();
@@ -33,6 +34,7 @@ const ContactPage = () => {
                     .then(
                         (_result) => {
                             setIsLoading(false);
+                            toast.success('Successfully sent email');
                         },
                         (error) => {
                             console.log(error.text);
