@@ -516,17 +516,17 @@ export const getStaticProps: GetStaticProps = async (
 const MoreAction = ({ article }: { article: Article }) => {
     const { t } = useTranslation('market');
     const reportDescription = [
-        t('reason1'),
-        t('reason2'),
-        t('reason3'),
-        t('reason4'),
-        t('reason5'),
+        'Lừa đảo',
+        'Không liêc lạc được',
+        'Sản phẩm bị cấm buôn bán',
+        'Sản phẩm có hình ảnh, nội dụng phản cảm',
+        'Khác',
     ];
     const [isChecked, setIsChecked] = useState(0);
     const [reason, setReason] = useState(reportDescription[isChecked]);
     const [description, setDescription] = useState('');
 
-    const [insertReport] = useReportMutation();
+    const [insertReport, { loading }] = useReportMutation();
     console.log(reason);
 
     const handleInsertReport = async () => {
@@ -562,7 +562,6 @@ const MoreAction = ({ article }: { article: Article }) => {
 
                     <DialogDescription className="p-2">
                         <ul>
-                            {' '}
                             {t('call')}
                             {reportDescription.map((report, index) => (
                                 <li key={report} className="ml-2">
@@ -595,8 +594,8 @@ const MoreAction = ({ article }: { article: Article }) => {
                             className="flex-center mt-2 w-full"
                             secondary
                             onClick={handleInsertReport}
+                            isLoading={loading}
                         >
-                            {' '}
                             {t('btn_report')}
                         </Button>
                     </DialogDescription>

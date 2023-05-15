@@ -1,9 +1,4 @@
 {
-    "reason1": "Lừa đảo",
-    "reason2": "Không liêc lạc được",
-    "reason3": "Sản phẩm bị cấm buôn bán",
-    "reason4": "Sản phẩm có hình ảnh, nội dụng phản cảm",
-    "reason5": "Khác",
     "desc_required": "Vui lòng nhập lý do",
     "report_success": "Cảm ơn bạn đã báo cáo. Chúng tôi sẽ xem xét và xử lý trong thời gian sớm nhất.",
     "report": "Báo cáo",
