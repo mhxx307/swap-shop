@@ -9,7 +9,7 @@ import {
     ChangePasswordInput,
     useChangePasswordLoggedMutation,
 } from '@/generated/graphql';
-import { omit } from 'lodash';
+import omit from 'lodash/omit';
 
 interface FormState extends ChangePasswordInput {
     oldPassword: string;

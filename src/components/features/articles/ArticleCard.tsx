@@ -100,7 +100,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                                 <h6 className="text-xs text-[#919eab]">
                                     Price
                                 </h6>
-                                <p className="text-xs">
+                                <p className="truncate text-xs">
                                     {article.price && article.price === '0'
                                         ? 'Free'
                                         : `đ ${formatCurrency(
@@ -128,7 +128,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
                     >
                         Xem
                     </Button>
-                    <span className="truncate text-xs">address</span>
+                    <span className="truncate text-xs">{article.address}</span>
                 </div>
             </div>
         </div>

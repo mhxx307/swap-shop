@@ -30,6 +30,7 @@ import { useQueryConfig } from '@/hooks';
 import { getIdFromNameId } from '@/utils';
 import classNames from 'classnames';
 import { toast } from 'react-toastify';
+import { STATUS_ARTICLE } from '@/constants';
 // import { useAuthContext } from '@/contexts/AuthContext';
 
 function StoreDetail() {
@@ -48,7 +49,11 @@ function StoreDetail() {
 
     const { data: articlesData } = useArticlesQuery({
         variables: {
-            queryConfig: queryConfig,
+            queryConfig: {
+                ...queryConfig,
+                userId: id,
+                status: STATUS_ARTICLE.APPROVED,
+            },
         },
         skip: !userData,
     });
@@ -166,6 +171,22 @@ export default StoreDetail;
 
 const About = ({ user }: { user: User }) => {
     const { isOn } = useTheme();
+    const queryConfig = useQueryConfig();
+    const { data: articlesData } = useArticlesQuery({
+        variables: {
+            queryConfig: {
+                ...queryConfig,
+                userId: user?.id,
+                status: STATUS_ARTICLE.APPROVED,
+            },
+        },
+        skip: !user,
+        fetchPolicy: 'no-cache',
+    });
+
+    console.log('data', articlesData);
+
+    const articleCount = articlesData?.articles.data?.articles.length;
     return (
         <div className="col-span-8 bg-white p-2 dark:bg-[#343444]">
             <h3 className="text-2xl font-bold uppercase">
@@ -210,20 +231,13 @@ const About = ({ user }: { user: User }) => {
                 </div>
                 <div className="col-span-4">
                     <div className="mt-4">
-                        <p className="text-base font-bold">
-                            Article quantity:{' '}
-                        </p>
-                        <p className="text-sm">12</p>
+                        <p className="text-base font-bold">Article quantity:</p>
+                        <p className="text-sm">{articleCount}</p>
                     </div>
 
                     <div className="mt-4">
                         <p className="text-base font-bold">Average rating: </p>
-                        <p className="text-sm">4.5</p>
-                    </div>
-
-                    <div className="mt-4">
-                        <p className="text-base font-bold">Star:</p>
-                        <p className="text-sm">4 star</p>
+                        <p className="text-sm">{user.rating}</p>
                     </div>
                 </div>
             </div>
@@ -240,6 +254,7 @@ const Rating = ({ userId, username }: { userId: string; username: string }) => {
             reviewOptions: {
                 limit: '10',
                 page: '1',
+                userId: userId,
             },
         },
     });

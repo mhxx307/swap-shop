@@ -1,4 +1,5 @@
-import { isUndefined, omitBy } from 'lodash';
+import omitBy from 'lodash/omitBy';
+import isUndefined from 'lodash/isUndefined';
 import { QueryConfig } from '@/generated/graphql';
 import { useRouter } from 'next/router';
 
@@ -14,7 +15,6 @@ function useQueryConfig() {
             price_max: query.price_max,
             price_min: query.price_min,
             categories: query.categories,
-            isFree: query.isFree,
             userId: query.userId,
             user_rating: query.user_rating,
         },

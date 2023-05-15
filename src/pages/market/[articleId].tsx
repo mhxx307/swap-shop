@@ -47,7 +47,7 @@ import {
 } from '@/utils';
 
 import 'tippy.js/dist/tippy.css';
-import { path } from '@/constants';
+import { STATUS_ARTICLE, path } from '@/constants';
 import Link from 'next/link';
 import UserInfo from '@/components/features/comment/UserInfo';
 import {
@@ -93,6 +93,7 @@ const ArticleDetailPage = () => {
         page: '1',
         limit: '20',
         categories: articleData?.article?.categories.map((c) => c.id),
+        status: STATUS_ARTICLE.APPROVED,
     };
     const countFavorites = countFavoritesData?.countFavoritesForArticle;
 
@@ -100,7 +101,8 @@ const ArticleDetailPage = () => {
         variables: {
             queryConfig: queryConfig,
         },
-        skip: !articleData,
+        skip: !articleData?.article?.categories,
+        fetchPolicy: 'no-cache',
     });
     const articles = articlesData?.articles.data?.articles;
 
@@ -124,7 +126,7 @@ const ArticleDetailPage = () => {
     useEffect(() => {
         setId(getIdFromNameId(router.query.articleId as string));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [router.query.articleId]);
 
     const prev = () => {
         if (currentImagesIndex[0] > 0) {
@@ -473,6 +475,8 @@ const ArticleDetailPage = () => {
     );
 };
 
+export default ArticleDetailPage;
+
 export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
     const apolloClient = initializeApollo();
 
@@ -483,17 +487,19 @@ export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
 
     return {
         paths:
-            data &&
-            data.articles?.data?.articles
-                .map((article) => {
-                    return locales.map((locale) => {
-                        return {
-                            params: { articleId: article.id.toString() },
-                            locale,
-                        };
-                    });
-                })
-                .flat(),
+            data.articles?.data?.articles &&
+            data.articles?.data?.articles.length > 0
+                ? data.articles?.data?.articles
+                      .map((article) => {
+                          return locales.map((locale) => {
+                              return {
+                                  params: { articleId: article.id.toString() },
+                                  locale,
+                              };
+                          });
+                      })
+                      .flat()
+                : [],
         fallback: 'blocking',
     };
 };
@@ -511,16 +517,14 @@ export const getStaticProps: GetStaticProps = async (
     return addApolloState(apolloClient, { props: {} });
 };
 
-export default ArticleDetailPage;
-
 const MoreAction = ({ article }: { article: Article }) => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('market');
     const reportDescription = [
-        t('reason[0]'),
-        t('reason[1]'),
-        t('reason[2]'),
-        t('reason[3]'),
-        t('reason[4]'),
+        t('reason1'),
+        t('reason2'),
+        t('reason3'),
+        t('reason4'),
+        t('reason5'),
     ];
     const [isChecked, setIsChecked] = useState(0);
     const [reason, setReason] = useState(reportDescription[isChecked]);

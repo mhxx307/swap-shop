@@ -36,13 +36,17 @@ const AsideFilterMarket = ({ queryConfig }: Props) => {
             (category: any) => category.value,
         );
 
-        router.push({
-            pathname: path.market,
-            query: {
-                ...queryConfig,
-                categories: selectedCategoryIds,
+        router.push(
+            {
+                pathname: path.market,
+                query: {
+                    ...queryConfig,
+                    categories: selectedCategoryIds,
+                },
             },
-        });
+            undefined,
+            { shallow: true },
+        );
     };
 
     const handleFilterByPrice = (payload: FormState) => {
@@ -154,7 +158,7 @@ const AsideFilterMarket = ({ queryConfig }: Props) => {
             <div className="my-4 h-[1px] bg-gray-300" />
 
             <div className="text-sm">Đánh giá</div>
-            <RatingStars queryConfig={queryConfig} />
+            {/* <RatingStars queryConfig={queryConfig} /> */}
             <div className="my-4 h-[1px] bg-gray-300" />
 
             <Button secondary onClick={handleRemoveAll}>

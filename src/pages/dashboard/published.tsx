@@ -8,18 +8,20 @@ import {
     Spinner,
     TabView,
 } from '@/components/shared';
-import { STATUS_ARTICLE } from '@/constants';
+import { STATUS_ARTICLE, path } from '@/constants';
 import { Article, useArticlesQuery, useMeQuery } from '@/generated/graphql';
 import { useQueryConfig } from '@/hooks';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
 function PublishedPage() {
+    const router = useRouter();
     const { data: meData } = useMeQuery();
     const profile = meData?.me;
     const queryConfig = useQueryConfig();
     const { t } = useTranslation('common');
 
-    const { data: articlesData } = useArticlesQuery({
+    const { data: articlesData, refetch } = useArticlesQuery({
         variables: {
             queryConfig: { ...queryConfig, userId: profile?.id },
         },
@@ -30,15 +32,25 @@ function PublishedPage() {
     const articles = articlesData?.articles.data?.articles;
 
     const articlesPending = articles?.filter((value) => {
-        return value.status === STATUS_ARTICLE.PENDING;
+        return (
+            value.status === STATUS_ARTICLE.PENDING && value.isClosed === false
+        );
     });
 
     const articlesApproved = articles?.filter((value) => {
-        return value.status === STATUS_ARTICLE.APPROVED;
+        return (
+            value.status === STATUS_ARTICLE.APPROVED && value.isClosed === false
+        );
     });
 
     const articlesRejected = articles?.filter((value) => {
-        return value.status === STATUS_ARTICLE.REJECTED;
+        return (
+            value.status === STATUS_ARTICLE.REJECTED && value.isClosed === false
+        );
+    });
+
+    const articlesClosed = articles?.filter((value) => {
+        return value.isClosed === true;
     });
 
     if (!profile) {
@@ -71,9 +83,16 @@ function PublishedPage() {
                                                 <h3 className="mb-2 font-semibold">
                                                     {profile.fullName}
                                                 </h3>
-                                                <h5 className="cursor-pointer rounded-lg border border-secondary pl-6 pr-6 text-secondary hover:bg-slate-50">
+                                                <button
+                                                    className="cursor-pointer rounded-lg border border-secondary pl-6 pr-6 text-center text-secondary hover:bg-slate-50"
+                                                    onClick={() =>
+                                                        router.push(
+                                                            `${path.personal}/${profile.id}`,
+                                                        )
+                                                    }
+                                                >
                                                     {t('home')}
-                                                </h5>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -116,6 +135,9 @@ function PublishedPage() {
                                                                         article={
                                                                             article as Article
                                                                         }
+                                                                        refetch={
+                                                                            refetch
+                                                                        }
                                                                     />
                                                                 ),
                                                             )}
@@ -129,6 +151,26 @@ function PublishedPage() {
                                                     <div>
                                                         {articlesRejected &&
                                                             articlesRejected?.map(
+                                                                (article) => (
+                                                                    <PublishedCard
+                                                                        key={
+                                                                            article.id
+                                                                        }
+                                                                        article={
+                                                                            article as Article
+                                                                        }
+                                                                    />
+                                                                ),
+                                                            )}
+                                                    </div>
+                                                ),
+                                            },
+                                            {
+                                                label: t('closed') || 'Đã đóng',
+                                                content: (
+                                                    <div>
+                                                        {articlesClosed &&
+                                                            articlesClosed?.map(
                                                                 (article) => (
                                                                     <PublishedCard
                                                                         key={

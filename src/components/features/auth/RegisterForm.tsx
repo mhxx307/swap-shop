@@ -14,7 +14,7 @@ import {
 } from './components/register';
 import { useRegisterMutation, RegisterInput } from '@/generated/graphql';
 import { useRouter } from 'next/router';
-import { omit } from 'lodash';
+import omit from 'lodash/omit';
 import { useTranslation } from 'react-i18next';
 
 interface FormState extends RegisterInput {

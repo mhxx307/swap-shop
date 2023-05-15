@@ -145,14 +145,16 @@ function Comment({ article }: CommentProps) {
             },
         });
 
-        await pushNotification({
-            variables: {
-                content:
-                    `<b>${article.user.username}</b>` +
-                    ' đã bình luận về bài biết của bạn',
-                recipientId: article.user.id,
-            },
-        });
+        if (profile && profile.id !== article.user.id) {
+            await pushNotification({
+                variables: {
+                    content:
+                        `<b>${article.user.username}</b>` +
+                        ' đã bình luận về bài biết của bạn',
+                    recipientId: article.user.id,
+                },
+            });
+        }
         refetch();
         setValue('text', '');
     };

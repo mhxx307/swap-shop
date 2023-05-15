@@ -42,6 +42,8 @@ function ArticleForm({ id }: { id?: string }) {
     const [files, setFiles] = useState<File[]>([]);
     const [checked, setChecked] = useState(1);
 
+    const [loadingImages, setLoadingImages] = useState(false);
+
     const { data: meData } = useMeQuery();
     const profile = meData?.me;
     const { data: articleDataUpdate } = useArticleQuery({
@@ -97,7 +99,12 @@ function ArticleForm({ id }: { id?: string }) {
     const handleSubmitArticle = async (
         payload: Omit<InsertArticleInput, 'images'>,
     ) => {
-        const urlArticles = await createUrlListFromFileList(files, 'articles');
+        let urlArticles: string[] = [];
+        if (files.length > 0) {
+            setLoadingImages(true);
+            urlArticles = await createUrlListFromFileList(files, 'articles');
+            setLoadingImages(false);
+        }
 
         if (!article) {
             if (urlArticles.length > 0) {
@@ -296,13 +303,17 @@ function ArticleForm({ id }: { id?: string }) {
                                     </div>
                                 </div>
 
-                                <Button
-                                    secondary
-                                    isLoading={loading}
-                                    type="submit"
-                                >
-                                    Add product
-                                </Button>
+                                {loadingImages ? (
+                                    'Đang upload'
+                                ) : (
+                                    <Button
+                                        secondary
+                                        isLoading={loading}
+                                        type="submit"
+                                    >
+                                        Add product
+                                    </Button>
+                                )}
                             </form>
                         </div>
                     </div>

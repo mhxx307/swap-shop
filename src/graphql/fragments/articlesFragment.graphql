@@ -20,4 +20,5 @@ fragment article on Article {
     address
     createdDate
     updatedDate
+    isClosed
 }
