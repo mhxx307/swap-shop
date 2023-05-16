@@ -25,11 +25,12 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh curr
 interface PaginationProps {
     queryConfig: QueryConfig;
     pageSize: number;
+    pathname: string;
 }
 
 const RANGE = 2;
 
-function Pagination({ queryConfig, pageSize }: PaginationProps) {
+function Pagination({ queryConfig, pageSize, pathname }: PaginationProps) {
     const { t } = useTranslation('common');
     const page = Number(queryConfig.page);
 
@@ -108,7 +109,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
                             },
                         )}
                         href={{
-                            pathname: path.home,
+                            pathname: pathname,
                             query: {
                                 ...queryConfig,
                                 page: pageNumber.toString(),
@@ -151,7 +152,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
             ) : (
                 <Link
                     href={{
-                        pathname: path.home,
+                        pathname: pathname,
                         query: {
                             ...queryConfig,
                             page: (page + 1).toString(),

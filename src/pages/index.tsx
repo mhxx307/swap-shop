@@ -2,7 +2,7 @@ import { ArticleList } from '@/components/features/articles';
 import { SwiperCategories } from '@/components/features/categories';
 import { HeroSection } from '@/components/features/home';
 import { ClientOnly, Head, Pagination } from '@/components/shared';
-import { ORDER, SORT_BY, STATUS_ARTICLE } from '@/constants';
+import { ORDER, SORT_BY, STATUS_ARTICLE, path } from '@/constants';
 import {
     useArticlesQuery,
     useCategoriesQuery,
@@ -88,6 +88,7 @@ const Home = () => {
                                 .page_size as number
                         }
                         queryConfig={queryConfig}
+                        pathname={path.home}
                     />
                 </div>
 
@@ -102,6 +103,7 @@ const Home = () => {
                                 .page_size as number
                         }
                         queryConfig={queryConfig}
+                        pathname={path.home}
                     />
                 </div>
 
@@ -116,6 +118,7 @@ const Home = () => {
                                 .page_size as number
                         }
                         queryConfig={queryConfig}
+                        pathname={path.home}
                     />
                 </div>
             </div>
