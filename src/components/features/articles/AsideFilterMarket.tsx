@@ -47,20 +47,24 @@ const AsideFilterMarket = ({ queryConfig }: Props) => {
                     categories: selectedCategoryIds,
                 },
             },
-            // undefined,
-            // { shallow: true },
+            undefined,
+            { shallow: true },
         );
     };
 
     const handleFilterByPrice = (payload: FormState) => {
-        router.push({
-            pathname: path.market,
-            query: {
-                ...queryConfig,
-                price_min: payload.price_min,
-                price_max: payload.price_max,
+        router.push(
+            {
+                pathname: path.market,
+                query: {
+                    ...queryConfig,
+                    price_min: payload.price_min,
+                    price_max: payload.price_max,
+                },
             },
-        });
+            undefined,
+            { shallow: true },
+        );
     };
 
     const handleRemoveAll = () => {
