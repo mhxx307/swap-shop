@@ -26,6 +26,7 @@ import {
 } from '@/utils';
 import { useEffect, useState } from 'react';
 import { ArticleListByCategory } from '@/components/features/articles';
+import { path } from '@/constants';
 
 const Categories = () => {
     const { query } = useRouter();
@@ -91,6 +92,7 @@ const Categories = () => {
                                     .page_size as number
                             }
                             queryConfig={queryConfig}
+                            pathname={path.categories}
                         />
                     </div>
                 </div>

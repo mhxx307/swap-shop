@@ -23,7 +23,7 @@ import {
 } from '@/generated/graphql';
 import { addApolloState, initializeApollo } from '@/libs/apolloClient';
 import { useQueryConfig } from '@/hooks';
-import { STATUS_ARTICLE } from '@/constants';
+import { STATUS_ARTICLE, path } from '@/constants';
 
 const MarketPage = () => {
     const queryConfig = useQueryConfig();
@@ -70,6 +70,7 @@ const MarketPage = () => {
                                                 ?.pagination.page_size as number
                                         }
                                         queryConfig={queryConfig}
+                                        pathname={path.market}
                                     />
                                 )}
                             </div>
