@@ -47,8 +47,8 @@ const AsideFilterMarket = ({ queryConfig }: Props) => {
                     categories: selectedCategoryIds,
                 },
             },
-            undefined,
-            { shallow: true },
+            // undefined,
+            // { shallow: true },
         );
     };
 
