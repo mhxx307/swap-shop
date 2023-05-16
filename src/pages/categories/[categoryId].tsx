@@ -48,7 +48,9 @@ const Categories = () => {
         skip: !category.id,
     });
 
-    const articles = articlesData?.articles.data?.articles;
+    const articles = articlesData?.articles.data?.articles.filter(
+        (article) => article.isClosed === false,
+    );
     const pageSize = articlesData?.articles.data?.pagination.page_size;
 
     useEffect(() => {
@@ -86,14 +88,16 @@ const Categories = () => {
                             />
                         )}
 
-                        <Pagination
-                            pageSize={
-                                articlesData.articles.data?.pagination
-                                    .page_size as number
-                            }
-                            queryConfig={queryConfig}
-                            pathname={path.categories}
-                        />
+                        {articles.length > 0 && (
+                            <Pagination
+                                pageSize={
+                                    (articlesData?.articles?.data?.pagination
+                                        .page_size as number) || 0
+                                }
+                                queryConfig={queryConfig}
+                                pathname={path.categories}
+                            />
+                        )}
                     </div>
                 </div>
             </ClientOnly>

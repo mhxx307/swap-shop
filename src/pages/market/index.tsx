@@ -34,7 +34,9 @@ const MarketPage = () => {
         },
     });
 
-    const articles = articlesData?.articles.data?.articles;
+    const articles = articlesData?.articles.data?.articles.filter(
+        (article) => article.isClosed === false,
+    );
 
     if (!articles) {
         return <div>Loading...</div>;
@@ -56,7 +58,7 @@ const MarketPage = () => {
                                 <SortArticleList
                                     queryConfig={queryConfig}
                                     pageSize={
-                                        articlesData.articles.data?.pagination
+                                        articlesData?.articles?.data?.pagination
                                             .page_size || 0
                                     }
                                 />
@@ -66,8 +68,9 @@ const MarketPage = () => {
                                 {articles && articles.length > 0 && (
                                     <Pagination
                                         pageSize={
-                                            articlesData.articles.data
-                                                ?.pagination.page_size as number
+                                            (articlesData?.articles?.data
+                                                ?.pagination
+                                                .page_size as number) || 0
                                         }
                                         queryConfig={queryConfig}
                                         pathname={path.market}

@@ -57,7 +57,9 @@ function StoreDetail() {
         },
         skip: !userData,
     });
-    const articles = articlesData?.articles.data?.articles;
+    const articles = articlesData?.articles.data?.articles.filter(
+        (article) => article.isClosed === false,
+    );
     const pageSize = articlesData?.articles.data?.pagination.page_size;
 
     useEffect(() => {
