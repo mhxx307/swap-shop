@@ -25,14 +25,18 @@ const Home = () => {
     const { data: categoriesData } = useCategoriesQuery();
     const { data: articlesData } = useArticlesQuery({
         variables: {
-            queryConfig: { ...queryConfig, status: STATUS_ARTICLE.APPROVED },
+            queryConfig: {
+                ...queryConfig,
+                status: STATUS_ARTICLE.APPROVED,
+                limit: '8',
+            },
         },
     });
     const { data: articlesFavoritesData } = useArticlesQuery({
         variables: {
             queryConfig: {
                 page: '1',
-                limit: '10',
+                limit: '8',
                 sort_by: SORT_BY.favorites,
                 order_by: ORDER.desc,
                 status: STATUS_ARTICLE.APPROVED,
@@ -43,7 +47,7 @@ const Home = () => {
         variables: {
             queryConfig: {
                 page: '1',
-                limit: '10',
+                limit: '8',
                 sort_by: SORT_BY.views,
                 order_by: ORDER.desc,
                 status: STATUS_ARTICLE.APPROVED,
