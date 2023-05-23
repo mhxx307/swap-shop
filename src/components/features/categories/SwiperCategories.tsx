@@ -34,6 +34,20 @@ const SwiperCategories = ({
             navigation={true}
             spaceBetween={10}
             modules={[Navigation]}
+            breakpoints={{
+                768: {
+                    slidesPerView: 3,
+                    grid: {
+                        rows: 1,
+                    },
+                },
+                480: {
+                    slidesPerView: 2,
+                    grid: {
+                        rows: 1,
+                    },
+                },
+            }}
             className={classNames('p-2', className)}
         >
             {categories.map((category) => (
