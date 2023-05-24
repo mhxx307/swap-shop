@@ -19,7 +19,10 @@ function PublishedCard({
 
     const [closedArticle] = useClosedArticleMutation();
 
-    const handleClosedArticle = async () => {
+    const handleClosedArticle = async (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    ) => {
+        e.preventDefault();
         const answer = window.confirm(
             'Bạn có thật sự muốn đóng bài viết. Nếu đóng thì sẽ không đươc thao tác lại',
         );
