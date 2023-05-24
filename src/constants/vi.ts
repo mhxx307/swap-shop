@@ -4,7 +4,7 @@ import { path, icons } from '.';
 const HEADER_NAV_LIST: NavItemProps[] = [
     { path: path.home, label: 'Trang chủ' },
     { path: path.market, label: 'Đồ cũ' },
-    { path: path.about, label: 'Giới thiệu' },
+    // { path: path.about, label: 'Giới thiệu' },
     { path: path.chat, label: 'Chat' },
 ];
 
@@ -16,7 +16,7 @@ const POPUP_MENU_LIST: PopupMenuItemProps[] = [
         label: 'Phản hồi và giúp đỡ',
         path: path.contact,
     },
-    { icon: icons.CgShortcut, label: 'Phím tắt', path: path.shortcuts },
+    // { icon: icons.CgShortcut, label: 'Phím tắt', path: path.shortcuts },
 ];
 
 const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [

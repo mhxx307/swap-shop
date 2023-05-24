@@ -183,7 +183,7 @@ function ChatLayout({ children }: { children: React.ReactNode }) {
                                                         />
                                                     )}
                                                 </div>
-                                                <ChatOptions />
+                                                {/* <ChatOptions /> */}
                                             </div>
                                             {/* search */}
                                             <HeadlessTippy

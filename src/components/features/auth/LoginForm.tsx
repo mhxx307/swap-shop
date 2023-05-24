@@ -72,6 +72,8 @@ const LoginForm = () => {
             router.push('/');
         } else if (response.data?.login.success === false) {
             toast.error(response.data.login.message);
+        } else if (response.data?.login.user?.status === 'blocked') {
+            toast.error('User đã bị chặn (blocked)');
         }
     };
 

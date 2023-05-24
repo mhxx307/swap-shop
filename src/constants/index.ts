@@ -19,7 +19,7 @@ export const PROGRESS_LIST: ProgressItemProps[] = [
 
 export const FACEBOOK_URL = 'https://www.facebook.com';
 export const YOUTUBE_URL = 'https://www.youtube.com';
-export const WEBSITE_URL = 'swap-shop-jq6a2utdi-mhxx307.vercel.app';
+export const WEBSITE_URL = 'https://secondchance.vercel.app';
 
 export const supportedUploadImageFormats = ['jpg', 'jpeg', 'png'];
 

@@ -6,11 +6,11 @@ import {
 
 import { BsEmojiSmile } from 'react-icons/bs';
 import { MdSend } from 'react-icons/md';
-import { GoLocation } from 'react-icons/go';
+import { FiMapPin } from 'react-icons/fi';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 import EmojiPicker, { EmojiStyle } from 'emoji-picker-react';
 import Tippy from '@tippyjs/react/headless';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Message } from '@/components/features/chat';
 import { ImageChatUpload } from '@/components/features/uploads';
@@ -22,13 +22,14 @@ import { useMessage } from '@/hooks';
 import { useForm } from 'react-hook-form';
 
 import 'tippy.js/dist/tippy.css';
+import { useAppContext } from '@/contexts/AppContext';
+import dynamic from 'next/dynamic';
+import { clearLS, setIsShowMapToLS } from '@/utils/auth';
 
 function ChatBox() {
     const { conversationData, messagesData } = useMessage();
     const scrollRef = useRef<HTMLDivElement | null>(null);
     const [files, setFiles] = useState<File[]>([]);
-    const [emojiMessage, setEmojiMessage] = useState();
-    const [openMap, setOpenMap] = useState(false);
     const { register, handleSubmit, setValue, getValues } = useForm({
         defaultValues: { message: '' },
     });
@@ -38,6 +39,8 @@ function ChatBox() {
     const [sendMessageMutation, { loading: sendMessageLoading }] =
         useInsertMessageMutation();
 
+    const { isShowMap, setIsShowMap } = useAppContext();
+
     const profile = meData?.me;
     const conversation = conversationData?.getConversation;
     const messages = messagesData?.messages;
@@ -46,6 +49,28 @@ function ChatBox() {
     useEffect(() => {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
+
+    useEffect(() => {
+        const id = setTimeout(() => {
+            clearLS();
+        }, 1000 * 60 * 5); // 5 minutes
+
+        return () => {
+            clearTimeout(id);
+        };
+    }, []);
+
+    const Map = useMemo(
+        () =>
+            dynamic(
+                () => import('../../components/shared/Map'), // replace '@components/map' with your component's location
+                {
+                    loading: () => <p>A map is loading</p>,
+                    ssr: false, // This line is important. It's what prevents server-side render
+                },
+            ),
+        [],
+    );
 
     const handleSendMessage = async (payload: any) => {
         let urlChatImages: string[] = [];
@@ -136,10 +161,14 @@ function ChatBox() {
                                                 profile?.id
                                             }
                                             message={message as MessageType}
-                                            openMap={openMap}
                                         />
                                     </div>
                                 ))}
+                            {isShowMap && profile && (
+                                <div className="flex h-[47%] w-full justify-end">
+                                    <Map />
+                                </div>
+                            )}
                         </div>
 
                         {/* bottom */}
@@ -193,9 +222,12 @@ function ChatBox() {
                                 )}
                             />
 
-                            <GoLocation
+                            <FiMapPin
                                 className="mr-2 cursor-pointer"
-                                onClick={() => setOpenMap(true)}
+                                onClick={() => {
+                                    setIsShowMap(!isShowMap);
+                                    setIsShowMapToLS(!isShowMap);
+                                }}
                             />
 
                             <ReactTextareaAutosize

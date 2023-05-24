@@ -12,6 +12,7 @@ import BaseLayout from '@/components/layouts/BaseLayout';
 import '@/styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { AppProvider } from '@/contexts/AppContext';
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const Layout =
@@ -20,30 +21,32 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const apolloClient = useApollo(pageProps);
 
     return (
-        <AuthProvider>
-            <ToastContainer
-                position="bottom-left"
-                autoClose={5000}
-                hideProgressBar={true}
-                newestOnTop={true}
-                closeOnClick
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-            />
+        <AppProvider>
+            <AuthProvider>
+                <ToastContainer
+                    position="bottom-left"
+                    autoClose={5000}
+                    hideProgressBar={true}
+                    newestOnTop={true}
+                    closeOnClick
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="dark"
+                />
 
-            <ThemeProvider>
-                <ApolloProvider client={apolloClient}>
-                    {Layout(
-                        <>
-                            <NextNProgress color="#5142fc" />
-                            <Component {...pageProps} />
-                        </>,
-                    )}
-                </ApolloProvider>
-            </ThemeProvider>
-        </AuthProvider>
+                <ThemeProvider>
+                    <ApolloProvider client={apolloClient}>
+                        {Layout(
+                            <>
+                                <NextNProgress color="#5142fc" />
+                                <Component {...pageProps} />
+                            </>,
+                        )}
+                    </ApolloProvider>
+                </ThemeProvider>
+            </AuthProvider>
+        </AppProvider>
     );
 };
 

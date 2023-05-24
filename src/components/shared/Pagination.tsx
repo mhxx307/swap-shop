@@ -25,11 +25,12 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh curr
 interface PaginationProps {
     queryConfig: QueryConfig;
     pageSize: number;
+    pathname: string;
 }
 
 const RANGE = 2;
 
-function Pagination({ queryConfig, pageSize }: PaginationProps) {
+function Pagination({ queryConfig, pageSize, pathname }: PaginationProps) {
     const { t } = useTranslation('common');
     const page = Number(queryConfig.page);
 
@@ -108,7 +109,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
                             },
                         )}
                         href={{
-                            pathname: path.home,
+                            pathname: pathname,
                             query: {
                                 ...queryConfig,
                                 page: pageNumber.toString(),
@@ -124,7 +125,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
     return (
         <div className="mt-6 flex flex-wrap justify-center">
             {page === 1 ? (
-                <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 text-black shadow-sm">
+                <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 text-black shadow-sm dark:bg-gray-100 dark:text-gray-300">
                     {t('prev')}
                 </span>
             ) : (
@@ -136,7 +137,7 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
                             page: (page - 1).toString(),
                         },
                     }}
-                    className="flex-center mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm"
+                    className="flex-center mx-2 cursor-pointer rounded border bg-white px-3 py-2 text-black shadow-sm dark:text-black"
                 >
                     {t('prev')}
                 </Link>
@@ -145,19 +146,19 @@ function Pagination({ queryConfig, pageSize }: PaginationProps) {
             {renderPagination()}
 
             {page === pageSize ? (
-                <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 text-black shadow-sm">
+                <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 text-black shadow-sm dark:bg-gray-100 dark:text-gray-300">
                     {t('next')}
                 </span>
             ) : (
                 <Link
                     href={{
-                        pathname: path.home,
+                        pathname: pathname,
                         query: {
                             ...queryConfig,
                             page: (page + 1).toString(),
                         },
                     }}
-                    className="flex-center mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm"
+                    className="flex-center mx-2 cursor-pointer rounded border bg-white px-3 py-2 text-black shadow-sm dark:text-black"
                 >
                     {t('next')}
                 </Link>

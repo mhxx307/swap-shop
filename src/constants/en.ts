@@ -5,7 +5,7 @@ import { path, icons } from '.';
 const HEADER_NAV_LIST: NavItemProps[] = [
     { path: path.home, label: 'Home' },
     { path: path.market, label: 'Market' },
-    { path: path.about, label: 'About' },
+    // { path: path.about, label: 'About' },
     { path: path.chat, label: 'Chat' },
 ];
 
@@ -18,11 +18,11 @@ const POPUP_MENU_LIST: PopupMenuItemProps[] = [
         label: 'Feedback and Help',
         path: path.contact,
     },
-    {
-        icon: icons.CgShortcut,
-        label: 'Keyboard shortcuts',
-        path: path.shortcuts,
-    },
+    // {
+    //     icon: icons.CgShortcut,
+    //     label: 'Keyboard shortcuts',
+    //     path: path.shortcuts,
+    // },
 ];
 
 const POPUP_USER_MENU_LIST: PopupMenuItemProps[] = [

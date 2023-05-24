@@ -345,17 +345,19 @@ const ArticleDetailPage = () => {
                                                         </button>
                                                     </Tippy>
                                                 )}
-                                            <Popover
-                                                renderPopover={
-                                                    <MoreAction
-                                                        article={
-                                                            article as Article
-                                                        }
-                                                    />
-                                                }
-                                            >
-                                                <AiOutlineMore className="h-6 w-6 cursor-pointer transition-opacity hover:opacity-80" />
-                                            </Popover>
+                                            {article.user.id !== me?.me?.id && (
+                                                <Popover
+                                                    renderPopover={
+                                                        <MoreAction
+                                                            article={
+                                                                article as Article
+                                                            }
+                                                        />
+                                                    }
+                                                >
+                                                    <AiOutlineMore className="h-6 w-6 cursor-pointer transition-opacity hover:opacity-80" />
+                                                </Popover>
+                                            )}
                                         </div>
                                     </div>
 
@@ -427,14 +429,14 @@ const ArticleDetailPage = () => {
                                         />
                                     </div>
 
-                                    <Button
+                                    {/* <Button
                                         secondary
                                         className="flex-center w-full rounded-full py-3 text-white"
                                         LeftIcon={BsBag}
                                         iconClassName="mr-2"
                                     >
                                         Put to your bag
-                                    </Button>
+                                    </Button> */}
                                 </div>
                             </div>
                         </div>
@@ -450,10 +452,6 @@ const ArticleDetailPage = () => {
                                                 article={article as Article}
                                             />
                                         ),
-                                    },
-                                    {
-                                        label: 'MinhQuan',
-                                        content: <div>Article</div>,
                                     },
                                 ]}
                             />
@@ -475,6 +473,8 @@ const ArticleDetailPage = () => {
     );
 };
 
+export default ArticleDetailPage;
+
 export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
     const apolloClient = initializeApollo();
 
@@ -485,17 +485,19 @@ export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
 
     return {
         paths:
-            data &&
-            data.articles?.data?.articles
-                .map((article) => {
-                    return locales.map((locale) => {
-                        return {
-                            params: { articleId: article.id.toString() },
-                            locale,
-                        };
-                    });
-                })
-                .flat(),
+            data.articles?.data?.articles &&
+            data.articles?.data?.articles.length > 0
+                ? data.articles?.data?.articles
+                      .map((article) => {
+                          return locales.map((locale) => {
+                              return {
+                                  params: { articleId: article.id.toString() },
+                                  locale,
+                              };
+                          });
+                      })
+                      .flat()
+                : [],
         fallback: 'blocking',
     };
 };
@@ -513,22 +515,20 @@ export const getStaticProps: GetStaticProps = async (
     return addApolloState(apolloClient, { props: {} });
 };
 
-export default ArticleDetailPage;
-
 const MoreAction = ({ article }: { article: Article }) => {
     const { t } = useTranslation('market');
     const reportDescription = [
-        t('reason1'),
-        t('reason2'),
-        t('reason3'),
-        t('reason4'),
-        t('reason5'),
+        'Lừa đảo',
+        'Không liêc lạc được',
+        'Sản phẩm bị cấm buôn bán',
+        'Sản phẩm có hình ảnh, nội dụng phản cảm',
+        'Khác',
     ];
     const [isChecked, setIsChecked] = useState(0);
     const [reason, setReason] = useState(reportDescription[isChecked]);
     const [description, setDescription] = useState('');
 
-    const [insertReport] = useReportMutation();
+    const [insertReport, { loading }] = useReportMutation();
     console.log(reason);
 
     const handleInsertReport = async () => {
@@ -536,14 +536,18 @@ const MoreAction = ({ article }: { article: Article }) => {
             toast.info(t('desc_required') || 'Bạn phải nhập mô tả cho báo cáo');
             return;
         } else {
-            await insertReport({
+            const res = await insertReport({
                 variables: {
                     articleId: article.id,
                     description: description,
                     reason: reason,
                 },
             });
-            toast.success(t('report_success') || 'Báo cáo thành công');
+            if (res.data?.report.success === false) {
+                toast.error('Báo cáo thất bại');
+            } else {
+                toast.success(t('report_success') || 'Báo cáo thành công');
+            }
             setDescription('');
         }
     };
@@ -564,7 +568,6 @@ const MoreAction = ({ article }: { article: Article }) => {
 
                     <DialogDescription className="p-2">
                         <ul>
-                            {' '}
                             {t('call')}
                             {reportDescription.map((report, index) => (
                                 <li key={report} className="ml-2">
@@ -597,8 +600,8 @@ const MoreAction = ({ article }: { article: Article }) => {
                             className="flex-center mt-2 w-full"
                             secondary
                             onClick={handleInsertReport}
+                            isLoading={loading}
                         >
-                            {' '}
                             {t('btn_report')}
                         </Button>
                     </DialogDescription>

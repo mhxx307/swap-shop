@@ -29,11 +29,31 @@ const SwiperCategories = ({
 }: SwiperNavigationProps) => {
     return (
         <Swiper
-            slidesPerView={7}
-            grid={{ rows: 2, fill: 'row' }}
+            slidesPerView={2}
+            grid={{ rows: 1, fill: 'row' }}
             navigation={true}
             spaceBetween={10}
             modules={[Navigation]}
+            breakpoints={{
+                1024: {
+                    slidesPerView: 7,
+                    grid: {
+                        rows: 1,
+                    },
+                },
+                768: {
+                    slidesPerView: 5,
+                    grid: {
+                        rows: 1,
+                    },
+                },
+                480: {
+                    slidesPerView: 3,
+                    grid: {
+                        rows: 1,
+                    },
+                },
+            }}
             className={classNames('p-2', className)}
         >
             {categories.map((category) => (

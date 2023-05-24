@@ -14,7 +14,7 @@ function HeroSection() {
 
     return (
         <div className="grid grid-cols-12">
-            <div className="col-span-6">
+            <div className="col-span-12 md:col-span-6">
                 <div>
                     <h2 className="text-4xl">
                         {t('hero_title1')}{' '}
@@ -57,7 +57,7 @@ function HeroSection() {
                 </div>
             </div>
 
-            <div className="col-span-6">
+            <div className="hidden md:col-span-6 md:block">
                 <div className="m-auto w-[500px]">
                     <Image
                         src="/images/hero.jpg"

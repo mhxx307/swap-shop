@@ -2,7 +2,7 @@ import { ArticleList } from '@/components/features/articles';
 import { SwiperCategories } from '@/components/features/categories';
 import { HeroSection } from '@/components/features/home';
 import { ClientOnly, Head, Pagination } from '@/components/shared';
-import { ORDER, SORT_BY, STATUS_ARTICLE } from '@/constants';
+import { ORDER, SORT_BY, STATUS_ARTICLE, path } from '@/constants';
 import {
     useArticlesQuery,
     useCategoriesQuery,
@@ -25,14 +25,18 @@ const Home = () => {
     const { data: categoriesData } = useCategoriesQuery();
     const { data: articlesData } = useArticlesQuery({
         variables: {
-            queryConfig: { ...queryConfig, status: STATUS_ARTICLE.APPROVED },
+            queryConfig: {
+                ...queryConfig,
+                status: STATUS_ARTICLE.APPROVED,
+                limit: '8',
+            },
         },
     });
     const { data: articlesFavoritesData } = useArticlesQuery({
         variables: {
             queryConfig: {
                 page: '1',
-                limit: '10',
+                limit: '8',
                 sort_by: SORT_BY.favorites,
                 order_by: ORDER.desc,
                 status: STATUS_ARTICLE.APPROVED,
@@ -43,7 +47,7 @@ const Home = () => {
         variables: {
             queryConfig: {
                 page: '1',
-                limit: '10',
+                limit: '8',
                 sort_by: SORT_BY.views,
                 order_by: ORDER.desc,
                 status: STATUS_ARTICLE.APPROVED,
@@ -88,6 +92,7 @@ const Home = () => {
                                 .page_size as number
                         }
                         queryConfig={queryConfig}
+                        pathname={path.home}
                     />
                 </div>
 
@@ -102,6 +107,7 @@ const Home = () => {
                                 .page_size as number
                         }
                         queryConfig={queryConfig}
+                        pathname={path.home}
                     />
                 </div>
 
@@ -116,6 +122,7 @@ const Home = () => {
                                 .page_size as number
                         }
                         queryConfig={queryConfig}
+                        pathname={path.home}
                     />
                 </div>
             </div>
