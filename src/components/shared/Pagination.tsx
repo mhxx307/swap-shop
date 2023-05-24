@@ -125,7 +125,7 @@ function Pagination({ queryConfig, pageSize, pathname }: PaginationProps) {
     return (
         <div className="mt-6 flex flex-wrap justify-center">
             {page === 1 ? (
-                <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 text-black shadow-sm">
+                <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 text-black shadow-sm dark:bg-gray-100 dark:text-gray-300">
                     {t('prev')}
                 </span>
             ) : (
@@ -137,7 +137,7 @@ function Pagination({ queryConfig, pageSize, pathname }: PaginationProps) {
                             page: (page - 1).toString(),
                         },
                     }}
-                    className="flex-center mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm"
+                    className="flex-center mx-2 cursor-pointer rounded border bg-white px-3 py-2 text-black shadow-sm dark:text-black"
                 >
                     {t('prev')}
                 </Link>
@@ -146,7 +146,7 @@ function Pagination({ queryConfig, pageSize, pathname }: PaginationProps) {
             {renderPagination()}
 
             {page === pageSize ? (
-                <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 text-black shadow-sm">
+                <span className="flex-center mx-2 cursor-not-allowed rounded border bg-gray-100 px-3 py-2 text-black shadow-sm dark:bg-gray-100 dark:text-gray-300">
                     {t('next')}
                 </span>
             ) : (
@@ -158,7 +158,7 @@ function Pagination({ queryConfig, pageSize, pathname }: PaginationProps) {
                             page: (page + 1).toString(),
                         },
                     }}
-                    className="flex-center mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm"
+                    className="flex-center mx-2 cursor-pointer rounded border bg-white px-3 py-2 text-black shadow-sm dark:text-black"
                 >
                     {t('next')}
                 </Link>
