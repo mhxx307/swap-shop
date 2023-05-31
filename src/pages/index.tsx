@@ -19,6 +19,7 @@ import omitBy from 'lodash/omitBy';
 import isUndefined from 'lodash/isUndefined';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
 
 const Home = () => {
     const queryConfig = useQueryConfig();
@@ -86,14 +87,9 @@ const Home = () => {
                         articles={articles as Article[]}
                         title={t('latest_article') || 'Tin đăng mới nhất'}
                     />
-                    <Pagination
-                        pageSize={
-                            articlesData?.articles.data?.pagination
-                                .page_size as number
-                        }
-                        queryConfig={queryConfig}
-                        pathname={path.home}
-                    />
+                    <div className="flex-center">
+                        <Link href={path.market}>Xem thêm</Link>
+                    </div>
                 </div>
 
                 <div className="my-6">
@@ -101,14 +97,13 @@ const Home = () => {
                         articles={articlesTrending as Article[]}
                         title={t('trending_article') || 'Tin đăng nổi bật'}
                     />
-                    <Pagination
-                        pageSize={
-                            articlesTrendingData?.articles.data?.pagination
-                                .page_size as number
-                        }
-                        queryConfig={queryConfig}
-                        pathname={path.home}
-                    />
+                    <div className="flex-center">
+                        <Link
+                            href={`${path.market}?page=1&limit=20&sort_by=views`}
+                        >
+                            Xem thêm
+                        </Link>
+                    </div>
                 </div>
 
                 <div className="my-6">
@@ -116,14 +111,13 @@ const Home = () => {
                         articles={articlesFavorites as Article[]}
                         title={t('favorite_article') || 'Tin đăng yêu thích'}
                     />
-                    <Pagination
-                        pageSize={
-                            articlesFavoritesData?.articles.data?.pagination
-                                .page_size as number
-                        }
-                        queryConfig={queryConfig}
-                        pathname={path.home}
-                    />
+                    <div className="flex-center">
+                        <Link
+                            href={`${path.market}?page=1&limit=20&sort_by=favoritesCount`}
+                        >
+                            Xem thêm
+                        </Link>
+                    </div>
                 </div>
             </div>
         </ClientOnly>
